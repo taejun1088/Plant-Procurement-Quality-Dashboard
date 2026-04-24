@@ -1,0 +1,1854 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>플랜트구매품질팀 통합관리 대시보드</title>
+<style>
+:root {
+  --hd-blue:#003087;
+  --hd-blue2:#0F4C9A;
+  --hd-blue3:#1E6BD4;
+  --ink:#111827;
+  --text:#1F2937;
+  --sub:#667085;
+  --muted:#94A3B8;
+  --bg:#F0F3F8;
+  --card:#FFFFFF;
+  --soft:#EEF3FA;
+  --soft2:#F8FAFC;
+  --line:#D8E0EA;
+  --border:#E2E8F0;
+  --green:#059669;
+  --amber:#D97706;
+  --red:#DC2626;
+  --purple:#7C3AED;
+  --teal:#0891B2;
+  --black:#111827;
+  --radius:12px;
+  --shadow:0 1px 3px rgba(15, 23, 42, .06);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Noto Sans KR','Malgun Gothic','Apple SD Gothic Neo',Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  font-size:13px;
+  line-height:1.5;
+  min-height:100vh;
+}
+button,input,select,textarea{font-family:inherit}
+[contenteditable="true"]{outline:none;border-radius:4px;padding:2px 4px;margin:-2px -4px;min-height:20px}
+[contenteditable="true"]:focus{box-shadow:0 0 0 2px rgba(0,48,135,.16);background:#fff}
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:#F1F5F9}
+::-webkit-scrollbar-thumb{background:#CBD5E1;border-radius:10px}
+.hdr{
+  height:60px;
+  background:#fff;
+  border-bottom:1px solid var(--border);
+  position:sticky;top:0;z-index:1000;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 28px;
+  box-shadow:0 1px 6px rgba(0,0,0,.05);
+}
+.hdr-left{display:flex;align-items:center;gap:14px;min-width:0}
+.hd-mark{width:38px;height:38px;border-radius:9px;background:var(--hd-blue);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:16px;letter-spacing:-.03em;flex:none}
+.hd-title{font-size:16px;font-weight:900;color:var(--hd-blue);line-height:1.1;white-space:nowrap}
+.hd-title span{display:block;font-size:10.5px;font-weight:500;color:var(--sub);letter-spacing:.04em;margin-top:3px}
+.hdr-right{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.meta-chip{display:inline-flex;align-items:center;gap:6px;border:1px solid #C5D8F0;background:var(--soft);border-radius:7px;padding:5px 9px;color:var(--hd-blue);font-size:11px;font-weight:700;white-space:nowrap}
+.fx-box{display:inline-flex;align-items:center;gap:6px;border:1px solid #C5D8F0;background:var(--soft);border-radius:7px;padding:5px 9px}
+.fx-box label{font-size:10px;font-weight:800;color:var(--hd-blue);letter-spacing:.04em}
+.fx-box input{width:82px;border:none;background:transparent;text-align:right;font-size:12px;font-weight:700;color:var(--ink);outline:none}
+.btn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--border);background:#fff;border-radius:7px;padding:7px 11px;color:var(--text);font-size:12px;font-weight:700;cursor:pointer;transition:.15s;white-space:nowrap}
+.btn:hover{background:var(--soft);border-color:#C5D8F0;color:var(--hd-blue)}
+.btn.primary{background:var(--hd-blue);border-color:var(--hd-blue);color:#fff}
+.btn.primary:hover{background:var(--hd-blue2);color:#fff}
+.btn.ghost{background:transparent}
+.file-hidden{display:none}
+.tabs{position:sticky;top:60px;z-index:900;background:#fff;border-bottom:2px solid var(--border);padding:0 28px;display:flex;gap:0;overflow-x:auto}
+.tab{border:none;background:transparent;padding:13px 18px;font-size:12.5px;font-weight:800;color:var(--sub);border-bottom:3px solid transparent;margin-bottom:-2px;cursor:pointer;white-space:nowrap;transition:.15s}
+.tab:hover{color:var(--text);background:#FAFBFF}
+.tab.on{color:var(--hd-blue);border-bottom-color:var(--hd-blue)}
+.page{display:none;max-width:1620px;margin:0 auto;padding:20px 28px 36px}
+.page.on{display:block}
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:1fr 1fr}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g4{grid-template-columns:repeat(4,1fr)}
+.g5{grid-template-columns:repeat(5,1fr)}
+.g31{grid-template-columns:3fr 1fr}
+.g13{grid-template-columns:1fr 3fr}
+.g21{grid-template-columns:2fr 1fr}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+.card-hd{padding:13px 16px 10px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:10px}
+.card-title{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:900;color:var(--ink)}
+.ico{width:24px;height:24px;border-radius:6px;background:var(--soft);display:inline-flex;align-items:center;justify-content:center;color:var(--hd-blue);font-size:12px;flex:none}
+.card-body{padding:14px 16px}
+.hero{background:linear-gradient(135deg,#fff 0%,#F4F8FD 100%);border:1px solid #C9D7ED;border-left:5px solid var(--hd-blue);border-radius:12px;padding:16px 18px;margin-bottom:14px;box-shadow:var(--shadow)}
+.hero-kicker{font-size:10px;font-weight:900;color:var(--hd-blue2);letter-spacing:.12em;text-transform:uppercase;margin-bottom:5px}
+.hero-title{font-size:19px;font-weight:900;color:var(--ink);letter-spacing:-.03em;line-height:1.35;margin-bottom:6px}
+.hero-desc{color:#475569;font-size:12.5px;line-height:1.65}
+.summary-list{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
+.summary-item{background:#fff;border:1px solid var(--border);border-radius:8px;padding:10px 12px}
+.summary-item b{display:block;color:var(--hd-blue);font-size:11px;margin-bottom:4px}
+.summary-item span{font-size:11.5px;color:#475569;line-height:1.55}
+.kpi{background:#fff;border:1px solid var(--border);border-radius:12px;padding:15px 16px;box-shadow:var(--shadow);position:relative;overflow:hidden;min-height:108px}
+.kpi:before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--hd-blue)}
+.kpi.green:before{background:var(--green)}.kpi.amber:before{background:var(--amber)}.kpi.red:before{background:var(--red)}.kpi.purple:before{background:var(--purple)}.kpi.teal:before{background:var(--teal)}
+.kpi-label{font-size:10px;color:var(--sub);font-weight:900;text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px}
+.kpi-val{font-size:25px;font-weight:900;line-height:1.1;color:var(--hd-blue);letter-spacing:-.03em}
+.kpi.green .kpi-val{color:var(--green)}.kpi.amber .kpi-val{color:var(--amber)}.kpi.red .kpi-val{color:var(--red)}.kpi.purple .kpi-val{color:var(--purple)}.kpi.teal .kpi-val{color:var(--teal)}
+.kpi-sub{font-size:11px;color:var(--sub);margin-top:6px;line-height:1.4}
+#kpiGrid{grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.tbl-wrap{width:100%;overflow:auto}
+.tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:12px}
+.tbl th{background:var(--hd-blue);color:#fff;border:1px solid #0E448C;padding:8px 9px;text-align:center;font-weight:900;font-size:11px;white-space:nowrap;position:sticky;top:0;z-index:2;background-clip:padding-box;box-shadow:inset 0 -1px 0 #0E448C}
+.tbl td{border:1px solid var(--border);padding:8px 9px;vertical-align:middle;line-height:1.42;background:#fff}
+.tbl tr:nth-child(even) td{background:#FBFCFE}
+.tbl tr:hover td{background:#F4F8FD}
+.tbl .num{text-align:right;font-variant-numeric:tabular-nums;font-weight:700}
+.tbl .ctr{text-align:center}
+.tbl .left{text-align:left}
+.tbl .nowrap{white-space:nowrap}
+.tbl .wide{min-width:240px}
+.tbl.small td{padding:6px 8px;font-size:11.5px}
+.tbl.small th{padding:7px 8px}
+.bold{font-weight:900}
+.badge{display:inline-flex;align-items:center;gap:4px;border-radius:999px;padding:2px 8px;font-size:10px;font-weight:900;white-space:nowrap}
+.badge.blue{background:#DBEAFE;color:#1E40AF}
+.badge.green{background:#DCFCE7;color:#166534}
+.badge.amber{background:#FEF3C7;color:#92400E}
+.badge.red{background:#FEE2E2;color:#991B1B}
+.badge.gray{background:#F1F5F9;color:#475569}
+.badge.purple{background:#EDE9FE;color:#5B21B6}
+.badge.teal{background:#CCFBF1;color:#115E59}
+.badge.black{background:#E5E7EB;color:#111827}
+.progress{display:flex;align-items:center;gap:8px;min-width:140px}
+.bar{height:9px;background:#E2E8F0;border-radius:999px;overflow:hidden;flex:1;position:relative}
+.fill{height:100%;border-radius:999px;background:var(--hd-blue);width:0;transition:width .25s}
+.fill.green{background:var(--green)}.fill.amber{background:var(--amber)}.fill.red{background:var(--red)}.fill.purple{background:var(--purple)}.fill.gray{background:#64748B}
+.pct{width:42px;text-align:right;font-size:11px;font-weight:900;font-variant-numeric:tabular-nums;color:var(--ink)}
+.tpa-cell{min-width:210px}
+.tpa-scale{position:relative;height:22px;background:#E2E8F0;border-radius:5px;overflow:visible}
+.tpa-fill{height:100%;border-radius:5px;background:var(--green);width:0}
+.tpa-fill.warn{background:var(--amber)}.tpa-fill.danger{background:var(--red)}.tpa-fill.zero{background:#CBD5E1}
+.tpa-mark{position:absolute;top:-4px;width:2px;height:30px;background:#111827;opacity:.6}
+.tpa-mark.m70{left:70%;background:var(--amber)}.tpa-mark.m90{left:90%;background:var(--red)}
+.tpa-caption{display:flex;justify-content:space-between;color:var(--sub);font-size:9px;margin-top:4px}
+.stage-dot{display:inline-flex;align-items:center;justify-content:center;min-width:44px;padding:2px 6px;border-radius:5px;font-size:10px;font-weight:900;border:1px solid var(--border);background:#fff;color:var(--sub)}
+.stage-dot.done{background:#DCFCE7;color:#166534;border-color:#BBF7D0}
+.stage-dot.part{background:#FEF3C7;color:#92400E;border-color:#FDE68A}
+.stage-dot.none{background:#F1F5F9;color:#475569;border-color:#E2E8F0}
+.stage-dot.na{background:#F8FAFC;color:#94A3B8;font-style:italic}
+.stage-dot.need{background:#FEE2E2;color:#991B1B;border-color:#FECACA}
+.issue-card{border:1px solid var(--border);border-left:4px solid var(--hd-blue);border-radius:8px;padding:10px 12px;background:#FCFDFF;margin-bottom:8px}
+.issue-card.team{border-left-color:var(--purple)}.issue-card.red{border-left-color:var(--red)}.issue-card.amber{border-left-color:var(--amber)}
+.issue-title{font-weight:900;color:var(--ink);font-size:12.5px;margin-bottom:4px}
+.issue-meta{font-size:11px;color:var(--sub);margin-bottom:6px}
+.issue-action{font-size:11.5px;background:var(--soft);border-radius:6px;padding:6px 8px;color:#344054;line-height:1.45}
+.control-row{display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:12px}
+.filters{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.input,.select{border:1px solid var(--border);border-radius:7px;background:#fff;padding:7px 10px;font-size:12px;color:var(--text);outline:none}
+.input:focus,.select:focus{border-color:#C5D8F0;box-shadow:0 0 0 3px rgba(0,48,135,.08)}
+.raw-note{font-size:11px;color:var(--sub);line-height:1.55;background:#F8FAFC;border:1px solid var(--border);border-radius:8px;padding:10px 12px}
+.alert-strip{background:linear-gradient(90deg,#FFF7ED,#FFFBEB);border:1px solid #FDE68A;border-radius:9px;padding:9px 13px;display:flex;align-items:flex-start;gap:9px;margin-bottom:14px;color:#7C2D12;font-size:12px;line-height:1.55}
+.alert-strip b{color:#92400E}
+.action-list{display:grid;gap:8px}
+.action{display:grid;grid-template-columns:24px 1fr auto;gap:9px;align-items:flex-start;border:1px solid var(--border);border-radius:8px;background:#fff;padding:10px 11px}
+.action-no{width:24px;height:24px;border-radius:50%;background:var(--hd-blue);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900}
+.action-title{font-weight:900;font-size:12.5px;color:var(--ink);margin-bottom:3px}
+.action-desc{font-size:11.5px;color:var(--sub);line-height:1.45}
+.action-due{font-size:10px;font-weight:900;color:var(--hd-blue);background:var(--soft);border:1px solid #C5D8F0;border-radius:999px;padding:2px 8px;white-space:nowrap}
+.mp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(214px,1fr));gap:10px}
+.mp-card{border:1px solid var(--border);border-radius:10px;background:#fff;padding:11px 12px;box-shadow:0 1px 2px rgba(0,0,0,.03)}
+.mp-card.leader{
+  background:linear-gradient(145deg,#F8FAFC 0%, #EEF2F7 100%);
+  border:1px solid #CBD5E1;
+  border-left:4px solid #111827;
+  box-shadow:0 6px 16px rgba(15,23,42,.12);
+}
+.mp-card.leader .mp-name{color:#0F172A}
+.mp-card.leader .mp-role{color:#475569}
+.mp-name{font-weight:900;color:var(--ink);font-size:13.5px;letter-spacing:-.01em;margin-bottom:4px}
+.mp-role{font-size:11px;color:var(--sub);margin-bottom:8px;line-height:1.45}
+.mp-card.leader .mp-assign{display:none}
+.mp-card.leader .mp-po{display:none}
+.mp-card.leader .mp-sep{background:#CBD5E1}
+.mp-sep{height:1px;background:#E6EDF5;margin:7px 0 8px}
+.mp-assign{display:grid;gap:7px}
+.mp-block{border:1px solid #E6EDF5;border-radius:8px;padding:7px 8px;background:#FBFDFF}
+.mp-block-hd{font-size:10px;font-weight:900;letter-spacing:.06em;text-transform:uppercase;margin-bottom:5px}
+.mp-block-hd.pqcm{color:#6D28D9}
+.mp-block-hd.pqc{color:#0F766E}
+.mp-tags{display:flex;gap:4px;flex-wrap:wrap}
+.mp-tag{font-size:10px;font-weight:800;color:var(--hd-blue);background:var(--soft);border:1px solid #D6E4F6;border-radius:5px;padding:2px 6px}
+.mp-tag.pqcm{color:#5B21B6;background:#F3E8FF;border-color:#E9D5FF}
+.mp-tag.pqc{color:#115E59;background:#CCFBF1;border-color:#99F6E4}
+.mp-tag.empty{color:#64748B;background:#F8FAFC;border-color:#E2E8F0}
+.mp-po{font-size:11px;color:var(--sub);font-weight:700;margin-top:8px;border-top:1px dashed #E6EDF5;padding-top:7px}
+.risk-box{border:1px solid var(--border);border-radius:10px;background:#fff;padding:12px}
+.risk-title{font-size:13px;font-weight:900;color:var(--ink);margin-bottom:8px;display:flex;gap:7px;align-items:center}
+.risk-row{display:flex;justify-content:space-between;gap:10px;border-top:1px dashed var(--border);padding:8px 0;font-size:12px}
+.risk-row:first-of-type{border-top:none}
+.risk-row b{color:var(--ink)}
+[data-tip]{position:relative;cursor:help}
+[data-tip]:after{
+  content:attr(data-tip);
+  position:absolute;left:50%;top:calc(100% + 7px);transform:translateX(-50%);
+  min-width:190px;max-width:290px;background:#111827;color:#fff;border-radius:7px;padding:7px 9px;
+  opacity:0;pointer-events:none;transition:.15s;font-size:11px;font-weight:500;line-height:1.45;text-align:center;z-index:2000;box-shadow:0 8px 24px rgba(0,0,0,.18);white-space:normal;
+}
+[data-tip]:hover:after{opacity:1}
+.muted{color:var(--sub)}
+.h-sep{height:14px}
+.print-title{display:none}
+.update-toast{position:fixed;right:20px;bottom:20px;background:#111827;color:#fff;border-radius:9px;padding:10px 13px;font-size:12px;box-shadow:0 14px 36px rgba(0,0,0,.2);opacity:0;transform:translateY(12px);transition:.2s;z-index:5000}
+.update-toast.on{opacity:1;transform:translateY(0)}
+@media(max-width:1180px){
+  .g5{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(2,1fr)}.g3,.g31,.g13,.g21{grid-template-columns:1fr}.summary-list{grid-template-columns:repeat(2,1fr)}
+  .hdr{height:auto;min-height:60px;padding:10px 16px;align-items:flex-start;gap:10px;flex-direction:column}
+  .tabs{top:82px;padding:0 16px}
+}
+@media(max-width:760px){
+  body{font-size:12.5px}
+  .page{padding:14px 14px 28px}
+  .g5,.g4,.g3,.g2{grid-template-columns:1fr}
+  .summary-list{grid-template-columns:1fr}
+  .hdr-right{justify-content:flex-start}
+  .tab{padding:11px 14px}
+  .btn span.hide-sm{display:none}
+}
+@media print{
+  @page{size:A4 landscape;margin:10mm}
+  body{background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .hdr,.tabs,.control-row,.btn,.fx-box,.meta-chip,.file-hidden,.update-toast{display:none!important}
+  .print-title{display:block;margin-bottom:10px}
+  .page{display:block!important;padding:0;max-width:none;break-after:page}
+  .page:not(.print-main){break-before:page}
+  .card,.kpi,.hero,.issue-card,.action,.mp-card,.risk-box{box-shadow:none;break-inside:avoid;page-break-inside:avoid}
+  .tbl-wrap{overflow:visible}
+  .tbl th{position:static}
+  [contenteditable="true"]{box-shadow:none!important;background:transparent!important}
+}
+</style>
+</head>
+<body>
+<header class="hdr">
+  <div class="hdr-left">
+    <div class="hd-mark">H</div>
+    <div class="hd-title">플랜트구매품질팀 통합관리 대시보드<span>Hyundai Engineering & Construction · Plant Procurement Quality</span></div>
+  </div>
+  <div class="hdr-right">
+    <div class="meta-chip">작성부서: 플랜트구매품질팀</div>
+    <div class="meta-chip">작성일: <span id="reportDate">-</span></div>
+    <div class="fx-box" data-tip="TPA 원화 환산 기준입니다. 변경 후 Enter 또는 포커스 이동 시 화면 전체에 반영됩니다.">
+      <label for="fxInput">KRW/USD</label>
+      <input id="fxInput" type="number" step="0.01" value="1479.50" />
+      <span style="font-size:11px;color:var(--sub);font-weight:700">원</span>
+    </div>
+    <label class="btn" data-tip="Excel(xlsx), CSV, JSON 업로드를 지원합니다. Excel은 동일 시트명 기준으로 반영됩니다.">
+      <input class="file-hidden" type="file" id="rawUpload" accept=".xlsx,.xls,.csv,.json" />
+      ⬆ <span class="hide-sm">Raw File 업로드</span>
+    </label>
+    <button class="btn primary" onclick="downloadRawExcel()" data-tip="현재 화면에서 수정한 전체 데이터를 하나의 Excel 파일(.xlsx)로 다운로드합니다. 각 Raw Data는 시트별로 분리 저장됩니다.">📊 <span class="hide-sm">Excel 다운로드</span></button>
+    <button class="btn" onclick="downloadRawJSON()" data-tip="현재 화면에서 수정한 데이터를 JSON 형태로 저장합니다.">⬇ <span class="hide-sm">JSON 다운로드</span></button>
+    <button class="btn primary" onclick="window.print()" data-tip="현재 대시보드를 PDF로 저장합니다.">📄 <span class="hide-sm">PDF 저장</span></button>
+  </div>
+</header>
+
+<nav class="tabs" id="tabs">
+  <button class="tab on" data-page="overview">Executive Summary</button>
+  <button class="tab" data-page="projects">프로젝트 현황</button>
+  <button class="tab" data-page="stage">단계별 실적</button>
+  <button class="tab" data-page="tpa">TPA 집행현황</button>
+  <button class="tab" data-page="ncr">NCR 현황</button>
+  <button class="tab" data-page="manpower">팀 인력운용현황</button>
+  <button class="tab" data-page="trip">출장현황</button>
+  <button class="tab" data-page="issues">주요현안</button>
+</nav>
+
+<main>
+  <section class="page on print-main" id="overview">
+    <div class="print-title">
+      <h1>플랜트구매품질팀 통합관리 대시보드</h1>
+      <p>작성부서: 플랜트구매품질팀 · 작성일: <span class="print-date"></span></p>
+    </div>
+    <div class="hero">
+      <div class="hero-kicker">Executive Summary</div>
+      <div class="hero-title">프로젝트 진행률·TPA 고집행·미결 NCR을 한 화면에서 관리하는 실행형 현황판</div>
+      <div class="hero-desc">
+        본 대시보드는 프로젝트 마스터, 단계별 실적, TPA 집행, 미결 NCR, 인력운용 및 주요현안을 Raw Data 기반으로 통합관리합니다.
+        핵심 관점은 <b>완료 직전 프로젝트의 잔여 리스크</b>와 <b>TPA 예산 고집행 구간(70%/90%)의 청산 예측</b>입니다.
+      </div>
+      <div class="summary-list" id="summaryList"></div>
+    </div>
+
+    <div class="grid g5" id="kpiGrid"></div>
+
+    <div class="h-sep"></div>
+
+    <div class="grid g31">
+      <div class="card">
+        <div class="card-hd">
+          <div class="card-title"><span class="ico">📌</span> 프로젝트별 핵심 현황</div>
+          <div class="muted" id="overviewUpdate">-</div>
+        </div>
+        <div class="card-body">
+          <div class="tbl-wrap"><table class="tbl" id="overviewProjectTbl"></table></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-hd"><div class="card-title"><span class="ico">⚠</span> 집중관리 신호</div></div>
+        <div class="card-body" id="focusSignals"></div>
+      </div>
+    </div>
+
+    <div class="h-sep"></div>
+
+    <div class="grid g2">
+      <div class="card">
+        <div class="card-hd"><div class="card-title"><span class="ico">✅</span> 결론 및 실행 항목</div></div>
+        <div class="card-body"><div class="action-list" id="actionItems"></div></div>
+      </div>
+      <div class="card">
+        <div class="card-hd"><div class="card-title"><span class="ico">🛡</span> 주요 리스크 및 관리 포인트</div></div>
+        <div class="card-body" id="riskPoints"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="page" id="projects">
+    <div class="control-row">
+      <div class="filters">
+        <input class="input" id="projectSearch" placeholder="프로젝트/발주처/국가 검색" />
+        <select class="select" id="projectStatusFilter"><option value="">전체 Status</option></select>
+      </div>
+    </div>
+    <div class="grid g4" id="projectKpis"></div>
+    <div class="h-sep"></div>
+    <div class="card">
+      <div class="card-hd">
+        <div class="card-title"><span class="ico">🏗</span> 프로젝트 마스터</div>
+        <div class="muted">금액 단위: Mil. USD / Progress는 100% 오인 방지를 위해 소수점 1자리 통일</div>
+      </div>
+      <div class="card-body"><div class="tbl-wrap"><table class="tbl" id="projectTbl"></table></div></div>
+    </div>
+  </section>
+
+  <section class="page" id="stage">
+    <div class="alert-strip">
+      <div>ℹ️</div>
+      <div><b>단계별 실적 기준</b>: MR/TBE/PO/PIM/IRC/FIDB/NCR의 Total 대비 Done을 기준으로 산정합니다. “미정”과 “업데이트 필요”는 진행률 산정에서 제외하고, 별도 데이터 품질 이슈로 관리합니다.</div>
+    </div>
+    <div class="grid g4" id="stageKpis"></div>
+    <div class="h-sep"></div>
+    <div class="card">
+      <div class="card-hd">
+        <div class="card-title"><span class="ico">📊</span> 프로젝트별 단계 진행현황</div>
+      </div>
+      <div class="card-body"><div class="tbl-wrap"><table class="tbl" id="stageTbl"></table></div></div>
+    </div>
+  </section>
+
+  <section class="page" id="tpa">
+    <div class="alert-strip">
+      <div>⚠️</div>
+      <div>
+        <b>TPA 관리 Concept 재정의</b>: 저집행은 관심대상이 아니며, <b>70% 도달 시 청산 예측</b>, <b>90% 도달 시 청산 예측 재수행 및 예산 조정 검토</b>가 필요한 고집행 프로젝트를 우선 관리합니다.
+      </div>
+    </div>
+    <div class="grid g4" id="tpaKpis"></div>
+    <div class="h-sep"></div>
+    <div class="grid g21">
+      <div class="card">
+        <div class="card-hd">
+          <div class="card-title"><span class="ico">💰</span> TPA 대금 집행 현황</div>
+        </div>
+        <div class="card-body"><div class="tbl-wrap"><table class="tbl" id="tpaTbl"></table></div></div>
+      </div>
+      <div class="card">
+        <div class="card-hd"><div class="card-title"><span class="ico">🧭</span> 고집행 관리 기준</div></div>
+        <div class="card-body" id="tpaGuide"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="page" id="ncr">
+    <div class="grid g4" id="ncrKpis"></div>
+    <div class="h-sep"></div>
+    <div class="grid g13">
+      <div class="card">
+        <div class="card-hd"><div class="card-title"><span class="ico">📍</span> 프로젝트별 NCR 요약</div></div>
+        <div class="card-body" id="ncrSummary"></div>
+      </div>
+      <div class="card">
+        <div class="card-hd">
+          <div class="card-title"><span class="ico">🧾</span> 미결 NCR 상세</div>
+        </div>
+        <div class="card-body"><div class="tbl-wrap"><table class="tbl" id="ncrTbl"></table></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="page" id="manpower">
+    <div class="alert-strip">
+      <div>👥</div>
+      <div><b>인력운용 기준</b>: PM은 팀 인력이 아니므로 인력운용현황에서 제외합니다. 단순 PO 개수만으로 배정 집중도를 판단하지 않고, PQCM/PQC Engineer/전공 역할과 프로젝트 배정을 함께 확인합니다.</div>
+    </div>
+    <div class="grid g3" id="manpowerKpis"></div>
+    <div class="h-sep"></div>
+    <div class="card" style="margin-bottom:14px;">
+      <div class="card-hd">
+        <div class="card-title"><span class="ico" style="background:#EEF3FA;">👥</span>팀원 현황</div>
+      </div>
+      <div class="card-body"><div class="mp-grid" id="mpGrid"></div></div>
+    </div>
+    <div class="card">
+      <div class="card-hd">
+        <div class="card-title"><span class="ico" style="background:#EEF3FA;">📋</span>인력 상세 목록</div>
+      </div>
+      <div class="card-body" style="padding:0;">
+        <div class="tbl-wrap"><table class="tbl" id="mpTbl"></table></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="page" id="trip">
+    <div class="card">
+      <div class="card-hd">
+        <div class="card-title"><span class="ico">✈</span> 출장 현황</div>
+      </div>
+      <div class="card-body" id="tripArea"></div>
+    </div>
+  </section>
+
+  <section class="page" id="issues">
+    <div class="grid g2">
+      <div class="card">
+        <div class="card-hd">
+          <div class="card-title"><span class="ico">📁</span> 프로젝트 현안</div>
+        </div>
+        <div class="card-body" id="projectIssueArea"></div>
+      </div>
+      <div class="card">
+        <div class="card-hd">
+          <div class="card-title"><span class="ico">🏢</span> 팀 내부 현안</div>
+        </div>
+        <div class="card-body" id="teamIssueArea"></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div class="update-toast" id="toast">데이터가 반영되었습니다.</div>
+
+<script>
+const DEFAULT_RAW = {
+  "Project": [
+    {
+      "Project_Code": "MIP6",
+      "Contract_Price_HDEC_Mil_USD": 1484,
+      "Contract_Price_Total_Mil_USD": 1484,
+      "Client": "Aramco",
+      "Country_Site": "Saudi Arabia",
+      "Project_Manager": "-",
+      "PQCM": "-",
+      "Status": "Mechanical Completion",
+      "Progress": 1.0
+    },
+    {
+      "Project_Code": "SM12",
+      "Contract_Price_HDEC_Mil_USD": 1318,
+      "Contract_Price_Total_Mil_USD": 1354,
+      "Client": "Aramco",
+      "Country_Site": "Saudi Arabia",
+      "Project_Manager": "정준택 상무",
+      "PQCM": "장동철 책임",
+      "Status": "Active",
+      "Progress": 0.9996
+    },
+    {
+      "Project_Code": "IBRU",
+      "Contract_Price_HDEC_Mil_USD": 1814,
+      "Contract_Price_Total_Mil_USD": 3778,
+      "Client": "BOC",
+      "Country_Site": "Iraq",
+      "Project_Manager": "정태수 소장",
+      "PQCM": "-",
+      "Status": "Mechanical Completion",
+      "Progress": 1.0
+    },
+    {
+      "Project_Code": "SHN1",
+      "Contract_Price_HDEC_Mil_USD": 1615,
+      "Contract_Price_Total_Mil_USD": 3675,
+      "Client": "S-Oil",
+      "Country_Site": "Korea",
+      "Project_Manager": "이현영 실장",
+      "PQCM": "이해석 책임",
+      "Status": "Active",
+      "Progress": 0.9569
+    },
+    {
+      "Project_Code": "ALOM",
+      "Contract_Price_HDEC_Mil_USD": 584,
+      "Contract_Price_Total_Mil_USD": 730,
+      "Client": "Hyenco",
+      "Country_Site": "Algeria",
+      "Project_Manager": "정민권 소장",
+      "PQCM": "윤희수 책임",
+      "Status": "Active",
+      "Progress": 0.5896
+    },
+    {
+      "Project_Code": "VEQU",
+      "Contract_Price_HDEC_Mil_USD": 952,
+      "Contract_Price_Total_Mil_USD": 1178,
+      "Client": "EVN",
+      "Country_Site": "Vietnam",
+      "Project_Manager": "이윤석 소장",
+      "PQCM": "윤희수 책임",
+      "Status": "Active",
+      "Progress": 0.9895
+    },
+    {
+      "Project_Code": "STA4",
+      "Contract_Price_HDEC_Mil_USD": 2136,
+      "Contract_Price_Total_Mil_USD": 2136,
+      "Client": "satorp",
+      "Country_Site": "Saudi Arabia",
+      "Project_Manager": "임영빈 상무",
+      "PQCM": "최우석 책임",
+      "Status": "Active",
+      "Progress": 0.8728
+    },
+    {
+      "Project_Code": "SAC2",
+      "Contract_Price_HDEC_Mil_USD": 1184,
+      "Contract_Price_Total_Mil_USD": 2369,
+      "Client": "Aramco",
+      "Country_Site": "Saudi Arabia",
+      "Project_Manager": "김형철 실장",
+      "PQCM": "최종현 책임",
+      "Status": "Active",
+      "Progress": 0.7049
+    },
+    {
+      "Project_Code": "CSSP",
+      "Contract_Price_HDEC_Mil_USD": 3160,
+      "Contract_Price_Total_Mil_USD": 3160,
+      "Client": "TotalEnergies",
+      "Country_Site": "Iraq",
+      "Project_Manager": "박수철 상무",
+      "PQCM": "정진우 책임",
+      "Status": "Active",
+      "Progress": 0.063
+    },
+    {
+      "Project_Code": "PNG1",
+      "Contract_Price_HDEC_Mil_USD": 1600,
+      "Contract_Price_Total_Mil_USD": 4000,
+      "Client": "ExxonMobil",
+      "Country_Site": "Papua New Genea",
+      "Project_Manager": "최성식 팀장",
+      "PQCM": "강태준 책임",
+      "Status": "Active",
+      "Progress": 0.0
+    },
+    {
+      "Project_Code": "ALSM",
+      "Contract_Price_HDEC_Mil_USD": 5800,
+      "Contract_Price_Total_Mil_USD": 5800,
+      "Client": "HPLS",
+      "Country_Site": "USA",
+      "Project_Manager": "백철욱 상무",
+      "PQCM": "강태준 책임",
+      "Status": "Bid",
+      "Progress": 0.0
+    }
+  ],
+  "Manpower": [
+    {
+      "Name": "유요석 팀장",
+      "Department": "본사",
+      "Major_Responsibility": "Team Leader",
+      "PQCM": null,
+      "PQC_Engineer": null,
+      "PIC_PO_Number": null
+    },
+    {
+      "Name": "강택기 책임",
+      "Department": "본사",
+      "Major_Responsibility": "Piping",
+      "PQCM": null,
+      "PQC_Engineer": "SAC2 / VEQU",
+      "PIC_PO_Number": 9.0
+    },
+    {
+      "Name": "윤희수 책임",
+      "Department": "본사",
+      "Major_Responsibility": "Electrical & Instrument",
+      "PQCM": "ALOM / VEQU",
+      "PQC_Engineer": "STA4 / ALOM / CSSP",
+      "PIC_PO_Number": 38.0
+    },
+    {
+      "Name": "서민 책임",
+      "Department": "본사",
+      "Major_Responsibility": "Rotating",
+      "PQCM": null,
+      "PQC_Engineer": "STA4 / CSSP / PNG1",
+      "PIC_PO_Number": 46.0
+    },
+    {
+      "Name": "장동철 책임",
+      "Department": "본사",
+      "Major_Responsibility": "Piping",
+      "PQCM": "SM12",
+      "PQC_Engineer": "SM12 / IBRU / CSSP / PNG1",
+      "PIC_PO_Number": 25.0
+    },
+    {
+      "Name": "정진우 책임",
+      "Department": "본사",
+      "Major_Responsibility": "Static",
+      "PQCM": "CSSP",
+      "PQC_Engineer": "SM12 / ALOM / CSSP",
+      "PIC_PO_Number": 9.0
+    },
+    {
+      "Name": "나광조 책임",
+      "Department": "본사",
+      "Major_Responsibility": "Static",
+      "PQCM": null,
+      "PQC_Engineer": "SHN1 / ALOM / CSSP / PNG1",
+      "PIC_PO_Number": 16.0
+    },
+    {
+      "Name": "강인묵 책임",
+      "Department": "본사 (STA4)",
+      "Major_Responsibility": "Electrical & Instrument",
+      "PQCM": null,
+      "PQC_Engineer": "STA4 / CSSP",
+      "PIC_PO_Number": 28.0
+    },
+    {
+      "Name": "강태준 책임",
+      "Department": "본사",
+      "Major_Responsibility": "Strategic Planning",
+      "PQCM": "PNG1 / ALSM",
+      "PQC_Engineer": "VEQU / CSSP / PNG1",
+      "PIC_PO_Number": 35.0
+    },
+    {
+      "Name": "이해석 책임",
+      "Department": "본사",
+      "Major_Responsibility": "Electrical & Instrument",
+      "PQCM": "SHN1",
+      "PQC_Engineer": "STA4 / SHN1",
+      "PIC_PO_Number": 21.0
+    },
+    {
+      "Name": "최종현 책임",
+      "Department": "본사",
+      "Major_Responsibility": "Electrical & Instrument",
+      "PQCM": "SAC2",
+      "PQC_Engineer": "SAC2",
+      "PIC_PO_Number": 17.0
+    },
+    {
+      "Name": "석우경 매니저",
+      "Department": "본사",
+      "Major_Responsibility": "Piping",
+      "PQCM": null,
+      "PQC_Engineer": "ALOM / CSSP / PNG1",
+      "PIC_PO_Number": 57.0
+    },
+    {
+      "Name": "고팔라크리스낸 매니저",
+      "Department": "본사",
+      "Major_Responsibility": "Structural Steel",
+      "PQCM": null,
+      "PQC_Engineer": "STA4 / VEQU / CSSP / PNG1",
+      "PIC_PO_Number": 19.0
+    },
+    {
+      "Name": "술탄 매니저",
+      "Department": "본사",
+      "Major_Responsibility": "Electrical & Instrument",
+      "PQCM": null,
+      "PQC_Engineer": "VEQU / CSSP",
+      "PIC_PO_Number": 24.0
+    },
+    {
+      "Name": "엥흐철멍 매니저",
+      "Department": "본사",
+      "Major_Responsibility": "Piping",
+      "PQCM": null,
+      "PQC_Engineer": "PNG1",
+      "PIC_PO_Number": 1.0
+    },
+    {
+      "Name": "최우석 책임",
+      "Department": "STA4",
+      "Major_Responsibility": "Static",
+      "PQCM": "STA4",
+      "PQC_Engineer": null,
+      "PIC_PO_Number": 0.0
+    },
+    {
+      "Name": "최영준 책임",
+      "Department": "STA4",
+      "Major_Responsibility": "Static",
+      "PQCM": null,
+      "PQC_Engineer": "STA4",
+      "PIC_PO_Number": 8.0
+    },
+    {
+      "Name": "임효원 책임",
+      "Department": "STA4",
+      "Major_Responsibility": "Piping",
+      "PQCM": null,
+      "PQC_Engineer": "STA4",
+      "PIC_PO_Number": 37.0
+    },
+    {
+      "Name": "황윤섭 책임",
+      "Department": "SAC2",
+      "Major_Responsibility": "Piping",
+      "PQCM": null,
+      "PQC_Engineer": "SAC2",
+      "PIC_PO_Number": 13.0
+    },
+    {
+      "Name": "박지애 매니저",
+      "Department": "본사 (SAC2)",
+      "Major_Responsibility": "Piping",
+      "PQCM": null,
+      "PQC_Engineer": "SAC2",
+      "PIC_PO_Number": 12.0
+    }
+  ],
+  "Stage_Status": [
+    {
+      "Project_Code": "MIP6",
+      "MR_Total": null,
+      "MR_Done": null,
+      "TBE_Total": null,
+      "TBE_Done": null,
+      "PO_Total": 200,
+      "PO_Done": 200,
+      "PIM_Total": 197,
+      "PIM_Done": 197,
+      "IRC_100%_Total": 397,
+      "IRC_100%_Done": 397,
+      "NCR_Total": 55,
+      "NCR_Done": 55,
+      "FIDB_Total": "업데이트 필요",
+      "FIDB_Done": "업데이트 필요"
+    },
+    {
+      "Project_Code": "SM12",
+      "MR_Total": null,
+      "MR_Done": null,
+      "TBE_Total": null,
+      "TBE_Done": null,
+      "PO_Total": 150,
+      "PO_Done": 150,
+      "PIM_Total": 167,
+      "PIM_Done": 167,
+      "IRC_100%_Total": 351,
+      "IRC_100%_Done": 346,
+      "NCR_Total": 74,
+      "NCR_Done": 74,
+      "FIDB_Total": "업데이트 필요",
+      "FIDB_Done": "업데이트 필요"
+    },
+    {
+      "Project_Code": "IBRU",
+      "MR_Total": null,
+      "MR_Done": null,
+      "TBE_Total": null,
+      "TBE_Done": null,
+      "PO_Total": 124,
+      "PO_Done": 124,
+      "PIM_Total": 45,
+      "PIM_Done": 45,
+      "IRC_100%_Total": 124,
+      "IRC_100%_Done": 124,
+      "NCR_Total": 7,
+      "NCR_Done": 7,
+      "FIDB_Total": "업데이트 필요",
+      "FIDB_Done": "업데이트 필요"
+    },
+    {
+      "Project_Code": "SHN1",
+      "MR_Total": null,
+      "MR_Done": null,
+      "TBE_Total": null,
+      "TBE_Done": null,
+      "PO_Total": 24,
+      "PO_Done": 24,
+      "PIM_Total": 17,
+      "PIM_Done": 17,
+      "IRC_100%_Total": 40,
+      "IRC_100%_Done": 29,
+      "NCR_Total": 15,
+      "NCR_Done": 15,
+      "FIDB_Total": "업데이트 필요",
+      "FIDB_Done": "업데이트 필요"
+    },
+    {
+      "Project_Code": "ALOM",
+      "MR_Total": null,
+      "MR_Done": null,
+      "TBE_Total": null,
+      "TBE_Done": null,
+      "PO_Total": 74,
+      "PO_Done": 74,
+      "PIM_Total": 28,
+      "PIM_Done": 28,
+      "IRC_100%_Total": 74,
+      "IRC_100%_Done": 52,
+      "NCR_Total": 16,
+      "NCR_Done": 16,
+      "FIDB_Total": "업데이트 필요",
+      "FIDB_Done": "업데이트 필요"
+    },
+    {
+      "Project_Code": "VEQU",
+      "MR_Total": null,
+      "MR_Done": null,
+      "TBE_Total": null,
+      "TBE_Done": null,
+      "PO_Total": 96,
+      "PO_Done": 96,
+      "PIM_Total": 37,
+      "PIM_Done": 37,
+      "IRC_100%_Total": 96,
+      "IRC_100%_Done": 95,
+      "NCR_Total": 9,
+      "NCR_Done": 9,
+      "FIDB_Total": "업데이트 필요",
+      "FIDB_Done": "업데이트 필요"
+    },
+    {
+      "Project_Code": "STA4",
+      "MR_Total": null,
+      "MR_Done": null,
+      "TBE_Total": null,
+      "TBE_Done": null,
+      "PO_Total": 159,
+      "PO_Done": 159,
+      "PIM_Total": 99,
+      "PIM_Done": 97,
+      "IRC_100%_Total": 122,
+      "IRC_100%_Done": 54,
+      "NCR_Total": 51,
+      "NCR_Done": 42,
+      "FIDB_Total": "업데이트 필요",
+      "FIDB_Done": "업데이트 필요"
+    },
+    {
+      "Project_Code": "SAC2",
+      "MR_Total": null,
+      "MR_Done": null,
+      "TBE_Total": null,
+      "TBE_Done": null,
+      "PO_Total": 93,
+      "PO_Done": 93,
+      "PIM_Total": 62,
+      "PIM_Done": 59,
+      "IRC_100%_Total": 89,
+      "IRC_100%_Done": 21,
+      "NCR_Total": 7,
+      "NCR_Done": 7,
+      "FIDB_Total": "업데이트 필요",
+      "FIDB_Done": "업데이트 필요"
+    },
+    {
+      "Project_Code": "CSSP",
+      "MR_Total": 148,
+      "MR_Done": 68,
+      "TBE_Total": 148,
+      "TBE_Done": 2,
+      "PO_Total": 148,
+      "PO_Done": 1,
+      "PIM_Total": "미정",
+      "PIM_Done": 0,
+      "IRC_100%_Total": 148,
+      "IRC_100%_Done": 0,
+      "NCR_Total": 0,
+      "NCR_Done": 0,
+      "FIDB_Total": 148,
+      "FIDB_Done": 0
+    },
+    {
+      "Project_Code": "PNG1",
+      "MR_Total": 30,
+      "MR_Done": 9,
+      "TBE_Total": 30,
+      "TBE_Done": 5,
+      "PO_Total": 30,
+      "PO_Done": 2,
+      "PIM_Total": 17,
+      "PIM_Done": 0,
+      "IRC_100%_Total": 30,
+      "IRC_100%_Done": 0,
+      "NCR_Total": 0,
+      "NCR_Done": 0,
+      "FIDB_Total": 30,
+      "FIDB_Done": 0
+    },
+    {
+      "Project_Code": "ALSM",
+      "MR_Total": "미정",
+      "MR_Done": "미정",
+      "TBE_Total": "미정",
+      "TBE_Done": "미정",
+      "PO_Total": "미정",
+      "PO_Done": "미정",
+      "PIM_Total": "미정",
+      "PIM_Done": "미정",
+      "IRC_100%_Total": "미정",
+      "IRC_100%_Done": "미정",
+      "NCR_Total": "미정",
+      "NCR_Done": "미정",
+      "FIDB_Total": "미정",
+      "FIDB_Done": "미정"
+    }
+  ],
+  "Open_NCR": [
+    {
+      "Serial_Number": 1,
+      "Project_Code": "STA4",
+      "NCR_Number": "STA4-MR010-OPT-NCR-001",
+      "Item": "Sealless Pump (API 685)",
+      "Vendor": "Optimex",
+      "NCR_Title": "High Power Consumption",
+      "Issue_Date": "2025-08-29",
+      "Days_to_Date": 237,
+      "Reamrks": null
+    },
+    {
+      "Serial_Number": 2,
+      "Project_Code": "STA4",
+      "NCR_Number": "STA4-EL009-AFN-NCR-001",
+      "Item": "LV Controlgear ",
+      "Vendor": "Al-Fanar",
+      "NCR_Title": "Factory Acceptance Test and Punch Closing Verification ",
+      "Issue_Date": "2025-11-02",
+      "Days_to_Date": 172,
+      "Reamrks": null
+    },
+    {
+      "Serial_Number": 3,
+      "Project_Code": "STA4",
+      "NCR_Number": "STA4-MS017-SYC-NCR-001",
+      "Item": "Air Dryer Package ",
+      "Vendor": "Seyang Corporation",
+      "NCR_Title": "Factory Acceptance Test and Punch Closing Verification ",
+      "Issue_Date": "2025-11-07",
+      "Days_to_Date": 167,
+      "Reamrks": null
+    },
+    {
+      "Serial_Number": 4,
+      "Project_Code": "STA4",
+      "NCR_Number": "STA4-EL007-AFN-NCR-001",
+      "Item": "HV Switchgear",
+      "Vendor": "Al-Fanar",
+      "NCR_Title": "Factory Acceptance Test and Punch Closing Verification ",
+      "Issue_Date": "2025-12-19",
+      "Days_to_Date": 125,
+      "Reamrks": null
+    },
+    {
+      "Serial_Number": 5,
+      "Project_Code": "STA4",
+      "NCR_Number": "STA4-MR010-OPT-NCR-002",
+      "Item": "Sealless Pump (API 685)",
+      "Vendor": "Optimex",
+      "NCR_Title": "IRC Issuance with Punch List",
+      "Issue_Date": "2025-12-04",
+      "Days_to_Date": 140,
+      "Reamrks": null
+    },
+    {
+      "Serial_Number": 6,
+      "Project_Code": "STA4",
+      "NCR_Number": "STA4-CI001-EME-NCR-001",
+      "Item": "PCS",
+      "Vendor": "Emerson",
+      "NCR_Title": "IRC Issuance with Punch List",
+      "Issue_Date": "2026-01-20",
+      "Days_to_Date": 93,
+      "Reamrks": null
+    },
+    {
+      "Serial_Number": 7,
+      "Project_Code": "STA4",
+      "NCR_Number": "STA4-EL012-SEL1-NCR-002",
+      "Item": "ECS",
+      "Vendor": "SEL",
+      "NCR_Title": "IRC Issuance with Punch List",
+      "Issue_Date": "2026-03-26",
+      "Days_to_Date": 28,
+      "Reamrks": null
+    },
+    {
+      "Serial_Number": 8,
+      "Project_Code": "STA4",
+      "NCR_Number": "STA4-CI001-EME-NCR-002",
+      "Item": "PCS",
+      "Vendor": "Emerson",
+      "NCR_Title": "IRC Issuance with Punch List",
+      "Issue_Date": "2026-03-06",
+      "Days_to_Date": 48,
+      "Reamrks": null
+    },
+    {
+      "Serial_Number": 9,
+      "Project_Code": "STA4",
+      "NCR_Number": "STA4-CI005-VAL-NCR-002",
+      "Item": "On-Off Valve (Ball)",
+      "Vendor": "Valmet",
+      "NCR_Title": "High-Pressure Seat Test / DBB Test was omitted for Trunnion Type Ball Valve",
+      "Issue_Date": "2026-04-08",
+      "Days_to_Date": 15,
+      "Reamrks": null
+    }
+  ],
+  "TPA": [
+    {
+      "Project_Code": "MIP6",
+      "Status": "Mechanical Completion",
+      "Budget_Amount_USD": 12511157,
+      "Executed_Amount_USD": 12499872,
+      "Budget_Execution_Rate": 0.9990980050845817
+    },
+    {
+      "Project_Code": "SM12",
+      "Status": "Active",
+      "Budget_Amount_USD": 9017286,
+      "Executed_Amount_USD": 8964816,
+      "Budget_Execution_Rate": 0.9941811760212552
+    },
+    {
+      "Project_Code": "IBRU",
+      "Status": "Mechanical Completion",
+      "Budget_Amount_USD": 4024396,
+      "Executed_Amount_USD": 2588280,
+      "Budget_Execution_Rate": 0.6431474437406259
+    },
+    {
+      "Project_Code": "SHN1",
+      "Status": "Active",
+      "Budget_Amount_USD": 2327045,
+      "Executed_Amount_USD": 1774166,
+      "Budget_Execution_Rate": 0.7624115562870507
+    },
+    {
+      "Project_Code": "ALOM",
+      "Status": "Active",
+      "Budget_Amount_USD": 766265,
+      "Executed_Amount_USD": 373850,
+      "Budget_Execution_Rate": 0.4878860446451293
+    },
+    {
+      "Project_Code": "VEQU",
+      "Status": "Active",
+      "Budget_Amount_USD": 375828,
+      "Executed_Amount_USD": 203424,
+      "Budget_Execution_Rate": 0.5412688783166768
+    },
+    {
+      "Project_Code": "STA4",
+      "Status": "Active",
+      "Budget_Amount_USD": 8945512,
+      "Executed_Amount_USD": 6311810,
+      "Budget_Execution_Rate": 0.7055839844605876
+    },
+    {
+      "Project_Code": "SAC2",
+      "Status": "Active",
+      "Budget_Amount_USD": 4791851,
+      "Executed_Amount_USD": 2276543,
+      "Budget_Execution_Rate": 0.475086349721642
+    },
+    {
+      "Project_Code": "CSSP",
+      "Status": "Active",
+      "Budget_Amount_USD": 5960701,
+      "Executed_Amount_USD": 0,
+      "Budget_Execution_Rate": 0.0
+    },
+    {
+      "Project_Code": "PNG1",
+      "Status": "Active",
+      "Budget_Amount_USD": 1875089,
+      "Executed_Amount_USD": null,
+      "Budget_Execution_Rate": 0.0
+    },
+    {
+      "Project_Code": "ALSM",
+      "Status": "Bid",
+      "Budget_Amount_USD": "미정",
+      "Executed_Amount_USD": "미정",
+      "Budget_Execution_Rate": null
+    }
+  ],
+  "Trip": [],
+  "Issue": [
+    {
+      "Title": "Knife Gate Valve 표면 처리불량",
+      "Owner": "임효원 책임",
+      "Project_Code": "STA4",
+      "Action_Required": "FBE 작업 진행 중"
+    },
+    {
+      "Title": "N2 Receiver 폭발 사고 관련 추가 제작 Item 검사 절차 협의",
+      "Owner": "장동철 책임",
+      "Project_Code": "SM12",
+      "Action_Required": "SVL & Inspection Level 협의 중 (SAIR)"
+    },
+    {
+      "Title": "Produced Water Booster Pump 관련 Casing 파손",
+      "Owner": "서민 책임",
+      "Project_Code": "MIP6",
+      "Action_Required": "결함 판독을 위해 현장에서 RT 수행 예정"
+    },
+    {
+      "Title": "N2 Generation Package 성능 미달",
+      "Owner": "장동철 책임",
+      "Project_Code": "IBRU",
+      "Action_Required": "제작 및 검사 진행 중"
+    },
+    {
+      "Title": "Bypass Valve 현장시험 불합격",
+      "Owner": "석우경 매니저",
+      "Project_Code": "VEQU",
+      "Action_Required": null
+    },
+    {
+      "Title": "LV Switchgear 내부 부식 발생",
+      "Owner": "윤희수 책임",
+      "Project_Code": "ALOM",
+      "Action_Required": "재제작 진행 중 (5월말 FAT 예상)"
+    },
+    {
+      "Title": "원소재 성적서 검토 시스템",
+      "Owner": "장동철 책임",
+      "Project_Code": "플랜트구매품질팀",
+      "Action_Required": "경영분석팀 & IT지원팀 협의 중"
+    },
+    {
+      "Title": "Punch 관리방법 개선",
+      "Owner": "이해석 책임",
+      "Project_Code": "플랜트구매품질팀",
+      "Action_Required": "추진안 준비 중"
+    },
+    {
+      "Title": "TPA Workshop",
+      "Owner": "장동철 책임",
+      "Project_Code": "플랜트구매품질팀",
+      "Action_Required": "금주 중 참석자 확정 및 사전 설문 완료 예정"
+    },
+    {
+      "Title": "TPA 실행 비용 분석 및 입찰 예산 적정성 검증",
+      "Owner": "강태준 책임",
+      "Project_Code": "플랜트구매품질팀",
+      "Action_Required": "프로젝트별 TPA 청산자료 1차 가공 완료"
+    }
+  ],
+  "Guide": [
+    {
+      "Sheet": "Projects",
+      "Key purpose": "프로젝트 마스터",
+      "Required columns": "Project_Code, Contract_Price_HDEC_Mil_USD, Client, Country, Project_Manager, PQCM, Status, Progress"
+    },
+    {
+      "Sheet": "Manpower",
+      "Key purpose": "팀 인력운용현황",
+      "Required columns": "Name, Department, Major_Responsibility, PQCM, PQC_Engineer, PIC_PO_Number"
+    },
+    {
+      "Sheet": "Stage_Status",
+      "Key purpose": "MR/TBE/PO/PIM/IRC/FIDB/NCR 현황",
+      "Required columns": "*_Total, *_Done"
+    },
+    {
+      "Sheet": "Open_NCR",
+      "Key purpose": "미결 NCR 현황",
+      "Required columns": "Project_Code, NCR_Number, Item, Vendor, NCR_Title, Issue_Date, Days_to_Date"
+    },
+    {
+      "Sheet": "TPA",
+      "Key purpose": "대금 집행 현황",
+      "Required columns": "Budget_Amount_USD, Executed_Amount_USD, Budget_Execution_Rate"
+    },
+    {
+      "Sheet": "Trips",
+      "Key purpose": "출장 현황",
+      "Required columns": "Traveler, Project_Code, Country, City, Purpose"
+    },
+    {
+      "Sheet": "Issues",
+      "Key purpose": "주요 현안",
+      "Required columns": "Title, Owner, Project_Code, Action_Required"
+    }
+  ]
+};
+let RAW = structuredClone(DEFAULT_RAW);
+let FX_RATE = 1479.50;
+let currentRawSheet = 'Project';
+
+const SHEET_FIELDS = {
+  Project:['Project_Code','Contract_Price_HDEC_Mil_USD','Contract_Price_Total_Mil_USD','Client','Country_Site','Project_Manager','PQCM','Status','Progress'],
+  Manpower:['Name','Department','Major_Responsibility','PQCM','PQC_Engineer','PIC_PO_Number'],
+  Stage_Status:['Project_Code','MR_Total','MR_Done','TBE_Total','TBE_Done','PO_Total','PO_Done','PIM_Total','PIM_Done','IRC_100%_Total','IRC_100%_Done','NCR_Total','NCR_Done','FIDB_Total','FIDB_Done'],
+  Open_NCR:['Serial_Number','Project_Code','NCR_Number','Item','Vendor','NCR_Title','Issue_Date','Days_to_Date','Reamrks'],
+  TPA:['Project_Code','Status','Budget_Amount_USD','Executed_Amount_USD','Budget_Execution_Rate'],
+  Trip:['Traveler','Project_Code','Country_Trip','City_Trip','Purpose','Start_Date','End_Date'],
+  Issue:['Title','Owner','Project_Code','Action_Required'],
+  Guide:['Sheet','Key purpose','Required columns']
+};
+
+const FIELD_LABELS = {
+  Project_Code:'Project', Contract_Price_HDEC_Mil_USD:'HDEC 계약금액', Contract_Price_Total_Mil_USD:'Total 계약금액',
+  Country_Site:'Country/Site', Project_Manager:'PM', Progress:'Progress',
+  Major_Responsibility:'Major', PQC_Engineer:'PQC Engineer', PIC_PO_Number:'담당 PO',
+  Budget_Amount_USD:'Budget(USD)', Executed_Amount_USD:'Executed(USD)', Budget_Execution_Rate:'집행률',
+  Days_to_Date:'경과일', Issue_Date:'발생일', Action_Required:'Action Required',
+  NCR_Number:'NCR No.', NCR_Title:'NCR Title',
+  'IRC_100%_Total':'IRC Total', 'IRC_100%_Done':'IRC Done'
+};
+
+const STAGE_PAIRS = [
+  ['MR','MR_Total','MR_Done'], ['TBE','TBE_Total','TBE_Done'], ['PO','PO_Total','PO_Done'],
+  ['PIM','PIM_Total','PIM_Done'], ['IRC','IRC_100%_Total','IRC_100%_Done'], ['NCR','NCR_Total','NCR_Done'], ['FIDB','FIDB_Total','FIDB_Done']
+];
+
+function $(id){ return document.getElementById(id); }
+function esc(v){ return String(v ?? '').replace(/[&<>"']/g, s=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s])); }
+function num(v){ if(v===null||v===undefined||v==='') return 0; const n=Number(String(v).replace(/,/g,'')); return Number.isFinite(n)?n:0; }
+function isNumLike(v){ if(v===null||v===undefined||v==='') return false; return !isNaN(Number(String(v).replace(/,/g,''))); }
+function fmt(n, d=0){ if(n===null||n===undefined||n===''||Number.isNaN(Number(n))) return '-'; return Number(n).toLocaleString('ko-KR',{maximumFractionDigits:d,minimumFractionDigits:d}); }
+function fmtFlexible(n, d=1){ if(n===null||n===undefined||n===''||Number.isNaN(Number(n))) return '-'; return Number(n).toLocaleString('ko-KR',{maximumFractionDigits:d}); }
+function pctRaw(v){ const n=Number(v); if(!Number.isFinite(n)) return null; return n>1?n:n*100; }
+function pctDisplay(v, d=1){ const p=pctRaw(v); if(p===null) return '-'; let r=Math.round(p*Math.pow(10,d))/Math.pow(10,d); if(p<100 && r>=100) r=Number((100-1/Math.pow(10,d)).toFixed(d)); return r.toFixed(d)+'%'; }
+function tpaRate(row){ const r=Number(row.Budget_Execution_Rate); if(Number.isFinite(r)) return r; const b=num(row.Budget_Amount_USD), e=num(row.Executed_Amount_USD); return b>0?e/b:0; }
+function statusLabel(s){ return s==='Mechanical Completion'?'MC':(s||'-'); }
+function statusBadge(s){ const x=statusLabel(s); const cls=x==='MC'?'black':x==='Active'?'green':x==='Bid'?'purple':'gray'; return `<span class="badge ${cls}" data-tip="${x==='MC'?'Mechanical Completion의 약어입니다.':'프로젝트 상태'}">${esc(x)}</span>`; }
+function tpaLevel(rate){ if(rate>=0.90) return ['red','90%+ 재추정/예산조정']; if(rate>=0.70) return ['amber','70%+ 청산예측']; if(rate>0) return ['green','모니터링']; return ['gray','집행 전']; }
+function ncrDaysClass(d){ d=num(d); return d>=90?'red':d>=30?'amber':'green'; }
+function progressClass(v){ const p=pctRaw(v)||0; if(p>=95) return 'green'; if(p>=70) return 'blue'; if(p>=30) return 'amber'; return 'gray'; }
+function toast(msg='데이터가 반영되었습니다.'){ const t=$('toast'); t.textContent=msg; t.classList.add('on'); clearTimeout(window.__toast); window.__toast=setTimeout(()=>t.classList.remove('on'),1700); }
+function nowText(){ return new Date().toLocaleString('ko-KR',{year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}); }
+
+function htmlProgress(v, cls='blue'){ const p=pctRaw(v); const width=Math.min(100,Math.max(0,p||0)); return `<div class="progress"><div class="bar"><div class="fill ${cls}" style="width:${width}%"></div></div><div class="pct">${pctDisplay(v,1)}</div></div>`; }
+function htmlTPA(rate){ const p=Math.min(100,Math.max(0,rate*100)); const [cls]=tpaLevel(rate); const fillCls=cls==='red'?'danger':cls==='amber'?'warn':rate===0?'zero':''; return `<div class="tpa-cell"><div class="tpa-scale"><div class="tpa-fill ${fillCls}" style="width:${p}%"></div><span class="tpa-mark m70" title="70% 청산 예측"></span><span class="tpa-mark m90" title="90% 예산 조정 검토"></span></div><div class="tpa-caption"><span>70%</span><b>${pctDisplay(rate,1)}</b><span>90%</span></div></div>`; }
+function editable(sheet, idx, field, value, cls=''){ return `<span class="${cls}" contenteditable="true" data-sheet="${sheet}" data-row="${idx}" data-field="${field}">${esc(value ?? '')}</span>`; }
+
+function setReportDate(){
+  const d=new Date();
+  const txt=d.toLocaleDateString('ko-KR',{year:'numeric',month:'2-digit',day:'2-digit'});
+  $('reportDate').textContent=txt;
+  document.querySelectorAll('.print-date').forEach(e=>e.textContent=txt);
+}
+
+function bindTabs(){
+  document.querySelectorAll('.tab').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
+      document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
+      btn.classList.add('on');
+      $(btn.dataset.page).classList.add('on');
+    });
+  });
+}
+
+function stageRate(row){
+  let done=0,total=0;
+  STAGE_PAIRS.forEach(([name,t,d])=>{ if(isNumLike(row[t]) && isNumLike(row[d]) && num(row[t])>0){ total += num(row[t]); done += Math.min(num(row[d]), num(row[t])); } });
+  return total>0 ? done/total : null;
+}
+function projectRisk(project){
+  const tpa=(RAW.TPA||[]).find(t=>t.Project_Code===project.Project_Code);
+  const rate=tpa?tpaRate(tpa):0;
+  const ncrCnt=(RAW.Open_NCR||[]).filter(n=>n.Project_Code===project.Project_Code).length;
+  const prog=pctRaw(project.Progress)||0;
+  if(rate>=.9 || ncrCnt>=5) return ['red','집중관리'];
+  if(rate>=.7 || ncrCnt>0 || prog>=95) return ['amber','주의관리'];
+  return ['green','정상'];
+}
+
+function makeKpi(label, val, sub='', color='blue', tip=''){
+  return `<div class="kpi ${color}" ${tip?`data-tip="${esc(tip)}"`:''}><div class="kpi-label">${label}</div><div class="kpi-val">${val}</div><div class="kpi-sub">${sub}</div></div>`;
+}
+
+function renderOverview(){
+  const projects=RAW.Project||[], tpas=RAW.TPA||[], ncrs=RAW.Open_NCR||[];
+  const active=projects.filter(p=>p.Status==='Active').length;
+  const mc=projects.filter(p=>p.Status==='Mechanical Completion').length;
+  const bid=projects.filter(p=>p.Status==='Bid').length;
+  const totalHdec=projects.reduce((s,p)=>s+num(p.Contract_Price_HDEC_Mil_USD),0);
+  const high90=tpas.filter(t=>tpaRate(t)>=.9);
+  const high70=tpas.filter(t=>tpaRate(t)>=.7 && tpaRate(t)<.9);
+  const ncr90=ncrs.filter(n=>num(n.Days_to_Date)>=90).length;
+
+  $('kpiGrid').innerHTML = [
+    makeKpi('총 프로젝트', `${projects.length}<span style="font-size:14px">건</span>`, `Active ${active} · MC ${mc} · Bid ${bid}`, 'blue', 'Project 시트 기준 전체 프로젝트 수'),
+    makeKpi('HDEC 계약금액', `${fmt(totalHdec)}<span style="font-size:14px"> Mil USD</span>`, `원화 환산 약 ${fmt(totalHdec*1000000*FX_RATE/100000000,1)}억원`, 'teal', '환율 입력값 기준 단순 환산'),
+    makeKpi('TPA 고집행', `${high90.length+high70.length}<span style="font-size:14px">건</span>`, `90%+ ${high90.length}건 · 70%+ ${high70.length}건`, high90.length?'purple':'amber', '70% 이상은 청산 예측, 90% 이상은 예산 조정 검토'),
+    makeKpi('미결 NCR 90일+', `${ncr90}<span style="font-size:14px">건</span>`, `전체 미결 NCR ${ncrs.length}건`, ncr90?'red':'green', '발생일로부터 현재까지 90일 이상 경과한 미결 NCR'),
+  ].join('');
+
+  $('summaryList').innerHTML = [
+    ['TPA 고집행 관점 전환', '저집행보다 70%/90% 도달 프로젝트의 청산 예측과 예산 조정을 우선 관리합니다.'],
+    ['완료 직전 리스크 관리', 'SM12, VEQU 등 Progress 95% 이상 프로젝트는 잔여 IRC/FIDB/NCR 정리를 우선 확인합니다.'],
+    ['STA4 NCR 집중관리', `미결 NCR ${ncrs.length}건 중 장기 미결 ${ncr90}건이 존재하여 Vendor별 Close-out 집중관리가 필요합니다.`],
+    ['Raw 연동형 운영', '화면 수정 → JS 상태 반영 → 최상단 Excel/JSON 다운로드 방식으로 재반영이 가능합니다.']
+  ].map(x=>`<div class="summary-item"><b>${x[0]}</b><span>${x[1]}</span></div>`).join('');
+
+  const rows=projects.map((p,i)=>{
+    const t=tpas.find(x=>x.Project_Code===p.Project_Code)||{};
+    const ncrCnt=ncrs.filter(n=>n.Project_Code===p.Project_Code).length;
+    const [rc,rt]=projectRisk(p);
+    return `<tr>
+      <td class="ctr bold">${editable('Project', i, 'Project_Code', p.Project_Code)}</td>
+      <td>${editable('Project', i, 'Client', p.Client)}</td>
+      <td>${editable('Project', i, 'Country_Site', p.Country_Site)}</td>
+      <td class="ctr">${statusBadge(p.Status)}</td>
+      <td>${htmlProgress(p.Progress, progressClass(p.Progress))}</td>
+      <td>${htmlTPA(tpaRate(t))}</td>
+      <td class="ctr"><span class="badge ${ncrCnt?'red':'green'}">${ncrCnt}건</span></td>
+      <td class="ctr"><span class="badge ${rc}">${rt}</span></td>
+    </tr>`;
+  }).join('');
+  $('overviewProjectTbl').innerHTML = `<thead><tr><th>Project</th><th>Client</th><th>Country/Site</th><th>Status</th><th>Progress</th><th>TPA 집행률</th><th>Open NCR</th><th>관리구분</th></tr></thead><tbody>${rows}</tbody>`;
+  $('overviewUpdate').textContent = `Raw 기준 업데이트: ${nowText()}`;
+
+  const focus = [];
+  high90.forEach(t=>focus.push(`<div class="issue-card red"><div class="issue-title">${t.Project_Code} · TPA 90% 초과</div><div class="issue-meta">집행률 ${pctDisplay(tpaRate(t),1)} · 예산 ${fmt(num(t.Budget_Amount_USD))} USD</div><div class="issue-action">청산 예측 재수행, 잔여 물량/출장 계획 확인, 예산 조정 필요성 검토</div></div>`));
+  high70.forEach(t=>focus.push(`<div class="issue-card amber"><div class="issue-title">${t.Project_Code} · TPA 70% 도달</div><div class="issue-meta">집행률 ${pctDisplay(tpaRate(t),1)} · Executed ${fmt(num(t.Executed_Amount_USD))} USD</div><div class="issue-action">청산 예측 1차 수행 및 향후 TPA M/D 소요 점검</div></div>`));
+  if(ncr90) focus.push(`<div class="issue-card red"><div class="issue-title">STA4 장기 미결 NCR</div><div class="issue-meta">90일 이상 ${ncr90}건</div><div class="issue-action">Vendor별 원인/조치/검증 일정 재확인 및 주간 Close-out Tracker 운영</div></div>`);
+  $('focusSignals').innerHTML = focus.length?focus.join(''):'<div class="raw-note">현재 집중관리 신호가 없습니다.</div>';
+
+  $('actionItems').innerHTML = [
+    ['TPA 청산 예측 정례화','70% 도달 프로젝트는 1차 청산 예측, 90% 도달 프로젝트는 재추정 및 예산 조정 검토를 수행','즉시'],
+    ['STA4 NCR Close-out 집중관리','90일 이상 장기 미결 NCR을 Vendor별로 분류하고 책임자·목표일을 확정','금주'],
+    ['FIDB 업데이트 상태 정리','MIP6~SAC2 FIDB는 업데이트 필요 상태로 관리하고 최신 데이터 반영 담당 지정','차주'],
+    ['신규/Bid 프로젝트 초기 세팅','CSSP/PNG1/ALSM은 MR/TBE/PO 초기 기준과 담당자 체계를 조기 확정','상시']
+  ].map((a,i)=>`<div class="action"><div class="action-no">${i+1}</div><div><div class="action-title">${a[0]}</div><div class="action-desc">${a[1]}</div></div><div class="action-due">${a[2]}</div></div>`).join('');
+
+  $('riskPoints').innerHTML = [
+    ['TPA 예산 초과 리스크','고집행 프로젝트는 남은 검사/출장/Vendor 대응 비용이 예산을 초과할 가능성이 있어 조기 재추정 필요'],
+    ['장기 미결 NCR 리스크','미결 기간이 길수록 MC/IRC/FIDB Close-out과 Vendor Claim 대응에 영향을 줄 수 있음'],
+    ['Data Quality 리스크','미정/업데이트 필요 항목은 보고서 수치에서 누락되므로 담당자별 최신화 루틴 필요'],
+    ['인력 병목 리스크','PQC Engineer 배정은 PO 개수만으로 판단하지 않고 전공/난이도/프로젝트 단계와 함께 검토 필요']
+  ].map(r=>`<div class="risk-box" style="margin-bottom:8px"><div class="risk-title">▪ ${r[0]}</div><div class="muted">${r[1]}</div></div>`).join('');
+}
+
+function renderProjects(){
+  const projects=RAW.Project||[];
+  const q=($('projectSearch')?.value||'').toLowerCase();
+  const st=($('projectStatusFilter')?.value||'');
+  const statusSet=[...new Set(projects.map(p=>p.Status).filter(Boolean))];
+  const sel=$('projectStatusFilter');
+  const prev=sel.value;
+  sel.innerHTML='<option value="">전체 Status</option>'+statusSet.map(s=>`<option value="${esc(s)}">${esc(statusLabel(s))}</option>`).join('');
+  sel.value=prev;
+  const filtered=projects.filter(p=>(!st||p.Status===st) && (!q || Object.values(p).join(' ').toLowerCase().includes(q)));
+  const totalHdec=filtered.reduce((s,p)=>s+num(p.Contract_Price_HDEC_Mil_USD),0);
+  const avg=filtered.length?filtered.reduce((s,p)=>s+(Number(p.Progress)||0),0)/filtered.length:0;
+  $('projectKpis').innerHTML=[
+    makeKpi('표시 프로젝트', `${filtered.length}건`, `전체 ${projects.length}건 중 필터 적용`, 'blue'),
+    makeKpi('HDEC 계약금액', `${fmt(totalHdec)} Mil`, `USD 기준`, 'teal'),
+    makeKpi('평균 Progress', `${pctDisplay(avg,1)}`, `필터 결과 기준`, 'green'),
+    makeKpi('MC 프로젝트', `${filtered.filter(p=>p.Status==='Mechanical Completion').length}건`, `Mechanical Completion`, 'purple')
+  ].join('');
+  const rows=filtered.map(p=>{
+    const i=projects.indexOf(p);
+    const [rc,rt]=projectRisk(p);
+    return `<tr>
+      <td class="ctr">${editable('Project',i,'Project_Code',p.Project_Code,'nowrap')}</td>
+      <td class="num">${editable('Project',i,'Contract_Price_HDEC_Mil_USD',fmtFlexible(p.Contract_Price_HDEC_Mil_USD,0))}</td>
+      <td class="num">${editable('Project',i,'Contract_Price_Total_Mil_USD',fmtFlexible(p.Contract_Price_Total_Mil_USD,0))}</td>
+      <td>${editable('Project',i,'Client',p.Client)}</td>
+      <td>${editable('Project',i,'Country_Site',p.Country_Site)}</td>
+      <td>${editable('Project',i,'Project_Manager',p.Project_Manager)}</td>
+      <td>${editable('Project',i,'PQCM',p.PQCM)}</td>
+      <td class="ctr">${statusBadge(p.Status)}</td>
+      <td>${htmlProgress(p.Progress, progressClass(p.Progress))}</td>
+      <td class="ctr"><span class="badge ${rc}">${rt}</span></td>
+    </tr>`;
+  }).join('');
+  $('projectTbl').innerHTML=`<thead><tr><th>Project</th><th>HDEC Mil USD</th><th>Total Mil USD</th><th>Client</th><th>Country/Site</th><th>PM</th><th>PQCM</th><th>Status</th><th>Progress</th><th>관리구분</th></tr></thead><tbody>${rows}</tbody>`;
+}
+
+function renderStage(){
+  const rows=RAW.Stage_Status||[];
+  const allRates=rows.map(stageRate).filter(x=>x!==null);
+  const avg=allRates.length?allRates.reduce((a,b)=>a+b,0)/allRates.length:0;
+  let need=0, unknown=0, doneCount=0;
+  rows.forEach(r=>STAGE_PAIRS.forEach(([n,t,d])=>{ const vals=[r[t],r[d]].join(' '); if(vals.includes('업데이트 필요')) need++; if(vals.includes('미정')) unknown++; if(isNumLike(r[t])&&num(r[t])>0&&num(r[d])>=num(r[t])) doneCount++; }));
+  $('stageKpis').innerHTML=[
+    makeKpi('평균 단계 진행률', pctDisplay(avg,1), '숫자 입력 항목 기준', 'blue'),
+    makeKpi('완료 단계', `${doneCount}개`, 'Done ≥ Total 기준', 'green'),
+    makeKpi('업데이트 필요', `${need}개`, 'FIDB 등 최신화 대상', need?'amber':'green'),
+    makeKpi('미정 항목', `${unknown}개`, 'ALSM 등 기준 미확정', unknown?'purple':'green')
+  ].join('');
+  const body=rows.map((r,i)=>{
+    const cells=STAGE_PAIRS.map(([label,t,d])=>{
+      let total=r[t], done=r[d];
+      let cls='na', txt='-';
+      if(String(total).includes('업데이트')||String(done).includes('업데이트')){ cls='need'; txt='업데이트 필요'; }
+      else if(String(total).includes('미정')||String(done).includes('미정')){ cls='na'; txt='미정'; }
+      else if(isNumLike(total)&&num(total)>0){ const rate=num(done)/num(total); cls=rate>=1?'done':rate>0?'part':'none'; txt=`${fmt(num(done))}/${fmt(num(total))}`; }
+      else { cls='na'; txt='N/A'; }
+      return `<td class="ctr"><span class="stage-dot ${cls}" data-tip="${label}: Done / Total">${esc(txt)}</span></td>`;
+    }).join('');
+    return `<tr><td class="ctr bold">${editable('Stage_Status',i,'Project_Code',r.Project_Code)}</td>${cells}<td>${stageRate(r)!==null?htmlProgress(stageRate(r), progressClass(stageRate(r))):'<span class="badge gray">산정 제외</span>'}</td></tr>`;
+  }).join('');
+  $('stageTbl').innerHTML=`<thead><tr><th>Project</th>${STAGE_PAIRS.map(x=>`<th>${x[0]}</th>`).join('')}<th>Overall</th></tr></thead><tbody>${body}</tbody>`;
+}
+
+function renderTPA(){
+  const rows=RAW.TPA||[];
+  const budget=rows.reduce((s,r)=>s+num(r.Budget_Amount_USD),0);
+  const executed=rows.reduce((s,r)=>s+num(r.Executed_Amount_USD),0);
+  const rate=budget?executed/budget:0;
+  const over90=rows.filter(r=>tpaRate(r)>=.9);
+  const over70=rows.filter(r=>tpaRate(r)>=.7 && tpaRate(r)<.9);
+  $('tpaKpis').innerHTML=[
+    makeKpi('TPA Budget', `$${fmt(budget)}`, `원화 약 ${fmt(budget*FX_RATE/100000000,1)}억원`, 'blue'),
+    makeKpi('TPA Executed', `$${fmt(executed)}`, `원화 약 ${fmt(executed*FX_RATE/100000000,1)}억원`, 'teal'),
+    makeKpi('전체 집행률', pctDisplay(rate,1), '전체 예산 대비 집행', rate>=.9?'red':rate>=.7?'amber':'green'),
+    makeKpi('고집행 집중관리', `${over90.length+over70.length}건`, `90%+ ${over90.length} · 70%+ ${over70.length}`, over90.length?'red':'amber')
+  ].join('');
+  const body=rows.map((r,i)=>{
+    const rate=tpaRate(r); const [cls,lv]=tpaLevel(rate);
+    const remain=Math.max(0,num(r.Budget_Amount_USD)-num(r.Executed_Amount_USD));
+    return `<tr>
+      <td class="ctr bold">${editable('TPA',i,'Project_Code',r.Project_Code)}</td>
+      <td class="ctr">${statusBadge(r.Status)}</td>
+      <td class="num">${editable('TPA',i,'Budget_Amount_USD',fmtFlexible(r.Budget_Amount_USD,0))}</td>
+      <td class="num">${editable('TPA',i,'Executed_Amount_USD',fmtFlexible(r.Executed_Amount_USD,0))}</td>
+      <td>${htmlTPA(rate)}</td>
+      <td class="num">${fmt(remain)}</td>
+      <td class="ctr"><span class="badge ${cls}">${lv}</span></td>
+      <td class="wide">${rate>=.9?'청산 예측 재수행 및 예산 조정 검토':rate>=.7?'청산 예측 1차 수행':'정기 모니터링'}</td>
+    </tr>`;
+  }).join('');
+  $('tpaTbl').innerHTML=`<thead><tr><th>Project</th><th>Status</th><th>Budget USD</th><th>Executed USD</th><th>Execution Rate</th><th>잔여 Budget</th><th>관리구분</th><th>Required Action</th></tr></thead><tbody>${body}</tbody>`;
+  $('tpaGuide').innerHTML=`
+    <div class="risk-box"><div class="risk-title">🟢 0~69%</div><div class="muted">일반 모니터링. 저집행 자체는 Warning 대상 아님.</div></div>
+    <div class="risk-box" style="margin-top:8px"><div class="risk-title">🟠 70% 도달</div><div class="muted">청산 예측 작업 수행. 잔여 검사/출장/문서 Close-out 비용 재산정.</div></div>
+    <div class="risk-box" style="margin-top:8px"><div class="risk-title">🔴 90% 도달</div><div class="muted">청산 예측 재수행. 예산 증액, 전용/절감 가능성, 고위험 Vendor 대응비용 검토.</div></div>
+    <div class="raw-note" style="margin-top:10px">※ 집행률은 Raw Data의 Budget_Execution_Rate 또는 Budget/Executed 금액으로 자동 산정됩니다.</div>`;
+}
+
+function renderNCR(){
+  const rows=RAW.Open_NCR||[];
+  const pset=[...new Set(rows.map(r=>r.Project_Code).filter(Boolean))];
+  const over90=rows.filter(r=>num(r.Days_to_Date)>=90).length;
+  const avg=rows.length?rows.reduce((s,r)=>s+num(r.Days_to_Date),0)/rows.length:0;
+  const vendors=[...new Set(rows.map(r=>r.Vendor).filter(Boolean))].length;
+  $('ncrKpis').innerHTML=[
+    makeKpi('Open NCR', `${rows.length}건`, `대상 프로젝트 ${pset.length}개`, rows.length?'red':'green'),
+    makeKpi('90일 이상', `${over90}건`, '장기 미결 우선관리', over90?'red':'green'),
+    makeKpi('평균 경과일', `${fmt(avg,0)}일`, '발생일~현재', avg>=90?'red':'amber'),
+    makeKpi('Vendor 수', `${vendors}개`, '미결 NCR 관련 Vendor', 'purple')
+  ].join('');
+  const byProj={};
+  rows.forEach(r=>{ byProj[r.Project_Code]??=[]; byProj[r.Project_Code].push(r); });
+  $('ncrSummary').innerHTML=Object.entries(byProj).map(([p,arr])=>{
+    const max=Math.max(...arr.map(x=>num(x.Days_to_Date)));
+    const cls=ncrDaysClass(max);
+    return `<div class="risk-box" style="margin-bottom:8px"><div class="risk-title">${p} <span class="badge ${cls}">${arr.length}건</span></div><div class="risk-row"><b>최장 미결</b><span>${fmt(max)}일</span></div><div class="risk-row"><b>Vendor</b><span>${[...new Set(arr.map(x=>x.Vendor))].join(', ')}</span></div></div>`;
+  }).join('') || '<div class="raw-note">미결 NCR이 없습니다.</div>';
+  const body=rows.map((r,i)=>{
+    const cls=ncrDaysClass(r.Days_to_Date);
+    return `<tr>
+      <td class="ctr">${editable('Open_NCR',i,'Serial_Number',r.Serial_Number)}</td>
+      <td class="ctr bold">${editable('Open_NCR',i,'Project_Code',r.Project_Code)}</td>
+      <td>${editable('Open_NCR',i,'NCR_Number',r.NCR_Number,'nowrap')}</td>
+      <td>${editable('Open_NCR',i,'Item',r.Item)}</td>
+      <td>${editable('Open_NCR',i,'Vendor',r.Vendor)}</td>
+      <td class="wide">${editable('Open_NCR',i,'NCR_Title',r.NCR_Title)}</td>
+      <td class="ctr">${editable('Open_NCR',i,'Issue_Date',r.Issue_Date,'nowrap')}</td>
+      <td class="ctr"><span class="badge ${cls}">${editable('Open_NCR',i,'Days_to_Date',r.Days_to_Date)}일</span></td>
+    </tr>`;
+  }).join('');
+  $('ncrTbl').innerHTML=`<thead><tr><th>No</th><th>Project</th><th>NCR No.</th><th>Item</th><th>Vendor</th><th>NCR Title</th><th>Issue Date</th><th>Days</th></tr></thead><tbody>${body}</tbody>`;
+}
+
+function renderManpower(){
+  const rows=RAW.Manpower||[];
+  const teamRows=rows.filter(r=>r.Name);
+  const pqcm=teamRows.filter(r=>r.PQCM).length;
+  const po=teamRows.reduce((s,r)=>s+num(r.PIC_PO_Number),0);
+  $('manpowerKpis').innerHTML=[
+    makeKpi('총 인원', `${teamRows.length}명`, '현장 포함', 'blue'),
+    makeKpi('총 담당 PO', `${fmt(po)}건`, '담당 PO 기준', 'teal'),
+    makeKpi('PQCM 담당자', `${pqcm}명`, '프로젝트 담당', 'purple')
+  ].join('');
+  $('mpGrid').innerHTML=teamRows.map((r,i)=>{
+    const isLeader=String(r.Major_Responsibility||'').trim().toLowerCase()==='team leader';
+    const pqcmTags=String(r.PQCM||'').split('/').map(x=>x.trim()).filter(Boolean).map(x=>`<span class="mp-tag pqcm">${esc(x)}</span>`).join('');
+    const pqcTags=String(r.PQC_Engineer||'').split('/').map(x=>x.trim()).filter(Boolean).map(x=>`<span class="mp-tag pqc">${esc(x)}</span>`).join('');
+    return `<div class="mp-card ${isLeader?'leader':''}"><div class="mp-name">${editable('Manpower',i,'Name',r.Name)}</div><div class="mp-role">${editable('Manpower',i,'Department',r.Department)} · ${editable('Manpower',i,'Major_Responsibility',r.Major_Responsibility)}</div><div class="mp-sep"></div><div class="mp-assign"><div class="mp-block"><div class="mp-block-hd pqcm">PQCM</div><div class="mp-tags">${pqcmTags||'<span class="mp-tag empty">-</span>'}</div></div><div class="mp-block"><div class="mp-block-hd pqc">PQC Engineer</div><div class="mp-tags">${pqcTags||'<span class="mp-tag empty">-</span>'}</div></div></div><div class="mp-po">담당 PO: ${editable('Manpower',i,'PIC_PO_Number',r.PIC_PO_Number??0)}건</div></div>`;
+  }).join('');
+  $('mpTbl').innerHTML=`<thead><tr><th>이름</th><th>소속</th><th>담당</th><th>PQCM</th><th>PQC Engineer</th><th>담당 PO 건수</th></tr></thead><tbody>${teamRows.map((r,i)=>`<tr><td>${editable('Manpower',i,'Name',r.Name)}</td><td>${editable('Manpower',i,'Department',r.Department)}</td><td>${editable('Manpower',i,'Major_Responsibility',r.Major_Responsibility)}</td><td>${editable('Manpower',i,'PQCM',r.PQCM)}</td><td>${editable('Manpower',i,'PQC_Engineer',r.PQC_Engineer)}</td><td class="num">${editable('Manpower',i,'PIC_PO_Number',r.PIC_PO_Number??0)}</td></tr>`).join('')}</tbody>`;
+}
+
+function renderTrip(){
+  const trips=RAW.Trip||[];
+  if(!trips.length){
+    $('tripArea').innerHTML='<div class="raw-note">현재 등록된 출장 계획이 없습니다. 출장 발생 시 Traveler, Project, Country/City, Purpose, Start/End Date를 Raw Data에 추가하세요.</div>';
+  } else {
+    $('tripArea').innerHTML=`<div class="tbl-wrap"><table class="tbl small"><thead><tr><th>Traveler</th><th>Project</th><th>Location</th><th>Purpose</th><th>Period</th></tr></thead><tbody>${trips.map((t,i)=>`<tr><td>${editable('Trip',i,'Traveler',t.Traveler)}</td><td>${editable('Trip',i,'Project_Code',t.Project_Code)}</td><td>${editable('Trip',i,'Country_Trip',t.Country_Trip)} / ${editable('Trip',i,'City_Trip',t.City_Trip)}</td><td>${editable('Trip',i,'Purpose',t.Purpose)}</td><td>${editable('Trip',i,'Start_Date',t.Start_Date)} ~ ${editable('Trip',i,'End_Date',t.End_Date)}</td></tr>`).join('')}</tbody></table></div>`;
+  }
+}
+
+function renderIssues(){
+  const issues=RAW.Issue||[];
+  const projectIssues=issues.map((r,i)=>({r,i})).filter(({r})=>!String(r.Project_Code||'').includes('플랜트구매품질팀'));
+  const teamIssues=issues.map((r,i)=>({r,i})).filter(({r})=>String(r.Project_Code||'').includes('플랜트구매품질팀'));
+
+  $('projectIssueArea').innerHTML=projectIssues.length?projectIssues.map(({r,i})=>{
+    return `<div class="issue-card"><div class="issue-title">${editable('Issue',i,'Title',r.Title)}</div><div class="issue-meta">Owner: ${editable('Issue',i,'Owner',r.Owner)} · Project: ${editable('Issue',i,'Project_Code',r.Project_Code)}</div><div class="issue-action">${editable('Issue',i,'Action_Required',r.Action_Required||'Action 입력 필요')}</div></div>`;
+  }).join(''):'<div class="raw-note">등록된 프로젝트 현안이 없습니다.</div>';
+
+  $('teamIssueArea').innerHTML=teamIssues.length?teamIssues.map(({r,i})=>{
+    const team=String(r.Project_Code||'').includes('플랜트구매품질팀');
+    return `<div class="issue-card ${team?'team':''}"><div class="issue-title">${editable('Issue',i,'Title',r.Title)}</div><div class="issue-meta">Owner: ${editable('Issue',i,'Owner',r.Owner)} · Project: ${editable('Issue',i,'Project_Code',r.Project_Code)}</div><div class="issue-action">${editable('Issue',i,'Action_Required',r.Action_Required||'Action 입력 필요')}</div></div>`;
+  }).join(''):'<div class="raw-note">등록된 팀 내부 현안이 없습니다.</div>';
+}
+
+function renderRaw(){
+  const sel=$('rawSheetSelect');
+  if(!sel) return;
+  if(!sel.options.length) sel.innerHTML=Object.keys(SHEET_FIELDS).map(s=>`<option value="${s}">${s}</option>`).join('');
+  currentRawSheet=sel.value||currentRawSheet;
+  const rows=RAW[currentRawSheet]||[];
+  const fields=SHEET_FIELDS[currentRawSheet] || [...new Set(rows.flatMap(r=>Object.keys(r)))];
+  const q=($('rawSearch')?.value||'').toLowerCase();
+  const filtered=rows.map((rowObj,idx)=>({rowObj,idx})).filter(x=>!q || Object.values(x.rowObj).join(' ').toLowerCase().includes(q));
+  $('rawMeta').textContent=`${currentRawSheet} · ${filtered.length} / ${rows.length} rows`;
+  const body=filtered.map(({rowObj,idx})=>`<tr><td class="ctr"><button class="btn ghost" style="padding:2px 6px" onclick="deleteRawRow('${currentRawSheet}',${idx})">삭제</button></td>${fields.map(f=>`<td>${editable(currentRawSheet,idx,f,rowObj[f])}</td>`).join('')}</tr>`).join('');
+  $('rawTbl').innerHTML=`<thead><tr><th>관리</th>${fields.map(f=>`<th>${esc(FIELD_LABELS[f]||f)}</th>`).join('')}</tr></thead><tbody>${body}</tbody>`;
+}
+
+function renderAll(){
+  renderOverview();
+  renderProjects();
+  renderStage();
+  renderTPA();
+  renderNCR();
+  renderManpower();
+  renderTrip();
+  renderIssues();
+  renderRaw();
+}
+
+document.addEventListener('input', (e)=>{
+  const el=e.target.closest('[contenteditable][data-sheet]');
+  if(!el) return;
+  const sheet=el.dataset.sheet, row=Number(el.dataset.row), field=el.dataset.field;
+  if(!RAW[sheet] || !RAW[sheet][row]) return;
+  let val=el.textContent.trim();
+  if(isNumLike(RAW[sheet][row][field]) || ['Progress','Budget_Execution_Rate'].includes(field)) {
+    val = val.replace(/,/g,'').replace('%','');
+    const n=Number(val);
+    if(Number.isFinite(n)) RAW[sheet][row][field] = (field==='Progress'||field==='Budget_Execution_Rate') && n>1 ? n/100 : n;
+    else RAW[sheet][row][field] = val;
+  } else {
+    RAW[sheet][row][field]=val;
+  }
+  if(sheet==='TPA' && ['Budget_Amount_USD','Executed_Amount_USD'].includes(field)){
+    const r=RAW.TPA[row], b=num(r.Budget_Amount_USD), ex=num(r.Executed_Amount_USD);
+    r.Budget_Execution_Rate = b>0?ex/b:0;
+  }
+});
+
+document.addEventListener('focusout', (e)=>{
+  if(e.target.closest('[contenteditable][data-sheet]')) { renderAll(); toast('수정 데이터가 화면 및 Raw 상태에 반영되었습니다.'); }
+});
+
+function bindControls(){
+  $('fxInput').addEventListener('change', e=>{ FX_RATE=num(e.target.value)||1479.5; renderAll(); toast('환율이 반영되었습니다.'); });
+  $('projectSearch').addEventListener('input', renderProjects);
+  $('projectStatusFilter').addEventListener('change', renderProjects);
+  if($('rawSheetSelect')) $('rawSheetSelect').addEventListener('change', e=>{ currentRawSheet=e.target.value; renderRaw(); });
+  if($('rawSearch')) $('rawSearch').addEventListener('input', renderRaw);
+  $('rawUpload').addEventListener('change', handleRawUpload);
+}
+
+function toCSV(rows, fields){
+  const escCsv=v=>`"${String(v??'').replace(/"/g,'""')}"`;
+  return [fields.map(escCsv).join(','), ...rows.map(r=>fields.map(f=>escCsv(r[f])).join(','))].join('\n');
+}
+function downloadText(filename, text, type='text/plain'){
+  const blob=new Blob(['\uFEFF'+text],{type});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=filename; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+}
+function downloadRawJSON(){ downloadText(`PQ_Dashboard_Raw_${new Date().toISOString().slice(0,10)}.json`, JSON.stringify(RAW,null,2), 'application/json'); }
+function downloadSheetCSV(sheet){
+  const rows=RAW[sheet]||[], fields=SHEET_FIELDS[sheet]||[...new Set(rows.flatMap(r=>Object.keys(r)))];
+  downloadText(`${sheet}_${new Date().toISOString().slice(0,10)}.csv`, toCSV(rows,fields), 'text/csv');
+}
+function downloadSelectedCSV(){ downloadSheetCSV(currentRawSheet); }
+
+function downloadBytes(filename, bytes, type='application/octet-stream'){
+  const blob=new Blob([bytes],{type});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=filename;
+  a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+}
+function xmlEscape(v){
+  return String(v ?? '').replace(/[&<>"']/g, s=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'}[s]));
+}
+function safeSheetName(name, used){
+  let base=String(name||'Sheet').replace(/[\\/?*\[\]:]/g,' ').trim().slice(0,31) || 'Sheet';
+  let out=base, n=1;
+  while(used.has(out)){ const suffix=`_${++n}`; out=base.slice(0,31-suffix.length)+suffix; }
+  used.add(out);
+  return out;
+}
+function cellRef(row, col){
+  let s='', n=col+1;
+  while(n>0){ const m=(n-1)%26; s=String.fromCharCode(65+m)+s; n=Math.floor((n-1)/26); }
+  return s + row;
+}
+function sheetXML(rows, fields){
+  const header = fields.map((f,c)=>`<c r="${cellRef(1,c)}" t="inlineStr"><is><t>${xmlEscape(FIELD_LABELS[f]||f)}</t></is></c>`).join('');
+  const body = rows.map((r,ri)=>{
+    const rowNo=ri+2;
+    const cells=fields.map((f,c)=>{
+      const v=r[f];
+      const ref=cellRef(rowNo,c);
+      if(v===null || v===undefined || v==='') return `<c r="${ref}"/>`;
+      const cleaned=String(v).replace(/,/g,'');
+      if(cleaned!=='' && Number.isFinite(Number(cleaned))) return `<c r="${ref}"><v>${Number(cleaned)}</v></c>`;
+      return `<c r="${ref}" t="inlineStr"><is><t>${xmlEscape(v)}</t></is></c>`;
+    }).join('');
+    return `<row r="${rowNo}">${cells}</row>`;
+  }).join('');
+  const widths = fields.map((f,i)=>`<col min="${i+1}" max="${i+1}" width="${Math.min(36, Math.max(12, String(FIELD_LABELS[f]||f).length + 6))}" customWidth="1"/>`).join('');
+  return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">
+<cols>${widths}</cols><sheetData><row r="1">${header}</row>${body}</sheetData><autoFilter ref="A1:${cellRef(Math.max(rows.length+1,1), Math.max(fields.length-1,0))}"/></worksheet>`;
+}
+function crc32(bytes){
+  if(!window.__crcTable){
+    window.__crcTable = new Uint32Array(256);
+    for(let n=0;n<256;n++){ let c=n; for(let k=0;k<8;k++) c = (c&1) ? (0xEDB88320 ^ (c>>>1)) : (c>>>1); window.__crcTable[n]=c>>>0; }
+  }
+  let c=0xffffffff;
+  for(let i=0;i<bytes.length;i++) c = window.__crcTable[(c ^ bytes[i]) & 0xff] ^ (c>>>8);
+  return (c ^ 0xffffffff) >>> 0;
+}
+function concatBytes(chunks){
+  const len=chunks.reduce((s,b)=>s+b.length,0);
+  const out=new Uint8Array(len);
+  let off=0;
+  chunks.forEach(b=>{ out.set(b,off); off+=b.length; });
+  return out;
+}
+function makeZip(files){
+  const enc=new TextEncoder();
+  const localParts=[], centralParts=[];
+  let offset=0;
+  const put16=(dv,o,v)=>dv.setUint16(o,v,true);
+  const put32=(dv,o,v)=>dv.setUint32(o,v>>>0,true);
+  files.forEach(file=>{
+    const nameBytes=enc.encode(file.name);
+    const data=file.data instanceof Uint8Array ? file.data : enc.encode(file.data);
+    const crc=crc32(data);
+    const local=new Uint8Array(30+nameBytes.length);
+    const ldv=new DataView(local.buffer);
+    put32(ldv,0,0x04034b50); put16(ldv,4,20); put16(ldv,6,0); put16(ldv,8,0); put16(ldv,10,0); put16(ldv,12,0);
+    put32(ldv,14,crc); put32(ldv,18,data.length); put32(ldv,22,data.length); put16(ldv,26,nameBytes.length); put16(ldv,28,0);
+    local.set(nameBytes,30);
+    localParts.push(local,data);
+    const central=new Uint8Array(46+nameBytes.length);
+    const cdv=new DataView(central.buffer);
+    put32(cdv,0,0x02014b50); put16(cdv,4,20); put16(cdv,6,20); put16(cdv,8,0); put16(cdv,10,0); put16(cdv,12,0); put16(cdv,14,0);
+    put32(cdv,16,crc); put32(cdv,20,data.length); put32(cdv,24,data.length); put16(cdv,28,nameBytes.length); put16(cdv,30,0); put16(cdv,32,0); put16(cdv,34,0); put16(cdv,36,0); put32(cdv,38,0); put32(cdv,42,offset);
+    central.set(nameBytes,46);
+    centralParts.push(central);
+    offset += local.length + data.length;
+  });
+  const centralSize=centralParts.reduce((s,b)=>s+b.length,0);
+  const end=new Uint8Array(22);
+  const edv=new DataView(end.buffer);
+  put32(edv,0,0x06054b50); put16(edv,4,0); put16(edv,6,0); put16(edv,8,files.length); put16(edv,10,files.length); put32(edv,12,centralSize); put32(edv,16,offset); put16(edv,20,0);
+  return concatBytes([...localParts, ...centralParts, end]);
+}
+function buildWorkbookXLSX(){
+  const used=new Set();
+  const sheetEntries=Object.keys(SHEET_FIELDS).filter(name=>Array.isArray(RAW[name])).map((name,idx)=>{
+    const rows=RAW[name]||[];
+    const fields=SHEET_FIELDS[name] || [...new Set(rows.flatMap(r=>Object.keys(r)))];
+    return {original:name, safe:safeSheetName(name, used), id:idx+1, rows, fields};
+  });
+  const files=[];
+  const overrides = sheetEntries.map(s=>`<Override PartName="/xl/worksheets/sheet${s.id}.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>`).join('');
+  files.push({name:'[Content_Types].xml', data:`<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/>${overrides}</Types>`});
+  files.push({name:'_rels/.rels', data:`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>`});
+  files.push({name:'xl/workbook.xml', data:`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets>${sheetEntries.map(s=>`<sheet name="${xmlEscape(s.safe)}" sheetId="${s.id}" r:id="rId${s.id}"/>`).join('')}</sheets></workbook>`});
+  files.push({name:'xl/_rels/workbook.xml.rels', data:`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">${sheetEntries.map(s=>`<Relationship Id="rId${s.id}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet${s.id}.xml"/>`).join('')}<Relationship Id="rId${sheetEntries.length+1}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>`});
+  files.push({name:'xl/styles.xml', data:`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><fonts count="1"><font><sz val="10"/><name val="맑은 고딕"/></font></fonts><fills count="1"><fill><patternFill patternType="none"/></fill></fills><borders count="1"><border/></borders><cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs><cellXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/></cellXfs></styleSheet>`});
+  sheetEntries.forEach(s=>files.push({name:`xl/worksheets/sheet${s.id}.xml`, data:sheetXML(s.rows, s.fields)}));
+  return makeZip(files);
+}
+function downloadRawExcel(){
+  const bytes=buildWorkbookXLSX();
+  downloadBytes(`PQ_Dashboard_Raw_${new Date().toISOString().slice(0,10)}.xlsx`, bytes, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+}
+
+
+function addRawRow(){
+  const fields=SHEET_FIELDS[currentRawSheet]||[];
+  const row={}; fields.forEach(f=>row[f]='');
+  RAW[currentRawSheet]??=[]; RAW[currentRawSheet].push(row);
+  renderAll(); toast('행이 추가되었습니다.');
+}
+function deleteRawRow(sheet, idx){
+  if(!confirm('선택한 행을 삭제할까요?')) return;
+  RAW[sheet].splice(idx,1); renderAll(); toast('행이 삭제되었습니다.');
+}
+
+function parseCSV(text){
+  const rows=[]; let cur='', row=[], inQ=false;
+  for(let i=0;i<text.length;i++){ const c=text[i], n=text[i+1];
+    if(c==='"' && inQ && n==='"'){cur+='"';i++;}
+    else if(c==='"') inQ=!inQ;
+    else if(c===',' && !inQ){row.push(cur);cur='';}
+    else if((c==='\n'||c==='\r') && !inQ){ if(c==='\r'&&n==='\n')i++; row.push(cur); if(row.some(x=>x!=='')) rows.push(row); row=[]; cur=''; }
+    else cur+=c;
+  }
+  row.push(cur); if(row.some(x=>x!=='')) rows.push(row);
+  return rows;
+}
+function rowsToObjects(matrix){
+  const headers=matrix[0].map(h=>String(h).trim());
+  return matrix.slice(1).map(r=>Object.fromEntries(headers.map((h,i)=>[h,r[i]??''])));
+}
+async function handleRawUpload(e){
+  const file=e.target.files[0]; if(!file) return;
+  try {
+    const name=file.name.toLowerCase();
+    if(name.endsWith('.json')) {
+      const obj=JSON.parse(await file.text());
+      Object.keys(obj).forEach(k=>{ if(Array.isArray(obj[k])) RAW[k]=obj[k]; });
+      toast('JSON Raw Data가 반영되었습니다.');
+    } else if(name.endsWith('.csv')) {
+      const sheet=Object.keys(SHEET_FIELDS).find(s=>name.includes(s.toLowerCase())) || currentRawSheet;
+      RAW[sheet]=rowsToObjects(parseCSV(await file.text()));
+      toast(`${sheet} CSV가 반영되었습니다.`);
+    } else if(name.endsWith('.xlsx') || name.endsWith('.xls')) {
+      const workbook=await parseXLSX(await file.arrayBuffer());
+      Object.keys(SHEET_FIELDS).forEach(s=>{ if(workbook[s]) RAW[s]=workbook[s]; });
+      toast('Excel Raw File이 시트명 기준으로 반영되었습니다.');
+    } else {
+      alert('지원하지 않는 파일 형식입니다.');
+    }
+    renderAll();
+  } catch(err) {
+    console.error(err);
+    alert('파일 업로드 처리 중 오류가 발생했습니다. JSON/CSV 또는 동일 구조의 xlsx 파일인지 확인하세요.\n' + err.message);
+  } finally {
+    e.target.value='';
+  }
+}
+
+/* Minimal XLSX reader: no external library, same workbook structure upload support */
+function u16(d,o){return d[o]|(d[o+1]<<8)} function u32(d,o){return (d[o]|(d[o+1]<<8)|(d[o+2]<<16)|(d[o+3]<<24))>>>0}
+async function inflateRaw(bytes){
+  if(!('DecompressionStream' in window)) throw new Error('이 브라우저는 xlsx 압축 해제를 지원하지 않습니다. CSV/JSON으로 업로드하세요.');
+  const ds=new DecompressionStream('deflate-raw');
+  const w=ds.writable.getWriter(); w.write(bytes); w.close();
+  return new Uint8Array(await new Response(ds.readable).arrayBuffer());
+}
+async function unzip(buffer){
+  const data=new Uint8Array(buffer);
+  let eocd=-1; for(let i=data.length-22;i>=0;i--){ if(u32(data,i)===0x06054b50){eocd=i;break;} }
+  if(eocd<0) throw new Error('ZIP 구조를 찾을 수 없습니다.');
+  const cdSize=u32(data,eocd+12), cdOffset=u32(data,eocd+16);
+  let p=cdOffset, files={};
+  while(p<cdOffset+cdSize){
+    if(u32(data,p)!==0x02014b50) break;
+    const comp=u16(data,p+10), csize=u32(data,p+20), nlen=u16(data,p+28), xlen=u16(data,p+30), clen=u16(data,p+32), lhoff=u32(data,p+42);
+    const name=new TextDecoder().decode(data.slice(p+46,p+46+nlen));
+    const lhName=u16(data,lhoff+26), lhExtra=u16(data,lhoff+28);
+    const start=lhoff+30+lhName+lhExtra;
+    const compBytes=data.slice(start,start+csize);
+    let out;
+    if(comp===0) out=compBytes;
+    else if(comp===8) out=await inflateRaw(compBytes);
+    else throw new Error('지원하지 않는 압축 방식입니다: '+comp);
+    files[name]=out;
+    p += 46+nlen+xlen+clen;
+  }
+  return files;
+}
+function xmlDoc(bytes){ return new DOMParser().parseFromString(new TextDecoder('utf-8').decode(bytes),'application/xml'); }
+function getText(node){ return node ? node.textContent : ''; }
+function colIndex(ref){ const letters=String(ref).replace(/[0-9]/g,''); let n=0; for(const ch of letters) n=n*26+(ch.charCodeAt(0)-64); return n-1; }
+async function parseXLSX(buffer){
+  const files=await unzip(buffer);
+  const wb=xmlDoc(files['xl/workbook.xml']);
+  const rels=xmlDoc(files['xl/_rels/workbook.xml.rels']);
+  const relMap={};
+  [...rels.getElementsByTagName('Relationship')].forEach(r=>relMap[r.getAttribute('Id')]=r.getAttribute('Target'));
+  const shared=[];
+  if(files['xl/sharedStrings.xml']) {
+    const ss=xmlDoc(files['xl/sharedStrings.xml']);
+    [...ss.getElementsByTagName('si')].forEach(si=>shared.push([...si.getElementsByTagName('t')].map(t=>t.textContent).join('')));
+  }
+  const out={};
+  [...wb.getElementsByTagName('sheet')].forEach(sheet=>{
+    const sname=sheet.getAttribute('name');
+    const rid=sheet.getAttribute('r:id') || sheet.getAttribute('id');
+    let target=relMap[rid]; if(!target) return;
+    const path=target.startsWith('/') ? target.slice(1) : 'xl/'+target.replace(/^\.\.\//,'');
+    const bytes=files[path]; if(!bytes) return;
+    const doc=xmlDoc(bytes);
+    const matrix=[];
+    [...doc.getElementsByTagName('row')].forEach(row=>{
+      const arr=[];
+      [...row.getElementsByTagName('c')].forEach(c=>{
+        const idx=colIndex(c.getAttribute('r')||'A1');
+        const t=c.getAttribute('t');
+        let val='';
+        if(t==='s') val=shared[Number(getText(c.getElementsByTagName('v')[0]))] ?? '';
+        else if(t==='inlineStr') val=[...c.getElementsByTagName('t')].map(x=>x.textContent).join('');
+        else val=getText(c.getElementsByTagName('v')[0]);
+        arr[idx]=val;
+      });
+      matrix.push(arr.map(x=>x??''));
+    });
+    if(matrix.length) out[sname]=rowsToObjects(matrix);
+  });
+  return out;
+}
+
+function init(){
+  setReportDate(); bindTabs(); bindControls();
+  if($('rawSheetSelect')) $('rawSheetSelect').innerHTML=Object.keys(SHEET_FIELDS).map(s=>`<option value="${s}">${s}</option>`).join('');
+  renderAll();
+}
+init();
+</script>
+</body>
+</html>
