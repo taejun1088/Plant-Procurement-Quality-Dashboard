@@ -1,0 +1,1986 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>플랜트구매품질팀 통합관리 대시보드</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* 색상 - 절제된 엔지니어링 팔레트 */
+  --ink:#0B1220;       /* 본문 진한 글자 */
+  --text:#1E293B;      /* 일반 텍스트 */
+  --sub:#64748B;       /* 부속 텍스트 */
+  --muted:#94A3B8;     /* 약한 텍스트 */
+  --line:#E5E9F0;      /* 헤어라인 */
+  --line2:#EDF1F7;     /* 매우 옅은 라인 */
+  --bg:#F4F6FA;        /* 페이지 배경 */
+  --paper:#FFFFFF;
+  --soft:#F7F9FC;      /* 카드 내 섹션 배경 */
+
+  /* 액센트 - 단 하나의 강한 블루 */
+  --navy:#0A2A5E;
+  --navy2:#0F4391;
+  --accent:#0F4391;
+
+  /* 의미 색 */
+  --ok:#0E8A5F;
+  --ok-bg:#E8F5EE;
+  --warn:#B7791F;
+  --warn-bg:#FDF4E1;
+  --danger:#B42318;
+  --danger-bg:#FEECEA;
+  --info:#0E6B96;
+  --info-bg:#E5F1F8;
+
+  /* 형태 */
+  --r:8px;
+  --r-lg:12px;
+  --shadow:0 1px 0 rgba(15,23,42,.04), 0 1px 3px rgba(15,23,42,.05);
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Inter','Noto Sans KR','Pretendard','Apple SD Gothic Neo',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  font-size:13px;line-height:1.5;
+  font-feature-settings:"ss01","cv11";
+  -webkit-font-smoothing:antialiased;
+  min-height:100vh;
+}
+button,input,select{font-family:inherit;color:inherit}
+button{cursor:pointer;border:none;background:none}
+::-webkit-scrollbar{width:8px;height:8px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:#CBD5E1;border-radius:8px}
+::-webkit-scrollbar-thumb:hover{background:#94A3B8}
+
+/* ============================================================
+   Mythos-style 보고서 헤더
+   ============================================================ */
+.report-head{
+  background:#fff;
+  position:sticky;top:0;z-index:1000;
+  padding:18px 32px 0;
+  border-bottom:1px solid var(--line);
+}
+.hd-top{
+  display:flex;justify-content:space-between;align-items:flex-end;
+  padding-bottom:10px;gap:24px;flex-wrap:wrap;
+}
+.hd-brand{
+  font-size:23px;font-weight:800;color:var(--ink);
+  line-height:1;letter-spacing:-.025em;
+  font-family:'Inter','Noto Sans KR',sans-serif;
+}
+.hd-brand .kicker{
+  display:block;font-size:10.5px;font-weight:500;color:var(--muted);
+  margin-bottom:6px;letter-spacing:.14em;text-transform:uppercase;
+  font-family:'JetBrains Mono','Inter',monospace;
+}
+.hd-meta{
+  display:flex;align-items:flex-end;gap:20px;flex-wrap:wrap;
+}
+.fx-pill{
+  display:inline-flex;align-items:center;gap:8px;
+  background:#F4F7FB;border:1px solid #DBE3EE;
+  border-radius:999px;padding:6px 12px;
+  font-family:'JetBrains Mono',monospace;
+}
+.fx-pill .lbl{font-size:9.5px;font-weight:700;color:var(--navy);letter-spacing:.1em}
+.fx-pill input{
+  width:72px;border:none;background:transparent;text-align:right;
+  font-size:13px;font-weight:700;color:var(--ink);
+  font-family:'JetBrains Mono',monospace;outline:none;
+}
+.fx-pill .src{font-size:9.5px;color:var(--muted);font-weight:500;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hd-date{
+  text-align:right;
+  font-family:'JetBrains Mono',monospace;
+}
+.hd-date .top{
+  display:block;font-size:9.5px;color:var(--muted);font-weight:500;
+  letter-spacing:.12em;text-transform:uppercase;margin-bottom:3px;
+  font-family:'JetBrains Mono',monospace;
+}
+.hd-date .day{
+  font-size:14px;font-weight:600;color:var(--ink);letter-spacing:.02em;
+}
+.hd-actions{
+  display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+  padding-bottom:12px;justify-content:flex-end;
+}
+.btn{
+  display:inline-flex;align-items:center;gap:6px;
+  background:#fff;border:1px solid var(--line);border-radius:var(--r);
+  padding:7px 12px;color:var(--text);font-size:12px;font-weight:600;
+  transition:all .15s;white-space:nowrap;
+}
+.btn:hover{border-color:#94A3B8;color:var(--ink)}
+.btn.primary{background:var(--navy);border-color:var(--navy);color:#fff}
+.btn.primary:hover{background:#08213F;color:#fff}
+.btn .ic{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:11px}
+.file-hidden{display:none}
+
+.hd-rule{height:2px;background:var(--navy)}
+.hd-rule2{height:1px;background:#C8D0DB;margin-top:1px}
+
+/* ============================================================
+   탭
+   ============================================================ */
+.tabs{
+  position:sticky;top:135px;z-index:900;background:#fff;
+  border-bottom:1px solid var(--line);
+  padding:0 32px;display:flex;gap:0;overflow-x:auto;
+}
+.tab{
+  border:none;background:transparent;padding:14px 20px;
+  font-size:12.5px;font-weight:600;color:var(--sub);
+  border-bottom:2px solid transparent;margin-bottom:-1px;
+  white-space:nowrap;transition:.15s;letter-spacing:-.005em;
+}
+.tab:hover{color:var(--ink)}
+.tab.on{color:var(--navy);border-bottom-color:var(--navy);font-weight:700}
+.tab .num{
+  display:inline-block;font-family:'JetBrains Mono',monospace;
+  font-size:10px;color:var(--muted);margin-right:6px;font-weight:500;
+}
+
+/* ============================================================
+   페이지 / 그리드
+   ============================================================ */
+.page{display:none;max-width:1640px;margin:0 auto;padding:24px 32px 48px}
+.page.on{display:block}
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:1fr 1fr}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g4{grid-template-columns:repeat(4,1fr)}
+.g5{grid-template-columns:repeat(5,1fr)}
+.g31{grid-template-columns:3fr 1fr}
+.g21{grid-template-columns:2fr 1fr}
+.h-sep{height:18px}
+
+/* ============================================================
+   섹션 타이틀 (편집기 미감)
+   ============================================================ */
+.section-head{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:12px;gap:16px;
+}
+.section-title{
+  display:flex;align-items:baseline;gap:10px;
+  font-size:13px;font-weight:700;color:var(--ink);
+  letter-spacing:-.005em;
+}
+.section-title .idx{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;font-weight:600;color:var(--muted);
+  letter-spacing:.05em;
+}
+.section-title .bar{
+  width:3px;height:14px;background:var(--navy);border-radius:1px;
+}
+.section-meta{font-size:11px;color:var(--muted);font-weight:500}
+
+/* ============================================================
+   카드
+   ============================================================ */
+.card{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:var(--r-lg);
+  overflow:hidden;
+}
+.card-hd{
+  padding:14px 18px 12px;
+  border-bottom:1px solid var(--line2);
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  background:#fff;
+}
+.card-title{
+  display:flex;align-items:center;gap:8px;
+  font-size:13px;font-weight:700;color:var(--ink);
+  letter-spacing:-.005em;
+}
+.card-title .bar{width:3px;height:13px;background:var(--navy);border-radius:1px}
+.card-meta{font-size:11px;color:var(--muted);font-weight:500;font-family:'JetBrains Mono',monospace}
+.card-body{padding:16px 18px}
+.card-body.flush{padding:0}
+
+/* ============================================================
+   KPI - typography 중심
+   ============================================================ */
+.kpi{
+  background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);
+  padding:16px 18px;position:relative;
+  display:flex;flex-direction:column;gap:6px;min-height:110px;
+}
+.kpi-label{
+  font-size:10px;font-weight:600;color:var(--sub);
+  text-transform:uppercase;letter-spacing:.1em;
+  font-family:'JetBrains Mono',monospace;
+}
+.kpi-val{
+  font-size:28px;font-weight:700;color:var(--ink);
+  letter-spacing:-.03em;line-height:1.05;
+  font-feature-settings:"tnum";
+  font-family:'Inter','Noto Sans KR',sans-serif;
+}
+.kpi-val .unit{
+  font-size:13px;font-weight:500;color:var(--sub);
+  margin-left:2px;letter-spacing:0;
+}
+.kpi-sub{
+  font-size:11px;color:var(--sub);margin-top:auto;line-height:1.4;
+  display:flex;align-items:center;gap:6px;
+}
+.kpi-sub .delta{font-family:'JetBrains Mono',monospace;font-weight:600}
+.kpi.accent .kpi-val{color:var(--navy)}
+.kpi.ok .kpi-val{color:var(--ok)}
+.kpi.warn .kpi-val{color:var(--warn)}
+.kpi.danger .kpi-val{color:var(--danger)}
+.kpi.info .kpi-val{color:var(--info)}
+
+/* ============================================================
+   테이블 - 데이터 typography
+   ============================================================ */
+.tbl-wrap{width:100%;overflow:auto}
+.tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:12px}
+.tbl th{
+  background:var(--soft);color:var(--ink);
+  border-bottom:1px solid var(--line);
+  padding:10px 12px;text-align:left;font-weight:600;font-size:10.5px;
+  white-space:nowrap;position:sticky;top:0;z-index:2;
+  letter-spacing:.06em;text-transform:uppercase;
+  font-family:'JetBrains Mono','Inter',sans-serif;
+}
+.tbl th.ctr{text-align:center}
+.tbl th.right{text-align:right}
+.tbl th .wf{
+  display:block;font-size:9px;color:var(--muted);
+  font-weight:500;margin-top:2px;letter-spacing:.04em;
+  text-transform:none;
+}
+.tbl td{
+  border-bottom:1px solid var(--line2);
+  padding:11px 12px;vertical-align:middle;line-height:1.4;
+  background:#fff;
+}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tr:hover td{background:#FAFBFD}
+.tbl .num{text-align:right;font-variant-numeric:tabular-nums;font-family:'JetBrains Mono',monospace;font-weight:500}
+.tbl .ctr{text-align:center}
+.tbl .left{text-align:left}
+.tbl .nowrap{white-space:nowrap}
+.tbl .wide{min-width:240px}
+.tbl .code{
+  font-family:'JetBrains Mono',monospace;
+  font-weight:600;color:var(--ink);font-size:11.5px;letter-spacing:.02em;
+}
+.tbl.dense td{padding:8px 10px;font-size:11.5px}
+.tbl.dense th{padding:8px 10px}
+
+/* ============================================================
+   상태 배지 - 절제된 톤
+   ============================================================ */
+.tag{
+  display:inline-flex;align-items:center;gap:4px;
+  border-radius:4px;padding:3px 7px;
+  font-size:10px;font-weight:600;
+  letter-spacing:.04em;line-height:1;
+  white-space:nowrap;
+  font-family:'JetBrains Mono',monospace;
+}
+.tag.ok{background:var(--ok-bg);color:var(--ok)}
+.tag.warn{background:var(--warn-bg);color:var(--warn)}
+.tag.danger{background:var(--danger-bg);color:var(--danger)}
+.tag.info{background:var(--info-bg);color:var(--info)}
+.tag.neutral{background:#EEF1F6;color:#475569}
+.tag.mc{background:#1E293B;color:#fff}
+.tag.dot:before{content:'';display:inline-block;width:5px;height:5px;border-radius:50%;background:currentColor;margin-right:4px}
+
+/* ============================================================
+   금액 셀
+   ============================================================ */
+.money{display:flex;flex-direction:column;line-height:1.25;min-width:120px}
+.money .usd{
+  font-family:'JetBrains Mono',monospace;
+  font-size:12px;font-weight:600;color:var(--ink);
+  letter-spacing:-.01em;
+}
+.money .krw{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;font-weight:400;color:var(--muted);
+  margin-top:2px;
+}
+.money.dim .usd{color:var(--muted)}
+.money.dim .krw{color:#CBD5E1}
+
+/* ============================================================
+   진행률 바
+   ============================================================ */
+.bar-wrap{
+  display:flex;align-items:center;gap:10px;min-width:140px;
+}
+.bar{
+  height:6px;background:#EDF1F7;border-radius:999px;
+  overflow:hidden;flex:1;position:relative;
+}
+.bar .fill{
+  height:100%;border-radius:999px;background:var(--navy);
+  transition:width .3s;
+}
+.bar .fill.ok{background:var(--ok)}
+.bar .fill.warn{background:var(--warn)}
+.bar .fill.danger{background:var(--danger)}
+.bar .fill.dim{background:#CBD5E1}
+.pct{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;font-weight:600;color:var(--ink);
+  width:46px;text-align:right;
+  font-variant-numeric:tabular-nums;
+}
+.pct.dim{color:var(--muted);font-weight:500}
+
+/* TPA 듀얼 진행률 - 트리거 마커 포함 */
+.tpa-bar{
+  display:flex;align-items:center;gap:8px;min-width:180px;
+}
+.tpa-track{
+  position:relative;height:8px;background:#EDF1F7;
+  border-radius:999px;flex:1;overflow:visible;
+}
+.tpa-track .fill{
+  height:100%;border-radius:999px;background:var(--ok);
+  transition:width .3s;
+}
+.tpa-track .fill.warn{background:var(--warn)}
+.tpa-track .fill.danger{background:var(--danger)}
+.tpa-track .fill.dim{background:#CBD5E1}
+.tpa-track .mark{
+  position:absolute;top:-2px;width:1px;height:12px;
+  background:var(--muted);
+}
+.tpa-track .mark.t70{left:70%;background:var(--warn)}
+.tpa-track .mark.t90{left:90%;background:var(--danger)}
+.tpa-pct{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;font-weight:600;
+  font-variant-numeric:tabular-nums;
+  width:50px;text-align:right;color:var(--ink);
+}
+
+/* ============================================================
+   Stage Cell
+   ============================================================ */
+.stage-cell{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-width:62px;padding:4px 8px;border-radius:5px;
+  font-size:10.5px;font-weight:600;
+  font-family:'JetBrains Mono',monospace;
+  border:1px solid transparent;line-height:1;
+}
+.stage-cell.full{background:var(--ok-bg);color:var(--ok);border-color:#C5E5D2}
+.stage-cell.partial{background:var(--warn-bg);color:var(--warn);border-color:#F0DBA9}
+.stage-cell.zero{background:#F4F6FA;color:var(--muted);border-color:var(--line)}
+.stage-cell.na{background:transparent;color:var(--muted);font-style:italic;font-weight:500}
+.stage-cell .check{font-size:11px;margin-right:2px}
+
+/* ============================================================
+   Warning chip 인라인
+   ============================================================ */
+.warn-chip{
+  display:inline-block;background:var(--warn-bg);color:var(--warn);
+  border:1px solid #F0DBA9;border-radius:4px;
+  padding:3px 7px;font-size:10px;font-weight:600;
+  margin:1px 0;line-height:1.3;
+  font-family:'Inter','Noto Sans KR',sans-serif;
+  letter-spacing:-.005em;
+}
+.warn-chip.danger{background:var(--danger-bg);color:var(--danger);border-color:#F2BCB6}
+.warn-chip + .warn-chip{margin-top:3px}
+
+/* ============================================================
+   리스트 항목
+   ============================================================ */
+.signal-item{
+  border:1px solid var(--line);border-radius:var(--r);
+  padding:10px 12px;margin-bottom:8px;background:#fff;
+  border-left:3px solid var(--warn);
+}
+.signal-item.danger{border-left-color:var(--danger)}
+.signal-item .top{
+  display:flex;justify-content:space-between;align-items:baseline;
+  gap:8px;margin-bottom:5px;
+}
+.signal-item .code{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;font-weight:700;color:var(--ink);letter-spacing:.04em;
+}
+.signal-item .kind{font-size:10px;color:var(--muted);font-weight:600}
+.signal-item .msg{font-size:11.5px;color:var(--text);line-height:1.4}
+
+.action-row{
+  display:grid;grid-template-columns:auto 1fr auto;gap:14px;
+  align-items:flex-start;border:1px solid var(--line);
+  border-radius:var(--r);background:#fff;padding:12px 14px;
+  transition:.15s;
+}
+.action-row:not(:last-child){margin-bottom:8px}
+.action-row:hover{border-color:#CBD5E1}
+.action-no{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;font-weight:700;color:var(--navy);
+  width:22px;height:22px;border-radius:50%;
+  border:1px solid var(--navy);
+  display:flex;align-items:center;justify-content:center;
+  flex:none;
+}
+.action-title{font-weight:700;font-size:12.5px;color:var(--ink);margin-bottom:3px;letter-spacing:-.005em}
+.action-desc{font-size:11.5px;color:var(--sub);line-height:1.45}
+.action-due{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;font-weight:600;color:var(--navy);
+  background:#EFF3F8;border-radius:4px;padding:3px 8px;
+  white-space:nowrap;align-self:center;
+}
+
+.risk-item{
+  border-bottom:1px solid var(--line2);padding:10px 0;
+  display:flex;justify-content:space-between;gap:12px;
+  font-size:12px;
+}
+.risk-item:last-child{border-bottom:none}
+.risk-item:first-child{padding-top:0}
+.risk-item .k{font-weight:600;color:var(--ink)}
+.risk-item .v{color:var(--sub);font-size:11.5px;text-align:right}
+.risk-group{margin-bottom:14px}
+.risk-group:last-child{margin-bottom:0}
+.risk-group .grp-title{
+  font-size:10.5px;font-weight:700;color:var(--navy);
+  letter-spacing:.08em;text-transform:uppercase;
+  margin-bottom:6px;
+  font-family:'JetBrains Mono','Inter',sans-serif;
+}
+
+/* ============================================================
+   가이드 (TPA Warning 기준)
+   ============================================================ */
+.guide-row{
+  display:flex;gap:12px;align-items:flex-start;
+  padding:10px 12px;border:1px solid var(--line);
+  border-radius:var(--r);margin-bottom:8px;background:#fff;
+}
+.guide-row:last-child{margin-bottom:0}
+.guide-trigger{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;font-weight:700;
+  border-radius:4px;padding:5px 8px;
+  white-space:nowrap;flex:none;letter-spacing:.04em;line-height:1;
+}
+.guide-trigger.warn{background:var(--warn-bg);color:var(--warn)}
+.guide-trigger.danger{background:var(--danger-bg);color:var(--danger)}
+.guide-trigger.info{background:var(--info-bg);color:var(--info)}
+.guide-text{font-size:11.5px;color:var(--text);line-height:1.5}
+.guide-text b{font-weight:700;color:var(--ink)}
+
+/* ============================================================
+   조직도
+   ============================================================ */
+.org-canvas{
+  padding:24px 16px 8px;
+  background:radial-gradient(ellipse at center top, #F8FAFD 0%, var(--paper) 60%);
+}
+.org-leader{
+  max-width:280px;margin:0 auto 36px;
+  border:1px solid var(--line);border-top:3px solid var(--navy);
+  background:#fff;border-radius:var(--r);
+  padding:14px 18px;
+  box-shadow:var(--shadow);
+  text-align:center;position:relative;
+}
+.org-leader:after{
+  content:'';position:absolute;left:50%;bottom:-36px;
+  width:1px;height:36px;background:#D1D9E4;
+  transform:translateX(-50%);
+}
+.org-name{font-size:15px;font-weight:700;color:var(--ink);letter-spacing:-.01em}
+.org-role{
+  font-family:'JetBrains Mono',monospace;
+  font-size:9.5px;color:var(--sub);font-weight:600;
+  margin-top:5px;letter-spacing:.1em;text-transform:uppercase;
+}
+.org-bus{position:relative;max-width:1280px;margin:0 auto;height:0}
+.org-groups{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:14px;max-width:1320px;margin:0 auto;
+}
+.org-group{
+  border:1px solid var(--line);border-radius:var(--r);background:#fff;
+  position:relative;overflow:hidden;
+}
+.org-group:before{
+  content:'';position:absolute;left:50%;top:-24px;
+  width:1px;height:24px;background:#D1D9E4;
+  transform:translateX(-50%);
+}
+.org-group-hd{
+  padding:11px 14px;background:#F7F9FC;
+  border-bottom:1px solid var(--line);
+  display:flex;justify-content:space-between;align-items:center;
+}
+.org-group-hd .dept{
+  font-size:11.5px;font-weight:700;color:var(--ink);letter-spacing:-.005em;
+}
+.org-group-hd .ct{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;font-weight:600;color:var(--navy);
+  background:#fff;border:1px solid var(--line);
+  border-radius:999px;padding:2px 8px;letter-spacing:.04em;
+}
+.org-members{padding:10px;display:flex;flex-direction:column;gap:6px}
+.org-person{
+  border:1px solid var(--line2);border-radius:6px;
+  padding:9px 11px;background:#fff;transition:.15s;
+}
+.org-person:hover{border-color:#CBD5E1;background:#FAFBFD}
+.org-person .top{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.org-person .name{font-size:12.5px;font-weight:700;color:var(--ink);letter-spacing:-.005em}
+.org-person .po{
+  font-family:'JetBrains Mono',monospace;
+  font-size:9.5px;font-weight:600;color:var(--navy);
+  background:#EFF3F8;border-radius:3px;padding:2px 6px;
+  white-space:nowrap;letter-spacing:.04em;
+}
+.org-person .role{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;color:var(--sub);font-weight:500;margin-top:3px;
+  letter-spacing:.02em;
+}
+.org-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:8px}
+.org-tag{
+  font-size:9.5px;font-weight:600;border-radius:3px;
+  padding:2px 6px;line-height:1.2;
+  font-family:'JetBrains Mono',monospace;letter-spacing:.02em;
+}
+.org-tag.cm{background:var(--info-bg);color:var(--info)}
+.org-tag.eng{background:var(--ok-bg);color:var(--ok)}
+.org-tag.empty{background:#F4F6FA;color:var(--muted);font-style:italic}
+
+/* ============================================================
+   Issue 카드
+   ============================================================ */
+.issue{
+  border:1px solid var(--line);border-radius:var(--r);
+  padding:12px 14px;margin-bottom:8px;background:#fff;
+  border-left:3px solid var(--navy);
+}
+.issue.team{border-left-color:var(--info)}
+.issue:last-child{margin-bottom:0}
+.issue .top{
+  display:flex;justify-content:space-between;align-items:baseline;
+  gap:10px;margin-bottom:6px;
+}
+.issue .title{font-weight:700;font-size:12.5px;color:var(--ink);letter-spacing:-.005em}
+.issue .meta{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);font-weight:500;letter-spacing:.02em;white-space:nowrap}
+.issue .action{
+  font-size:11.5px;color:var(--text);background:var(--soft);
+  border-radius:5px;padding:7px 10px;line-height:1.45;margin-top:4px;
+}
+
+/* ============================================================
+   유틸
+   ============================================================ */
+.muted{color:var(--muted);font-size:11px;font-weight:500}
+.empty-state{padding:32px 24px;text-align:center;color:var(--muted);font-size:12px;background:var(--soft);border-radius:var(--r);margin:8px}
+.empty-state .ico{font-size:24px;display:block;margin-bottom:8px;opacity:.5}
+.empty-state .title{font-size:13px;font-weight:600;color:var(--sub);margin-bottom:4px}
+.empty-state .desc{font-size:11.5px;color:var(--muted);line-height:1.5}
+
+/* 빈 양식 업로드 안내 배너 */
+.upload-banner{
+  background:linear-gradient(135deg,#0F4391 0%,#0A2A5E 100%);
+  color:#fff;border-radius:var(--r-lg);
+  padding:20px 24px;margin-bottom:18px;
+  display:flex;align-items:center;gap:20px;
+  box-shadow:0 4px 16px rgba(10,42,94,.15);
+  position:relative;overflow:hidden;
+}
+.upload-banner:before{
+  content:'';position:absolute;right:-40px;top:-40px;
+  width:200px;height:200px;border-radius:50%;
+  background:rgba(255,255,255,.04);
+}
+.upload-banner .icon-box{
+  width:52px;height:52px;border-radius:10px;
+  background:rgba(255,255,255,.12);
+  display:flex;align-items:center;justify-content:center;
+  font-size:24px;flex:none;
+  border:1px solid rgba(255,255,255,.18);
+}
+.upload-banner .content{flex:1;min-width:0}
+.upload-banner .title{
+  font-size:15px;font-weight:700;letter-spacing:-.01em;
+  margin-bottom:4px;
+}
+.upload-banner .desc{
+  font-size:12px;opacity:.85;line-height:1.55;
+  font-weight:400;
+}
+.upload-banner .desc code{
+  background:rgba(255,255,255,.12);
+  padding:1px 6px;border-radius:3px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:10.5px;font-weight:500;
+}
+.upload-banner .cta{
+  background:#fff;color:var(--navy);
+  padding:9px 16px;border-radius:var(--r);
+  font-size:12px;font-weight:700;cursor:pointer;
+  border:none;flex:none;display:inline-flex;align-items:center;gap:6px;
+  transition:.15s;letter-spacing:-.005em;
+}
+.upload-banner .cta:hover{background:#F4F7FB}
+.upload-banner .cta .ic{font-family:'JetBrains Mono',monospace;font-size:11px}
+
+/* 시트 스키마 가이드 (빈 양식에서만 노출) */
+.schema-card{
+  background:#fff;border:1px solid var(--line);
+  border-radius:var(--r-lg);padding:18px 20px;
+  margin-bottom:14px;
+}
+.schema-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:10px;margin-top:12px;
+}
+.schema-item{
+  border:1px solid var(--line);border-radius:var(--r);
+  padding:11px 13px;background:var(--soft);
+}
+.schema-item .sname{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;font-weight:700;color:var(--navy);
+  letter-spacing:.04em;margin-bottom:6px;
+}
+.schema-item .scol{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;color:var(--sub);font-weight:500;
+  line-height:1.65;word-break:break-all;
+}
+.schema-item .scol .col{
+  display:inline-block;background:#fff;
+  border:1px solid var(--line);border-radius:3px;
+  padding:1px 5px;margin:1px 2px 1px 0;letter-spacing:.02em;
+}
+.toast{
+  position:fixed;right:24px;bottom:24px;
+  background:var(--ink);color:#fff;border-radius:var(--r);
+  padding:11px 16px;font-size:12px;font-weight:500;
+  box-shadow:0 12px 32px rgba(0,0,0,.18);
+  opacity:0;transform:translateY(8px);transition:.2s;
+  z-index:5000;pointer-events:none;
+}
+.toast.on{opacity:1;transform:translateY(0)}
+
+[data-tip]{position:relative;cursor:help}
+[data-tip]:after{
+  content:attr(data-tip);position:absolute;left:50%;top:calc(100% + 6px);
+  transform:translateX(-50%);min-width:200px;max-width:300px;
+  background:var(--ink);color:#fff;border-radius:5px;padding:7px 10px;
+  opacity:0;pointer-events:none;transition:.15s;
+  font-size:11px;font-weight:400;line-height:1.5;text-align:left;z-index:2000;
+  box-shadow:0 8px 20px rgba(0,0,0,.18);
+}
+[data-tip]:hover:after{opacity:1}
+
+.input,.select{
+  border:1px solid var(--line);border-radius:var(--r);
+  background:#fff;padding:8px 11px;font-size:12px;
+  color:var(--text);outline:none;font-weight:500;
+}
+.input:focus,.select:focus{border-color:var(--navy)}
+
+.control-row{
+  display:flex;gap:10px;align-items:center;
+  justify-content:space-between;flex-wrap:wrap;margin-bottom:14px;
+}
+.filters{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+
+/* 인쇄 */
+.print-only{display:none}
+@media(max-width:1180px){
+  .g5{grid-template-columns:repeat(3,1fr)}
+  .g4{grid-template-columns:repeat(2,1fr)}
+  .g3,.g31,.g21,.g2{grid-template-columns:1fr}
+  .tabs{top:172px}
+}
+@media(max-width:760px){
+  body{font-size:12.5px}
+  .page{padding:16px}
+  .g5,.g4,.g3,.g2{grid-template-columns:1fr}
+  .hd-meta{flex-direction:column;align-items:flex-start;gap:10px}
+  .hd-date{text-align:left}
+  .tab{padding:11px 14px}
+}
+@media print{
+  @page{size:A4 landscape;margin:10mm}
+  body{background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .report-head,.tabs,.control-row,.btn,.fx-pill,.hd-actions,.file-hidden,.toast{display:none!important}
+  .print-only{display:block;margin-bottom:14px}
+  .page{display:block!important;padding:0;max-width:none;break-after:page}
+  .page:not(.print-main){break-before:page}
+  .card,.kpi,.issue,.action-row,.signal-item,.org-group,.org-leader{break-inside:avoid;page-break-inside:avoid}
+  .tbl-wrap{overflow:visible}
+  .tbl th{position:static}
+}
+</style>
+</head>
+<body>
+
+<header class="report-head">
+  <div class="hd-top">
+    <div class="hd-brand">
+      <span class="kicker">HYUNDAI E&amp;C · PLANT PROCUREMENT QUALITY</span>
+      플랜트구매품질팀 통합관리 대시보드
+    </div>
+    <div class="hd-meta">
+      <div class="fx-pill" data-tip="원달러 매매기준율을 자동으로 조회합니다.&#10;실패 시 직접 입력하세요.">
+        <span class="lbl">KRW/USD</span>
+        <input id="fxInput" type="number" step="0.01" value="1473.00" />
+        <span class="src" id="fxSource">자동조회 중</span>
+      </div>
+      <div class="hd-date">
+        <span class="top">REPORT &middot; 플랜트구매품질팀</span>
+        <span class="day" id="reportDate">-</span>
+      </div>
+    </div>
+  </div>
+  <div class="hd-actions">
+    <label class="btn"><input class="file-hidden" type="file" id="rawUpload" accept=".xlsx,.xls" /><span class="ic">↑</span>Excel 업로드</label>
+    <button class="btn" onclick="downloadRawExcel()"><span class="ic">↓</span>Excel 다운로드</button>
+    <button class="btn primary" onclick="downloadStaticHTML()" data-tip="현재 화면을 단일 HTML 파일로 저장합니다.&#10;임원 보고용으로 사용하세요 (Excel 첨부 불필요)."><span class="ic">⎙</span>보고용 HTML 저장</button>
+    <button class="btn" onclick="window.print()"><span class="ic">⎙</span>PDF 저장</button>
+  </div>
+  <div class="hd-rule"></div>
+  <div class="hd-rule2"></div>
+</header>
+
+<nav class="tabs">
+  <button class="tab on" data-page="overview"><span class="num">01</span>Executive Summary</button>
+  <button class="tab" data-page="projects"><span class="num">02</span>프로젝트 현황</button>
+  <button class="tab" data-page="stage"><span class="num">03</span>단계별 실적</button>
+  <button class="tab" data-page="tpa"><span class="num">04</span>TPA 집행현황</button>
+  <button class="tab" data-page="ncr"><span class="num">05</span>NCR 현황</button>
+  <button class="tab" data-page="manpower"><span class="num">06</span>팀 인력운영현황</button>
+  <button class="tab" data-page="trip"><span class="num">07</span>출장현황</button>
+  <button class="tab" data-page="issues"><span class="num">08</span>주요현안</button>
+</nav>
+
+<main>
+
+<section class="page on print-main" id="overview">
+  <div id="emptyBannerSlot"></div>
+  <div class="grid g5" id="kpiGrid"></div>
+  <div class="h-sep"></div>
+  <div class="grid g31">
+    <div class="card">
+      <div class="card-hd">
+        <div class="card-title"><span class="bar"></span>프로젝트별 핵심 현황</div>
+        <div class="card-meta" id="overviewUpdate">-</div>
+      </div>
+      <div class="card-body flush"><div class="tbl-wrap"><table class="tbl dense" id="overviewProjectTbl"></table></div></div>
+    </div>
+    <div class="card">
+      <div class="card-hd"><div class="card-title"><span class="bar"></span>Warning Signals</div></div>
+      <div class="card-body" id="focusSignals"></div>
+    </div>
+  </div>
+  <div class="h-sep"></div>
+  <div class="grid g2">
+    <div class="card">
+      <div class="card-hd"><div class="card-title"><span class="bar"></span>실행 항목</div></div>
+      <div class="card-body" id="actionItems"></div>
+    </div>
+    <div class="card">
+      <div class="card-hd"><div class="card-title"><span class="bar"></span>리스크 및 관리 포인트</div></div>
+      <div class="card-body" id="riskPoints"></div>
+    </div>
+  </div>
+</section>
+
+<section class="page" id="projects">
+  <div class="control-row">
+    <div class="filters">
+      <input class="input" id="projectSearch" placeholder="프로젝트 / 발주처 / 국가 검색" style="min-width:260px" />
+      <select class="select" id="projectStatusFilter"><option value="">전체 Status</option></select>
+    </div>
+  </div>
+  <div class="grid g4" id="projectKpis"></div>
+  <div class="h-sep"></div>
+  <div class="card">
+    <div class="card-hd">
+      <div class="card-title"><span class="bar"></span>프로젝트 마스터</div>
+      <div class="card-meta">USD&nbsp;검정&nbsp;/&nbsp;KRW&nbsp;회색&nbsp;병기</div>
+    </div>
+    <div class="card-body flush"><div class="tbl-wrap"><table class="tbl" id="projectTbl"></table></div></div>
+  </div>
+</section>
+
+<section class="page" id="stage">
+  <div class="grid g5" id="stageKpis"></div>
+  <div class="h-sep"></div>
+  <div class="card">
+    <div class="card-hd">
+      <div class="card-title"><span class="bar"></span>프로젝트별 단계 진행현황</div>
+      <div class="card-meta">Weighted = MR×10 + TBE×10 + PO×10 + PIM×20 + IRC×50</div>
+    </div>
+    <div class="card-body flush"><div class="tbl-wrap"><table class="tbl" id="stageTbl"></table></div></div>
+  </div>
+</section>
+
+<section class="page" id="tpa">
+  <div class="grid g4" id="tpaKpis"></div>
+  <div class="h-sep"></div>
+  <div class="grid g31">
+    <div class="card">
+      <div class="card-hd">
+        <div class="card-title"><span class="bar"></span>예산 · 계약고 · 집행금액 현황</div>
+        <div class="card-meta">USD 검정 / KRW 회색 병기</div>
+      </div>
+      <div class="card-body flush"><div class="tbl-wrap"><table class="tbl" id="tpaTbl"></table></div></div>
+    </div>
+    <div class="card">
+      <div class="card-hd"><div class="card-title"><span class="bar"></span>Warning 기준</div></div>
+      <div class="card-body" id="tpaGuide"></div>
+    </div>
+  </div>
+</section>
+
+<section class="page" id="ncr">
+  <div class="grid g4" id="ncrKpis"></div>
+  <div class="h-sep"></div>
+  <div class="grid g31">
+    <div class="card">
+      <div class="card-hd"><div class="card-title"><span class="bar"></span>미결 NCR 상세</div></div>
+      <div class="card-body flush"><div class="tbl-wrap"><table class="tbl" id="ncrTbl"></table></div></div>
+    </div>
+    <div class="card">
+      <div class="card-hd"><div class="card-title"><span class="bar"></span>프로젝트별 요약</div></div>
+      <div class="card-body" id="ncrSummary"></div>
+    </div>
+  </div>
+</section>
+
+<section class="page" id="manpower">
+  <div class="grid g4" id="manpowerKpis"></div>
+  <div class="h-sep"></div>
+  <div class="card">
+    <div class="card-hd"><div class="card-title"><span class="bar"></span>팀 인력 운영 조직도</div></div>
+    <div class="card-body flush"><div class="org-canvas" id="orgChart"></div></div>
+  </div>
+  <div class="h-sep"></div>
+  <div class="card">
+    <div class="card-hd"><div class="card-title"><span class="bar"></span>인력 상세 목록</div></div>
+    <div class="card-body flush"><div class="tbl-wrap"><table class="tbl" id="mpTbl"></table></div></div>
+  </div>
+</section>
+
+<section class="page" id="trip">
+  <div class="grid g4" id="tripKpis"></div>
+  <div class="h-sep"></div>
+  <div class="card">
+    <div class="card-hd"><div class="card-title"><span class="bar"></span>출장 현황</div></div>
+    <div class="card-body flush"><div class="tbl-wrap"><table class="tbl" id="tripTbl"></table></div></div>
+  </div>
+</section>
+
+<section class="page" id="issues">
+  <div class="grid g2">
+    <div class="card">
+      <div class="card-hd"><div class="card-title"><span class="bar"></span>프로젝트 현안</div></div>
+      <div class="card-body" id="projectIssueArea"></div>
+    </div>
+    <div class="card">
+      <div class="card-hd"><div class="card-title"><span class="bar"></span>팀 내부 현안</div></div>
+      <div class="card-body" id="teamIssueArea"></div>
+    </div>
+  </div>
+</section>
+
+</main>
+<div class="toast" id="toast">데이터가 반영되었습니다.</div>
+
+<script>
+const DEFAULT_RAW = {
+  "Project": [],
+  "Manpower": [],
+  "Stage_Status": [],
+  "Open_NCR": [],
+  "TPA": [],
+  "Trip": [],
+  "Issue": []
+};
+
+const SHEET_FIELDS = {
+  "Project":["Project_Code","Contract_Price_HDEC_Mil_USD","Contract_Price_Total_Mil_USD","Contract_Price_HDEC_Mil_KRW","Contract_Price_Total_Mil_KRW","Client","Country","PM","PQCM","Status","Progress","Remarks"],
+  "Manpower":["Name","Department","Main_Role_Responsibility","PQCM","PQC_Engineer","Number_of_PO"],
+  "Stage_Status":["Project_Code","MR_Total","MR_Done","TBE_Total","TBE_Done","PO_Total","PO_Done","PIM_Total","PIM_Done","IRC_100%_Total","IRC_100%_Done","NCR_Total","NCR_Done"],
+  "Open_NCR":["Serial_Number","Project_Code","NCR_Number","Item","Vendor","NCR_Title","Issue_Date","Days_to_Date","Reamrks"],
+  "TPA":["Project_Code","Status","예산(USD)","계약고(USD)","집행비용(USD)","예산(KRW)","계약고(KRW)","집행비용(KRW)","예산 소진율","現 계약고 소진율"],
+  "Trip":["Traveler","Purpose","Project_Code","Item","Vendor","Country_Trip","Start_Date","End_Date"],
+  "Issue":["Title","Owner","Project_Code","Action_Required"]
+};
+
+let RAW = structuredClone(DEFAULT_RAW);
+let FX_RATE = 1473.00;
+
+const STAGE = [
+  {name:'MR',  total:'MR_Total',       done:'MR_Done',       weight:.10},
+  {name:'TBE', total:'TBE_Total',      done:'TBE_Done',      weight:.10},
+  {name:'PO',  total:'PO_Total',       done:'PO_Done',       weight:.10},
+  {name:'PIM', total:'PIM_Total',      done:'PIM_Done',      weight:.20},
+  {name:'IRC', total:'IRC_100%_Total', done:'IRC_100%_Done', weight:.50}
+];
+
+/* === 유틸 === */
+const $ = id => document.getElementById(id);
+const esc = v => String(v??'').replace(/[&<>"']/g,s=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]));
+const num = v => { if(v===null||v===undefined||v==='')return 0; const c=String(v).replace(/,/g,'').trim(); const n=Number(c); return Number.isFinite(n)?n:0; };
+const isNumLike = v => { if(v===null||v===undefined||v==='')return false; return Number.isFinite(Number(String(v).replace(/,/g,'').trim())); };
+const fmt = (n,d=0) => { if(n===null||n===undefined||n===''||!Number.isFinite(Number(n)))return '-'; return Number(n).toLocaleString('en-US',{maximumFractionDigits:d,minimumFractionDigits:d}); };
+const pctRaw = v => { const n=Number(v); if(!Number.isFinite(n))return null; return n>1?n:n*100; };
+const pctDisp = (v,d=1) => { const p=pctRaw(v); if(p===null)return '-'; let r=Math.round(p*Math.pow(10,d))/Math.pow(10,d); if(p<100&&r>=100)r=Number((100-1/Math.pow(10,d)).toFixed(d)); return r.toFixed(d)+'%'; };
+function fillCls(p){ if(p>=95)return 'ok'; if(p>=70)return ''; if(p>=30)return 'warn'; return 'dim'; }
+
+/* 빈 양식 감지: 모든 시트가 비어있는지 */
+function isAllEmpty(){
+  return Object.keys(SHEET_FIELDS).every(s=>!RAW[s] || RAW[s].length===0);
+}
+
+/* 빈 표용 empty state 행 */
+function emptyRow(colspan, msg){
+  return `<tr><td colspan="${colspan}" style="padding:0;border:none;background:transparent">
+    <div class="empty-state">
+      <span class="ico">⊕</span>
+      <div class="title">데이터가 없습니다</div>
+      <div class="desc">${esc(msg||'상단의 Excel 업로드 버튼으로 데이터를 불러오세요.')}</div>
+    </div>
+  </td></tr>`;
+}
+
+/* 업로드 배너 렌더 (Executive Summary 상단) */
+function renderUploadBanner(){
+  const slot = $('emptyBannerSlot');
+  if(!slot) return;
+  if(!isAllEmpty()){ slot.innerHTML = ''; return; }
+  slot.innerHTML = `
+    <div class="upload-banner">
+      <div class="icon-box">↑</div>
+      <div class="content">
+        <div class="title">Excel 파일을 업로드하면 대시보드가 자동으로 채워집니다</div>
+        <div class="desc">원본 시트명·컬럼명이 유지된 <code>.xlsx</code> 파일을 상단의 <b>Excel 업로드</b> 버튼으로 불러오세요. 시트별 권장 스키마는 아래에서 확인할 수 있습니다.</div>
+      </div>
+      <button class="cta" onclick="document.getElementById('rawUpload').click()"><span class="ic">↑</span>Excel 업로드</button>
+    </div>
+    <div class="schema-card">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+        <span style="width:3px;height:13px;background:var(--navy);border-radius:1px;display:inline-block"></span>
+        <span style="font-size:13px;font-weight:700;color:var(--ink);letter-spacing:-.005em">시트 스키마 가이드</span>
+      </div>
+      <div class="muted" style="font-size:11px;margin-bottom:4px">아래 시트명과 컬럼명을 그대로 유지해주세요. 컬럼 순서는 자유입니다.</div>
+      <div class="schema-grid">
+        ${Object.entries(SHEET_FIELDS).map(([s,fields])=>`
+          <div class="schema-item">
+            <div class="sname">${esc(s)}</div>
+            <div class="scol">${fields.map(f=>`<span class="col">${esc(f)}</span>`).join('')}</div>
+          </div>`).join('')}
+      </div>
+    </div>`;
+}
+function statusTag(s){
+  if(s==='Mechanical Completion') return '<span class="tag mc">MC</span>';
+  if(s==='Active') return '<span class="tag ok dot">Active</span>';
+  if(s==='Bid') return '<span class="tag info dot">Bid</span>';
+  return `<span class="tag neutral">${esc(s||'-')}</span>`;
+}
+function excelDate(v){ if(!isNumLike(v))return esc(v??'-'); const n=num(v); if(n<20000||n>70000)return esc(v); const d=new Date(Math.round((n-25569)*86400*1000)); return d.toISOString().slice(0,10); }
+function nowText(){ return new Date().toLocaleString('ko-KR',{year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}); }
+function todayKor(){ const d=new Date(); return `${d.getFullYear()}. ${String(d.getMonth()+1).padStart(2,'0')}. ${String(d.getDate()).padStart(2,'0')}`; }
+
+/* === 단계별 셀: "완료" 문자열을 100%로 처리 === */
+/* 반환: {ratio: 0~1, has:bool, label:string} */
+function stageRatio(done, total){
+  // "완료"는 done/total 모두 완료 → 100%
+  const dStr = String(done??'').trim();
+  const tStr = String(total??'').trim();
+  if(dStr==='완료' || tStr==='완료'){
+    return {ratio:1, has:true, label:'완료'};
+  }
+  if(dStr==='미정' || tStr==='미정' || dStr==='' || tStr==='' || dStr==='-' || tStr==='-'){
+    return {ratio:null, has:false, label:tStr||'-'};
+  }
+  if(!isNumLike(total) || !isNumLike(done)){
+    return {ratio:null, has:false, label:tStr};
+  }
+  const t = num(total), d = num(done);
+  if(t<=0) return {ratio:null, has:false, label:'N/A'};
+  return {ratio:Math.min(d/t,1), has:true, label:`${d}/${t}`};
+}
+
+function stageCell(done, total){
+  const r = stageRatio(done, total);
+  if(r.label==='완료') return `<span class="stage-cell full"><span class="check">✓</span>완료</span>`;
+  if(!r.has){
+    if(r.label==='미정') return `<span class="stage-cell na">미정</span>`;
+    return `<span class="stage-cell na">${esc(r.label)}</span>`;
+  }
+  if(r.ratio>=1) return `<span class="stage-cell full">${esc(r.label)}</span>`;
+  if(r.ratio<=0) return `<span class="stage-cell zero">${esc(r.label)}</span>`;
+  return `<span class="stage-cell partial">${esc(r.label)}</span>`;
+}
+
+/* === 가중 진척률 (완료=100% 적용) === */
+function weightedProgress(stageRow){
+  let weighted = 0, totalWeight = 0;
+  STAGE.forEach(st=>{
+    const r = stageRatio(stageRow[st.done], stageRow[st.total]);
+    if(r.has){
+      weighted += r.ratio * st.weight * 100;
+      totalWeight += st.weight;
+    }
+  });
+  // 모든 단계가 평가 가능할 때만 정상값, 일부만 평가 가능하면 그 가중치 합으로 분모 보정
+  if(totalWeight === 0) return null;
+  // 모든 단계(weight 합 1.0)가 평가 가능하면 그대로 반환
+  // 그렇지 않으면 평가된 가중치만큼만 표시
+  return {value:weighted, totalWeight, full: totalWeight >= 0.999};
+}
+
+/* === 금액 셀 (USD 검정 / KRW 회색 병기) === */
+function moneyCell(usdRaw, krwRaw, opts={}){
+  const dim = opts.dim ? ' dim' : '';
+  let usd = (usdRaw==null||usdRaw==='')?null:num(usdRaw);
+  let krw = (krwRaw==null||krwRaw==='')?null:num(krwRaw);
+  if(usd!=null && (krw==null||krw===0)) krw = usd * FX_RATE;
+  if(krw!=null && (usd==null||usd===0)) usd = krw / FX_RATE;
+  if(usd==null && krw==null) return `<div class="money${dim}"><span class="usd">-</span></div>`;
+  const usdStr = usd!=null ? '$'+fmt(Math.round(usd)) : '-';
+  const krwStr = krw!=null ? '₩'+fmt(Math.round(krw)) : '-';
+  return `<div class="money${dim}"><span class="usd">${usdStr}</span><span class="krw">${krwStr}</span></div>`;
+}
+
+/* 백만 USD 단위 입력값 처리 (Project 테이블) */
+function moneyContractCell(row, kind){
+  const usdMil = row[`Contract_Price_${kind}_Mil_USD`];
+  const krwMil = row[`Contract_Price_${kind}_Mil_KRW`];
+  let usd = isNumLike(usdMil) ? num(usdMil)*1e6 : null;
+  let krw = isNumLike(krwMil) ? num(krwMil)*1e6 : null;
+  if(usd!=null && krw==null) krw = usd * FX_RATE;
+  if(krw!=null && usd==null) usd = krw / FX_RATE;
+  if(usd==null && krw==null) return `<div class="money"><span class="usd">-</span></div>`;
+  const usdStr = usd!=null ? '$'+fmt(Math.round(usd/1e6))+'M' : '-';
+  const krwStr = krw!=null ? '₩'+fmt(Math.round(krw/1e8))+'억' : '-';
+  return `<div class="money"><span class="usd">${usdStr}</span><span class="krw">${krwStr}</span></div>`;
+}
+
+function toast(msg){ const t=$('toast'); if(!t)return; t.textContent=msg||'완료'; t.classList.add('on'); clearTimeout(toast._t); toast._t=setTimeout(()=>t.classList.remove('on'),2200); }
+function setReportDate(){ const dt=todayKor(); const el=$('reportDate'); if(el) el.textContent=dt; }
+
+/* === 환율 자동조회 === */
+async function fetchFx(){
+  const sources = [
+    {url:'https://open.er-api.com/v6/latest/USD', parse:d=>d?.rates?.KRW, name:'open.er-api.com'},
+    {url:'https://api.exchangerate-api.com/v4/latest/USD', parse:d=>d?.rates?.KRW, name:'exchangerate-api.com'}
+  ];
+  for(const s of sources){
+    try{
+      const r = await fetch(s.url, {cache:'no-store'});
+      if(!r.ok) continue;
+      const d = await r.json();
+      const v = s.parse(d);
+      if(Number.isFinite(v) && v>500){
+        FX_RATE = Number(v.toFixed(2));
+        $('fxInput').value = FX_RATE.toFixed(2);
+        $('fxSource').textContent = s.name + ' · ' + new Date().toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'});
+        renderAll();
+        return;
+      }
+    }catch(e){}
+  }
+  $('fxSource').textContent = '자동조회 실패 · 수동 입력';
+}
+
+/* === 탭 / 컨트롤 === */
+function bindTabs(){
+  document.querySelectorAll('.tab').forEach(b=>{
+    b.addEventListener('click',()=>{
+      document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+      document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
+      b.classList.add('on');
+      $(b.dataset.page).classList.add('on');
+      window.scrollTo({top:0,behavior:'smooth'});
+    });
+  });
+}
+function bindControls(){
+  $('fxInput').addEventListener('change',e=>{
+    const v=Number(e.target.value);
+    if(Number.isFinite(v)&&v>0){FX_RATE=v; $('fxSource').textContent='수동 입력'; renderAll(); toast('환율 적용됨');}
+  });
+  $('rawUpload').addEventListener('change',handleRawUpload);
+  $('projectSearch').addEventListener('input',renderProjectsPage);
+  $('projectStatusFilter').addEventListener('change',renderProjectsPage);
+}
+
+/* === TPA Warning 로직 === */
+function tpaWarnings(row){
+  const warnings = [];
+  if(row.Status === 'Mechanical Completion') return warnings;
+  const budget = num(row['예산(USD)']) || num(row['예산(KRW)']);
+  const contract = num(row['계약고(USD)']) || num(row['계약고(KRW)']);
+  const spent = num(row['집행비용(USD)']) || num(row['집행비용(KRW)']);
+  if(budget > 0){
+    const r = spent/budget*100;
+    if(r >= 90) warnings.push({lv:'danger',txt:'2차 청산추정 및 예산외품의 준비'});
+    else if(r >= 70) warnings.push({lv:'warn',txt:'1차 청산추정 필요'});
+  }
+  if(contract > 0){
+    const r = spent/contract*100;
+    if(r >= 90) warnings.push({lv:'danger',txt:'계약고 증액 절차 필요'});
+  }
+  return warnings;
+}
+
+/* ============================================================
+   Executive Summary
+   ============================================================ */
+function renderOverview(){
+  const projects = RAW.Project || [];
+  const stages = RAW.Stage_Status || [];
+  const ncrs = RAW.Open_NCR || [];
+  const tpa = RAW.TPA || [];
+
+  const active = projects.filter(p=>p.Status==='Active').length;
+  const mc = projects.filter(p=>p.Status==='Mechanical Completion').length;
+  const bid = projects.filter(p=>p.Status==='Bid').length;
+
+  // 평균 가중 진척률 (Bid 제외)
+  let progSum=0, progCnt=0;
+  stages.forEach(s=>{
+    const p = projects.find(x=>x.Project_Code===s.Project_Code);
+    if(!p || p.Status==='Bid') return;
+    const w = weightedProgress(s);
+    if(w && w.full){ progSum += w.value; progCnt++; }
+  });
+  const avgProg = progCnt ? (progSum/progCnt).toFixed(1)+'%' : '-';
+
+  let warnCount = 0;
+  tpa.forEach(t=>{ if(tpaWarnings(t).length) warnCount++; });
+
+  $('kpiGrid').innerHTML = [
+    {label:'PROJECTS',val:projects.length,unit:'건',sub:`Active <span class="delta">${active}</span> · MC <span class="delta">${mc}</span> · Bid <span class="delta">${bid}</span>`,cls:'accent'},
+    {label:'AVG PROGRESS',val:avgProg,sub:'IRC 50% 가중',cls:'ok'},
+    {label:'OPEN NCR',val:ncrs.length,unit:'건',sub:'발생-종결 차이',cls:'warn'},
+    {label:'TPA WARNINGS',val:warnCount,unit:'건',sub:'예산/계약고 임계 초과',cls:'danger'},
+    {label:'MANPOWER',val:(RAW.Manpower||[]).length,unit:'명',sub:'본사 + 현장',cls:'info'}
+  ].map(k=>`<div class="kpi ${k.cls}">
+    <div class="kpi-label">${esc(k.label)}</div>
+    <div class="kpi-val">${typeof k.val==='string'?esc(k.val):k.val}${k.unit?`<span class="unit">${esc(k.unit)}</span>`:''}</div>
+    <div class="kpi-sub">${k.sub||''}</div>
+  </div>`).join('');
+
+  $('overviewUpdate').textContent = '최종 갱신 ' + nowText();
+
+  // 프로젝트 핵심 현황 표
+  const tbl = $('overviewProjectTbl');
+  tbl.innerHTML = `<thead><tr>
+    <th>Code</th><th class="ctr">Status</th><th>Client</th><th>Country</th>
+    <th class="right">HDEC분</th><th class="ctr">진척률</th><th class="ctr">NCR</th>
+  </tr></thead><tbody>${projects.length===0 ? emptyRow(7,'Excel을 업로드하면 프로젝트 현황이 표시됩니다.') : projects.map(p=>{
+    const s = stages.find(x=>x.Project_Code===p.Project_Code) || {};
+    const w = weightedProgress(s);
+    const progStr = w ? w.value.toFixed(1)+'%' : '-';
+    const progValue = w ? w.value : 0;
+    const ncrOpen = ncrs.filter(n=>n.Project_Code===p.Project_Code).length;
+    const ncrTotal = num(s.NCR_Total);
+    return `<tr>
+      <td class="code">${esc(p.Project_Code)}</td>
+      <td class="ctr">${statusTag(p.Status)}</td>
+      <td class="left">${esc(p.Client||'-')}</td>
+      <td class="left">${esc(p.Country||'-')}</td>
+      <td class="right">${moneyContractCell(p,'HDEC')}</td>
+      <td class="ctr"><div class="bar-wrap" style="min-width:120px"><div class="bar"><div class="fill ${fillCls(progValue)}" style="width:${progValue}%"></div></div><span class="pct">${progStr}</span></div></td>
+      <td class="ctr"><span class="code">${ncrOpen}</span> <span class="muted" style="font-size:10px">/ ${isNumLike(ncrTotal)?ncrTotal:'-'}</span></td>
+    </tr>`;
+  }).join('')}</tbody>`;
+
+  // Warning Signals
+  const signals = [];
+  tpa.forEach(t=>{
+    tpaWarnings(t).forEach(w=>signals.push({code:t.Project_Code, lv:w.lv, txt:w.txt, kind:'TPA'}));
+  });
+  ncrs.forEach(n=>{
+    const days = num(n.Days_to_Date);
+    if(days>=180) signals.push({code:n.Project_Code, lv:'danger', txt:`NCR 장기 미결 ${days}일 (${n.NCR_Number})`, kind:'NCR'});
+  });
+  $('focusSignals').innerHTML = signals.length ? signals.slice(0,8).map(s=>`
+    <div class="signal-item ${s.lv==='danger'?'danger':''}">
+      <div class="top"><span class="code">${esc(s.code)}</span><span class="kind">${esc(s.kind)}</span></div>
+      <div class="msg">${esc(s.txt)}</div>
+    </div>`).join('') : '<div class="empty-state">현재 발생한 Warning 신호가 없습니다.</div>';
+
+  // 실행 항목 - 운영 가이드 (데이터와 무관한 기본 운영 원칙)
+  $('actionItems').innerHTML = [
+    {n:'01',t:'TPA 청산추정 가속화',d:'예산 70% 초과 PJT 1차 청산추정 착수, 90% 초과 시 예산외품의 준비',due:'상시'},
+    {n:'02',t:'IRC 100% 단계 집중관리',d:'IRC 진행률 점검 및 잔여 NCR 종결 가속화',due:'분기'},
+    {n:'03',t:'초기단계 프로젝트 셋업',d:'MR · TBE 발행 일정 확정 및 계약고 미정 항목 협의',due:'착수 후 1개월'},
+    {n:'04',t:'장기 미결 NCR 종결',d:'180일 초과 NCR 우선 종결, IRC Issuance with Punch List 항목 정리',due:'상시'}
+  ].map(a=>`<div class="action-row">
+    <div class="action-no">${a.n}</div>
+    <div><div class="action-title">${esc(a.t)}</div><div class="action-desc">${esc(a.d)}</div></div>
+    <div class="action-due">${esc(a.due)}</div>
+  </div>`).join('');
+
+  // 리스크
+  $('riskPoints').innerHTML = [
+    {t:'TPA 임계 관리',rows:[
+      {k:'예산 70%↑',v:'1차 청산추정'},
+      {k:'예산 90%↑',v:'예산외품의 준비'},
+      {k:'계약고 90%↑',v:'계약고 증액 절차'}
+    ]},
+    {t:'단계별 가중치',rows:[
+      {k:'IRC 100%',v:'전체의 50%'},
+      {k:'PIM',v:'20%'},
+      {k:'MR · TBE · PO',v:'각 10%'}
+    ]},
+    {t:'NCR 우선순위',rows:[
+      {k:'180일 초과',v:'장기 미결 - 즉시 종결'},
+      {k:'90~180일',v:'중간 점검 및 가속화'},
+      {k:'MC 제외',v:'기계적 준공 후 별도 관리'}
+    ]}
+  ].map(r=>`<div class="risk-group">
+    <div class="grp-title">${esc(r.t)}</div>
+    ${r.rows.map(x=>`<div class="risk-item"><span class="k">${esc(x.k)}</span><span class="v">${esc(x.v)}</span></div>`).join('')}
+  </div>`).join('');
+}
+
+/* ============================================================
+   프로젝트 현황
+   ============================================================ */
+function renderProjectsPage(){
+  const projects = RAW.Project || [];
+  const statuses = [...new Set(projects.map(p=>p.Status).filter(Boolean))];
+  const sel = $('projectStatusFilter');
+  const cur = sel.value;
+  sel.innerHTML = '<option value="">전체 Status</option>' + statuses.map(s=>`<option value="${esc(s)}" ${s===cur?'selected':''}>${esc(s)}</option>`).join('');
+
+  const sumUSD = key => projects.reduce((a,p)=>a+(isNumLike(p[key])?num(p[key]):0),0);
+  $('projectKpis').innerHTML = [
+    {label:'PROJECTS',val:projects.length,unit:'건',cls:'accent'},
+    {label:'HDEC TOTAL',val:'$'+fmt(sumUSD('Contract_Price_HDEC_Mil_USD'))+'M',sub:'USD 환산',cls:'ok'},
+    {label:'GRAND TOTAL',val:'$'+fmt(sumUSD('Contract_Price_Total_Mil_USD'))+'M',sub:'USD 환산',cls:'info'},
+    {label:'ACTIVE',val:projects.filter(p=>p.Status==='Active').length,unit:'건',cls:'warn'}
+  ].map(k=>`<div class="kpi ${k.cls}">
+    <div class="kpi-label">${esc(k.label)}</div>
+    <div class="kpi-val">${typeof k.val==='string'?esc(k.val):k.val}${k.unit?`<span class="unit">${esc(k.unit)}</span>`:''}</div>
+    <div class="kpi-sub">${esc(k.sub||'')}</div>
+  </div>`).join('');
+
+  const q = $('projectSearch').value.trim().toLowerCase();
+  const st = sel.value;
+  const rows = projects.filter(p=>{
+    if(st && p.Status!==st) return false;
+    if(!q) return true;
+    return [p.Project_Code,p.Client,p.Country,p.PM,p.PQCM].some(x=>String(x||'').toLowerCase().includes(q));
+  });
+
+  $('projectTbl').innerHTML = `<thead><tr>
+    <th>Code</th><th class="ctr">Status</th><th>Client</th><th>Country</th>
+    <th class="right">HDEC 계약가</th><th class="right">Total 계약가</th>
+    <th>PM</th><th>PQCM</th><th class="ctr">Progress</th>
+  </tr></thead><tbody>${rows.length===0 ? emptyRow(9,'Excel을 업로드하면 프로젝트 마스터가 표시됩니다.') : rows.map(p=>{
+    const pv = pctRaw(p.Progress)||0;
+    return `<tr>
+      <td class="code">${esc(p.Project_Code)}</td>
+      <td class="ctr">${statusTag(p.Status)}</td>
+      <td class="left">${esc(p.Client||'-')}</td>
+      <td class="left">${esc(p.Country||'-')}</td>
+      <td class="right">${moneyContractCell(p,'HDEC')}</td>
+      <td class="right">${moneyContractCell(p,'Total')}</td>
+      <td class="left">${esc(p.PM||'-')}</td>
+      <td class="left">${esc(p.PQCM||'-')}</td>
+      <td><div class="bar-wrap"><div class="bar"><div class="fill ${fillCls(pv)}" style="width:${pv}%"></div></div><span class="pct">${pctDisp(p.Progress)}</span></div></td>
+    </tr>`;
+  }).join('')}</tbody>`;
+}
+
+/* ============================================================
+   단계별 실적 (완료 → 100% 처리 핵심)
+   ============================================================ */
+function renderStagePage(){
+  const stages = RAW.Stage_Status || [];
+  const projects = RAW.Project || [];
+
+  // KPI: 단계별 평균 진행률 (완료=100%)
+  const stat = STAGE.map(st=>{
+    let sumRatio=0, plannedCnt=0, doneCount=0, totalCount=0;
+    stages.forEach(s=>{
+      const r = stageRatio(s[st.done], s[st.total]);
+      if(r.has){
+        sumRatio += r.ratio;
+        plannedCnt++;
+        // 숫자 단계만 카운트 합산 (완료는 카운트 불가)
+        if(isNumLike(s[st.total]) && r.label!=='완료'){
+          totalCount += num(s[st.total]);
+          doneCount += num(s[st.done]);
+        }
+      }
+    });
+    return {
+      name:st.name, weight:st.weight,
+      avg: plannedCnt ? sumRatio/plannedCnt*100 : 0,
+      doneCount, totalCount, plannedCnt
+    };
+  });
+
+  $('stageKpis').innerHTML = stat.map(s=>`
+    <div class="kpi">
+      <div class="kpi-label">${s.name} <span style="color:var(--muted);font-weight:500">·&nbsp;W&nbsp;${(s.weight*100).toFixed(0)}%</span></div>
+      <div class="kpi-val">${s.avg.toFixed(1)}<span class="unit">%</span></div>
+      <div class="kpi-sub">${s.totalCount>0?`${fmt(s.doneCount)} / ${fmt(s.totalCount)} · `:''}${s.plannedCnt}개 PJT</div>
+    </div>`).join('');
+
+  $('stageTbl').innerHTML = `<thead><tr>
+    <th>Code</th><th class="ctr">Status</th>
+    ${STAGE.map(st=>`<th class="ctr">${st.name}<span class="wf">W ${(st.weight*100).toFixed(0)}%</span></th>`).join('')}
+    <th class="ctr" style="min-width:160px">가중 진척률</th>
+  </tr></thead><tbody>${stages.length===0 ? emptyRow(8,'Excel을 업로드하면 단계별 진행현황이 표시됩니다.') : stages.map(s=>{
+    const p = projects.find(x=>x.Project_Code===s.Project_Code) || {};
+    const w = weightedProgress(s);
+    const pv = w ? w.value : 0;
+    const progStr = w ? w.value.toFixed(1)+'%' : '-';
+    return `<tr>
+      <td class="code">${esc(s.Project_Code)}</td>
+      <td class="ctr">${statusTag(p.Status)}</td>
+      ${STAGE.map(st=>`<td class="ctr">${stageCell(s[st.done], s[st.total])}</td>`).join('')}
+      <td><div class="bar-wrap"><div class="bar"><div class="fill ${fillCls(pv)}" style="width:${pv}%"></div></div><span class="pct">${progStr}</span></div></td>
+    </tr>`;
+  }).join('')}</tbody>`;
+}
+
+/* ============================================================
+   TPA 집행현황 (USD 단위 - Mil 아님)
+   ============================================================ */
+function renderTpaPage(){
+  const tpa = RAW.TPA || [];
+
+  // KPI - USD 환산 합계 (Mil이 아니라 raw USD)
+  let totBudget=0, totContract=0, totSpent=0, warnCount=0;
+  tpa.forEach(t=>{
+    totBudget += num(t['예산(USD)']) + num(t['예산(KRW)'])/FX_RATE;
+    totContract += num(t['계약고(USD)']) + num(t['계약고(KRW)'])/FX_RATE;
+    totSpent += num(t['집행비용(USD)']) + num(t['집행비용(KRW)'])/FX_RATE;
+    if(tpaWarnings(t).length) warnCount++;
+  });
+  const burn = totBudget>0 ? (totSpent/totBudget*100) : 0;
+
+  // USD 단위로 표시 — 원하시는 대로 raw USD 기준
+  // 단, 가독성을 위해 백만 단위 이상은 M으로 축약
+  function compactUSD(v){
+    if(v>=1e9) return '$'+(v/1e9).toFixed(2)+'B';
+    if(v>=1e6) return '$'+fmt(Math.round(v/1e6))+'M';
+    if(v>=1e3) return '$'+fmt(Math.round(v/1e3))+'K';
+    return '$'+fmt(Math.round(v));
+  }
+
+  $('tpaKpis').innerHTML = [
+    {label:'TOTAL BUDGET',val:compactUSD(totBudget),sub:'USD 환산',cls:'ok'},
+    {label:'TOTAL CONTRACT',val:compactUSD(totContract),sub:'USD 환산',cls:'info'},
+    {label:'TOTAL SPENT',val:compactUSD(totSpent),sub:`소진율 ${burn.toFixed(1)}%`,cls:'warn'},
+    {label:'WARNINGS',val:warnCount,unit:'건',sub:'MC 제외 기준',cls:'danger'}
+  ].map(k=>`<div class="kpi ${k.cls}">
+    <div class="kpi-label">${esc(k.label)}</div>
+    <div class="kpi-val">${typeof k.val==='string'?esc(k.val):k.val}${k.unit?`<span class="unit">${esc(k.unit)}</span>`:''}</div>
+    <div class="kpi-sub">${esc(k.sub||'')}</div>
+  </div>`).join('');
+
+  $('tpaGuide').innerHTML = `
+    <div class="guide-row"><span class="guide-trigger warn">예산 70%↑</span><div class="guide-text"><b>1차 청산추정 필요</b><br/>예산 대비 집행이 70%를 초과한 시점</div></div>
+    <div class="guide-row"><span class="guide-trigger danger">예산 90%↑</span><div class="guide-text"><b>2차 청산추정 및 예산외품의 준비</b><br/>예산 대비 집행이 90%를 초과한 시점</div></div>
+    <div class="guide-row"><span class="guide-trigger danger">계약고 90%↑</span><div class="guide-text"><b>계약고 증액 절차 필요</b><br/>계약고 대비 집행이 90%를 초과한 시점</div></div>
+    <div class="guide-row"><span class="guide-trigger info">MC 제외</span><div class="guide-text">Mechanical Completion 상태 프로젝트는 모든 Warning에서 제외</div></div>`;
+
+  // 표 - USD 단위 (raw)
+  $('tpaTbl').innerHTML = `<thead><tr>
+    <th>Code</th><th class="ctr">Status</th>
+    <th class="right">예산</th><th class="right">계약고</th><th class="right">집행금액</th>
+    <th class="ctr" style="min-width:200px">예산 대비 집행</th>
+    <th class="ctr" style="min-width:200px">계약고 대비 집행</th>
+    <th>Warning</th>
+  </tr></thead><tbody>${tpa.length===0 ? emptyRow(8,'Excel을 업로드하면 TPA 집행현황이 표시됩니다.') : tpa.map(t=>{
+    const isMC = t.Status==='Mechanical Completion';
+    const burnB = pctRaw(t['예산 소진율']);
+    const burnC = pctRaw(t['現 계약고 소진율']);
+    const ws = tpaWarnings(t);
+    const cls70 = burnB!=null ? (burnB>=90?'danger':(burnB>=70?'warn':(burnB===0?'dim':''))) : 'dim';
+    const cls90 = (burnC!=null && Number.isFinite(burnC)) ? (burnC>=90?'danger':(burnC>=70?'warn':(burnC===0?'dim':''))) : 'dim';
+    const dimStyle = isMC ? ' dim' : '';
+
+    return `<tr>
+      <td class="code">${esc(t.Project_Code)}</td>
+      <td class="ctr">${statusTag(t.Status)}</td>
+      <td class="right">${moneyCell(t['예산(USD)'],t['예산(KRW)'],{dim:isMC})}</td>
+      <td class="right">${moneyCell(t['계약고(USD)'],t['계약고(KRW)'],{dim:isMC})}</td>
+      <td class="right">${moneyCell(t['집행비용(USD)'],t['집행비용(KRW)'],{dim:isMC})}</td>
+      <td><div class="tpa-bar"><div class="tpa-track"><div class="fill ${cls70}" style="width:${Math.min(Math.max(burnB||0,0),100)}%"></div><div class="mark t70"></div><div class="mark t90"></div></div><span class="tpa-pct">${burnB!=null?burnB.toFixed(1)+'%':'-'}</span></div></td>
+      <td><div class="tpa-bar"><div class="tpa-track"><div class="fill ${cls90}" style="width:${Math.min(Math.max(burnC||0,0),100)}%"></div><div class="mark t70"></div><div class="mark t90"></div></div><span class="tpa-pct">${(burnC!=null && Number.isFinite(burnC))?burnC.toFixed(1)+'%':'-'}</span></div></td>
+      <td class="left" style="min-width:180px">${isMC ? '<span class="tag mc">MC 제외</span>' : (ws.length ? ws.map(w=>`<div class="warn-chip ${w.lv==='danger'?'danger':''}">${esc(w.txt)}</div>`).join('') : '<span class="tag ok dot">정상</span>')}</td>
+    </tr>`;
+  }).join('')}</tbody>`;
+}
+
+/* ============================================================
+   NCR
+   ============================================================ */
+function renderNcrPage(){
+  const ncrs = RAW.Open_NCR || [];
+  const stages = RAW.Stage_Status || [];
+
+  let totalIssued=0, totalClosed=0;
+  stages.forEach(s=>{ if(isNumLike(s.NCR_Total)){ totalIssued+=num(s.NCR_Total); totalClosed+=num(s.NCR_Done); } });
+  const long = ncrs.filter(n=>num(n.Days_to_Date)>=180).length;
+  const recent = ncrs.filter(n=>num(n.Days_to_Date)<60).length;
+  const closedRate = totalIssued>0 ? (totalClosed/totalIssued*100).toFixed(1)+'%' : '-';
+
+  $('ncrKpis').innerHTML = [
+    {label:'OPEN NCR',val:ncrs.length,unit:'건',cls:'danger'},
+    {label:'TOTAL ISSUED',val:totalIssued,unit:'건',cls:'accent'},
+    {label:'CLOSE RATE',val:closedRate,sub:`종결 ${totalClosed}건`,cls:'ok'},
+    {label:'LONG OPEN',val:long,unit:'건',sub:`최근 60일 내 ${recent}건`,cls:'warn'}
+  ].map(k=>`<div class="kpi ${k.cls}">
+    <div class="kpi-label">${esc(k.label)}</div>
+    <div class="kpi-val">${typeof k.val==='string'?esc(k.val):k.val}${k.unit?`<span class="unit">${esc(k.unit)}</span>`:''}</div>
+    <div class="kpi-sub">${esc(k.sub||'')}</div>
+  </div>`).join('');
+
+  $('ncrTbl').innerHTML = `<thead><tr>
+    <th class="ctr">S/N</th><th>Code</th><th>NCR No.</th><th>Item</th><th>Vendor</th>
+    <th class="wide">Title</th><th class="ctr">Issue Date</th><th class="ctr">경과일</th>
+  </tr></thead><tbody>${ncrs.length===0 ? emptyRow(8,'Excel을 업로드하면 미결 NCR이 표시됩니다.') : ncrs.map(n=>{
+    const days = num(n.Days_to_Date);
+    const cls = days>=180?'danger':days>=90?'warn':'neutral';
+    return `<tr>
+      <td class="ctr code">${esc(n.Serial_Number)}</td>
+      <td class="code">${esc(n.Project_Code)}</td>
+      <td class="left nowrap"><span class="code">${esc(n.NCR_Number)}</span></td>
+      <td class="left">${esc(n.Item)}</td>
+      <td class="left">${esc(n.Vendor)}</td>
+      <td class="left wide">${esc(n.NCR_Title)}</td>
+      <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">${excelDate(n.Issue_Date)}</span></td>
+      <td class="ctr"><span class="tag ${cls}">${days}일</span></td>
+    </tr>`;
+  }).join('')}</tbody>`;
+
+  const byProj = {};
+  ncrs.forEach(n=>{ byProj[n.Project_Code] = (byProj[n.Project_Code]||0)+1; });
+  $('ncrSummary').innerHTML = Object.entries(byProj).sort((a,b)=>b[1]-a[1]).map(([k,v])=>{
+    const s = stages.find(x=>x.Project_Code===k) || {};
+    const issued = isNumLike(s.NCR_Total)?num(s.NCR_Total):'-';
+    const closed = isNumLike(s.NCR_Done)?num(s.NCR_Done):'-';
+    return `<div class="signal-item">
+      <div class="top"><span class="code">${esc(k)}</span><span class="kind">미결 ${v}건</span></div>
+      <div class="msg">발생 ${issued} · 종결 ${closed}</div>
+    </div>`;
+  }).join('') || '<div class="empty-state">데이터 없음</div>';
+}
+
+/* ============================================================
+   조직도
+   ============================================================ */
+function renderManpowerPage(){
+  const mp = RAW.Manpower || [];
+  const totalPO = mp.reduce((a,m)=>a+num(m.Number_of_PO),0);
+  const pqcms = mp.filter(m=>m.PQCM).length;
+  const pqcs = mp.filter(m=>m.PQC_Engineer).length;
+
+  $('manpowerKpis').innerHTML = [
+    {label:'TOTAL HEADCOUNT',val:mp.length,unit:'명',cls:'accent'},
+    {label:'PQCM HOLDERS',val:pqcms,unit:'명',cls:'info'},
+    {label:'PQC ENGINEERS',val:pqcs,unit:'명',cls:'ok'},
+    {label:'TOTAL PO',val:fmt(totalPO),unit:'건',cls:'warn'}
+  ].map(k=>`<div class="kpi ${k.cls}">
+    <div class="kpi-label">${esc(k.label)}</div>
+    <div class="kpi-val">${typeof k.val==='string'?esc(k.val):k.val}${k.unit?`<span class="unit">${esc(k.unit)}</span>`:''}</div>
+  </div>`).join('');
+
+  const leader = mp.find(m=>/팀장|Team Leader/i.test(m.Main_Role_Responsibility||'') || /팀장/.test(m.Name||''));
+  const groups = {};
+  mp.forEach(m=>{
+    if(leader && m.Name===leader.Name) return;
+    const dept = m.Department || '미분류';
+    if(!groups[dept]) groups[dept] = [];
+    groups[dept].push(m);
+  });
+
+  $('orgChart').innerHTML = mp.length===0 ? `
+    <div class="empty-state">
+      <span class="ico">⊕</span>
+      <div class="title">조직도 데이터가 없습니다</div>
+      <div class="desc">Excel을 업로드하면 팀 구성과 프로젝트 배정이 자동으로 시각화됩니다.</div>
+    </div>` : `
+    ${leader ? `<div class="org-leader">
+      <div class="org-name">${esc(leader.Name)}</div>
+      <div class="org-role">${esc(leader.Main_Role_Responsibility||'Team Leader')}</div>
+    </div>` : ''}
+    <div class="org-groups">
+      ${Object.entries(groups).map(([dept,members])=>`
+        <div class="org-group">
+          <div class="org-group-hd"><span class="dept">${esc(dept)}</span><span class="ct">${members.length}</span></div>
+          <div class="org-members">
+            ${members.map(m=>{
+              const tags = [];
+              if(m.PQCM){ String(m.PQCM).split('/').forEach(x=>{const t=x.trim();if(t)tags.push(`<span class="org-tag cm">CM·${esc(t)}</span>`);}); }
+              if(m.PQC_Engineer){ String(m.PQC_Engineer).split('/').forEach(x=>{const t=x.trim();if(t)tags.push(`<span class="org-tag eng">${esc(t)}</span>`);}); }
+              if(!tags.length) tags.push('<span class="org-tag empty">미배정</span>');
+              return `<div class="org-person">
+                <div class="top">
+                  <div><div class="name">${esc(m.Name)}</div><div class="role">${esc(m.Main_Role_Responsibility||'-')}</div></div>
+                  ${isNumLike(m.Number_of_PO) && num(m.Number_of_PO)>0 ? `<div class="po">PO ${num(m.Number_of_PO)}</div>` : ''}
+                </div>
+                <div class="org-tags">${tags.join('')}</div>
+              </div>`;
+            }).join('')}
+          </div>
+        </div>`).join('')}
+    </div>`;
+
+  $('mpTbl').innerHTML = `<thead><tr>
+    <th>이름</th><th>부서</th><th>주요업무</th><th>PQCM</th><th>PQC Engineer</th><th class="right">PO</th>
+  </tr></thead><tbody>${mp.length===0 ? emptyRow(6,'Excel을 업로드하면 인력 목록이 표시됩니다.') : mp.map(m=>`<tr>
+    <td><span class="code">${esc(m.Name)}</span></td>
+    <td class="left">${esc(m.Department||'-')}</td>
+    <td class="left">${esc(m.Main_Role_Responsibility||'-')}</td>
+    <td class="left">${esc(m.PQCM||'-')}</td>
+    <td class="left">${esc(m.PQC_Engineer||'-')}</td>
+    <td class="num">${isNumLike(m.Number_of_PO)?fmt(num(m.Number_of_PO)):'-'}</td>
+  </tr>`).join('')}</tbody>`;
+}
+
+/* ============================================================
+   출장 / 현안
+   ============================================================ */
+function renderTripPage(){
+  const trips = RAW.Trip || [];
+  const purposes={}, countries={}, travelers={};
+  trips.forEach(t=>{
+    purposes[t.Purpose] = (purposes[t.Purpose]||0)+1;
+    countries[t.Country_Trip] = (countries[t.Country_Trip]||0)+1;
+    travelers[t.Traveler] = (travelers[t.Traveler]||0)+1;
+  });
+  const top = obj => Object.entries(obj).sort((a,b)=>b[1]-a[1])[0];
+  const tp = top(purposes), tc = top(countries), tt = top(travelers);
+
+  $('tripKpis').innerHTML = [
+    {label:'TOTAL TRIPS',val:trips.length,unit:'건',cls:'accent'},
+    {label:'TOP PURPOSE',val:tp?tp[0]:'-',sub:tp?`${tp[1]}건`:'',cls:'info'},
+    {label:'TOP COUNTRY',val:tc?tc[0]:'-',sub:tc?`${tc[1]}건`:'',cls:'ok'},
+    {label:'TOP TRAVELER',val:tt?tt[0]:'-',sub:tt?`${tt[1]}건`:'',cls:'warn'}
+  ].map(k=>`<div class="kpi ${k.cls}">
+    <div class="kpi-label">${esc(k.label)}</div>
+    <div class="kpi-val" style="font-size:${typeof k.val==='string' && k.val.length>4?'18px':'24px'}">${typeof k.val==='string'?esc(k.val):k.val}${k.unit?`<span class="unit">${esc(k.unit)}</span>`:''}</div>
+    <div class="kpi-sub">${esc(k.sub||'')}</div>
+  </div>`).join('');
+
+  $('tripTbl').innerHTML = `<thead><tr>
+    <th>Traveler</th><th class="ctr">목적</th><th>Code</th><th>Item</th><th>Vendor</th><th>국가</th><th class="ctr">Start</th><th class="ctr">End</th>
+  </tr></thead><tbody>${trips.length===0 ? emptyRow(8,'Excel을 업로드하면 출장 현황이 표시됩니다.') : trips.map(t=>`<tr>
+    <td><span class="code">${esc(t.Traveler)}</span></td>
+    <td class="ctr"><span class="tag info">${esc(t.Purpose)}</span></td>
+    <td class="code">${esc(t.Project_Code)}</td>
+    <td class="left">${esc(t.Item)}</td>
+    <td class="left">${esc(t.Vendor)}</td>
+    <td class="ctr">${esc(t.Country_Trip)}</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">${excelDate(t.Start_Date)}</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">${excelDate(t.End_Date)}</span></td>
+  </tr>`).join('')}</tbody>`;
+}
+
+function renderIssuesPage(){
+  const issues = RAW.Issue || [];
+  const proj = issues.filter(i=>i.Project_Code !== '플랜트구매품질팀');
+  const team = issues.filter(i=>i.Project_Code === '플랜트구매품질팀');
+  const card = (i,kind)=>`<div class="issue ${kind==='team'?'team':''}">
+    <div class="top"><div class="title">${esc(i.Title)}</div><div class="meta">${esc(i.Project_Code)} · ${esc(i.Owner)}</div></div>
+    <div class="action">${esc(i.Action_Required||'-')}</div>
+  </div>`;
+  $('projectIssueArea').innerHTML = proj.map(i=>card(i,'project')).join('') || '<div class="empty-state">등록된 프로젝트 현안이 없습니다.</div>';
+  $('teamIssueArea').innerHTML = team.map(i=>card(i,'team')).join('') || '<div class="empty-state">등록된 팀 내부 현안이 없습니다.</div>';
+}
+
+function renderAll(){
+  setReportDate();
+  renderUploadBanner();
+  renderOverview();
+  renderProjectsPage();
+  renderStagePage();
+  renderTpaPage();
+  renderNcrPage();
+  renderManpowerPage();
+  renderTripPage();
+  renderIssuesPage();
+}
+
+/* ============================================================
+   Excel 업로드 / 다운로드
+   ============================================================ */
+async function handleRawUpload(e){
+  const file = e.target.files[0];
+  if(!file) return;
+  try{
+    const name = file.name.toLowerCase();
+    if(!(name.endsWith('.xlsx') || name.endsWith('.xls'))){
+      alert('Excel 파일(.xlsx)만 업로드 가능합니다.');
+      e.target.value=''; return;
+    }
+    const workbook = await parseXLSX(await file.arrayBuffer());
+    Object.keys(workbook).forEach(s=>{
+      RAW[s] = workbook[s];
+      if(!SHEET_FIELDS[s] && workbook[s]?.length){
+        SHEET_FIELDS[s] = Object.keys(workbook[s][0]);
+      }
+    });
+    toast('Excel 파일이 반영되었습니다.');
+    renderAll();
+  }catch(err){
+    console.error(err);
+    alert('Excel 파일 처리 중 오류가 발생했습니다.\n동일 구조의 .xlsx 파일인지 확인하세요.\n\n' + err.message);
+  }finally{
+    e.target.value = '';
+  }
+}
+
+function u16(d,o){return d[o]|(d[o+1]<<8)}
+function u32(d,o){return (d[o]|(d[o+1]<<8)|(d[o+2]<<16)|(d[o+3]<<24))>>>0}
+async function inflateRaw(bytes){
+  if(!('DecompressionStream' in window)) throw new Error('이 브라우저는 xlsx 압축 해제를 지원하지 않습니다.');
+  const ds = new DecompressionStream('deflate-raw');
+  const w = ds.writable.getWriter();
+  w.write(bytes); w.close();
+  return new Uint8Array(await new Response(ds.readable).arrayBuffer());
+}
+async function unzip(buffer){
+  const data = new Uint8Array(buffer);
+  let eocd = -1;
+  for(let i=data.length-22;i>=0;i--){if(u32(data,i)===0x06054b50){eocd=i;break;}}
+  if(eocd<0) throw new Error('ZIP 구조를 찾을 수 없습니다.');
+  const cdSize = u32(data,eocd+12), cdOffset = u32(data,eocd+16);
+  let p = cdOffset; const files = {};
+  while(p < cdOffset+cdSize){
+    if(u32(data,p)!==0x02014b50) break;
+    const comp = u16(data,p+10), csize = u32(data,p+20);
+    const nlen = u16(data,p+28), xlen = u16(data,p+30), clen = u16(data,p+32);
+    const lhoff = u32(data,p+42);
+    const name = new TextDecoder().decode(data.slice(p+46, p+46+nlen));
+    const lhName = u16(data,lhoff+26), lhExtra = u16(data,lhoff+28);
+    const start = lhoff+30+lhName+lhExtra;
+    const compBytes = data.slice(start, start+csize);
+    let out;
+    if(comp===0) out = compBytes;
+    else if(comp===8) out = await inflateRaw(compBytes);
+    else throw new Error('지원하지 않는 압축 방식: '+comp);
+    files[name] = out;
+    p += 46+nlen+xlen+clen;
+  }
+  return files;
+}
+function xmlDoc(bytes){return new DOMParser().parseFromString(new TextDecoder('utf-8').decode(bytes),'application/xml')}
+function getText(node){return node?node.textContent:''}
+function colIndex(ref){const letters=String(ref).replace(/[0-9]/g,''); let n=0; for(const ch of letters)n=n*26+(ch.charCodeAt(0)-64); return n-1}
+async function parseXLSX(buffer){
+  const files = await unzip(buffer);
+  const wb = xmlDoc(files['xl/workbook.xml']);
+  const rels = xmlDoc(files['xl/_rels/workbook.xml.rels']);
+  const relMap = {};
+  [...rels.getElementsByTagName('Relationship')].forEach(r=>relMap[r.getAttribute('Id')]=r.getAttribute('Target'));
+  const shared = [];
+  if(files['xl/sharedStrings.xml']){
+    const ss = xmlDoc(files['xl/sharedStrings.xml']);
+    [...ss.getElementsByTagName('si')].forEach(si=>shared.push([...si.getElementsByTagName('t')].map(t=>t.textContent).join('')));
+  }
+  const out = {};
+  [...wb.getElementsByTagName('sheet')].forEach(sheet=>{
+    const sname = sheet.getAttribute('name');
+    const rid = sheet.getAttribute('r:id') || sheet.getAttribute('id');
+    let target = relMap[rid];
+    if(!target) return;
+    const path = target.startsWith('/') ? target.slice(1) : 'xl/'+target.replace(/^\.\.\//,'');
+    const bytes = files[path];
+    if(!bytes) return;
+    const doc = xmlDoc(bytes);
+    const matrix = [];
+    [...doc.getElementsByTagName('row')].forEach(row=>{
+      const arr = [];
+      [...row.getElementsByTagName('c')].forEach(c=>{
+        const idx = colIndex(c.getAttribute('r')||'A1');
+        const t = c.getAttribute('t');
+        let val = '';
+        if(t==='s') val = shared[Number(getText(c.getElementsByTagName('v')[0]))]??'';
+        else if(t==='inlineStr') val = [...c.getElementsByTagName('t')].map(x=>x.textContent).join('');
+        else val = getText(c.getElementsByTagName('v')[0]);
+        arr[idx] = val;
+      });
+      matrix.push(arr.map(x=>x??''));
+    });
+    if(matrix.length) out[sname] = rowsToObjects(matrix);
+  });
+  return out;
+}
+function rowsToObjects(matrix){
+  const headers = matrix[0].map(h=>String(h).trim());
+  return matrix.slice(1).map(r=>Object.fromEntries(headers.map((h,i)=>[h,r[i]??''])));
+}
+
+function downloadRawExcel(){
+  const filename = `PQ_Dashboard_${new Date().toISOString().slice(0,10)}.xlsx`;
+  const bytes = buildXLSX();
+  const blob = new Blob([bytes], {type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = filename;
+  document.body.appendChild(a); a.click();
+  document.body.removeChild(a);
+  setTimeout(()=>URL.revokeObjectURL(url), 1000);
+  toast('Excel 파일이 다운로드되었습니다.');
+}
+
+const CRC_TABLE = (()=>{
+  const t = new Uint32Array(256);
+  for(let i=0;i<256;i++){
+    let c = i;
+    for(let k=0;k<8;k++) c = (c & 1) ? (0xEDB88320 ^ (c>>>1)) : (c>>>1);
+    t[i] = c;
+  }
+  return t;
+})();
+function crc32(bytes){
+  let c = 0xFFFFFFFF;
+  for(let i=0;i<bytes.length;i++) c = CRC_TABLE[(c ^ bytes[i]) & 0xFF] ^ (c>>>8);
+  return (c ^ 0xFFFFFFFF) >>> 0;
+}
+function colLetter(n){let s=''; n=n+1; while(n>0){const m=(n-1)%26; s=String.fromCharCode(65+m)+s; n=Math.floor((n-1)/26);} return s;}
+function xmlEscape(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&apos;')}
+
+function buildXLSX(){
+  const enc = new TextEncoder();
+  const sheets = Object.keys(RAW).filter(s=>SHEET_FIELDS[s] || (RAW[s]&&RAW[s].length));
+  const ssMap = new Map(); const ssArr = [];
+  const ssIdx = (s)=>{ if(ssMap.has(s)) return ssMap.get(s); const i=ssArr.length; ssArr.push(s); ssMap.set(s,i); return i; };
+
+  const sheetFiles = sheets.map((sname,si)=>{
+    const fields = SHEET_FIELDS[sname] || (RAW[sname][0]?Object.keys(RAW[sname][0]):[]);
+    const rows = RAW[sname] || [];
+    let xml = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetData>`;
+    xml += `<row r="1">`;
+    fields.forEach((f,i)=>{ xml += `<c r="${colLetter(i)}1" t="s"><v>${ssIdx(String(f))}</v></c>`; });
+    xml += `</row>`;
+    rows.forEach((row,ri)=>{
+      const r = ri+2;
+      xml += `<row r="${r}">`;
+      fields.forEach((f,i)=>{
+        const v = row[f];
+        if(v===null||v===undefined||v==='') return;
+        const cellRef = colLetter(i)+r;
+        if(typeof v === 'number' || (isNumLike(v) && typeof v !== 'boolean' && String(v).trim() !== '')){
+          xml += `<c r="${cellRef}"><v>${num(v)}</v></c>`;
+        }else{
+          xml += `<c r="${cellRef}" t="s"><v>${ssIdx(String(v))}</v></c>`;
+        }
+      });
+      xml += `</row>`;
+    });
+    xml += `</sheetData></worksheet>`;
+    return {name:sname, path:`xl/worksheets/sheet${si+1}.xml`, content:enc.encode(xml)};
+  });
+
+  const ssXML = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<sst xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" count="${ssArr.length}" uniqueCount="${ssArr.length}">${ssArr.map(s=>`<si><t xml:space="preserve">${xmlEscape(s)}</t></si>`).join('')}</sst>`;
+  const wbXML = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets>${sheets.map((s,i)=>`<sheet name="${xmlEscape(s)}" sheetId="${i+1}" r:id="rId${i+1}"/>`).join('')}</sheets></workbook>`;
+  const wbRels = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">${sheets.map((s,i)=>`<Relationship Id="rId${i+1}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet${i+1}.xml"/>`).join('')}<Relationship Id="rId${sheets.length+1}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/sharedStrings" Target="sharedStrings.xml"/></Relationships>`;
+  const ct = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/>${sheets.map((s,i)=>`<Override PartName="/xl/worksheets/sheet${i+1}.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>`).join('')}<Override PartName="/xl/sharedStrings.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sharedStrings+xml"/></Types>`;
+  const rootRels = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>`;
+
+  const allFiles = [
+    {path:'[Content_Types].xml', content:enc.encode(ct)},
+    {path:'_rels/.rels', content:enc.encode(rootRels)},
+    {path:'xl/_rels/workbook.xml.rels', content:enc.encode(wbRels)},
+    {path:'xl/workbook.xml', content:enc.encode(wbXML)},
+    {path:'xl/sharedStrings.xml', content:enc.encode(ssXML)},
+    ...sheetFiles
+  ];
+  return zipFiles(allFiles);
+}
+
+function zipFiles(files){
+  const localParts = []; const central = [];
+  let offset = 0;
+  files.forEach(f=>{
+    const nameBytes = new TextEncoder().encode(f.path);
+    const data = f.content;
+    const crc = crc32(data);
+    const size = data.length;
+    const lh = new Uint8Array(30 + nameBytes.length);
+    const dv = new DataView(lh.buffer);
+    dv.setUint32(0, 0x04034b50, true);
+    dv.setUint16(4, 20, true);
+    dv.setUint16(6, 0, true);
+    dv.setUint16(8, 0, true);
+    dv.setUint16(10, 0, true);
+    dv.setUint16(12, 0, true);
+    dv.setUint32(14, crc, true);
+    dv.setUint32(18, size, true);
+    dv.setUint32(22, size, true);
+    dv.setUint16(26, nameBytes.length, true);
+    dv.setUint16(28, 0, true);
+    lh.set(nameBytes, 30);
+    localParts.push(lh, data);
+
+    const ch = new Uint8Array(46 + nameBytes.length);
+    const cv = new DataView(ch.buffer);
+    cv.setUint32(0, 0x02014b50, true);
+    cv.setUint16(4, 20, true);
+    cv.setUint16(6, 20, true);
+    cv.setUint16(8, 0, true);
+    cv.setUint16(10, 0, true);
+    cv.setUint16(12, 0, true);
+    cv.setUint16(14, 0, true);
+    cv.setUint32(16, crc, true);
+    cv.setUint32(20, size, true);
+    cv.setUint32(24, size, true);
+    cv.setUint16(28, nameBytes.length, true);
+    cv.setUint16(30, 0, true);
+    cv.setUint16(32, 0, true);
+    cv.setUint16(34, 0, true);
+    cv.setUint16(36, 0, true);
+    cv.setUint32(38, 0, true);
+    cv.setUint32(42, offset, true);
+    ch.set(nameBytes, 46);
+    central.push(ch);
+    offset += lh.length + data.length;
+  });
+  const cdStart = offset;
+  let cdSize = 0;
+  central.forEach(c=>cdSize += c.length);
+  const eocd = new Uint8Array(22);
+  const ev = new DataView(eocd.buffer);
+  ev.setUint32(0, 0x06054b50, true);
+  ev.setUint16(4, 0, true);
+  ev.setUint16(6, 0, true);
+  ev.setUint16(8, files.length, true);
+  ev.setUint16(10, files.length, true);
+  ev.setUint32(12, cdSize, true);
+  ev.setUint32(16, cdStart, true);
+  ev.setUint16(20, 0, true);
+  const totalLen = offset + cdSize + eocd.length;
+  const out = new Uint8Array(totalLen);
+  let pos = 0;
+  localParts.forEach(p=>{out.set(p, pos); pos += p.length;});
+  central.forEach(c=>{out.set(c, pos); pos += c.length;});
+  out.set(eocd, pos);
+  return out;
+}
+
+function init(){
+  setReportDate();
+  bindTabs();
+  bindControls();
+  if(window.__REPORT_MODE__){ applyReportMode(); }
+  renderAll();
+  if(!window.__REPORT_MODE__) fetchFx();
+}
+
+function applyReportMode(){
+  document.querySelectorAll('.hd-actions label, .hd-actions button').forEach(el=>{
+    const txt = el.textContent || '';
+    if(txt.includes('Excel') || txt.includes('보고용 HTML')) el.style.display = 'none';
+  });
+  const fx = document.getElementById('fxInput');
+  if(fx){ fx.readOnly = true; fx.style.opacity = '.7'; fx.style.cursor = 'not-allowed'; }
+  const fxs = document.getElementById('fxSource');
+  if(fxs && window.__REPORT_FX_SRC__){ fxs.textContent = window.__REPORT_FX_SRC__; }
+  if(window.__REPORT_DATE__){
+    const el = document.getElementById('reportDate');
+    if(el) el.textContent = window.__REPORT_DATE__;
+  }
+  const top = document.querySelector('.hd-top .hd-meta');
+  if(top){
+    const badge = document.createElement('div');
+    badge.style.cssText = 'display:inline-flex;align-items:center;gap:6px;padding:6px 12px;background:var(--soft);border:1px solid var(--line);border-radius:999px;font-size:10px;font-weight:700;color:var(--navy);letter-spacing:.06em;font-family:JetBrains Mono,monospace';
+    badge.innerHTML = '<span style="width:6px;height:6px;background:var(--ok);border-radius:50%"></span>STATIC REPORT · 보고용';
+    top.insertBefore(badge, top.firstChild);
+  }
+}
+
+function downloadStaticHTML(){
+  try{
+    if(isAllEmpty()){
+      alert('데이터가 없습니다. Excel을 먼저 업로드하세요.');
+      return;
+    }
+    const doctype = '<!DOCTYPE html>\n';
+    let html = document.documentElement.outerHTML;
+
+    const dataJson = JSON.stringify(RAW);
+    const rawRegex = /const DEFAULT_RAW = [\s\S]*?;(\s*\nconst SHEET_FIELDS)/;
+    if(!rawRegex.test(html)){
+      throw new Error('DEFAULT_RAW 블록을 찾지 못했습니다.');
+    }
+    html = html.replace(rawRegex, function(match, suffix){
+      return 'const DEFAULT_RAW = ' + dataJson + ';' + suffix;
+    });
+
+    const fxSrcEl = document.getElementById('fxSource');
+    const fxSrc = fxSrcEl ? fxSrcEl.textContent : '';
+    const reportDate = document.getElementById('reportDate')?.textContent || '';
+    const fxRate = FX_RATE;
+    const meta = `
+<script>
+window.__REPORT_MODE__ = true;
+window.__REPORT_DATE__ = ${JSON.stringify(reportDate)};
+window.__REPORT_FX_SRC__ = ${JSON.stringify('보고일 기준 ' + fxSrc)};
+window.__REPORT_FX_RATE__ = ${fxRate};
+<\/script>`;
+    html = html.replace('</head>', meta + '\n</head>');
+
+    const fxInputVal = FX_RATE.toFixed(2);
+    html = html.replace(
+      /<input id="fxInput" type="number" step="0\.01"[^>]*\/?>/,
+      `<input id="fxInput" type="number" step="0.01" value="${fxInputVal}" readonly />`
+    );
+
+    html = html.replace(
+      /<title>[^<]*<\/title>/,
+      `<title>플랜트구매품질팀 통합관리 대시보드 · ${reportDate}</title>`
+    );
+
+    const blob = new Blob([doctype + html], {type:'text/html;charset=utf-8'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    const safeDate = reportDate.replace(/[^0-9]/g,'').slice(0,8) || new Date().toISOString().slice(0,10).replace(/-/g,'');
+    a.href = url;
+    a.download = `플랜트구매품질팀_대시보드_${safeDate}.html`;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(()=>URL.revokeObjectURL(url), 1500);
+    toast('보고용 HTML 파일이 다운로드되었습니다.');
+  }catch(err){
+    console.error(err);
+    alert('HTML 저장 중 오류가 발생했습니다.\n' + err.message);
+  }
+}
+
+init();
+</script>
+</body>
+</html>
