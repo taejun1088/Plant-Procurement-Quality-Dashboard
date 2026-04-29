@@ -1,0 +1,1865 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>플랜트구매품질팀 통합관리 대시보드</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* 색상 - 절제된 엔지니어링 팔레트 */
+  --ink:#0B1220;       /* 본문 진한 글자 */
+  --text:#1E293B;      /* 일반 텍스트 */
+  --sub:#64748B;       /* 부속 텍스트 */
+  --muted:#94A3B8;     /* 약한 텍스트 */
+  --line:#E5E9F0;      /* 헤어라인 */
+  --line2:#EDF1F7;     /* 매우 옅은 라인 */
+  --bg:#F4F6FA;        /* 페이지 배경 */
+  --paper:#FFFFFF;
+  --soft:#F7F9FC;      /* 카드 내 섹션 배경 */
+
+  /* 액센트 - 단 하나의 강한 블루 */
+  --navy:#0A2A5E;
+  --navy2:#0F4391;
+  --accent:#0F4391;
+
+  /* 의미 색 */
+  --ok:#0E8A5F;
+  --ok-bg:#E8F5EE;
+  --warn:#B7791F;
+  --warn-bg:#FDF4E1;
+  --danger:#B42318;
+  --danger-bg:#FEECEA;
+  --info:#0E6B96;
+  --info-bg:#E5F1F8;
+
+  /* 형태 */
+  --r:8px;
+  --r-lg:12px;
+  --shadow:0 1px 0 rgba(15,23,42,.04), 0 1px 3px rgba(15,23,42,.05);
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Inter','Noto Sans KR','Pretendard','Apple SD Gothic Neo',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  font-size:13px;line-height:1.5;
+  font-feature-settings:"ss01","cv11";
+  -webkit-font-smoothing:antialiased;
+  min-height:100vh;
+}
+button,input,select{font-family:inherit;color:inherit}
+button{cursor:pointer;border:none;background:none}
+::-webkit-scrollbar{width:8px;height:8px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:#CBD5E1;border-radius:8px}
+::-webkit-scrollbar-thumb:hover{background:#94A3B8}
+
+/* ============================================================
+   Mythos-style 보고서 헤더
+   ============================================================ */
+.report-head{
+  background:#fff;
+  position:sticky;top:0;z-index:1000;
+  padding:18px 32px 0;
+  border-bottom:1px solid var(--line);
+}
+.hd-top{
+  display:flex;justify-content:space-between;align-items:flex-end;
+  padding-bottom:10px;gap:24px;flex-wrap:wrap;
+}
+.hd-brand{
+  font-size:23px;font-weight:800;color:var(--ink);
+  line-height:1;letter-spacing:-.025em;
+  font-family:'Inter','Noto Sans KR',sans-serif;
+}
+.hd-brand .kicker{
+  display:block;font-size:10.5px;font-weight:500;color:var(--muted);
+  margin-bottom:6px;letter-spacing:.14em;text-transform:uppercase;
+  font-family:'JetBrains Mono','Inter',monospace;
+}
+.hd-meta{
+  display:flex;align-items:flex-end;gap:20px;flex-wrap:wrap;
+}
+.fx-pill{
+  display:inline-flex;align-items:center;gap:8px;
+  background:#F4F7FB;border:1px solid #DBE3EE;
+  border-radius:999px;padding:6px 12px;
+  font-family:'JetBrains Mono',monospace;
+}
+.fx-pill .lbl{font-size:9.5px;font-weight:700;color:var(--navy);letter-spacing:.1em}
+.fx-pill input{
+  width:72px;border:none;background:transparent;text-align:right;
+  font-size:13px;font-weight:700;color:var(--ink);
+  font-family:'JetBrains Mono',monospace;outline:none;
+}
+.fx-pill .src{font-size:9.5px;color:var(--muted);font-weight:500;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hd-date{
+  text-align:right;
+  font-family:'JetBrains Mono',monospace;
+}
+.hd-date .top{
+  display:block;font-size:9.5px;color:var(--muted);font-weight:500;
+  letter-spacing:.12em;text-transform:uppercase;margin-bottom:3px;
+  font-family:'JetBrains Mono',monospace;
+}
+.hd-date .day{
+  font-size:14px;font-weight:600;color:var(--ink);letter-spacing:.02em;
+}
+.hd-actions{
+  display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+  padding-bottom:12px;justify-content:flex-end;
+}
+.btn{
+  display:inline-flex;align-items:center;gap:6px;
+  background:#fff;border:1px solid var(--line);border-radius:var(--r);
+  padding:7px 12px;color:var(--text);font-size:12px;font-weight:600;
+  transition:all .15s;white-space:nowrap;
+}
+.btn:hover{border-color:#94A3B8;color:var(--ink)}
+.btn.primary{background:var(--navy);border-color:var(--navy);color:#fff}
+.btn.primary:hover{background:#08213F;color:#fff}
+.btn .ic{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:11px}
+.file-hidden{display:none}
+
+.hd-rule{height:2px;background:var(--navy)}
+.hd-rule2{height:1px;background:#C8D0DB;margin-top:1px}
+
+/* ============================================================
+   탭
+   ============================================================ */
+.tabs{
+  position:sticky;top:135px;z-index:900;background:#fff;
+  border-bottom:1px solid var(--line);
+  padding:0 32px;display:flex;gap:0;overflow-x:auto;
+}
+.tab{
+  border:none;background:transparent;padding:14px 20px;
+  font-size:12.5px;font-weight:600;color:var(--sub);
+  border-bottom:2px solid transparent;margin-bottom:-1px;
+  white-space:nowrap;transition:.15s;letter-spacing:-.005em;
+}
+.tab:hover{color:var(--ink)}
+.tab.on{color:var(--navy);border-bottom-color:var(--navy);font-weight:700}
+.tab .num{
+  display:inline-block;font-family:'JetBrains Mono',monospace;
+  font-size:10px;color:var(--muted);margin-right:6px;font-weight:500;
+}
+
+/* ============================================================
+   페이지 / 그리드
+   ============================================================ */
+.page{display:none;max-width:1640px;margin:0 auto;padding:24px 32px 48px}
+.page.on{display:block}
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:1fr 1fr}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g4{grid-template-columns:repeat(4,1fr)}
+.g5{grid-template-columns:repeat(5,1fr)}
+.g31{grid-template-columns:3fr 1fr}
+.g21{grid-template-columns:2fr 1fr}
+.h-sep{height:18px}
+
+/* ============================================================
+   섹션 타이틀 (편집기 미감)
+   ============================================================ */
+.section-head{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:12px;gap:16px;
+}
+.section-title{
+  display:flex;align-items:baseline;gap:10px;
+  font-size:13px;font-weight:700;color:var(--ink);
+  letter-spacing:-.005em;
+}
+.section-title .idx{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;font-weight:600;color:var(--muted);
+  letter-spacing:.05em;
+}
+.section-title .bar{
+  width:3px;height:14px;background:var(--navy);border-radius:1px;
+}
+.section-meta{font-size:11px;color:var(--muted);font-weight:500}
+
+/* ============================================================
+   카드
+   ============================================================ */
+.card{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:var(--r-lg);
+  overflow:hidden;
+}
+.card-hd{
+  padding:14px 18px 12px;
+  border-bottom:1px solid var(--line2);
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  background:#fff;
+}
+.card-title{
+  display:flex;align-items:center;gap:8px;
+  font-size:13px;font-weight:700;color:var(--ink);
+  letter-spacing:-.005em;
+}
+.card-title .bar{width:3px;height:13px;background:var(--navy);border-radius:1px}
+.card-meta{font-size:11px;color:var(--muted);font-weight:500;font-family:'JetBrains Mono',monospace}
+.card-body{padding:16px 18px}
+.card-body.flush{padding:0}
+
+/* ============================================================
+   KPI - typography 중심
+   ============================================================ */
+.kpi{
+  background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);
+  padding:16px 18px;position:relative;
+  display:flex;flex-direction:column;gap:6px;min-height:110px;
+}
+.kpi-label{
+  font-size:10px;font-weight:600;color:var(--sub);
+  text-transform:uppercase;letter-spacing:.1em;
+  font-family:'JetBrains Mono',monospace;
+}
+.kpi-val{
+  font-size:28px;font-weight:700;color:var(--ink);
+  letter-spacing:-.03em;line-height:1.05;
+  font-feature-settings:"tnum";
+  font-family:'Inter','Noto Sans KR',sans-serif;
+}
+.kpi-val .unit{
+  font-size:13px;font-weight:500;color:var(--sub);
+  margin-left:2px;letter-spacing:0;
+}
+.kpi-sub{
+  font-size:11px;color:var(--sub);margin-top:auto;line-height:1.4;
+  display:flex;align-items:center;gap:6px;
+}
+.kpi-sub .delta{font-family:'JetBrains Mono',monospace;font-weight:600}
+.kpi.accent .kpi-val{color:var(--navy)}
+.kpi.ok .kpi-val{color:var(--ok)}
+.kpi.warn .kpi-val{color:var(--warn)}
+.kpi.danger .kpi-val{color:var(--danger)}
+.kpi.info .kpi-val{color:var(--info)}
+
+/* ============================================================
+   테이블 - 데이터 typography
+   ============================================================ */
+.tbl-wrap{width:100%;overflow:auto}
+.tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:12px}
+.tbl th{
+  background:var(--soft);color:var(--ink);
+  border-bottom:1px solid var(--line);
+  padding:10px 12px;text-align:left;font-weight:600;font-size:10.5px;
+  white-space:nowrap;position:sticky;top:0;z-index:2;
+  letter-spacing:.06em;text-transform:uppercase;
+  font-family:'JetBrains Mono','Inter',sans-serif;
+}
+.tbl th.ctr{text-align:center}
+.tbl th.right{text-align:right}
+.tbl th .wf{
+  display:block;font-size:9px;color:var(--muted);
+  font-weight:500;margin-top:2px;letter-spacing:.04em;
+  text-transform:none;
+}
+.tbl td{
+  border-bottom:1px solid var(--line2);
+  padding:11px 12px;vertical-align:middle;line-height:1.4;
+  background:#fff;
+}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tr:hover td{background:#FAFBFD}
+.tbl .num{text-align:right;font-variant-numeric:tabular-nums;font-family:'JetBrains Mono',monospace;font-weight:500}
+.tbl .ctr{text-align:center}
+.tbl .left{text-align:left}
+.tbl .nowrap{white-space:nowrap}
+.tbl .wide{min-width:240px}
+.tbl .code{
+  font-family:'JetBrains Mono',monospace;
+  font-weight:600;color:var(--ink);font-size:11.5px;letter-spacing:.02em;
+}
+.tbl.dense td{padding:8px 10px;font-size:11.5px}
+.tbl.dense th{padding:8px 10px}
+
+/* ============================================================
+   상태 배지 - 절제된 톤
+   ============================================================ */
+.tag{
+  display:inline-flex;align-items:center;gap:4px;
+  border-radius:4px;padding:3px 7px;
+  font-size:10px;font-weight:600;
+  letter-spacing:.04em;line-height:1;
+  white-space:nowrap;
+  font-family:'JetBrains Mono',monospace;
+}
+.tag.ok{background:var(--ok-bg);color:var(--ok)}
+.tag.warn{background:var(--warn-bg);color:var(--warn)}
+.tag.danger{background:var(--danger-bg);color:var(--danger)}
+.tag.info{background:var(--info-bg);color:var(--info)}
+.tag.neutral{background:#EEF1F6;color:#475569}
+.tag.mc{background:#1E293B;color:#fff}
+.tag.dot:before{content:'';display:inline-block;width:5px;height:5px;border-radius:50%;background:currentColor;margin-right:4px}
+
+/* ============================================================
+   금액 셀
+   ============================================================ */
+.money{display:flex;flex-direction:column;line-height:1.25;min-width:120px}
+.money .usd{
+  font-family:'JetBrains Mono',monospace;
+  font-size:12px;font-weight:600;color:var(--ink);
+  letter-spacing:-.01em;
+}
+.money .krw{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;font-weight:400;color:var(--muted);
+  margin-top:2px;
+}
+.money.dim .usd{color:var(--muted)}
+.money.dim .krw{color:#CBD5E1}
+
+/* ============================================================
+   진행률 바
+   ============================================================ */
+.bar-wrap{
+  display:flex;align-items:center;gap:10px;min-width:140px;
+}
+.bar{
+  height:6px;background:#EDF1F7;border-radius:999px;
+  overflow:hidden;flex:1;position:relative;
+}
+.bar .fill{
+  height:100%;border-radius:999px;background:var(--navy);
+  transition:width .3s;
+}
+.bar .fill.ok{background:var(--ok)}
+.bar .fill.warn{background:var(--warn)}
+.bar .fill.danger{background:var(--danger)}
+.bar .fill.dim{background:#CBD5E1}
+.pct{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;font-weight:600;color:var(--ink);
+  width:46px;text-align:right;
+  font-variant-numeric:tabular-nums;
+}
+.pct.dim{color:var(--muted);font-weight:500}
+
+/* TPA 듀얼 진행률 - 트리거 마커 포함 */
+.tpa-bar{
+  display:flex;align-items:center;gap:8px;min-width:180px;
+}
+.tpa-track{
+  position:relative;height:8px;background:#EDF1F7;
+  border-radius:999px;flex:1;overflow:visible;
+}
+.tpa-track .fill{
+  height:100%;border-radius:999px;background:var(--ok);
+  transition:width .3s;
+}
+.tpa-track .fill.warn{background:var(--warn)}
+.tpa-track .fill.danger{background:var(--danger)}
+.tpa-track .fill.dim{background:#CBD5E1}
+.tpa-track .mark{
+  position:absolute;top:-2px;width:1px;height:12px;
+  background:var(--muted);
+}
+.tpa-track .mark.t70{left:70%;background:var(--warn)}
+.tpa-track .mark.t90{left:90%;background:var(--danger)}
+.tpa-pct{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;font-weight:600;
+  font-variant-numeric:tabular-nums;
+  width:50px;text-align:right;color:var(--ink);
+}
+
+/* ============================================================
+   Stage Cell
+   ============================================================ */
+.stage-cell{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-width:62px;padding:4px 8px;border-radius:5px;
+  font-size:10.5px;font-weight:600;
+  font-family:'JetBrains Mono',monospace;
+  border:1px solid transparent;line-height:1;
+}
+.stage-cell.full{background:var(--ok-bg);color:var(--ok);border-color:#C5E5D2}
+.stage-cell.partial{background:var(--warn-bg);color:var(--warn);border-color:#F0DBA9}
+.stage-cell.zero{background:#F4F6FA;color:var(--muted);border-color:var(--line)}
+.stage-cell.na{background:transparent;color:var(--muted);font-style:italic;font-weight:500}
+.stage-cell .check{font-size:11px;margin-right:2px}
+
+/* ============================================================
+   Warning chip 인라인
+   ============================================================ */
+.warn-chip{
+  display:inline-block;background:var(--warn-bg);color:var(--warn);
+  border:1px solid #F0DBA9;border-radius:4px;
+  padding:3px 7px;font-size:10px;font-weight:600;
+  margin:1px 0;line-height:1.3;
+  font-family:'Inter','Noto Sans KR',sans-serif;
+  letter-spacing:-.005em;
+}
+.warn-chip.danger{background:var(--danger-bg);color:var(--danger);border-color:#F2BCB6}
+.warn-chip + .warn-chip{margin-top:3px}
+
+/* ============================================================
+   리스트 항목
+   ============================================================ */
+.signal-item{
+  border:1px solid var(--line);border-radius:var(--r);
+  padding:10px 12px;margin-bottom:8px;background:#fff;
+  border-left:3px solid var(--warn);
+}
+.signal-item.danger{border-left-color:var(--danger)}
+.signal-item .top{
+  display:flex;justify-content:space-between;align-items:baseline;
+  gap:8px;margin-bottom:5px;
+}
+.signal-item .code{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;font-weight:700;color:var(--ink);letter-spacing:.04em;
+}
+.signal-item .kind{font-size:10px;color:var(--muted);font-weight:600}
+.signal-item .msg{font-size:11.5px;color:var(--text);line-height:1.4}
+
+.action-row{
+  display:grid;grid-template-columns:auto 1fr auto;gap:14px;
+  align-items:flex-start;border:1px solid var(--line);
+  border-radius:var(--r);background:#fff;padding:12px 14px;
+  transition:.15s;
+}
+.action-row:not(:last-child){margin-bottom:8px}
+.action-row:hover{border-color:#CBD5E1}
+.action-no{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;font-weight:700;color:var(--navy);
+  width:22px;height:22px;border-radius:50%;
+  border:1px solid var(--navy);
+  display:flex;align-items:center;justify-content:center;
+  flex:none;
+}
+.action-title{font-weight:700;font-size:12.5px;color:var(--ink);margin-bottom:3px;letter-spacing:-.005em}
+.action-desc{font-size:11.5px;color:var(--sub);line-height:1.45}
+.action-due{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;font-weight:600;color:var(--navy);
+  background:#EFF3F8;border-radius:4px;padding:3px 8px;
+  white-space:nowrap;align-self:center;
+}
+
+.risk-item{
+  border-bottom:1px solid var(--line2);padding:10px 0;
+  display:flex;justify-content:space-between;gap:12px;
+  font-size:12px;
+}
+.risk-item:last-child{border-bottom:none}
+.risk-item:first-child{padding-top:0}
+.risk-item .k{font-weight:600;color:var(--ink)}
+.risk-item .v{color:var(--sub);font-size:11.5px;text-align:right}
+.risk-group{margin-bottom:14px}
+.risk-group:last-child{margin-bottom:0}
+.risk-group .grp-title{
+  font-size:10.5px;font-weight:700;color:var(--navy);
+  letter-spacing:.08em;text-transform:uppercase;
+  margin-bottom:6px;
+  font-family:'JetBrains Mono','Inter',sans-serif;
+}
+
+/* ============================================================
+   가이드 (TPA Warning 기준)
+   ============================================================ */
+.guide-row{
+  display:flex;gap:12px;align-items:flex-start;
+  padding:10px 12px;border:1px solid var(--line);
+  border-radius:var(--r);margin-bottom:8px;background:#fff;
+}
+.guide-row:last-child{margin-bottom:0}
+.guide-trigger{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;font-weight:700;
+  border-radius:4px;padding:5px 8px;
+  white-space:nowrap;flex:none;letter-spacing:.04em;line-height:1;
+}
+.guide-trigger.warn{background:var(--warn-bg);color:var(--warn)}
+.guide-trigger.danger{background:var(--danger-bg);color:var(--danger)}
+.guide-trigger.info{background:var(--info-bg);color:var(--info)}
+.guide-text{font-size:11.5px;color:var(--text);line-height:1.5}
+.guide-text b{font-weight:700;color:var(--ink)}
+
+/* ============================================================
+   조직도
+   ============================================================ */
+.org-canvas{
+  padding:24px 16px 8px;
+  background:radial-gradient(ellipse at center top, #F8FAFD 0%, var(--paper) 60%);
+}
+.org-leader{
+  max-width:280px;margin:0 auto 36px;
+  border:1px solid var(--line);border-top:3px solid var(--navy);
+  background:#fff;border-radius:var(--r);
+  padding:14px 18px;
+  box-shadow:var(--shadow);
+  text-align:center;position:relative;
+}
+.org-leader:after{
+  content:'';position:absolute;left:50%;bottom:-36px;
+  width:1px;height:36px;background:#D1D9E4;
+  transform:translateX(-50%);
+}
+.org-name{font-size:15px;font-weight:700;color:var(--ink);letter-spacing:-.01em}
+.org-role{
+  font-family:'JetBrains Mono',monospace;
+  font-size:9.5px;color:var(--sub);font-weight:600;
+  margin-top:5px;letter-spacing:.1em;text-transform:uppercase;
+}
+.org-bus{position:relative;max-width:1280px;margin:0 auto;height:0}
+.org-groups{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:14px;max-width:1320px;margin:0 auto;
+}
+.org-group{
+  border:1px solid var(--line);border-radius:var(--r);background:#fff;
+  position:relative;overflow:hidden;
+}
+.org-group:before{
+  content:'';position:absolute;left:50%;top:-24px;
+  width:1px;height:24px;background:#D1D9E4;
+  transform:translateX(-50%);
+}
+.org-group-hd{
+  padding:11px 14px;background:#F7F9FC;
+  border-bottom:1px solid var(--line);
+  display:flex;justify-content:space-between;align-items:center;
+}
+.org-group-hd .dept{
+  font-size:11.5px;font-weight:700;color:var(--ink);letter-spacing:-.005em;
+}
+.org-group-hd .ct{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;font-weight:600;color:var(--navy);
+  background:#fff;border:1px solid var(--line);
+  border-radius:999px;padding:2px 8px;letter-spacing:.04em;
+}
+.org-members{padding:10px;display:flex;flex-direction:column;gap:6px}
+.org-person{
+  border:1px solid var(--line2);border-radius:6px;
+  padding:9px 11px;background:#fff;transition:.15s;
+}
+.org-person:hover{border-color:#CBD5E1;background:#FAFBFD}
+.org-person .top{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.org-person .name{font-size:12.5px;font-weight:700;color:var(--ink);letter-spacing:-.005em}
+.org-person .po{
+  font-family:'JetBrains Mono',monospace;
+  font-size:9.5px;font-weight:600;color:var(--navy);
+  background:#EFF3F8;border-radius:3px;padding:2px 6px;
+  white-space:nowrap;letter-spacing:.04em;
+}
+.org-person .role{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;color:var(--sub);font-weight:500;margin-top:3px;
+  letter-spacing:.02em;
+}
+.org-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:8px}
+.org-tag{
+  font-size:9.5px;font-weight:600;border-radius:3px;
+  padding:2px 6px;line-height:1.2;
+  font-family:'JetBrains Mono',monospace;letter-spacing:.02em;
+}
+.org-tag.cm{background:var(--info-bg);color:var(--info)}
+.org-tag.eng{background:var(--ok-bg);color:var(--ok)}
+.org-tag.empty{background:#F4F6FA;color:var(--muted);font-style:italic}
+
+/* ============================================================
+   Issue 카드
+   ============================================================ */
+.issue{
+  border:1px solid var(--line);border-radius:var(--r);
+  padding:12px 14px;margin-bottom:8px;background:#fff;
+  border-left:3px solid var(--navy);
+}
+.issue.team{border-left-color:var(--info)}
+.issue:last-child{margin-bottom:0}
+.issue .top{
+  display:flex;justify-content:space-between;align-items:baseline;
+  gap:10px;margin-bottom:6px;
+}
+.issue .title{font-weight:700;font-size:12.5px;color:var(--ink);letter-spacing:-.005em}
+.issue .meta{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);font-weight:500;letter-spacing:.02em;white-space:nowrap}
+.issue .action{
+  font-size:11.5px;color:var(--text);background:var(--soft);
+  border-radius:5px;padding:7px 10px;line-height:1.45;margin-top:4px;
+}
+
+/* ============================================================
+   유틸
+   ============================================================ */
+.muted{color:var(--muted);font-size:11px;font-weight:500}
+.empty-state{padding:24px;text-align:center;color:var(--muted);font-size:12px}
+.toast{
+  position:fixed;right:24px;bottom:24px;
+  background:var(--ink);color:#fff;border-radius:var(--r);
+  padding:11px 16px;font-size:12px;font-weight:500;
+  box-shadow:0 12px 32px rgba(0,0,0,.18);
+  opacity:0;transform:translateY(8px);transition:.2s;
+  z-index:5000;pointer-events:none;
+}
+.toast.on{opacity:1;transform:translateY(0)}
+
+[data-tip]{position:relative;cursor:help}
+[data-tip]:after{
+  content:attr(data-tip);position:absolute;left:50%;top:calc(100% + 6px);
+  transform:translateX(-50%);min-width:200px;max-width:300px;
+  background:var(--ink);color:#fff;border-radius:5px;padding:7px 10px;
+  opacity:0;pointer-events:none;transition:.15s;
+  font-size:11px;font-weight:400;line-height:1.5;text-align:left;z-index:2000;
+  box-shadow:0 8px 20px rgba(0,0,0,.18);
+}
+[data-tip]:hover:after{opacity:1}
+
+.input,.select{
+  border:1px solid var(--line);border-radius:var(--r);
+  background:#fff;padding:8px 11px;font-size:12px;
+  color:var(--text);outline:none;font-weight:500;
+}
+.input:focus,.select:focus{border-color:var(--navy)}
+
+.control-row{
+  display:flex;gap:10px;align-items:center;
+  justify-content:space-between;flex-wrap:wrap;margin-bottom:14px;
+}
+.filters{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+
+/* 인쇄 */
+.print-only{display:none}
+@media(max-width:1180px){
+  .g5{grid-template-columns:repeat(3,1fr)}
+  .g4{grid-template-columns:repeat(2,1fr)}
+  .g3,.g31,.g21,.g2{grid-template-columns:1fr}
+  .tabs{top:172px}
+}
+@media(max-width:760px){
+  body{font-size:12.5px}
+  .page{padding:16px}
+  .g5,.g4,.g3,.g2{grid-template-columns:1fr}
+  .hd-meta{flex-direction:column;align-items:flex-start;gap:10px}
+  .hd-date{text-align:left}
+  .tab{padding:11px 14px}
+}
+@media print{
+  @page{size:A4 landscape;margin:10mm}
+  body{background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .report-head,.tabs,.control-row,.btn,.fx-pill,.hd-actions,.file-hidden,.toast{display:none!important}
+  .print-only{display:block;margin-bottom:14px}
+  .page{display:block!important;padding:0;max-width:none;break-after:page}
+  .page:not(.print-main){break-before:page}
+  .card,.kpi,.issue,.action-row,.signal-item,.org-group,.org-leader{break-inside:avoid;page-break-inside:avoid}
+  .tbl-wrap{overflow:visible}
+  .tbl th{position:static}
+}
+</style>
+</head>
+<body>
+
+<header class="report-head">
+  <div class="hd-top">
+    <div class="hd-brand">
+      <span class="kicker">HYUNDAI E&amp;C · PLANT PROCUREMENT QUALITY</span>
+      플랜트구매품질팀 통합관리 대시보드
+    </div>
+    <div class="hd-meta">
+      <div class="fx-pill" data-tip="원달러 매매기준율을 자동으로 조회합니다.&#10;실패 시 직접 입력하세요.">
+        <span class="lbl">KRW/USD</span>
+        <input id="fxInput" type="number" step="0.01" value="1473.00" />
+        <span class="src" id="fxSource">자동조회 중</span>
+      </div>
+      <div class="hd-date">
+        <span class="top">REPORT &middot; 플랜트구매품질팀</span>
+        <span class="day" id="reportDate">-</span>
+      </div>
+    </div>
+  </div>
+  <div class="hd-actions">
+    <label class="btn"><input class="file-hidden" type="file" id="rawUpload" accept=".xlsx,.xls" /><span class="ic">↑</span>Excel 업로드</label>
+    <button class="btn" onclick="downloadRawExcel()"><span class="ic">↓</span>Excel 다운로드</button>
+    <button class="btn primary" onclick="downloadStaticHTML()" data-tip="현재 화면을 단일 HTML 파일로 저장합니다.&#10;임원 보고용으로 사용하세요 (Excel 첨부 불필요)."><span class="ic">⎙</span>보고용 HTML 저장</button>
+    <button class="btn" onclick="window.print()"><span class="ic">⎙</span>PDF 저장</button>
+  </div>
+  <div class="hd-rule"></div>
+  <div class="hd-rule2"></div>
+</header>
+
+<nav class="tabs">
+  <button class="tab on" data-page="overview"><span class="num">01</span>Executive Summary</button>
+  <button class="tab" data-page="projects"><span class="num">02</span>프로젝트 현황</button>
+  <button class="tab" data-page="stage"><span class="num">03</span>단계별 실적</button>
+  <button class="tab" data-page="tpa"><span class="num">04</span>TPA 집행현황</button>
+  <button class="tab" data-page="ncr"><span class="num">05</span>NCR 현황</button>
+  <button class="tab" data-page="manpower"><span class="num">06</span>팀 인력운영현황</button>
+  <button class="tab" data-page="trip"><span class="num">07</span>출장현황</button>
+  <button class="tab" data-page="issues"><span class="num">08</span>주요현안</button>
+</nav>
+
+<main>
+
+<section class="page on print-main" id="overview">
+  <div class="grid g5" id="kpiGrid"></div>
+  <div class="h-sep"></div>
+  <div class="grid g31">
+    <div class="card">
+      <div class="card-hd">
+        <div class="card-title"><span class="bar"></span>프로젝트별 핵심 현황</div>
+        <div class="card-meta" id="overviewUpdate">-</div>
+      </div>
+      <div class="card-body flush"><div class="tbl-wrap"><table class="tbl dense" id="overviewProjectTbl"></table></div></div>
+    </div>
+    <div class="card">
+      <div class="card-hd"><div class="card-title"><span class="bar"></span>Warning Signals</div></div>
+      <div class="card-body" id="focusSignals"></div>
+    </div>
+  </div>
+  <div class="h-sep"></div>
+  <div class="grid g2">
+    <div class="card">
+      <div class="card-hd"><div class="card-title"><span class="bar"></span>실행 항목</div></div>
+      <div class="card-body" id="actionItems"></div>
+    </div>
+    <div class="card">
+      <div class="card-hd"><div class="card-title"><span class="bar"></span>리스크 및 관리 포인트</div></div>
+      <div class="card-body" id="riskPoints"></div>
+    </div>
+  </div>
+</section>
+
+<section class="page" id="projects">
+  <div class="control-row">
+    <div class="filters">
+      <input class="input" id="projectSearch" placeholder="프로젝트 / 발주처 / 국가 검색" style="min-width:260px" />
+      <select class="select" id="projectStatusFilter"><option value="">전체 Status</option></select>
+    </div>
+  </div>
+  <div class="grid g4" id="projectKpis"></div>
+  <div class="h-sep"></div>
+  <div class="card">
+    <div class="card-hd">
+      <div class="card-title"><span class="bar"></span>프로젝트 마스터</div>
+      <div class="card-meta">USD&nbsp;검정&nbsp;/&nbsp;KRW&nbsp;회색&nbsp;병기</div>
+    </div>
+    <div class="card-body flush"><div class="tbl-wrap"><table class="tbl" id="projectTbl"></table></div></div>
+  </div>
+</section>
+
+<section class="page" id="stage">
+  <div class="grid g5" id="stageKpis"></div>
+  <div class="h-sep"></div>
+  <div class="card">
+    <div class="card-hd">
+      <div class="card-title"><span class="bar"></span>프로젝트별 단계 진행현황</div>
+      <div class="card-meta">Weighted = MR×10 + TBE×10 + PO×10 + PIM×20 + IRC×50</div>
+    </div>
+    <div class="card-body flush"><div class="tbl-wrap"><table class="tbl" id="stageTbl"></table></div></div>
+  </div>
+</section>
+
+<section class="page" id="tpa">
+  <div class="grid g4" id="tpaKpis"></div>
+  <div class="h-sep"></div>
+  <div class="grid g31">
+    <div class="card">
+      <div class="card-hd">
+        <div class="card-title"><span class="bar"></span>예산 · 계약고 · 집행금액 현황</div>
+        <div class="card-meta">USD 검정 / KRW 회색 병기</div>
+      </div>
+      <div class="card-body flush"><div class="tbl-wrap"><table class="tbl" id="tpaTbl"></table></div></div>
+    </div>
+    <div class="card">
+      <div class="card-hd"><div class="card-title"><span class="bar"></span>Warning 기준</div></div>
+      <div class="card-body" id="tpaGuide"></div>
+    </div>
+  </div>
+</section>
+
+<section class="page" id="ncr">
+  <div class="grid g4" id="ncrKpis"></div>
+  <div class="h-sep"></div>
+  <div class="grid g31">
+    <div class="card">
+      <div class="card-hd"><div class="card-title"><span class="bar"></span>미결 NCR 상세</div></div>
+      <div class="card-body flush"><div class="tbl-wrap"><table class="tbl" id="ncrTbl"></table></div></div>
+    </div>
+    <div class="card">
+      <div class="card-hd"><div class="card-title"><span class="bar"></span>프로젝트별 요약</div></div>
+      <div class="card-body" id="ncrSummary"></div>
+    </div>
+  </div>
+</section>
+
+<section class="page" id="manpower">
+  <div class="grid g4" id="manpowerKpis"></div>
+  <div class="h-sep"></div>
+  <div class="card">
+    <div class="card-hd"><div class="card-title"><span class="bar"></span>팀 인력 운영 조직도</div></div>
+    <div class="card-body flush"><div class="org-canvas" id="orgChart"></div></div>
+  </div>
+  <div class="h-sep"></div>
+  <div class="card">
+    <div class="card-hd"><div class="card-title"><span class="bar"></span>인력 상세 목록</div></div>
+    <div class="card-body flush"><div class="tbl-wrap"><table class="tbl" id="mpTbl"></table></div></div>
+  </div>
+</section>
+
+<section class="page" id="trip">
+  <div class="grid g4" id="tripKpis"></div>
+  <div class="h-sep"></div>
+  <div class="card">
+    <div class="card-hd"><div class="card-title"><span class="bar"></span>출장 현황</div></div>
+    <div class="card-body flush"><div class="tbl-wrap"><table class="tbl" id="tripTbl"></table></div></div>
+  </div>
+</section>
+
+<section class="page" id="issues">
+  <div class="grid g2">
+    <div class="card">
+      <div class="card-hd"><div class="card-title"><span class="bar"></span>프로젝트 현안</div></div>
+      <div class="card-body" id="projectIssueArea"></div>
+    </div>
+    <div class="card">
+      <div class="card-hd"><div class="card-title"><span class="bar"></span>팀 내부 현안</div></div>
+      <div class="card-body" id="teamIssueArea"></div>
+    </div>
+  </div>
+</section>
+
+</main>
+<div class="toast" id="toast">데이터가 반영되었습니다.</div>
+
+<script>
+const DEFAULT_RAW = {"Project":[{"Project_Code":"MIP6","Contract_Price_HDEC_Mil_USD":1484,"Contract_Price_Total_Mil_USD":1484,"Contract_Price_HDEC_Mil_KRW":null,"Contract_Price_Total_Mil_KRW":null,"Client":"Aramco","Country":"Saudi Arabia","PM":"-","PQCM":"-","Status":"Mechanical Completion","Progress":1,"Remarks":null},{"Project_Code":"SM12","Contract_Price_HDEC_Mil_USD":1318,"Contract_Price_Total_Mil_USD":1354,"Contract_Price_HDEC_Mil_KRW":null,"Contract_Price_Total_Mil_KRW":null,"Client":"Aramco","Country":"Saudi Arabia","PM":"정준택 상무","PQCM":"장동철 책임","Status":"Active","Progress":0.9996,"Remarks":null},{"Project_Code":"IBRU","Contract_Price_HDEC_Mil_USD":1814,"Contract_Price_Total_Mil_USD":3778,"Contract_Price_HDEC_Mil_KRW":null,"Contract_Price_Total_Mil_KRW":null,"Client":"BOC","Country":"Iraq","PM":"정태수 소장","PQCM":"-","Status":"Mechanical Completion","Progress":1,"Remarks":null},{"Project_Code":"SHN1","Contract_Price_HDEC_Mil_USD":null,"Contract_Price_Total_Mil_USD":null,"Contract_Price_HDEC_Mil_KRW":2389100,"Contract_Price_Total_Mil_KRW":5436800,"Client":"S-Oil","Country":"Korea","PM":"이현영 실장","PQCM":"이해석 책임","Status":"Active","Progress":0.9569,"Remarks":null},{"Project_Code":"ALOM","Contract_Price_HDEC_Mil_USD":584,"Contract_Price_Total_Mil_USD":730,"Contract_Price_HDEC_Mil_KRW":null,"Contract_Price_Total_Mil_KRW":null,"Client":"Hyenco","Country":"Algeria","PM":"정민권 소장","PQCM":"윤희수 책임","Status":"Active","Progress":0.5896,"Remarks":null},{"Project_Code":"VEQU","Contract_Price_HDEC_Mil_USD":952,"Contract_Price_Total_Mil_USD":1178,"Contract_Price_HDEC_Mil_KRW":null,"Contract_Price_Total_Mil_KRW":null,"Client":"EVN","Country":"Vietnam","PM":"이윤석 소장","PQCM":"윤희수 책임","Status":"Active","Progress":0.9895,"Remarks":null},{"Project_Code":"STA4","Contract_Price_HDEC_Mil_USD":2136,"Contract_Price_Total_Mil_USD":2136,"Contract_Price_HDEC_Mil_KRW":null,"Contract_Price_Total_Mil_KRW":null,"Client":"satorp","Country":"Saudi Arabia","PM":"임영빈 상무","PQCM":"최우석 책임","Status":"Active","Progress":0.8728,"Remarks":null},{"Project_Code":"SAC2","Contract_Price_HDEC_Mil_USD":1184,"Contract_Price_Total_Mil_USD":2369,"Contract_Price_HDEC_Mil_KRW":null,"Contract_Price_Total_Mil_KRW":null,"Client":"Aramco","Country":"Saudi Arabia","PM":"김형철 실장","PQCM":"최종현 책임","Status":"Active","Progress":0.7049,"Remarks":null},{"Project_Code":"CSSP","Contract_Price_HDEC_Mil_USD":3160,"Contract_Price_Total_Mil_USD":3160,"Contract_Price_HDEC_Mil_KRW":null,"Contract_Price_Total_Mil_KRW":null,"Client":"TotalEnergies","Country":"Iraq","PM":"박수철 상무","PQCM":"정진우 책임","Status":"Active","Progress":0.063,"Remarks":null},{"Project_Code":"PNG1","Contract_Price_HDEC_Mil_USD":1600,"Contract_Price_Total_Mil_USD":4000,"Contract_Price_HDEC_Mil_KRW":null,"Contract_Price_Total_Mil_KRW":null,"Client":"ExxonMobil","Country":"Papua New Genea","PM":"최성식 팀장","PQCM":"강태준 책임","Status":"Active","Progress":0,"Remarks":null},{"Project_Code":"ALSM","Contract_Price_HDEC_Mil_USD":5800,"Contract_Price_Total_Mil_USD":5800,"Contract_Price_HDEC_Mil_KRW":null,"Contract_Price_Total_Mil_KRW":null,"Client":"HPLS","Country":"USA","PM":"백철욱 상무","PQCM":"강태준 책임","Status":"Bid","Progress":0,"Remarks":null}],"Manpower":[{"Name":"유요석 팀장","Department":"본사","Main_Role_Responsibility":"Team Leader","PQCM":null,"PQC_Engineer":null,"Number_of_PO":null},{"Name":"강택기 책임","Department":"본사","Main_Role_Responsibility":"Piping","PQCM":null,"PQC_Engineer":"SAC2 / VEQU","Number_of_PO":9},{"Name":"윤희수 책임","Department":"본사","Main_Role_Responsibility":"Electrical & Instrument","PQCM":"ALOM / VEQU","PQC_Engineer":"STA4 / ALOM / CSSP","Number_of_PO":38},{"Name":"서민 책임","Department":"본사","Main_Role_Responsibility":"Rotating","PQCM":null,"PQC_Engineer":"STA4 / CSSP / PNG1","Number_of_PO":46},{"Name":"장동철 책임","Department":"본사","Main_Role_Responsibility":"Piping","PQCM":"SM12","PQC_Engineer":"SM12 / IBRU / CSSP / PNG1","Number_of_PO":25},{"Name":"정진우 책임","Department":"본사","Main_Role_Responsibility":"Static","PQCM":"CSSP","PQC_Engineer":"SM12 / ALOM / CSSP","Number_of_PO":9},{"Name":"나광조 책임","Department":"본사","Main_Role_Responsibility":"Static","PQCM":null,"PQC_Engineer":"SHN1 / ALOM / CSSP / PNG1","Number_of_PO":16},{"Name":"강인묵 책임","Department":"본사 (STA4)","Main_Role_Responsibility":"Electrical & Instrument","PQCM":null,"PQC_Engineer":"STA4 / CSSP","Number_of_PO":28},{"Name":"강태준 책임","Department":"본사","Main_Role_Responsibility":"Strategic Planning","PQCM":"PNG1 / ALSM","PQC_Engineer":"VEQU / CSSP / PNG1","Number_of_PO":39},{"Name":"이해석 책임","Department":"본사","Main_Role_Responsibility":"Electrical & Instrument","PQCM":"SHN1","PQC_Engineer":"STA4 / SHN1","Number_of_PO":21},{"Name":"최종현 책임","Department":"본사","Main_Role_Responsibility":"Electrical & Instrument","PQCM":"SAC2","PQC_Engineer":"SAC2","Number_of_PO":17},{"Name":"석우경 매니저","Department":"본사","Main_Role_Responsibility":"Piping","PQCM":null,"PQC_Engineer":"ALOM / CSSP / PNG1","Number_of_PO":53},{"Name":"고팔라크리스낸 매니저","Department":"본사","Main_Role_Responsibility":"Structural Steel","PQCM":null,"PQC_Engineer":"STA4 / VEQU / CSSP / PNG1","Number_of_PO":19},{"Name":"술탄 매니저","Department":"본사","Main_Role_Responsibility":"Electrical & Instrument","PQCM":null,"PQC_Engineer":"VEQU / CSSP","Number_of_PO":24},{"Name":"엥흐철멍 매니저","Department":"본사","Main_Role_Responsibility":"Piping","PQCM":null,"PQC_Engineer":"PNG1","Number_of_PO":1},{"Name":"최우석 책임","Department":"STA4","Main_Role_Responsibility":"Static","PQCM":"STA4","PQC_Engineer":null,"Number_of_PO":0},{"Name":"최영준 책임","Department":"STA4","Main_Role_Responsibility":"Static","PQCM":null,"PQC_Engineer":"STA4","Number_of_PO":8},{"Name":"임효원 책임","Department":"STA4","Main_Role_Responsibility":"Piping","PQCM":null,"PQC_Engineer":"STA4","Number_of_PO":37},{"Name":"황윤섭 책임","Department":"SAC2","Main_Role_Responsibility":"Piping","PQCM":null,"PQC_Engineer":"SAC2","Number_of_PO":13},{"Name":"박지애 매니저","Department":"본사 (SAC2)","Main_Role_Responsibility":"Piping","PQCM":null,"PQC_Engineer":"SAC2","Number_of_PO":12}],"Stage_Status":[{"Project_Code":"MIP6","MR_Total":"완료","MR_Done":"완료","TBE_Total":"완료","TBE_Done":"완료","PO_Total":200,"PO_Done":200,"PIM_Total":197,"PIM_Done":197,"IRC_100%_Total":397,"IRC_100%_Done":397,"NCR_Total":55,"NCR_Done":55},{"Project_Code":"SM12","MR_Total":"완료","MR_Done":"완료","TBE_Total":"완료","TBE_Done":"완료","PO_Total":150,"PO_Done":150,"PIM_Total":167,"PIM_Done":167,"IRC_100%_Total":351,"IRC_100%_Done":346,"NCR_Total":74,"NCR_Done":74},{"Project_Code":"IBRU","MR_Total":"완료","MR_Done":"완료","TBE_Total":"완료","TBE_Done":"완료","PO_Total":124,"PO_Done":124,"PIM_Total":45,"PIM_Done":45,"IRC_100%_Total":124,"IRC_100%_Done":124,"NCR_Total":7,"NCR_Done":7},{"Project_Code":"SHN1","MR_Total":"완료","MR_Done":"완료","TBE_Total":"완료","TBE_Done":"완료","PO_Total":24,"PO_Done":24,"PIM_Total":17,"PIM_Done":17,"IRC_100%_Total":40,"IRC_100%_Done":29,"NCR_Total":15,"NCR_Done":15},{"Project_Code":"ALOM","MR_Total":"완료","MR_Done":"완료","TBE_Total":"완료","TBE_Done":"완료","PO_Total":74,"PO_Done":74,"PIM_Total":28,"PIM_Done":28,"IRC_100%_Total":74,"IRC_100%_Done":52,"NCR_Total":16,"NCR_Done":16},{"Project_Code":"VEQU","MR_Total":"완료","MR_Done":"완료","TBE_Total":"완료","TBE_Done":"완료","PO_Total":96,"PO_Done":96,"PIM_Total":37,"PIM_Done":37,"IRC_100%_Total":96,"IRC_100%_Done":95,"NCR_Total":9,"NCR_Done":9},{"Project_Code":"STA4","MR_Total":"완료","MR_Done":"완료","TBE_Total":"완료","TBE_Done":"완료","PO_Total":159,"PO_Done":159,"PIM_Total":99,"PIM_Done":97,"IRC_100%_Total":122,"IRC_100%_Done":54,"NCR_Total":51,"NCR_Done":42},{"Project_Code":"SAC2","MR_Total":"완료","MR_Done":"완료","TBE_Total":"완료","TBE_Done":"완료","PO_Total":93,"PO_Done":93,"PIM_Total":62,"PIM_Done":59,"IRC_100%_Total":89,"IRC_100%_Done":21,"NCR_Total":7,"NCR_Done":7},{"Project_Code":"CSSP","MR_Total":148,"MR_Done":68,"TBE_Total":148,"TBE_Done":2,"PO_Total":148,"PO_Done":1,"PIM_Total":57,"PIM_Done":0,"IRC_100%_Total":148,"IRC_100%_Done":0,"NCR_Total":0,"NCR_Done":0},{"Project_Code":"PNG1","MR_Total":30,"MR_Done":10,"TBE_Total":30,"TBE_Done":5,"PO_Total":30,"PO_Done":2,"PIM_Total":17,"PIM_Done":0,"IRC_100%_Total":30,"IRC_100%_Done":0,"NCR_Total":0,"NCR_Done":0},{"Project_Code":"ALSM","MR_Total":"미정","MR_Done":"미정","TBE_Total":"미정","TBE_Done":"미정","PO_Total":"미정","PO_Done":"미정","PIM_Total":"미정","PIM_Done":"미정","IRC_100%_Total":"미정","IRC_100%_Done":"미정","NCR_Total":"미정","NCR_Done":"미정"}],"Open_NCR":[{"Serial_Number":1,"Project_Code":"STA4","NCR_Number":"STA4-MR010-OPT-NCR-001","Item":"Sealless Pump (API 685)","Vendor":"Optimex","NCR_Title":"High Power Consumption","Issue_Date":45898,"Days_to_Date":243,"Reamrks":null},{"Serial_Number":2,"Project_Code":"STA4","NCR_Number":"STA4-EL009-AFN-NCR-001","Item":"LV Controlgear ","Vendor":"Al-Fanar","NCR_Title":"Factory Acceptance Test and Punch Closing Verification ","Issue_Date":45963,"Days_to_Date":178,"Reamrks":null},{"Serial_Number":3,"Project_Code":"STA4","NCR_Number":"STA4-MS017-SYC-NCR-001","Item":"Air Dryer Package ","Vendor":"Seyang Corporation","NCR_Title":"Factory Acceptance Test and Punch Closing Verification ","Issue_Date":45968,"Days_to_Date":173,"Reamrks":null},{"Serial_Number":4,"Project_Code":"STA4","NCR_Number":"STA4-EL007-AFN-NCR-001","Item":"HV Switchgear","Vendor":"Al-Fanar","NCR_Title":"Factory Acceptance Test and Punch Closing Verification ","Issue_Date":46010,"Days_to_Date":131,"Reamrks":null},{"Serial_Number":5,"Project_Code":"STA4","NCR_Number":"STA4-MR010-OPT-NCR-002","Item":"Sealless Pump (API 685)","Vendor":"Optimex","NCR_Title":"IRC Issuance with Punch List","Issue_Date":45995,"Days_to_Date":146,"Reamrks":null},{"Serial_Number":6,"Project_Code":"STA4","NCR_Number":"STA4-CI001-EME-NCR-001","Item":"PCS","Vendor":"Emerson","NCR_Title":"IRC Issuance with Punch List","Issue_Date":46042,"Days_to_Date":99,"Reamrks":null},{"Serial_Number":7,"Project_Code":"STA4","NCR_Number":"STA4-EL012-SEL1-NCR-002","Item":"ECS","Vendor":"SEL","NCR_Title":"IRC Issuance with Punch List","Issue_Date":46107,"Days_to_Date":34,"Reamrks":null},{"Serial_Number":8,"Project_Code":"STA4","NCR_Number":"STA4-CI001-EME-NCR-002","Item":"PCS","Vendor":"Emerson","NCR_Title":"IRC Issuance with Punch List","Issue_Date":46087,"Days_to_Date":54,"Reamrks":null},{"Serial_Number":9,"Project_Code":"STA4","NCR_Number":"STA4-CI005-VAL-NCR-002","Item":"On-Off Valve (Ball)","Vendor":"Valmet","NCR_Title":"High-Pressure Seat Test / DBB Test was omitted for Trunnion Type Ball Valve","Issue_Date":46120,"Days_to_Date":21,"Reamrks":null}],"TPA":[{"Project_Code":"MIP6","Status":"Mechanical Completion","예산(USD)":12511157,"계약고(USD)":12511157,"집행비용(USD)":12499872,"예산(KRW)":null,"계약고(KRW)":null,"집행비용(KRW)":null,"예산 소진율":0.9990980050845817,"現 계약고 소진율":0.9990980050845817},{"Project_Code":"SM12","Status":"Active","예산(USD)":9017286,"계약고(USD)":9017286,"집행비용(USD)":8964816,"예산(KRW)":null,"계약고(KRW)":null,"집행비용(KRW)":null,"예산 소진율":0.9941811760212552,"現 계약고 소진율":0.9941811760212552},{"Project_Code":"IBRU","Status":"Mechanical Completion","예산(USD)":4024396,"계약고(USD)":2886653.24,"집행비용(USD)":2588280,"예산(KRW)":null,"계약고(KRW)":null,"집행비용(KRW)":null,"예산 소진율":0.6431474437406259,"現 계약고 소진율":0.8966369649580771},{"Project_Code":"SHN1","Status":"Active","예산(USD)":null,"계약고(USD)":null,"집행비용(USD)":null,"예산(KRW)":3442862995,"계약고(KRW)":3384427737,"집행비용(KRW)":2623837243,"예산 소진율":null,"現 계약고 소진율":0.7752676218537917},{"Project_Code":"ALOM","Status":"Active","예산(USD)":766265,"계약고(USD)":766265,"집행비용(USD)":373850,"예산(KRW)":null,"계약고(KRW)":null,"집행비용(KRW)":null,"예산 소진율":0.4878860446451293,"現 계약고 소진율":0.4878860446451293},{"Project_Code":"VEQU","Status":"Active","예산(USD)":375828,"계약고(USD)":228937,"집행비용(USD)":203424,"예산(KRW)":null,"계약고(KRW)":null,"집행비용(KRW)":null,"예산 소진율":0.5412688783166768,"現 계약고 소진율":0.8885588611714139},{"Project_Code":"STA4","Status":"Active","예산(USD)":8945512,"계약고(USD)":7462653,"집행비용(USD)":6311810,"예산(KRW)":null,"계약고(KRW)":null,"집행비용(KRW)":null,"예산 소진율":0.7055839844605876,"現 계약고 소진율":0.8457863443469769},{"Project_Code":"SAC2","Status":"Active","예산(USD)":4791851,"계약고(USD)":3650000,"집행비용(USD)":2276543,"예산(KRW)":null,"계약고(KRW)":null,"집행비용(KRW)":null,"예산 소진율":0.475086349721642,"現 계약고 소진율":0.6237104109589041},{"Project_Code":"CSSP","Status":"Active","예산(USD)":5960701,"계약고(USD)":"미정","집행비용(USD)":0,"예산(KRW)":null,"계약고(KRW)":null,"집행비용(KRW)":null,"예산 소진율":0,"現 계약고 소진율":"N/A"},{"Project_Code":"PNG1","Status":"Active","예산(USD)":1875089,"계약고(USD)":"미정","집행비용(USD)":0,"예산(KRW)":null,"계약고(KRW)":null,"집행비용(KRW)":null,"예산 소진율":0,"現 계약고 소진율":"N/A"},{"Project_Code":"ALSM","Status":"Bid","예산(USD)":"미정","계약고(USD)":"미정","집행비용(USD)":0,"예산(KRW)":null,"계약고(KRW)":null,"집행비용(KRW)":null,"예산 소진율":"N/A","現 계약고 소진율":"N/A"}],"Trip":[{"Traveler":"석우경 매니저","Purpose":"FAT","Project_Code":"VEQU","Item":"ID FAN","Vendor":"TLT Turbo","Country_Trip":"중국","Start_Date":45662,"End_Date":45668},{"Traveler":"최영준 책임","Purpose":"PIM","Project_Code":"STA4","Item":"Incinerator - Chamber & Stack","Vendor":"Morimatsu","Country_Trip":"중국","Start_Date":45663,"End_Date":45666},{"Traveler":"이해석 책임","Purpose":"FAT","Project_Code":"SHN1","Item":"AC,DC UPS","Vendor":"GUTOR","Country_Trip":"말레이시아","Start_Date":45676,"End_Date":45680},{"Traveler":"강택기 책임","Purpose":"PIM","Project_Code":"STA4","Item":"On-Off Valve Butterfly","Vendor":"IMI","Country_Trip":"사우디","Start_Date":45677,"End_Date":45678},{"Traveler":"최종현 책임","Purpose":"PIM","Project_Code":"SAC2","Item":"Analyzer System","Vendor":"ABB","Country_Trip":"사우디","Start_Date":45677,"End_Date":45681},{"Traveler":"서민 책임","Purpose":"PIM","Project_Code":"STA4","Item":"Chemical Injection PKG","Vendor":"Saudi Wells","Country_Trip":"사우디","Start_Date":45678,"End_Date":45681},{"Traveler":"강택기 책임","Purpose":"PIM","Project_Code":"STA4","Item":"On-Off Valve Gate","Vendor":"L&T Valve","Country_Trip":"사우디","Start_Date":45679,"End_Date":45680},{"Traveler":"정진우 책임","Purpose":"PIM","Project_Code":"STA4","Item":"FLARE PKG - Derrick Sturcture","Vendor":"DSD-FERROMETALCO","Country_Trip":"이집트","Start_Date":45680,"End_Date":45682},{"Traveler":"정진우 책임","Purpose":"PIM","Project_Code":"STA4","Item":"FLARE PKG - MPGF","Vendor":"ZEECO MIDDLE EAST","Country_Trip":"사우디","Start_Date":45691,"End_Date":45695},{"Traveler":"최우석 책임","Purpose":"PIM","Project_Code":"STA4","Item":"FLARE PKG - MPGF","Vendor":"ZEECO MIDDLE EAST","Country_Trip":"사우디","Start_Date":45691,"End_Date":45695},{"Traveler":"정진우 책임","Purpose":"PIM","Project_Code":"STA4","Item":"Incinerator PKG - Burner & Skid","Vendor":"ZEECO MIDDLE EAST","Country_Trip":"사우디","Start_Date":45691,"End_Date":45695},{"Traveler":"최우석 책임","Purpose":"PIM","Project_Code":"STA4","Item":"Incinerator PKG - Burner & Skid","Vendor":"ZEECO MIDDLE EAST","Country_Trip":"사우디","Start_Date":45691,"End_Date":45695},{"Traveler":"나광조 책임","Purpose":"Monitoring","Project_Code":"SHN1","Item":"Damper (Diverter, Guillotine, Louver)","Vendor":"남광엔지니어링","Country_Trip":"대한민국","Start_Date":45694,"End_Date":45694},{"Traveler":"이해석 책임","Purpose":"Monitoring","Project_Code":"SHN1","Item":"PCS","Vendor":"요코가와","Country_Trip":"대한민국","Start_Date":45700,"End_Date":45700},{"Traveler":"윤희수 책임","Purpose":"FAT","Project_Code":"SHN1","Item":"Distribution Transformer","Vendor":"효성중공업","Country_Trip":"대한민국","Start_Date":45705,"End_Date":45707},{"Traveler":"나광조 책임","Purpose":"업체실사","Project_Code":"SHN1","Item":"Diverter Damper","Vendor":"TS 넥스젠","Country_Trip":"대한민국","Start_Date":45705,"End_Date":45705},{"Traveler":"이해석 책임","Purpose":"FAT","Project_Code":"SHN1","Item":"MV Switch Gear","Vendor":"LS ELECTRIC","Country_Trip":"대한민국","Start_Date":45705,"End_Date":45706},{"Traveler":"강태준 책임","Purpose":"PIM","Project_Code":"SHN1","Item":"Regenerative Thermal Oxidizer (RTO) Package","Vendor":"삼경이엔씨","Country_Trip":"대한민국","Start_Date":45707,"End_Date":45708},{"Traveler":"최영준 책임","Purpose":"업체실사","Project_Code":"STA4","Item":"Air Release Valve","Vendor":"Prosave","Country_Trip":"대한민국","Start_Date":45720,"End_Date":45721},{"Traveler":"최우석 책임","Purpose":"업체실사","Project_Code":"STA4","Item":"Air Release Valve","Vendor":"Prosave","Country_Trip":"대한민국","Start_Date":45720,"End_Date":45721},{"Traveler":"최영준 책임","Purpose":"Monitoring","Project_Code":"MIP6","Item":"Electric Heater","Vendor":"Chromalox","Country_Trip":"미국","Start_Date":45725,"End_Date":45732},{"Traveler":"최영준 책임","Purpose":"Monitoring","Project_Code":"SM12","Item":"Electric Heater","Vendor":"Chromalox","Country_Trip":"미국","Start_Date":45725,"End_Date":45732},{"Traveler":"윤희수 책임","Purpose":"FAT","Project_Code":"STA4","Item":"230kV Power Transformer","Vendor":"Hyosung Nantong","Country_Trip":"중국","Start_Date":45733,"End_Date":45736},{"Traveler":"정진우 책임","Purpose":"PIM","Project_Code":"STA4","Item":"Activated Carbon Filter Package","Vendor":"FILTREX SRL","Country_Trip":"이탈리아","Start_Date":45740,"End_Date":45742},{"Traveler":"최우석 책임","Purpose":"PIM","Project_Code":"STA4","Item":"Activated Carbon Filter Package","Vendor":"FILTREX SRL","Country_Trip":"이탈리아","Start_Date":45740,"End_Date":45742},{"Traveler":"정진우 책임","Purpose":"Monitoring","Project_Code":"STA4","Item":"Incinerator PKG - Chamber & Stack","Vendor":"Morimatsu","Country_Trip":"중국","Start_Date":45743,"End_Date":45744},{"Traveler":"최우석 책임","Purpose":"Monitoring","Project_Code":"STA4","Item":"Incinerator PKG - Chamber & Stack","Vendor":"Morimatsu","Country_Trip":"중국","Start_Date":45743,"End_Date":45744},{"Traveler":"이해석 책임","Purpose":"공장검사","Project_Code":"SHN1","Item":"LV SWGR","Vendor":"광명전기","Country_Trip":"대한민국","Start_Date":45750,"End_Date":45751},{"Traveler":"정진우 책임","Purpose":"PIM","Project_Code":"STA4","Item":"Activated Carbon Filter Package","Vendor":"FABTECH International","Country_Trip":"UAE","Start_Date":45754,"End_Date":45757},{"Traveler":"최우석 책임","Purpose":"PIM","Project_Code":"STA4","Item":"Activated Carbon Filter Package","Vendor":"FABTECH International","Country_Trip":"UAE","Start_Date":45754,"End_Date":45757},{"Traveler":"서민 책임","Purpose":"공장검사","Project_Code":"STA4","Item":"Cooling Water Pump","Vendor":"Flowserve","Country_Trip":"이탈리아","Start_Date":45760,"End_Date":45763},{"Traveler":"윤희수 책임","Purpose":"FAT","Project_Code":"SHN1","Item":"33kV GIS","Vendor":"효성중공업","Country_Trip":"대한민국","Start_Date":45760,"End_Date":45765},{"Traveler":"이해석 책임","Purpose":"공장검사","Project_Code":"SHN1","Item":"Cracking Heater Burner","Vendor":"신아플랜트","Country_Trip":"대한민국","Start_Date":45768,"End_Date":45768},{"Traveler":"최우석 책임","Purpose":"업체실사","Project_Code":"STA4","Item":"C/S Seamless Pip","Vendor":"Hongda (흥양 Sub-Vendor)","Country_Trip":"중국","Start_Date":45768,"End_Date":45771},{"Traveler":"장동철 책임","Purpose":"교육","Project_Code":"-","Item":"Valve Academy","Vendor":"PK Valve","Country_Trip":"대한민국","Start_Date":45771,"End_Date":45772},{"Traveler":"이해석 책임","Purpose":"FAT","Project_Code":"SHN1","Item":"LOAD SHEDDING","Vendor":"코리아데이타","Country_Trip":"대한민국","Start_Date":45775,"End_Date":45776},{"Traveler":"나광조 책임","Purpose":"PIM","Project_Code":"SHN1","Item":"Regenerative Thermal Oxidizer (RTO) Package","Vendor":"대상이엔지","Country_Trip":"대한민국","Start_Date":45785,"End_Date":45786},{"Traveler":"나광조 책임","Purpose":"Monitoring","Project_Code":"SHN1","Item":"Steel Structure","Vendor":"KIC","Country_Trip":"대한민국","Start_Date":45806,"End_Date":45806},{"Traveler":"최우석 책임","Purpose":"업체실사","Project_Code":"STA4","Item":"Pressure Vessel of Flare PKG & Incierator ","Vendor":"PERTON (ZEECO Sub-Vendor)","Country_Trip":"사우디","Start_Date":45790,"End_Date":45799},{"Traveler":"정진우 책임","Purpose":"PIM","Project_Code":"STA4","Item":"INCINERATOR PKG - STANDARD FLANGE","Vendor":"WUXI PAIKE (ZEECO Sub-Vendor)","Country_Trip":"중국","Start_Date":45797,"End_Date":45799},{"Traveler":"서민 책임","Purpose":"FAT","Project_Code":"STA4","Item":"Blow Down Pump(MR-006)","Vendor":"DMW(일본)","Country_Trip":"일본","Start_Date":45823,"End_Date":45825},{"Traveler":"이해석 책임","Purpose":"PIM","Project_Code":"SHN1","Item":"CRACKING HEATER BURNER","Vendor":"신아플랜트","Country_Trip":"대한민국","Start_Date":45818,"End_Date":45818},{"Traveler":"서민 책임","Purpose":"공장검사","Project_Code":"STA4","Item":"Air Compressor PKG","Vendor":"현대마린엔진(HHI 터보기계 Sub-Vendor)","Country_Trip":"대한민국","Start_Date":45853,"End_Date":45853},{"Traveler":"서민 책임","Purpose":"현안미팅","Project_Code":"STA4","Item":"Air Compressor PKG","Vendor":"HHI 터보기계","Country_Trip":"대한민국","Start_Date":45867,"End_Date":45867},{"Traveler":"유요석 팀장","Purpose":"업체실사","Project_Code":"STA4","Item":"FBE Coating / Knife gate valve & Strainer","Vendor":"우성플로텍","Country_Trip":"대한민국","Start_Date":45869,"End_Date":45870},{"Traveler":"나광조 책임","Purpose":"FAT","Project_Code":"SHN1","Item":"FAN","Vendor":"서원풍력","Country_Trip":"대한민국","Start_Date":45853,"End_Date":45853},{"Traveler":"나광조 책임","Purpose":"FAT","Project_Code":"SHN1","Item":"Diverter Damper","Vendor":"TS 넥스젠(남광엔지니어링 임대공장)","Country_Trip":"대한민국","Start_Date":45863,"End_Date":45866},{"Traveler":"윤희수 책임","Purpose":"공장검사","Project_Code":"STA4","Item":"MV Cable","Vendor":"Bahra Advanced Cable","Country_Trip":"사우디","Start_Date":45877,"End_Date":45881},{"Traveler":"윤희수 책임","Purpose":"공장검사","Project_Code":"STA4","Item":"CRP Panel","Vendor":"Hitachi Energy","Country_Trip":"사우디","Start_Date":45882,"End_Date":45885},{"Traveler":"서민 책임","Purpose":"업체실사","Project_Code":"STA4","Item":"Side Entry Mixer","Vendor":"하도","Country_Trip":"대한민국","Start_Date":45881,"End_Date":45881},{"Traveler":"서민 책임","Purpose":"공장검사","Project_Code":"STA4","Item":"Air Compressor PKG","Vendor":"HHI 터보기계","Country_Trip":"대한민국","Start_Date":45889,"End_Date":45889},{"Traveler":"서민 책임","Purpose":"FAT","Project_Code":"STA4","Item":"Air Compressor PKG","Vendor":"HHI 터보기계","Country_Trip":"대한민국","Start_Date":45901,"End_Date":45902},{"Traveler":"서민 책임","Purpose":"공장검사","Project_Code":"STA4","Item":"Air Compressor PKG","Vendor":"HHI 터보기계","Country_Trip":"대한민국","Start_Date":45904,"End_Date":45904},{"Traveler":"정진우 책임","Purpose":"공장검사","Project_Code":"STA4","Item":"Filter","Vendor":"Xinxiang Shengda Filtration Technique","Country_Trip":"중국","Start_Date":45902,"End_Date":45904},{"Traveler":"서민 책임","Purpose":"FAT","Project_Code":"STA4","Item":"Air Compressor PKG","Vendor":"HHI 터보기계","Country_Trip":"대한민국","Start_Date":45908,"End_Date":45909},{"Traveler":"윤희수 책임","Purpose":"Monitoring","Project_Code":"SHN1","Item":"Ceramic Insulator","Vendor":"태성쎄라믹","Country_Trip":"대한민국","Start_Date":45924,"End_Date":45924},{"Traveler":"서민 책임","Purpose":"공장검사","Project_Code":"STA4","Item":"Air Compressor PKG","Vendor":"HHI 터보기계","Country_Trip":"대한민국","Start_Date":45926,"End_Date":45926},{"Traveler":"서민 책임","Purpose":"공장검사","Project_Code":"STA4","Item":"Air Compressor PKG","Vendor":"HHI 터보기계","Country_Trip":"대한민국","Start_Date":45930,"End_Date":45930},{"Traveler":"서민 책임","Purpose":"FAT","Project_Code":"STA4","Item":"Air Compressor PKG","Vendor":"HHI 터보기계","Country_Trip":"대한민국","Start_Date":45943,"End_Date":45944},{"Traveler":"장동철 책임","Purpose":"공장검사","Project_Code":"STA4","Item":"Knife Gate Valve","Vendor":"동해밸브","Country_Trip":"대한민국","Start_Date":45952,"End_Date":45952},{"Traveler":"정진우 책임","Purpose":"공장검사","Project_Code":"STA4","Item":"Air Dryer Package","Vendor":"세양기업","Country_Trip":"대한민국","Start_Date":45954,"End_Date":45954},{"Traveler":"서민 책임","Purpose":"공장검사","Project_Code":"STA4","Item":"Air Compressor PKG","Vendor":"HHI 터보기계","Country_Trip":"대한민국","Start_Date":45967,"End_Date":45967},{"Traveler":"강태준 책임","Purpose":"업체감사","Project_Code":"ALOM","Item":"Exhaust Gas Bypass System","Vendor":"티에스넥스젠 인천사업장","Country_Trip":"대한민국","Start_Date":45946,"End_Date":45947},{"Traveler":"강태준 책임","Purpose":"업체감사","Project_Code":"ALOM","Item":"Exhaust Gas Bypass System","Vendor":"티에스넥스젠 인천사업장","Country_Trip":"대한민국","Start_Date":45953,"End_Date":45953},{"Traveler":"나광조 책임","Purpose":"PIM","Project_Code":"ALOM","Item":"Air Cooled Condenser Package","Vendor":"SPG Dry Cooling Belgum","Country_Trip":"중국","Start_Date":45965,"End_Date":45968},{"Traveler":"강태준 책임","Purpose":"공장검사","Project_Code":"STA4","Item":"Wrought Fitting","Vendor":"태광","Country_Trip":"대한민국","Start_Date":45967,"End_Date":45967},{"Traveler":"강태준 책임","Purpose":"공장검사","Project_Code":"STA4","Item":"FBE Coating / Lining","Vendor":"세보테크놀로지","Country_Trip":"대한민국","Start_Date":45978,"End_Date":45978},{"Traveler":"서민 책임","Purpose":"공장검사","Project_Code":"STA4","Item":"Air Compressor PKG","Vendor":"HHI 터보기계","Country_Trip":"대한민국","Start_Date":45979,"End_Date":45980},{"Traveler":"서민 책임","Purpose":"공장검사","Project_Code":"STA4","Item":"Air Compressor PKG","Vendor":"HHI 터보기계","Country_Trip":"대한민국","Start_Date":45982,"End_Date":45982},{"Traveler":"강태준 책임","Purpose":"업체실사","Project_Code":"CSSP","Item":"Valve","Vendor":"DHV VALVE & FOUNDRY","Country_Trip":"중국","Start_Date":45985,"End_Date":45985},{"Traveler":"강태준 책임","Purpose":"업체실사","Project_Code":"CSSP","Item":"Valve","Vendor":"SUFA","Country_Trip":"중국","Start_Date":45986,"End_Date":45986},{"Traveler":"강태준 책임","Purpose":"업체실사","Project_Code":"CSSP","Item":"Valve","Vendor":"NEWAY VALVE","Country_Trip":"중국","Start_Date":45987,"End_Date":45987},{"Traveler":"강태준 책임","Purpose":"업체실사","Project_Code":"CSSP","Item":"FBE Coating / Lining","Vendor":"TYHOO","Country_Trip":"중국","Start_Date":45988,"End_Date":45988},{"Traveler":"강태준 책임","Purpose":"업체실사","Project_Code":"CSSP","Item":"Flange / Fitting","Vendor":"ZHONGNAN HEAVY INDUSTRIES","Country_Trip":"중국","Start_Date":45989,"End_Date":45989},{"Traveler":"서민 책임","Purpose":"공장검사","Project_Code":"STA4","Item":"Air Compressor PKG","Vendor":"HHI 터보기계","Country_Trip":"대한민국","Start_Date":45987,"End_Date":45988},{"Traveler":"강인묵 책임","Purpose":"공장검사","Project_Code":"STA4","Item":"HV SWGR","Vendor":"Al-Fanar","Country_Trip":"사우디","Start_Date":45986,"End_Date":46002},{"Traveler":"강인묵 책임","Purpose":"공장검사","Project_Code":"STA4","Item":"MV CABLE","Vendor":"Habara Cable","Country_Trip":"사우디","Start_Date":45992,"End_Date":45992},{"Traveler":"강인묵 책임","Purpose":"공장검사","Project_Code":"STA4","Item":"ANALYZER","Vendor":"Yogokawa","Country_Trip":"사우디","Start_Date":45994,"End_Date":45994},{"Traveler":"윤희수 책임","Purpose":"공장검사","Project_Code":"STA4","Item":"Ethan Compressor","Vendor":"Hitachi","Country_Trip":"일본","Start_Date":45998,"End_Date":46001},{"Traveler":"강택기 책임","Purpose":"Monitoring","Project_Code":"STA4","Item":"Knife Gate Valve","Vendor":"동해밸브","Country_Trip":"대한민국","Start_Date":46014,"End_Date":46014},{"Traveler":"나광조 책임","Purpose":"Monitoring","Project_Code":"MIP6","Item":"Electric Heater","Vendor":"Chromalox Inc.","Country_Trip":"미국","Start_Date":46042,"End_Date":46059},{"Traveler":"강택기 책임","Purpose":"공장검사","Project_Code":"STA4","Item":"Knife Gate Valve","Vendor":"동해밸브","Country_Trip":"대한민국","Start_Date":46063,"End_Date":46063},{"Traveler":"강인묵 책임","Purpose":"FAT","Project_Code":"STA4","Item":"ECS Panel ","Vendor":"Al-Fanar","Country_Trip":"사우디","Start_Date":46076,"End_Date":46090},{"Traveler":"유요석 팀장","Purpose":"업체실사","Project_Code":"STA4","Item":"Oil Skimmer for Storage Tank","Vendor":"TTS","Country_Trip":"대한민국","Start_Date":46079,"End_Date":46079},{"Traveler":"강태준 책임","Purpose":"업체실사","Project_Code":"STA4","Item":"Oil Skimmer for Storage Tank","Vendor":"TTS","Country_Trip":"대한민국","Start_Date":46079,"End_Date":46079},{"Traveler":"강태준 책임","Purpose":"업체실사","Project_Code":"CSSP","Item":"Spool Fabrication & External/Internal Coating","Vendor":"웰텍","Country_Trip":"대한민국","Start_Date":46085,"End_Date":46085},{"Traveler":"유요석 팀장","Purpose":"업체실사","Project_Code":"CSSP","Item":"Spool Fabrication & External/Internal Coating","Vendor":"주성이엔지","Country_Trip":"대한민국","Start_Date":46086,"End_Date":46086},{"Traveler":"강태준 책임","Purpose":"업체실사","Project_Code":"CSSP","Item":"Spool Fabrication & External/Internal Coating","Vendor":"주성이엔지","Country_Trip":"대한민국","Start_Date":46086,"End_Date":46086}],"Issue":[{"Title":"Knife Gate Valve 표면 처리불량","Owner":"임효원 책임","Project_Code":"STA4","Action_Required":"FBE 작업 진행 중"},{"Title":"N2 Receiver 폭발 사고 관련 추가 제작 Item 검사 절차 협의","Owner":"장동철 책임","Project_Code":"SM12","Action_Required":"SVL & Inspection Level 협의 중 (SAIR)"},{"Title":"Produced Water Booster Pump 관련 Casing 파손","Owner":"서민 책임","Project_Code":"MIP6","Action_Required":"결함 판독을 위해 현장에서 RT 수행 예정"},{"Title":"N2 Generation Package 성능 미달","Owner":"장동철 책임","Project_Code":"IBRU","Action_Required":"제작 및 검사 진행 중"},{"Title":"Bypass Valve 현장시험 불합격","Owner":"석우경 매니저","Project_Code":"VEQU","Action_Required":null},{"Title":"LV Switchgear 내부 부식 발생","Owner":"윤희수 책임","Project_Code":"ALOM","Action_Required":"재제작 진행 중 (5월말 FAT 예상)"},{"Title":"원소재 성적서 검토 시스템","Owner":"장동철 책임","Project_Code":"플랜트구매품질팀","Action_Required":"경영분석팀 & IT지원팀 협의 중"},{"Title":"Punch 관리방법 개선","Owner":"이해석 책임","Project_Code":"플랜트구매품질팀","Action_Required":"추진안 준비 중"},{"Title":"TPA Workshop","Owner":"장동철 책임","Project_Code":"플랜트구매품질팀","Action_Required":"금주 중 참석자 확정 및 사전 설문 완료 예정"},{"Title":"TPA 실행 비용 분석 및 입찰 예산 적정성 검증","Owner":"강태준 책임","Project_Code":"플랜트구매품질팀","Action_Required":"프로젝트별 TPA 청산자료 1차 가공 완료"}]};
+
+const SHEET_FIELDS = {
+  "Project":["Project_Code","Contract_Price_HDEC_Mil_USD","Contract_Price_Total_Mil_USD","Contract_Price_HDEC_Mil_KRW","Contract_Price_Total_Mil_KRW","Client","Country","PM","PQCM","Status","Progress","Remarks"],
+  "Manpower":["Name","Department","Main_Role_Responsibility","PQCM","PQC_Engineer","Number_of_PO"],
+  "Stage_Status":["Project_Code","MR_Total","MR_Done","TBE_Total","TBE_Done","PO_Total","PO_Done","PIM_Total","PIM_Done","IRC_100%_Total","IRC_100%_Done","NCR_Total","NCR_Done"],
+  "Open_NCR":["Serial_Number","Project_Code","NCR_Number","Item","Vendor","NCR_Title","Issue_Date","Days_to_Date","Reamrks"],
+  "TPA":["Project_Code","Status","예산(USD)","계약고(USD)","집행비용(USD)","예산(KRW)","계약고(KRW)","집행비용(KRW)","예산 소진율","現 계약고 소진율"],
+  "Trip":["Traveler","Purpose","Project_Code","Item","Vendor","Country_Trip","Start_Date","End_Date"],
+  "Issue":["Title","Owner","Project_Code","Action_Required"]
+};
+
+let RAW = structuredClone(DEFAULT_RAW);
+let FX_RATE = 1473.00;
+
+const STAGE = [
+  {name:'MR',  total:'MR_Total',       done:'MR_Done',       weight:.10},
+  {name:'TBE', total:'TBE_Total',      done:'TBE_Done',      weight:.10},
+  {name:'PO',  total:'PO_Total',       done:'PO_Done',       weight:.10},
+  {name:'PIM', total:'PIM_Total',      done:'PIM_Done',      weight:.20},
+  {name:'IRC', total:'IRC_100%_Total', done:'IRC_100%_Done', weight:.50}
+];
+
+/* === 유틸 === */
+const $ = id => document.getElementById(id);
+const esc = v => String(v??'').replace(/[&<>"']/g,s=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]));
+const num = v => { if(v===null||v===undefined||v==='')return 0; const c=String(v).replace(/,/g,'').trim(); const n=Number(c); return Number.isFinite(n)?n:0; };
+const isNumLike = v => { if(v===null||v===undefined||v==='')return false; return Number.isFinite(Number(String(v).replace(/,/g,'').trim())); };
+const fmt = (n,d=0) => { if(n===null||n===undefined||n===''||!Number.isFinite(Number(n)))return '-'; return Number(n).toLocaleString('en-US',{maximumFractionDigits:d,minimumFractionDigits:d}); };
+const pctRaw = v => { const n=Number(v); if(!Number.isFinite(n))return null; return n>1?n:n*100; };
+const pctDisp = (v,d=1) => { const p=pctRaw(v); if(p===null)return '-'; let r=Math.round(p*Math.pow(10,d))/Math.pow(10,d); if(p<100&&r>=100)r=Number((100-1/Math.pow(10,d)).toFixed(d)); return r.toFixed(d)+'%'; };
+function fillCls(p){ if(p>=95)return 'ok'; if(p>=70)return ''; if(p>=30)return 'warn'; return 'dim'; }
+function statusTag(s){
+  if(s==='Mechanical Completion') return '<span class="tag mc">MC</span>';
+  if(s==='Active') return '<span class="tag ok dot">Active</span>';
+  if(s==='Bid') return '<span class="tag info dot">Bid</span>';
+  return `<span class="tag neutral">${esc(s||'-')}</span>`;
+}
+function excelDate(v){ if(!isNumLike(v))return esc(v??'-'); const n=num(v); if(n<20000||n>70000)return esc(v); const d=new Date(Math.round((n-25569)*86400*1000)); return d.toISOString().slice(0,10); }
+function nowText(){ return new Date().toLocaleString('ko-KR',{year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}); }
+function todayKor(){ const d=new Date(); return `${d.getFullYear()}. ${String(d.getMonth()+1).padStart(2,'0')}. ${String(d.getDate()).padStart(2,'0')}`; }
+
+/* === 단계별 셀: "완료" 문자열을 100%로 처리 === */
+/* 반환: {ratio: 0~1, has:bool, label:string} */
+function stageRatio(done, total){
+  // "완료"는 done/total 모두 완료 → 100%
+  const dStr = String(done??'').trim();
+  const tStr = String(total??'').trim();
+  if(dStr==='완료' || tStr==='완료'){
+    return {ratio:1, has:true, label:'완료'};
+  }
+  if(dStr==='미정' || tStr==='미정' || dStr==='' || tStr==='' || dStr==='-' || tStr==='-'){
+    return {ratio:null, has:false, label:tStr||'-'};
+  }
+  if(!isNumLike(total) || !isNumLike(done)){
+    return {ratio:null, has:false, label:tStr};
+  }
+  const t = num(total), d = num(done);
+  if(t<=0) return {ratio:null, has:false, label:'N/A'};
+  return {ratio:Math.min(d/t,1), has:true, label:`${d}/${t}`};
+}
+
+function stageCell(done, total){
+  const r = stageRatio(done, total);
+  if(r.label==='완료') return `<span class="stage-cell full"><span class="check">✓</span>완료</span>`;
+  if(!r.has){
+    if(r.label==='미정') return `<span class="stage-cell na">미정</span>`;
+    return `<span class="stage-cell na">${esc(r.label)}</span>`;
+  }
+  if(r.ratio>=1) return `<span class="stage-cell full">${esc(r.label)}</span>`;
+  if(r.ratio<=0) return `<span class="stage-cell zero">${esc(r.label)}</span>`;
+  return `<span class="stage-cell partial">${esc(r.label)}</span>`;
+}
+
+/* === 가중 진척률 (완료=100% 적용) === */
+function weightedProgress(stageRow){
+  let weighted = 0, totalWeight = 0;
+  STAGE.forEach(st=>{
+    const r = stageRatio(stageRow[st.done], stageRow[st.total]);
+    if(r.has){
+      weighted += r.ratio * st.weight * 100;
+      totalWeight += st.weight;
+    }
+  });
+  // 모든 단계가 평가 가능할 때만 정상값, 일부만 평가 가능하면 그 가중치 합으로 분모 보정
+  if(totalWeight === 0) return null;
+  // 모든 단계(weight 합 1.0)가 평가 가능하면 그대로 반환
+  // 그렇지 않으면 평가된 가중치만큼만 표시
+  return {value:weighted, totalWeight, full: totalWeight >= 0.999};
+}
+
+/* === 금액 셀 (USD 검정 / KRW 회색 병기) === */
+function moneyCell(usdRaw, krwRaw, opts={}){
+  const dim = opts.dim ? ' dim' : '';
+  let usd = (usdRaw==null||usdRaw==='')?null:num(usdRaw);
+  let krw = (krwRaw==null||krwRaw==='')?null:num(krwRaw);
+  if(usd!=null && (krw==null||krw===0)) krw = usd * FX_RATE;
+  if(krw!=null && (usd==null||usd===0)) usd = krw / FX_RATE;
+  if(usd==null && krw==null) return `<div class="money${dim}"><span class="usd">-</span></div>`;
+  const usdStr = usd!=null ? '$'+fmt(Math.round(usd)) : '-';
+  const krwStr = krw!=null ? '₩'+fmt(Math.round(krw)) : '-';
+  return `<div class="money${dim}"><span class="usd">${usdStr}</span><span class="krw">${krwStr}</span></div>`;
+}
+
+/* 백만 USD 단위 입력값 처리 (Project 테이블) */
+function moneyContractCell(row, kind){
+  const usdMil = row[`Contract_Price_${kind}_Mil_USD`];
+  const krwMil = row[`Contract_Price_${kind}_Mil_KRW`];
+  let usd = isNumLike(usdMil) ? num(usdMil)*1e6 : null;
+  let krw = isNumLike(krwMil) ? num(krwMil)*1e6 : null;
+  if(usd!=null && krw==null) krw = usd * FX_RATE;
+  if(krw!=null && usd==null) usd = krw / FX_RATE;
+  if(usd==null && krw==null) return `<div class="money"><span class="usd">-</span></div>`;
+  const usdStr = usd!=null ? '$'+fmt(Math.round(usd/1e6))+'M' : '-';
+  const krwStr = krw!=null ? '₩'+fmt(Math.round(krw/1e8))+'억' : '-';
+  return `<div class="money"><span class="usd">${usdStr}</span><span class="krw">${krwStr}</span></div>`;
+}
+
+function toast(msg){ const t=$('toast'); if(!t)return; t.textContent=msg||'완료'; t.classList.add('on'); clearTimeout(toast._t); toast._t=setTimeout(()=>t.classList.remove('on'),2200); }
+function setReportDate(){ const dt=todayKor(); const el=$('reportDate'); if(el) el.textContent=dt; }
+
+/* === 환율 자동조회 === */
+async function fetchFx(){
+  const sources = [
+    {url:'https://open.er-api.com/v6/latest/USD', parse:d=>d?.rates?.KRW, name:'open.er-api.com'},
+    {url:'https://api.exchangerate-api.com/v4/latest/USD', parse:d=>d?.rates?.KRW, name:'exchangerate-api.com'}
+  ];
+  for(const s of sources){
+    try{
+      const r = await fetch(s.url, {cache:'no-store'});
+      if(!r.ok) continue;
+      const d = await r.json();
+      const v = s.parse(d);
+      if(Number.isFinite(v) && v>500){
+        FX_RATE = Number(v.toFixed(2));
+        $('fxInput').value = FX_RATE.toFixed(2);
+        $('fxSource').textContent = s.name + ' · ' + new Date().toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'});
+        renderAll();
+        return;
+      }
+    }catch(e){}
+  }
+  $('fxSource').textContent = '자동조회 실패 · 수동 입력';
+}
+
+/* === 탭 / 컨트롤 === */
+function bindTabs(){
+  document.querySelectorAll('.tab').forEach(b=>{
+    b.addEventListener('click',()=>{
+      document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+      document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
+      b.classList.add('on');
+      $(b.dataset.page).classList.add('on');
+      window.scrollTo({top:0,behavior:'smooth'});
+    });
+  });
+}
+function bindControls(){
+  $('fxInput').addEventListener('change',e=>{
+    const v=Number(e.target.value);
+    if(Number.isFinite(v)&&v>0){FX_RATE=v; $('fxSource').textContent='수동 입력'; renderAll(); toast('환율 적용됨');}
+  });
+  $('rawUpload').addEventListener('change',handleRawUpload);
+  $('projectSearch').addEventListener('input',renderProjectsPage);
+  $('projectStatusFilter').addEventListener('change',renderProjectsPage);
+}
+
+/* === TPA Warning 로직 === */
+function tpaWarnings(row){
+  const warnings = [];
+  if(row.Status === 'Mechanical Completion') return warnings;
+  const budget = num(row['예산(USD)']) || num(row['예산(KRW)']);
+  const contract = num(row['계약고(USD)']) || num(row['계약고(KRW)']);
+  const spent = num(row['집행비용(USD)']) || num(row['집행비용(KRW)']);
+  if(budget > 0){
+    const r = spent/budget*100;
+    if(r >= 90) warnings.push({lv:'danger',txt:'2차 청산추정 및 예산외품의 준비'});
+    else if(r >= 70) warnings.push({lv:'warn',txt:'1차 청산추정 필요'});
+  }
+  if(contract > 0){
+    const r = spent/contract*100;
+    if(r >= 90) warnings.push({lv:'danger',txt:'계약고 증액 절차 필요'});
+  }
+  return warnings;
+}
+
+/* ============================================================
+   Executive Summary
+   ============================================================ */
+function renderOverview(){
+  const projects = RAW.Project || [];
+  const stages = RAW.Stage_Status || [];
+  const ncrs = RAW.Open_NCR || [];
+  const tpa = RAW.TPA || [];
+
+  const active = projects.filter(p=>p.Status==='Active').length;
+  const mc = projects.filter(p=>p.Status==='Mechanical Completion').length;
+  const bid = projects.filter(p=>p.Status==='Bid').length;
+
+  // 평균 가중 진척률 (Bid 제외)
+  let progSum=0, progCnt=0;
+  stages.forEach(s=>{
+    const p = projects.find(x=>x.Project_Code===s.Project_Code);
+    if(!p || p.Status==='Bid') return;
+    const w = weightedProgress(s);
+    if(w && w.full){ progSum += w.value; progCnt++; }
+  });
+  const avgProg = progCnt ? (progSum/progCnt).toFixed(1)+'%' : '-';
+
+  let warnCount = 0;
+  tpa.forEach(t=>{ if(tpaWarnings(t).length) warnCount++; });
+
+  $('kpiGrid').innerHTML = [
+    {label:'PROJECTS',val:projects.length,unit:'건',sub:`Active <span class="delta">${active}</span> · MC <span class="delta">${mc}</span> · Bid <span class="delta">${bid}</span>`,cls:'accent'},
+    {label:'AVG PROGRESS',val:avgProg,sub:'IRC 50% 가중',cls:'ok'},
+    {label:'OPEN NCR',val:ncrs.length,unit:'건',sub:'발생-종결 차이',cls:'warn'},
+    {label:'TPA WARNINGS',val:warnCount,unit:'건',sub:'예산/계약고 임계 초과',cls:'danger'},
+    {label:'MANPOWER',val:(RAW.Manpower||[]).length,unit:'명',sub:'본사 + 현장',cls:'info'}
+  ].map(k=>`<div class="kpi ${k.cls}">
+    <div class="kpi-label">${esc(k.label)}</div>
+    <div class="kpi-val">${typeof k.val==='string'?esc(k.val):k.val}${k.unit?`<span class="unit">${esc(k.unit)}</span>`:''}</div>
+    <div class="kpi-sub">${k.sub||''}</div>
+  </div>`).join('');
+
+  $('overviewUpdate').textContent = '최종 갱신 ' + nowText();
+
+  // 프로젝트 핵심 현황 표
+  const tbl = $('overviewProjectTbl');
+  tbl.innerHTML = `<thead><tr>
+    <th>Code</th><th class="ctr">Status</th><th>Client</th><th>Country</th>
+    <th class="right">HDEC분</th><th class="ctr">진척률</th><th class="ctr">NCR</th>
+  </tr></thead><tbody>${projects.map(p=>{
+    const s = stages.find(x=>x.Project_Code===p.Project_Code) || {};
+    const w = weightedProgress(s);
+    const progStr = w ? w.value.toFixed(1)+'%' : '-';
+    const progValue = w ? w.value : 0;
+    const ncrOpen = ncrs.filter(n=>n.Project_Code===p.Project_Code).length;
+    const ncrTotal = num(s.NCR_Total);
+    return `<tr>
+      <td class="code">${esc(p.Project_Code)}</td>
+      <td class="ctr">${statusTag(p.Status)}</td>
+      <td class="left">${esc(p.Client||'-')}</td>
+      <td class="left">${esc(p.Country||'-')}</td>
+      <td class="right">${moneyContractCell(p,'HDEC')}</td>
+      <td class="ctr"><div class="bar-wrap" style="min-width:120px"><div class="bar"><div class="fill ${fillCls(progValue)}" style="width:${progValue}%"></div></div><span class="pct">${progStr}</span></div></td>
+      <td class="ctr"><span class="code">${ncrOpen}</span> <span class="muted" style="font-size:10px">/ ${isNumLike(ncrTotal)?ncrTotal:'-'}</span></td>
+    </tr>`;
+  }).join('')}</tbody>`;
+
+  // Warning Signals
+  const signals = [];
+  tpa.forEach(t=>{
+    tpaWarnings(t).forEach(w=>signals.push({code:t.Project_Code, lv:w.lv, txt:w.txt, kind:'TPA'}));
+  });
+  ncrs.forEach(n=>{
+    const days = num(n.Days_to_Date);
+    if(days>=180) signals.push({code:n.Project_Code, lv:'danger', txt:`NCR 장기 미결 ${days}일 (${n.NCR_Number})`, kind:'NCR'});
+  });
+  $('focusSignals').innerHTML = signals.length ? signals.slice(0,8).map(s=>`
+    <div class="signal-item ${s.lv==='danger'?'danger':''}">
+      <div class="top"><span class="code">${esc(s.code)}</span><span class="kind">${esc(s.kind)}</span></div>
+      <div class="msg">${esc(s.txt)}</div>
+    </div>`).join('') : '<div class="empty-state">현재 발생한 Warning 신호가 없습니다.</div>';
+
+  // 실행 항목
+  $('actionItems').innerHTML = [
+    {n:'01',t:'TPA 청산추정 가속화',d:'예산 70% 초과 PJT 1차 청산추정 착수, 90% 초과 시 예산외품의 준비',due:'4월말'},
+    {n:'02',t:'IRC 100% 단계 집중관리',d:'STA4 / SAC2 IRC 진행률 점검 및 잔여 NCR 종결 가속화',due:'5월'},
+    {n:'03',t:'CSSP / PNG1 초기단계 셋업',d:'MR · TBE 발행 일정 확정 및 계약고 미정 항목 협의',due:'5월 중'},
+    {n:'04',t:'STA4 미결 NCR 9건 종결',d:'IRC Issuance with Punch List 항목 일괄 정리',due:'상시'}
+  ].map(a=>`<div class="action-row">
+    <div class="action-no">${a.n}</div>
+    <div><div class="action-title">${esc(a.t)}</div><div class="action-desc">${esc(a.d)}</div></div>
+    <div class="action-due">${esc(a.due)}</div>
+  </div>`).join('');
+
+  // 리스크
+  $('riskPoints').innerHTML = [
+    {t:'TPA 임계 관리',rows:[
+      {k:'예산 70%↑',v:'1차 청산추정'},
+      {k:'예산 90%↑',v:'예산외품의 준비'},
+      {k:'계약고 90%↑',v:'계약고 증액 절차'}
+    ]},
+    {t:'단계별 가중치',rows:[
+      {k:'IRC 100%',v:'전체의 50%'},
+      {k:'PIM',v:'20%'},
+      {k:'MR · TBE · PO',v:'각 10%'}
+    ]},
+    {t:'NCR 우선순위',rows:[
+      {k:'180일 초과',v:'장기 미결 - 즉시 종결'},
+      {k:'STA4',v:'미결 NCR의 다수 차지'}
+    ]}
+  ].map(r=>`<div class="risk-group">
+    <div class="grp-title">${esc(r.t)}</div>
+    ${r.rows.map(x=>`<div class="risk-item"><span class="k">${esc(x.k)}</span><span class="v">${esc(x.v)}</span></div>`).join('')}
+  </div>`).join('');
+}
+
+/* ============================================================
+   프로젝트 현황
+   ============================================================ */
+function renderProjectsPage(){
+  const projects = RAW.Project || [];
+  const statuses = [...new Set(projects.map(p=>p.Status).filter(Boolean))];
+  const sel = $('projectStatusFilter');
+  const cur = sel.value;
+  sel.innerHTML = '<option value="">전체 Status</option>' + statuses.map(s=>`<option value="${esc(s)}" ${s===cur?'selected':''}>${esc(s)}</option>`).join('');
+
+  const sumUSD = key => projects.reduce((a,p)=>a+(isNumLike(p[key])?num(p[key]):0),0);
+  $('projectKpis').innerHTML = [
+    {label:'PROJECTS',val:projects.length,unit:'건',cls:'accent'},
+    {label:'HDEC TOTAL',val:'$'+fmt(sumUSD('Contract_Price_HDEC_Mil_USD'))+'M',sub:'USD 환산',cls:'ok'},
+    {label:'GRAND TOTAL',val:'$'+fmt(sumUSD('Contract_Price_Total_Mil_USD'))+'M',sub:'USD 환산',cls:'info'},
+    {label:'ACTIVE',val:projects.filter(p=>p.Status==='Active').length,unit:'건',cls:'warn'}
+  ].map(k=>`<div class="kpi ${k.cls}">
+    <div class="kpi-label">${esc(k.label)}</div>
+    <div class="kpi-val">${typeof k.val==='string'?esc(k.val):k.val}${k.unit?`<span class="unit">${esc(k.unit)}</span>`:''}</div>
+    <div class="kpi-sub">${esc(k.sub||'')}</div>
+  </div>`).join('');
+
+  const q = $('projectSearch').value.trim().toLowerCase();
+  const st = sel.value;
+  const rows = projects.filter(p=>{
+    if(st && p.Status!==st) return false;
+    if(!q) return true;
+    return [p.Project_Code,p.Client,p.Country,p.PM,p.PQCM].some(x=>String(x||'').toLowerCase().includes(q));
+  });
+
+  $('projectTbl').innerHTML = `<thead><tr>
+    <th>Code</th><th class="ctr">Status</th><th>Client</th><th>Country</th>
+    <th class="right">HDEC 계약가</th><th class="right">Total 계약가</th>
+    <th>PM</th><th>PQCM</th><th class="ctr">Progress</th>
+  </tr></thead><tbody>${rows.map(p=>{
+    const pv = pctRaw(p.Progress)||0;
+    return `<tr>
+      <td class="code">${esc(p.Project_Code)}</td>
+      <td class="ctr">${statusTag(p.Status)}</td>
+      <td class="left">${esc(p.Client||'-')}</td>
+      <td class="left">${esc(p.Country||'-')}</td>
+      <td class="right">${moneyContractCell(p,'HDEC')}</td>
+      <td class="right">${moneyContractCell(p,'Total')}</td>
+      <td class="left">${esc(p.PM||'-')}</td>
+      <td class="left">${esc(p.PQCM||'-')}</td>
+      <td><div class="bar-wrap"><div class="bar"><div class="fill ${fillCls(pv)}" style="width:${pv}%"></div></div><span class="pct">${pctDisp(p.Progress)}</span></div></td>
+    </tr>`;
+  }).join('')}</tbody>`;
+}
+
+/* ============================================================
+   단계별 실적 (완료 → 100% 처리 핵심)
+   ============================================================ */
+function renderStagePage(){
+  const stages = RAW.Stage_Status || [];
+  const projects = RAW.Project || [];
+
+  // KPI: 단계별 평균 진행률 (완료=100%)
+  const stat = STAGE.map(st=>{
+    let sumRatio=0, plannedCnt=0, doneCount=0, totalCount=0;
+    stages.forEach(s=>{
+      const r = stageRatio(s[st.done], s[st.total]);
+      if(r.has){
+        sumRatio += r.ratio;
+        plannedCnt++;
+        // 숫자 단계만 카운트 합산 (완료는 카운트 불가)
+        if(isNumLike(s[st.total]) && r.label!=='완료'){
+          totalCount += num(s[st.total]);
+          doneCount += num(s[st.done]);
+        }
+      }
+    });
+    return {
+      name:st.name, weight:st.weight,
+      avg: plannedCnt ? sumRatio/plannedCnt*100 : 0,
+      doneCount, totalCount, plannedCnt
+    };
+  });
+
+  $('stageKpis').innerHTML = stat.map(s=>`
+    <div class="kpi">
+      <div class="kpi-label">${s.name} <span style="color:var(--muted);font-weight:500">·&nbsp;W&nbsp;${(s.weight*100).toFixed(0)}%</span></div>
+      <div class="kpi-val">${s.avg.toFixed(1)}<span class="unit">%</span></div>
+      <div class="kpi-sub">${s.totalCount>0?`${fmt(s.doneCount)} / ${fmt(s.totalCount)} · `:''}${s.plannedCnt}개 PJT</div>
+    </div>`).join('');
+
+  $('stageTbl').innerHTML = `<thead><tr>
+    <th>Code</th><th class="ctr">Status</th>
+    ${STAGE.map(st=>`<th class="ctr">${st.name}<span class="wf">W ${(st.weight*100).toFixed(0)}%</span></th>`).join('')}
+    <th class="ctr" style="min-width:160px">가중 진척률</th>
+  </tr></thead><tbody>${stages.map(s=>{
+    const p = projects.find(x=>x.Project_Code===s.Project_Code) || {};
+    const w = weightedProgress(s);
+    const pv = w ? w.value : 0;
+    const progStr = w ? w.value.toFixed(1)+'%' : '-';
+    return `<tr>
+      <td class="code">${esc(s.Project_Code)}</td>
+      <td class="ctr">${statusTag(p.Status)}</td>
+      ${STAGE.map(st=>`<td class="ctr">${stageCell(s[st.done], s[st.total])}</td>`).join('')}
+      <td><div class="bar-wrap"><div class="bar"><div class="fill ${fillCls(pv)}" style="width:${pv}%"></div></div><span class="pct">${progStr}</span></div></td>
+    </tr>`;
+  }).join('')}</tbody>`;
+}
+
+/* ============================================================
+   TPA 집행현황 (USD 단위 - Mil 아님)
+   ============================================================ */
+function renderTpaPage(){
+  const tpa = RAW.TPA || [];
+
+  // KPI - USD 환산 합계 (Mil이 아니라 raw USD)
+  let totBudget=0, totContract=0, totSpent=0, warnCount=0;
+  tpa.forEach(t=>{
+    totBudget += num(t['예산(USD)']) + num(t['예산(KRW)'])/FX_RATE;
+    totContract += num(t['계약고(USD)']) + num(t['계약고(KRW)'])/FX_RATE;
+    totSpent += num(t['집행비용(USD)']) + num(t['집행비용(KRW)'])/FX_RATE;
+    if(tpaWarnings(t).length) warnCount++;
+  });
+  const burn = totBudget>0 ? (totSpent/totBudget*100) : 0;
+
+  // USD 단위로 표시 — 원하시는 대로 raw USD 기준
+  // 단, 가독성을 위해 백만 단위 이상은 M으로 축약
+  function compactUSD(v){
+    if(v>=1e9) return '$'+(v/1e9).toFixed(2)+'B';
+    if(v>=1e6) return '$'+fmt(Math.round(v/1e6))+'M';
+    if(v>=1e3) return '$'+fmt(Math.round(v/1e3))+'K';
+    return '$'+fmt(Math.round(v));
+  }
+
+  $('tpaKpis').innerHTML = [
+    {label:'TOTAL BUDGET',val:compactUSD(totBudget),sub:'USD 환산',cls:'ok'},
+    {label:'TOTAL CONTRACT',val:compactUSD(totContract),sub:'USD 환산',cls:'info'},
+    {label:'TOTAL SPENT',val:compactUSD(totSpent),sub:`소진율 ${burn.toFixed(1)}%`,cls:'warn'},
+    {label:'WARNINGS',val:warnCount,unit:'건',sub:'MC 제외 기준',cls:'danger'}
+  ].map(k=>`<div class="kpi ${k.cls}">
+    <div class="kpi-label">${esc(k.label)}</div>
+    <div class="kpi-val">${typeof k.val==='string'?esc(k.val):k.val}${k.unit?`<span class="unit">${esc(k.unit)}</span>`:''}</div>
+    <div class="kpi-sub">${esc(k.sub||'')}</div>
+  </div>`).join('');
+
+  $('tpaGuide').innerHTML = `
+    <div class="guide-row"><span class="guide-trigger warn">예산 70%↑</span><div class="guide-text"><b>1차 청산추정 필요</b><br/>예산 대비 집행이 70%를 초과한 시점</div></div>
+    <div class="guide-row"><span class="guide-trigger danger">예산 90%↑</span><div class="guide-text"><b>2차 청산추정 및 예산외품의 준비</b><br/>예산 대비 집행이 90%를 초과한 시점</div></div>
+    <div class="guide-row"><span class="guide-trigger danger">계약고 90%↑</span><div class="guide-text"><b>계약고 증액 절차 필요</b><br/>계약고 대비 집행이 90%를 초과한 시점</div></div>
+    <div class="guide-row"><span class="guide-trigger info">MC 제외</span><div class="guide-text">Mechanical Completion 상태 프로젝트는 모든 Warning에서 제외</div></div>`;
+
+  // 표 - USD 단위 (raw)
+  $('tpaTbl').innerHTML = `<thead><tr>
+    <th>Code</th><th class="ctr">Status</th>
+    <th class="right">예산</th><th class="right">계약고</th><th class="right">집행금액</th>
+    <th class="ctr" style="min-width:200px">예산 대비 집행</th>
+    <th class="ctr" style="min-width:200px">계약고 대비 집행</th>
+    <th>Warning</th>
+  </tr></thead><tbody>${tpa.map(t=>{
+    const isMC = t.Status==='Mechanical Completion';
+    const burnB = pctRaw(t['예산 소진율']);
+    const burnC = pctRaw(t['現 계약고 소진율']);
+    const ws = tpaWarnings(t);
+    const cls70 = burnB!=null ? (burnB>=90?'danger':(burnB>=70?'warn':(burnB===0?'dim':''))) : 'dim';
+    const cls90 = (burnC!=null && Number.isFinite(burnC)) ? (burnC>=90?'danger':(burnC>=70?'warn':(burnC===0?'dim':''))) : 'dim';
+    const dimStyle = isMC ? ' dim' : '';
+
+    return `<tr>
+      <td class="code">${esc(t.Project_Code)}</td>
+      <td class="ctr">${statusTag(t.Status)}</td>
+      <td class="right">${moneyCell(t['예산(USD)'],t['예산(KRW)'],{dim:isMC})}</td>
+      <td class="right">${moneyCell(t['계약고(USD)'],t['계약고(KRW)'],{dim:isMC})}</td>
+      <td class="right">${moneyCell(t['집행비용(USD)'],t['집행비용(KRW)'],{dim:isMC})}</td>
+      <td><div class="tpa-bar"><div class="tpa-track"><div class="fill ${cls70}" style="width:${Math.min(Math.max(burnB||0,0),100)}%"></div><div class="mark t70"></div><div class="mark t90"></div></div><span class="tpa-pct">${burnB!=null?burnB.toFixed(1)+'%':'-'}</span></div></td>
+      <td><div class="tpa-bar"><div class="tpa-track"><div class="fill ${cls90}" style="width:${Math.min(Math.max(burnC||0,0),100)}%"></div><div class="mark t70"></div><div class="mark t90"></div></div><span class="tpa-pct">${(burnC!=null && Number.isFinite(burnC))?burnC.toFixed(1)+'%':'-'}</span></div></td>
+      <td class="left" style="min-width:180px">${isMC ? '<span class="tag mc">MC 제외</span>' : (ws.length ? ws.map(w=>`<div class="warn-chip ${w.lv==='danger'?'danger':''}">${esc(w.txt)}</div>`).join('') : '<span class="tag ok dot">정상</span>')}</td>
+    </tr>`;
+  }).join('')}</tbody>`;
+}
+
+/* ============================================================
+   NCR
+   ============================================================ */
+function renderNcrPage(){
+  const ncrs = RAW.Open_NCR || [];
+  const stages = RAW.Stage_Status || [];
+
+  let totalIssued=0, totalClosed=0;
+  stages.forEach(s=>{ if(isNumLike(s.NCR_Total)){ totalIssued+=num(s.NCR_Total); totalClosed+=num(s.NCR_Done); } });
+  const long = ncrs.filter(n=>num(n.Days_to_Date)>=180).length;
+  const recent = ncrs.filter(n=>num(n.Days_to_Date)<60).length;
+  const closedRate = totalIssued>0 ? (totalClosed/totalIssued*100).toFixed(1)+'%' : '-';
+
+  $('ncrKpis').innerHTML = [
+    {label:'OPEN NCR',val:ncrs.length,unit:'건',cls:'danger'},
+    {label:'TOTAL ISSUED',val:totalIssued,unit:'건',cls:'accent'},
+    {label:'CLOSE RATE',val:closedRate,sub:`종결 ${totalClosed}건`,cls:'ok'},
+    {label:'LONG OPEN',val:long,unit:'건',sub:`최근 60일 내 ${recent}건`,cls:'warn'}
+  ].map(k=>`<div class="kpi ${k.cls}">
+    <div class="kpi-label">${esc(k.label)}</div>
+    <div class="kpi-val">${typeof k.val==='string'?esc(k.val):k.val}${k.unit?`<span class="unit">${esc(k.unit)}</span>`:''}</div>
+    <div class="kpi-sub">${esc(k.sub||'')}</div>
+  </div>`).join('');
+
+  $('ncrTbl').innerHTML = `<thead><tr>
+    <th class="ctr">S/N</th><th>Code</th><th>NCR No.</th><th>Item</th><th>Vendor</th>
+    <th class="wide">Title</th><th class="ctr">Issue Date</th><th class="ctr">경과일</th>
+  </tr></thead><tbody>${ncrs.map(n=>{
+    const days = num(n.Days_to_Date);
+    const cls = days>=180?'danger':days>=90?'warn':'neutral';
+    return `<tr>
+      <td class="ctr code">${esc(n.Serial_Number)}</td>
+      <td class="code">${esc(n.Project_Code)}</td>
+      <td class="left nowrap"><span class="code">${esc(n.NCR_Number)}</span></td>
+      <td class="left">${esc(n.Item)}</td>
+      <td class="left">${esc(n.Vendor)}</td>
+      <td class="left wide">${esc(n.NCR_Title)}</td>
+      <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">${excelDate(n.Issue_Date)}</span></td>
+      <td class="ctr"><span class="tag ${cls}">${days}일</span></td>
+    </tr>`;
+  }).join('')}</tbody>`;
+
+  const byProj = {};
+  ncrs.forEach(n=>{ byProj[n.Project_Code] = (byProj[n.Project_Code]||0)+1; });
+  $('ncrSummary').innerHTML = Object.entries(byProj).sort((a,b)=>b[1]-a[1]).map(([k,v])=>{
+    const s = stages.find(x=>x.Project_Code===k) || {};
+    const issued = isNumLike(s.NCR_Total)?num(s.NCR_Total):'-';
+    const closed = isNumLike(s.NCR_Done)?num(s.NCR_Done):'-';
+    return `<div class="signal-item">
+      <div class="top"><span class="code">${esc(k)}</span><span class="kind">미결 ${v}건</span></div>
+      <div class="msg">발생 ${issued} · 종결 ${closed}</div>
+    </div>`;
+  }).join('') || '<div class="empty-state">데이터 없음</div>';
+}
+
+/* ============================================================
+   조직도
+   ============================================================ */
+function renderManpowerPage(){
+  const mp = RAW.Manpower || [];
+  const totalPO = mp.reduce((a,m)=>a+num(m.Number_of_PO),0);
+  const pqcms = mp.filter(m=>m.PQCM).length;
+  const pqcs = mp.filter(m=>m.PQC_Engineer).length;
+
+  $('manpowerKpis').innerHTML = [
+    {label:'TOTAL HEADCOUNT',val:mp.length,unit:'명',cls:'accent'},
+    {label:'PQCM HOLDERS',val:pqcms,unit:'명',cls:'info'},
+    {label:'PQC ENGINEERS',val:pqcs,unit:'명',cls:'ok'},
+    {label:'TOTAL PO',val:fmt(totalPO),unit:'건',cls:'warn'}
+  ].map(k=>`<div class="kpi ${k.cls}">
+    <div class="kpi-label">${esc(k.label)}</div>
+    <div class="kpi-val">${typeof k.val==='string'?esc(k.val):k.val}${k.unit?`<span class="unit">${esc(k.unit)}</span>`:''}</div>
+  </div>`).join('');
+
+  const leader = mp.find(m=>/팀장|Team Leader/i.test(m.Main_Role_Responsibility||'') || /팀장/.test(m.Name||''));
+  const groups = {};
+  mp.forEach(m=>{
+    if(leader && m.Name===leader.Name) return;
+    const dept = m.Department || '미분류';
+    if(!groups[dept]) groups[dept] = [];
+    groups[dept].push(m);
+  });
+
+  $('orgChart').innerHTML = `
+    ${leader ? `<div class="org-leader">
+      <div class="org-name">${esc(leader.Name)}</div>
+      <div class="org-role">${esc(leader.Main_Role_Responsibility||'Team Leader')}</div>
+    </div>` : ''}
+    <div class="org-groups">
+      ${Object.entries(groups).map(([dept,members])=>`
+        <div class="org-group">
+          <div class="org-group-hd"><span class="dept">${esc(dept)}</span><span class="ct">${members.length}</span></div>
+          <div class="org-members">
+            ${members.map(m=>{
+              const tags = [];
+              if(m.PQCM){ String(m.PQCM).split('/').forEach(x=>{const t=x.trim();if(t)tags.push(`<span class="org-tag cm">CM·${esc(t)}</span>`);}); }
+              if(m.PQC_Engineer){ String(m.PQC_Engineer).split('/').forEach(x=>{const t=x.trim();if(t)tags.push(`<span class="org-tag eng">${esc(t)}</span>`);}); }
+              if(!tags.length) tags.push('<span class="org-tag empty">미배정</span>');
+              return `<div class="org-person">
+                <div class="top">
+                  <div><div class="name">${esc(m.Name)}</div><div class="role">${esc(m.Main_Role_Responsibility||'-')}</div></div>
+                  ${isNumLike(m.Number_of_PO) && num(m.Number_of_PO)>0 ? `<div class="po">PO ${num(m.Number_of_PO)}</div>` : ''}
+                </div>
+                <div class="org-tags">${tags.join('')}</div>
+              </div>`;
+            }).join('')}
+          </div>
+        </div>`).join('')}
+    </div>`;
+
+  $('mpTbl').innerHTML = `<thead><tr>
+    <th>이름</th><th>부서</th><th>주요업무</th><th>PQCM</th><th>PQC Engineer</th><th class="right">PO</th>
+  </tr></thead><tbody>${mp.map(m=>`<tr>
+    <td><span class="code">${esc(m.Name)}</span></td>
+    <td class="left">${esc(m.Department||'-')}</td>
+    <td class="left">${esc(m.Main_Role_Responsibility||'-')}</td>
+    <td class="left">${esc(m.PQCM||'-')}</td>
+    <td class="left">${esc(m.PQC_Engineer||'-')}</td>
+    <td class="num">${isNumLike(m.Number_of_PO)?fmt(num(m.Number_of_PO)):'-'}</td>
+  </tr>`).join('')}</tbody>`;
+}
+
+/* ============================================================
+   출장 / 현안
+   ============================================================ */
+function renderTripPage(){
+  const trips = RAW.Trip || [];
+  const purposes={}, countries={}, travelers={};
+  trips.forEach(t=>{
+    purposes[t.Purpose] = (purposes[t.Purpose]||0)+1;
+    countries[t.Country_Trip] = (countries[t.Country_Trip]||0)+1;
+    travelers[t.Traveler] = (travelers[t.Traveler]||0)+1;
+  });
+  const top = obj => Object.entries(obj).sort((a,b)=>b[1]-a[1])[0];
+  const tp = top(purposes), tc = top(countries), tt = top(travelers);
+
+  $('tripKpis').innerHTML = [
+    {label:'TOTAL TRIPS',val:trips.length,unit:'건',cls:'accent'},
+    {label:'TOP PURPOSE',val:tp?tp[0]:'-',sub:tp?`${tp[1]}건`:'',cls:'info'},
+    {label:'TOP COUNTRY',val:tc?tc[0]:'-',sub:tc?`${tc[1]}건`:'',cls:'ok'},
+    {label:'TOP TRAVELER',val:tt?tt[0]:'-',sub:tt?`${tt[1]}건`:'',cls:'warn'}
+  ].map(k=>`<div class="kpi ${k.cls}">
+    <div class="kpi-label">${esc(k.label)}</div>
+    <div class="kpi-val" style="font-size:${typeof k.val==='string' && k.val.length>4?'18px':'24px'}">${typeof k.val==='string'?esc(k.val):k.val}${k.unit?`<span class="unit">${esc(k.unit)}</span>`:''}</div>
+    <div class="kpi-sub">${esc(k.sub||'')}</div>
+  </div>`).join('');
+
+  $('tripTbl').innerHTML = `<thead><tr>
+    <th>Traveler</th><th class="ctr">목적</th><th>Code</th><th>Item</th><th>Vendor</th><th>국가</th><th class="ctr">Start</th><th class="ctr">End</th>
+  </tr></thead><tbody>${trips.map(t=>`<tr>
+    <td><span class="code">${esc(t.Traveler)}</span></td>
+    <td class="ctr"><span class="tag info">${esc(t.Purpose)}</span></td>
+    <td class="code">${esc(t.Project_Code)}</td>
+    <td class="left">${esc(t.Item)}</td>
+    <td class="left">${esc(t.Vendor)}</td>
+    <td class="ctr">${esc(t.Country_Trip)}</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">${excelDate(t.Start_Date)}</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">${excelDate(t.End_Date)}</span></td>
+  </tr>`).join('')}</tbody>`;
+}
+
+function renderIssuesPage(){
+  const issues = RAW.Issue || [];
+  const proj = issues.filter(i=>i.Project_Code !== '플랜트구매품질팀');
+  const team = issues.filter(i=>i.Project_Code === '플랜트구매품질팀');
+  const card = (i,kind)=>`<div class="issue ${kind==='team'?'team':''}">
+    <div class="top"><div class="title">${esc(i.Title)}</div><div class="meta">${esc(i.Project_Code)} · ${esc(i.Owner)}</div></div>
+    <div class="action">${esc(i.Action_Required||'-')}</div>
+  </div>`;
+  $('projectIssueArea').innerHTML = proj.map(i=>card(i,'project')).join('') || '<div class="empty-state">등록된 프로젝트 현안이 없습니다.</div>';
+  $('teamIssueArea').innerHTML = team.map(i=>card(i,'team')).join('') || '<div class="empty-state">등록된 팀 내부 현안이 없습니다.</div>';
+}
+
+function renderAll(){
+  setReportDate();
+  renderOverview();
+  renderProjectsPage();
+  renderStagePage();
+  renderTpaPage();
+  renderNcrPage();
+  renderManpowerPage();
+  renderTripPage();
+  renderIssuesPage();
+}
+
+/* ============================================================
+   Excel 업로드 / 다운로드
+   ============================================================ */
+async function handleRawUpload(e){
+  const file = e.target.files[0];
+  if(!file) return;
+  try{
+    const name = file.name.toLowerCase();
+    if(!(name.endsWith('.xlsx') || name.endsWith('.xls'))){
+      alert('Excel 파일(.xlsx)만 업로드 가능합니다.');
+      e.target.value=''; return;
+    }
+    const workbook = await parseXLSX(await file.arrayBuffer());
+    Object.keys(workbook).forEach(s=>{
+      RAW[s] = workbook[s];
+      if(!SHEET_FIELDS[s] && workbook[s]?.length){
+        SHEET_FIELDS[s] = Object.keys(workbook[s][0]);
+      }
+    });
+    toast('Excel 파일이 반영되었습니다.');
+    renderAll();
+  }catch(err){
+    console.error(err);
+    alert('Excel 파일 처리 중 오류가 발생했습니다.\n동일 구조의 .xlsx 파일인지 확인하세요.\n\n' + err.message);
+  }finally{
+    e.target.value = '';
+  }
+}
+
+function u16(d,o){return d[o]|(d[o+1]<<8)}
+function u32(d,o){return (d[o]|(d[o+1]<<8)|(d[o+2]<<16)|(d[o+3]<<24))>>>0}
+async function inflateRaw(bytes){
+  if(!('DecompressionStream' in window)) throw new Error('이 브라우저는 xlsx 압축 해제를 지원하지 않습니다.');
+  const ds = new DecompressionStream('deflate-raw');
+  const w = ds.writable.getWriter();
+  w.write(bytes); w.close();
+  return new Uint8Array(await new Response(ds.readable).arrayBuffer());
+}
+async function unzip(buffer){
+  const data = new Uint8Array(buffer);
+  let eocd = -1;
+  for(let i=data.length-22;i>=0;i--){if(u32(data,i)===0x06054b50){eocd=i;break;}}
+  if(eocd<0) throw new Error('ZIP 구조를 찾을 수 없습니다.');
+  const cdSize = u32(data,eocd+12), cdOffset = u32(data,eocd+16);
+  let p = cdOffset; const files = {};
+  while(p < cdOffset+cdSize){
+    if(u32(data,p)!==0x02014b50) break;
+    const comp = u16(data,p+10), csize = u32(data,p+20);
+    const nlen = u16(data,p+28), xlen = u16(data,p+30), clen = u16(data,p+32);
+    const lhoff = u32(data,p+42);
+    const name = new TextDecoder().decode(data.slice(p+46, p+46+nlen));
+    const lhName = u16(data,lhoff+26), lhExtra = u16(data,lhoff+28);
+    const start = lhoff+30+lhName+lhExtra;
+    const compBytes = data.slice(start, start+csize);
+    let out;
+    if(comp===0) out = compBytes;
+    else if(comp===8) out = await inflateRaw(compBytes);
+    else throw new Error('지원하지 않는 압축 방식: '+comp);
+    files[name] = out;
+    p += 46+nlen+xlen+clen;
+  }
+  return files;
+}
+function xmlDoc(bytes){return new DOMParser().parseFromString(new TextDecoder('utf-8').decode(bytes),'application/xml')}
+function getText(node){return node?node.textContent:''}
+function colIndex(ref){const letters=String(ref).replace(/[0-9]/g,''); let n=0; for(const ch of letters)n=n*26+(ch.charCodeAt(0)-64); return n-1}
+async function parseXLSX(buffer){
+  const files = await unzip(buffer);
+  const wb = xmlDoc(files['xl/workbook.xml']);
+  const rels = xmlDoc(files['xl/_rels/workbook.xml.rels']);
+  const relMap = {};
+  [...rels.getElementsByTagName('Relationship')].forEach(r=>relMap[r.getAttribute('Id')]=r.getAttribute('Target'));
+  const shared = [];
+  if(files['xl/sharedStrings.xml']){
+    const ss = xmlDoc(files['xl/sharedStrings.xml']);
+    [...ss.getElementsByTagName('si')].forEach(si=>shared.push([...si.getElementsByTagName('t')].map(t=>t.textContent).join('')));
+  }
+  const out = {};
+  [...wb.getElementsByTagName('sheet')].forEach(sheet=>{
+    const sname = sheet.getAttribute('name');
+    const rid = sheet.getAttribute('r:id') || sheet.getAttribute('id');
+    let target = relMap[rid];
+    if(!target) return;
+    const path = target.startsWith('/') ? target.slice(1) : 'xl/'+target.replace(/^\.\.\//,'');
+    const bytes = files[path];
+    if(!bytes) return;
+    const doc = xmlDoc(bytes);
+    const matrix = [];
+    [...doc.getElementsByTagName('row')].forEach(row=>{
+      const arr = [];
+      [...row.getElementsByTagName('c')].forEach(c=>{
+        const idx = colIndex(c.getAttribute('r')||'A1');
+        const t = c.getAttribute('t');
+        let val = '';
+        if(t==='s') val = shared[Number(getText(c.getElementsByTagName('v')[0]))]??'';
+        else if(t==='inlineStr') val = [...c.getElementsByTagName('t')].map(x=>x.textContent).join('');
+        else val = getText(c.getElementsByTagName('v')[0]);
+        arr[idx] = val;
+      });
+      matrix.push(arr.map(x=>x??''));
+    });
+    if(matrix.length) out[sname] = rowsToObjects(matrix);
+  });
+  return out;
+}
+function rowsToObjects(matrix){
+  const headers = matrix[0].map(h=>String(h).trim());
+  return matrix.slice(1).map(r=>Object.fromEntries(headers.map((h,i)=>[h,r[i]??''])));
+}
+
+function downloadRawExcel(){
+  const filename = `PQ_Dashboard_${new Date().toISOString().slice(0,10)}.xlsx`;
+  const bytes = buildXLSX();
+  const blob = new Blob([bytes], {type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = filename;
+  document.body.appendChild(a); a.click();
+  document.body.removeChild(a);
+  setTimeout(()=>URL.revokeObjectURL(url), 1000);
+  toast('Excel 파일이 다운로드되었습니다.');
+}
+
+const CRC_TABLE = (()=>{
+  const t = new Uint32Array(256);
+  for(let i=0;i<256;i++){
+    let c = i;
+    for(let k=0;k<8;k++) c = (c & 1) ? (0xEDB88320 ^ (c>>>1)) : (c>>>1);
+    t[i] = c;
+  }
+  return t;
+})();
+function crc32(bytes){
+  let c = 0xFFFFFFFF;
+  for(let i=0;i<bytes.length;i++) c = CRC_TABLE[(c ^ bytes[i]) & 0xFF] ^ (c>>>8);
+  return (c ^ 0xFFFFFFFF) >>> 0;
+}
+function colLetter(n){let s=''; n=n+1; while(n>0){const m=(n-1)%26; s=String.fromCharCode(65+m)+s; n=Math.floor((n-1)/26);} return s;}
+function xmlEscape(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&apos;')}
+
+function buildXLSX(){
+  const enc = new TextEncoder();
+  const sheets = Object.keys(RAW).filter(s=>SHEET_FIELDS[s] || (RAW[s]&&RAW[s].length));
+  const ssMap = new Map(); const ssArr = [];
+  const ssIdx = (s)=>{ if(ssMap.has(s)) return ssMap.get(s); const i=ssArr.length; ssArr.push(s); ssMap.set(s,i); return i; };
+
+  const sheetFiles = sheets.map((sname,si)=>{
+    const fields = SHEET_FIELDS[sname] || (RAW[sname][0]?Object.keys(RAW[sname][0]):[]);
+    const rows = RAW[sname] || [];
+    let xml = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetData>`;
+    xml += `<row r="1">`;
+    fields.forEach((f,i)=>{ xml += `<c r="${colLetter(i)}1" t="s"><v>${ssIdx(String(f))}</v></c>`; });
+    xml += `</row>`;
+    rows.forEach((row,ri)=>{
+      const r = ri+2;
+      xml += `<row r="${r}">`;
+      fields.forEach((f,i)=>{
+        const v = row[f];
+        if(v===null||v===undefined||v==='') return;
+        const cellRef = colLetter(i)+r;
+        if(typeof v === 'number' || (isNumLike(v) && typeof v !== 'boolean' && String(v).trim() !== '')){
+          xml += `<c r="${cellRef}"><v>${num(v)}</v></c>`;
+        }else{
+          xml += `<c r="${cellRef}" t="s"><v>${ssIdx(String(v))}</v></c>`;
+        }
+      });
+      xml += `</row>`;
+    });
+    xml += `</sheetData></worksheet>`;
+    return {name:sname, path:`xl/worksheets/sheet${si+1}.xml`, content:enc.encode(xml)};
+  });
+
+  const ssXML = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<sst xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" count="${ssArr.length}" uniqueCount="${ssArr.length}">${ssArr.map(s=>`<si><t xml:space="preserve">${xmlEscape(s)}</t></si>`).join('')}</sst>`;
+  const wbXML = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets>${sheets.map((s,i)=>`<sheet name="${xmlEscape(s)}" sheetId="${i+1}" r:id="rId${i+1}"/>`).join('')}</sheets></workbook>`;
+  const wbRels = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">${sheets.map((s,i)=>`<Relationship Id="rId${i+1}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet${i+1}.xml"/>`).join('')}<Relationship Id="rId${sheets.length+1}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/sharedStrings" Target="sharedStrings.xml"/></Relationships>`;
+  const ct = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/>${sheets.map((s,i)=>`<Override PartName="/xl/worksheets/sheet${i+1}.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>`).join('')}<Override PartName="/xl/sharedStrings.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sharedStrings+xml"/></Types>`;
+  const rootRels = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>`;
+
+  const allFiles = [
+    {path:'[Content_Types].xml', content:enc.encode(ct)},
+    {path:'_rels/.rels', content:enc.encode(rootRels)},
+    {path:'xl/_rels/workbook.xml.rels', content:enc.encode(wbRels)},
+    {path:'xl/workbook.xml', content:enc.encode(wbXML)},
+    {path:'xl/sharedStrings.xml', content:enc.encode(ssXML)},
+    ...sheetFiles
+  ];
+  return zipFiles(allFiles);
+}
+
+function zipFiles(files){
+  const localParts = []; const central = [];
+  let offset = 0;
+  files.forEach(f=>{
+    const nameBytes = new TextEncoder().encode(f.path);
+    const data = f.content;
+    const crc = crc32(data);
+    const size = data.length;
+    const lh = new Uint8Array(30 + nameBytes.length);
+    const dv = new DataView(lh.buffer);
+    dv.setUint32(0, 0x04034b50, true);
+    dv.setUint16(4, 20, true);
+    dv.setUint16(6, 0, true);
+    dv.setUint16(8, 0, true);
+    dv.setUint16(10, 0, true);
+    dv.setUint16(12, 0, true);
+    dv.setUint32(14, crc, true);
+    dv.setUint32(18, size, true);
+    dv.setUint32(22, size, true);
+    dv.setUint16(26, nameBytes.length, true);
+    dv.setUint16(28, 0, true);
+    lh.set(nameBytes, 30);
+    localParts.push(lh, data);
+
+    const ch = new Uint8Array(46 + nameBytes.length);
+    const cv = new DataView(ch.buffer);
+    cv.setUint32(0, 0x02014b50, true);
+    cv.setUint16(4, 20, true);
+    cv.setUint16(6, 20, true);
+    cv.setUint16(8, 0, true);
+    cv.setUint16(10, 0, true);
+    cv.setUint16(12, 0, true);
+    cv.setUint16(14, 0, true);
+    cv.setUint32(16, crc, true);
+    cv.setUint32(20, size, true);
+    cv.setUint32(24, size, true);
+    cv.setUint16(28, nameBytes.length, true);
+    cv.setUint16(30, 0, true);
+    cv.setUint16(32, 0, true);
+    cv.setUint16(34, 0, true);
+    cv.setUint16(36, 0, true);
+    cv.setUint32(38, 0, true);
+    cv.setUint32(42, offset, true);
+    ch.set(nameBytes, 46);
+    central.push(ch);
+    offset += lh.length + data.length;
+  });
+  const cdStart = offset;
+  let cdSize = 0;
+  central.forEach(c=>cdSize += c.length);
+  const eocd = new Uint8Array(22);
+  const ev = new DataView(eocd.buffer);
+  ev.setUint32(0, 0x06054b50, true);
+  ev.setUint16(4, 0, true);
+  ev.setUint16(6, 0, true);
+  ev.setUint16(8, files.length, true);
+  ev.setUint16(10, files.length, true);
+  ev.setUint32(12, cdSize, true);
+  ev.setUint32(16, cdStart, true);
+  ev.setUint16(20, 0, true);
+  const totalLen = offset + cdSize + eocd.length;
+  const out = new Uint8Array(totalLen);
+  let pos = 0;
+  localParts.forEach(p=>{out.set(p, pos); pos += p.length;});
+  central.forEach(c=>{out.set(c, pos); pos += c.length;});
+  out.set(eocd, pos);
+  return out;
+}
+
+function init(){
+  setReportDate();
+  bindTabs();
+  bindControls();
+  // 보고 모드 감지 - 정적 HTML 저장본일 때 업로드/다운로드/Excel 버튼 숨김
+  if(window.__REPORT_MODE__){ applyReportMode(); }
+  renderAll();
+  if(!window.__REPORT_MODE__) fetchFx();
+}
+
+/* ============================================================
+   보고 모드: 임원에게 전달된 정적 HTML을 열었을 때
+   - 업로드/다운로드/환율수정 등 편집 기능 비활성화
+   - 작성일은 저장 시점으로 고정
+   ============================================================ */
+function applyReportMode(){
+  // 업로드, Excel 다운로드, 보고용 저장 버튼 숨김
+  document.querySelectorAll('.hd-actions label, .hd-actions button').forEach(el=>{
+    const txt = el.textContent || '';
+    if(txt.includes('Excel') || txt.includes('보고용 HTML')) el.style.display = 'none';
+  });
+  // 환율 수정 잠금
+  const fx = document.getElementById('fxInput');
+  if(fx){ fx.readOnly = true; fx.style.opacity = '.7'; fx.style.cursor = 'not-allowed'; }
+  const fxs = document.getElementById('fxSource');
+  if(fxs && window.__REPORT_FX_SRC__){ fxs.textContent = window.__REPORT_FX_SRC__; }
+  // 보고일 표시
+  if(window.__REPORT_DATE__){
+    const el = document.getElementById('reportDate');
+    if(el) el.textContent = window.__REPORT_DATE__;
+  }
+  // 보고 모드 안내 배지 추가 (헤더에)
+  const top = document.querySelector('.hd-top .hd-meta');
+  if(top){
+    const badge = document.createElement('div');
+    badge.style.cssText = 'display:inline-flex;align-items:center;gap:6px;padding:6px 12px;background:var(--soft);border:1px solid var(--line);border-radius:999px;font-size:10px;font-weight:700;color:var(--navy);letter-spacing:.06em;font-family:JetBrains Mono,monospace';
+    badge.innerHTML = '<span style="width:6px;height:6px;background:var(--ok);border-radius:50%"></span>STATIC REPORT · 보고용';
+    top.insertBefore(badge, top.firstChild);
+  }
+}
+
+/* ============================================================
+   현재 화면을 정적 HTML로 저장 (Excel 없이도 열림)
+   - 현재 RAW 데이터를 인라인 박아넣고
+   - 보고 모드 플래그를 켜서 편집 기능 비활성화
+   ============================================================ */
+function downloadStaticHTML(){
+  try{
+    // 1. 현재 문서를 outerHTML로 직렬화
+    const doctype = '<!DOCTYPE html>\n';
+    let html = document.documentElement.outerHTML;
+
+    // 2. DEFAULT_RAW를 현재 RAW로 교체 (사용자 인라인된 데이터)
+    const dataJson = JSON.stringify(RAW);
+    const rawRegex = /const DEFAULT_RAW = [\s\S]*?;(\s*\nconst SHEET_FIELDS)/;
+    if(!rawRegex.test(html)){
+      throw new Error('DEFAULT_RAW 블록을 찾지 못했습니다.');
+    }
+    // 함수 콜백 - $ 특수문자 영향 없음, 캡처 그룹은 두 번째 인자로 받음
+    html = html.replace(rawRegex, function(match, suffix){
+      return 'const DEFAULT_RAW = ' + dataJson + ';' + suffix;
+    });
+
+    // 3. 보고 모드 활성화 플래그 + 메타 정보 주입
+    const fxSrcEl = document.getElementById('fxSource');
+    const fxSrc = fxSrcEl ? fxSrcEl.textContent : '';
+    const reportDate = document.getElementById('reportDate')?.textContent || '';
+    const fxRate = FX_RATE;
+    const meta = `
+<script>
+window.__REPORT_MODE__ = true;
+window.__REPORT_DATE__ = ${JSON.stringify(reportDate)};
+window.__REPORT_FX_SRC__ = ${JSON.stringify('보고일 기준 ' + fxSrc)};
+window.__REPORT_FX_RATE__ = ${fxRate};
+<\/script>`;
+    // <head> 닫기 직전에 삽입
+    html = html.replace('</head>', meta + '\n</head>');
+
+    // 4. 환율 input의 value도 현재 값으로 박아넣기 (HTML 직렬화는 value 속성을 안 따라감)
+    const fxInputVal = FX_RATE.toFixed(2);
+    html = html.replace(
+      /<input id="fxInput" type="number" step="0\.01"[^>]*\/?>/,
+      `<input id="fxInput" type="number" step="0.01" value="${fxInputVal}" readonly />`
+    );
+
+    // 5. title도 보고일 포함으로
+    const projects = (RAW.Project||[]).length;
+    html = html.replace(
+      /<title>[^<]*<\/title>/,
+      `<title>플랜트구매품질팀 통합관리 대시보드 · ${reportDate}</title>`
+    );
+
+    // 6. Blob으로 다운로드
+    const blob = new Blob([doctype + html], {type:'text/html;charset=utf-8'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    const safeDate = reportDate.replace(/[^0-9]/g,'').slice(0,8) || new Date().toISOString().slice(0,10).replace(/-/g,'');
+    a.href = url;
+    a.download = `플랜트구매품질팀_대시보드_${safeDate}.html`;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(()=>URL.revokeObjectURL(url), 1500);
+    toast('보고용 HTML 파일이 다운로드되었습니다.');
+  }catch(err){
+    console.error(err);
+    alert('HTML 저장 중 오류가 발생했습니다.\n' + err.message);
+  }
+}
+
+init();
+</script>
+</body>
+</html>
