@@ -301,13 +301,13 @@ button{cursor:pointer;border:none;background:none}
 .tag.danger{background:var(--danger-bg);color:var(--danger)}
 .tag.info{background:var(--info-bg);color:var(--info)}
 .tag.neutral{background:#EEF1F6;color:#475569}
-.tag.mc{background:#1E293B;color:#fff}
+.tag.mc{background:#C8D0DB;color:#475569}
 .tag.dot:before{content:'';display:inline-block;width:5px;height:5px;border-radius:50%;background:currentColor;margin-right:4px}
 
 /* ============================================================
    금액 셀
    ============================================================ */
-.money{display:flex;flex-direction:column;line-height:1.25;min-width:120px;align-items:flex-end}
+.money{display:flex;flex-direction:column;line-height:1.25;align-items:flex-end}
 .money .usd{
   font-family:'JetBrains Mono','Noto Sans KR','Malgun Gothic',monospace;
   font-size:13px;font-weight:600;color:var(--ink);
@@ -817,13 +817,11 @@ window.__REPORT_FX_RATE__ = 1483.34;
     <div class="kpi-sub">본사 + 현장</div>
   </div></div>
   <div class="h-sep"></div>
-  <div class="grid g31">
-    <div class="card">
-      <div class="card-hd">
-        <div class="card-title"><span class="bar"></span>프로젝트별 핵심 현황</div>
-        <div class="card-meta" id="overviewUpdate">최종 갱신 2026. 04. 30. 오후 01:37</div>
-      </div>
-      <div class="card-body flush"><div class="tbl-wrap"><table class="tbl dense" id="overviewProjectTbl"><thead><tr>
+  <div class="card">
+    <div class="card-hd">
+      <div class="card-title"><span class="bar"></span>프로젝트 현황</div>
+    </div>
+    <div class="card-body flush"><div class="tbl-wrap"><table class="tbl dense" id="overviewProjectTbl" style="table-layout:fixed"><thead><tr>
     <th>Code</th><th class="ctr">Status</th><th>Client</th><th>Country</th>
     <th class="right">HDEC분</th><th class="ctr">진척률</th><th class="ctr">NCR</th>
   </tr></thead><tbody><tr>
@@ -915,31 +913,6 @@ window.__REPORT_FX_RATE__ = 1483.34;
       <td class="ctr"><div class="bar-wrap" style="min-width:120px"><div class="bar"><div class="fill dim" style="width:0%"></div></div><span class="pct">-</span></div></td>
       <td class="ctr"><span class="code">0</span> <span class="muted" style="font-size:10px">/ 0</span></td>
     </tr></tbody></table></div></div>
-    </div>
-    <div class="card">
-      <div class="card-hd"><div class="card-title"><span class="bar"></span>Warning Signals</div></div>
-      <div class="card-body" id="focusSignals">
-    <div class="signal-item danger">
-      <div class="top"><span class="code">SM12</span><span class="kind">TPA</span></div>
-      <div class="msg">2차 청산추정 및 예산외품의 준비</div>
-    </div>
-    <div class="signal-item danger">
-      <div class="top"><span class="code">SM12</span><span class="kind">TPA</span></div>
-      <div class="msg">계약고 증액 절차 필요</div>
-    </div>
-    <div class="signal-item ">
-      <div class="top"><span class="code">SHN1</span><span class="kind">TPA</span></div>
-      <div class="msg">1차 청산추정 필요</div>
-    </div>
-    <div class="signal-item ">
-      <div class="top"><span class="code">STA4</span><span class="kind">TPA</span></div>
-      <div class="msg">1차 청산추정 필요</div>
-    </div>
-    <div class="signal-item danger">
-      <div class="top"><span class="code">STA4</span><span class="kind">NCR</span></div>
-      <div class="msg">NCR 장기 미결 244일 (STA4-MR010-OPT-NCR-001)</div>
-    </div></div>
-    </div>
   </div>
   <div class="h-sep"></div>
   <div class="grid g2">
@@ -2748,7 +2721,7 @@ function renderUploadBanner(){
     </div>`;
 }
 function statusTag(s){
-  if(s==='Mechanical Completion') return '<span class="tag mc">MC</span>';
+  if(s==='Mechanical Completion') return '<span class="tag mc dot">MC</span>';
   if(s==='Active') return '<span class="tag ok dot">Active</span>';
   if(s==='Bid') return '<span class="tag info dot">Bid</span>';
   return `<span class="tag neutral">${esc(s||'-')}</span>`;
@@ -2939,45 +2912,44 @@ function renderOverview(){
     <div class="kpi-sub">${k.sub||''}</div>
   </div>`).join('');
 
-  $('overviewUpdate').textContent = '최종 갱신 ' + nowText();
-
   // 프로젝트 핵심 현황 표
   const tbl = $('overviewProjectTbl');
   tbl.innerHTML = `<thead><tr>
-    <th>Code</th><th class="ctr">Status</th><th>Client</th><th>Country</th>
-    <th class="right">HDEC분</th><th class="ctr">진척률</th><th class="ctr">NCR</th>
-  </tr></thead><tbody>${projects.length===0 ? emptyRow(7,'Excel을 업로드하면 프로젝트 현황이 표시됩니다.') : projects.map(p=>{
+    <th class="ctr" style="width:100px">프로젝트</th><th class="ctr" style="width:80px">단계</th><th class="ctr" style="width:100px">발주처</th><th class="ctr" style="width:100px">국가</th>
+    <th class="ctr" style="width:90px">PM</th><th class="ctr" style="width:90px">PQCM</th>
+    <th class="right" style="width:105px">HDEC 계약고</th>
+    <th class="ctr" style="width:110px">공정률</th>
+    <th class="ctr" style="width:110px">구매품질 진척률</th>
+    <th class="ctr" style="width:110px">TPA 계약고 소진율</th>
+    <th class="ctr" style="width:85px">NCR</th>
+  </tr></thead><tbody>${projects.length===0 ? emptyRow(11,'Excel을 업로드하면 프로젝트 현황이 표시됩니다.') : projects.map(p=>{
     const s = stages.find(x=>x.Project_Code===p.Project_Code) || {};
     const w = weightedProgress(s);
     const progStr = w ? w.value.toFixed(1)+'%' : '-';
     const progValue = w ? w.value : 0;
     const ncrOpen = ncrs.filter(n=>n.Project_Code===p.Project_Code).length;
     const ncrTotal = num(s.NCR_Total);
+    // 공정률 (Project.Progress 직접 입력값)
+    const rawProg = pctRaw(p.Progress);
+    const rawProgVal = rawProg != null ? Math.min(Math.max(rawProg, 0), 100) : 0;
+    // TPA 계약고 소진율
+    const tpaRow = tpa.find(t=>t.Project_Code===p.Project_Code) || {};
+    const burnB = pctRaw(tpaRow['現 계약고 소진율']);
+    const tpaCls = burnB!=null ? (burnB>=90?'danger':burnB>=70?'warn':burnB===0?'dim':'') : 'dim';
     return `<tr>
-      <td class="code">${esc(p.Project_Code)}</td>
-      <td class="ctr">${statusTag(p.Status)}</td>
-      <td class="left">${esc(p.Client||'-')}</td>
-      <td class="left">${esc(p.Country||'-')}</td>
-      <td class="right">${moneyContractCell(p,'HDEC')}</td>
-      <td class="ctr"><div class="bar-wrap" style="min-width:120px"><div class="bar"><div class="fill ${fillCls(progValue)}" style="width:${progValue}%"></div></div><span class="pct">${progStr}</span></div></td>
-      <td class="ctr"><span class="code">${ncrOpen}</span> <span class="muted" style="font-size:10px">/ ${isNumLike(ncrTotal)?ncrTotal:'-'}</span></td>
+      <td class="ctr code" style="width:100px">${esc(p.Project_Code)}</td>
+      <td class="ctr" style="width:80px">${statusTag(p.Status)}</td>
+      <td class="ctr" style="width:100px">${esc(p.Client||'-')}</td>
+      <td class="ctr" style="width:100px">${esc(p.Country||'-')}</td>
+      <td class="ctr" style="width:90px">${esc(p.PM||'-')}</td>
+      <td class="ctr" style="width:90px">${esc(p.PQCM||'-')}</td>
+      <td class="right" style="width:105px">${moneyContractCell(p,'HDEC')}</td>
+      <td style="width:110px"><div class="bar-wrap"><div class="bar"><div class="fill ${fillCls(rawProgVal)}" style="width:${rawProgVal}%"></div></div><span class="pct${rawProg==null?' dim':''}">${rawProg!=null?rawProgVal.toFixed(1)+'%':'-'}</span></div></td>
+      <td style="width:110px"><div class="bar-wrap"><div class="bar"><div class="fill ${fillCls(progValue)}" style="width:${progValue}%"></div></div><span class="pct${w?'':' dim'}">${progStr}</span></div></td>
+      <td style="width:110px"><div class="bar-wrap"><div class="bar"><div class="fill ${tpaCls}" style="width:${Math.min(burnB||0,100)}%"></div></div><span class="pct${tpaCls==='dim'?' dim':''}">${burnB!=null?burnB.toFixed(1)+'%':'-'}</span></div></td>
+      <td class="ctr" style="width:85px"><span class="code">${ncrOpen}</span> <span class="muted">/ ${isNumLike(ncrTotal)?ncrTotal:'-'}</span></td>
     </tr>`;
   }).join('')}</tbody>`;
-
-  // Warning Signals
-  const signals = [];
-  tpa.forEach(t=>{
-    tpaWarnings(t).forEach(w=>signals.push({code:t.Project_Code, lv:w.lv, txt:w.txt, kind:'TPA'}));
-  });
-  ncrs.forEach(n=>{
-    const days = num(n.Days_to_Date);
-    if(days>=180) signals.push({code:n.Project_Code, lv:'danger', txt:`NCR 장기 미결 ${days}일 (${n.NCR_Number})`, kind:'NCR'});
-  });
-  $('focusSignals').innerHTML = signals.length ? signals.slice(0,8).map(s=>`
-    <div class="signal-item ${s.lv==='danger'?'danger':''}">
-      <div class="top"><span class="code">${esc(s.code)}</span><span class="kind">${esc(s.kind)}</span></div>
-      <div class="msg">${esc(s.txt)}</div>
-    </div>`).join('') : '<div class="empty-state">현재 발생한 Warning 신호가 없습니다.</div>';
 
   // 실행 항목 - 운영 가이드 (데이터와 무관한 기본 운영 원칙)
   $('actionItems').innerHTML = [
