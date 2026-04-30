@@ -1,12 +1,11 @@
 <!DOCTYPE html>
-<html lang="ko">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>플랜트구매품질팀 통합관리 대시보드</title>
+<html lang="ko"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>플랜트구매품질팀 통합관리 대시보드 · 2026. 04. 30</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&amp;family=Noto+Sans+KR:wght@400;500;700;800;900&amp;display=swap" rel="stylesheet">
 <style>
 :root{
   /* 색상 - 절제된 엔지니어링 팔레트 */
@@ -47,7 +46,7 @@ body{
   font-family:'Noto Sans KR','Malgun Gothic','Apple SD Gothic Neo',sans-serif;
   background:var(--bg);
   color:var(--text);
-  font-size:13px;line-height:1.5;
+  font-size:14.5px;line-height:1.5;
   font-feature-settings:"ss01","cv11";
   -webkit-font-smoothing:antialiased;
   min-height:100vh;
@@ -72,12 +71,12 @@ button{cursor:pointer;border:none;background:none}
   padding-bottom:10px;gap:24px;flex-wrap:wrap;
 }
 .hd-brand{
-  font-size:23px;font-weight:800;color:var(--ink);
+  font-size:25px;font-weight:800;color:var(--ink);
   line-height:1;letter-spacing:-.025em;
   font-family:'Noto Sans KR','Malgun Gothic','Apple SD Gothic Neo',sans-serif;
 }
 .hd-brand .kicker{
-  display:block;font-size:10.5px;font-weight:500;color:var(--muted);
+  display:block;font-size:11.5px;font-weight:500;color:var(--muted);
   margin-bottom:6px;letter-spacing:.14em;text-transform:uppercase;
   font-family:'JetBrains Mono','Noto Sans KR','Malgun Gothic',monospace;
 }
@@ -138,7 +137,7 @@ button{cursor:pointer;border:none;background:none}
 }
 .tab{
   border:none;background:transparent;padding:11px 16px;
-  font-size:12px;font-weight:600;color:var(--sub);
+  font-size:13px;font-weight:600;color:var(--sub);
   border-bottom:2px solid transparent;margin-bottom:-1px;
   white-space:nowrap;transition:.15s;letter-spacing:-.01em;cursor:pointer;
 }
@@ -146,7 +145,7 @@ button{cursor:pointer;border:none;background:none}
 .tab.on{color:var(--navy);border-bottom-color:var(--navy);font-weight:700}
 .tab .num{
   display:inline-block;font-family:'JetBrains Mono','Noto Sans KR','Malgun Gothic',monospace;
-  font-size:9.5px;color:var(--muted);margin-right:5px;font-weight:500;
+  font-size:10.5px;color:var(--muted);margin-right:5px;font-weight:500;
   transition:.15s;
 }
 .tab.on .num{color:var(--navy);opacity:.6}
@@ -174,18 +173,18 @@ button{cursor:pointer;border:none;background:none}
 }
 .section-title{
   display:flex;align-items:baseline;gap:10px;
-  font-size:13px;font-weight:700;color:var(--ink);
+  font-size:14px;font-weight:700;color:var(--ink);
   letter-spacing:-.005em;
 }
 .section-title .idx{
   font-family:'JetBrains Mono','Noto Sans KR','Malgun Gothic',monospace;
-  font-size:11px;font-weight:600;color:var(--muted);
+  font-size:12px;font-weight:600;color:var(--muted);
   letter-spacing:.05em;
 }
 .section-title .bar{
   width:3px;height:14px;background:var(--navy);border-radius:1px;
 }
-.section-meta{font-size:11px;color:var(--muted);font-weight:500}
+.section-meta{font-size:12px;color:var(--muted);font-weight:500}
 
 /* ============================================================
    카드
@@ -204,11 +203,11 @@ button{cursor:pointer;border:none;background:none}
 }
 .card-title{
   display:flex;align-items:center;gap:8px;
-  font-size:13px;font-weight:700;color:var(--ink);
+  font-size:14px;font-weight:700;color:var(--ink);
   letter-spacing:-.005em;
 }
 .card-title .bar{width:3px;height:13px;background:var(--navy);border-radius:1px}
-.card-meta{font-size:11px;color:var(--muted);font-weight:500;font-family:'JetBrains Mono','Noto Sans KR','Malgun Gothic',monospace}
+.card-meta{font-size:12px;color:var(--muted);font-weight:500;font-family:'JetBrains Mono','Noto Sans KR','Malgun Gothic',monospace}
 .card-body{padding:16px 18px}
 .card-body.flush{padding:0}
 
@@ -221,22 +220,22 @@ button{cursor:pointer;border:none;background:none}
   display:flex;flex-direction:column;gap:6px;min-height:110px;
 }
 .kpi-label{
-  font-size:10px;font-weight:600;color:var(--sub);
+  font-size:11px;font-weight:600;color:var(--sub);
   text-transform:uppercase;letter-spacing:.1em;
   font-family:'JetBrains Mono','Noto Sans KR','Malgun Gothic',monospace;
 }
 .kpi-val{
-  font-size:28px;font-weight:700;color:var(--ink);
+  font-size:31px;font-weight:700;color:var(--ink);
   letter-spacing:-.03em;line-height:1.05;
   font-feature-settings:"tnum";
   font-family:'Noto Sans KR','Malgun Gothic','Apple SD Gothic Neo',sans-serif;
 }
 .kpi-val .unit{
-  font-size:13px;font-weight:500;color:var(--sub);
+  font-size:14px;font-weight:500;color:var(--sub);
   margin-left:2px;letter-spacing:0;
 }
 .kpi-sub{
-  font-size:11px;color:var(--sub);margin-top:auto;line-height:1.4;
+  font-size:12px;color:var(--sub);margin-top:auto;line-height:1.4;
   display:flex;align-items:center;gap:6px;
 }
 .kpi-sub .delta{font-family:'JetBrains Mono','Noto Sans KR','Malgun Gothic',monospace;font-weight:600}
@@ -250,11 +249,11 @@ button{cursor:pointer;border:none;background:none}
    테이블 - 데이터 typography
    ============================================================ */
 .tbl-wrap{width:100%;overflow:auto}
-.tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:12px}
+.tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:13px}
 .tbl th{
   background:var(--soft);color:var(--ink);
   border-bottom:1px solid var(--line);
-  padding:10px 12px;text-align:left;font-weight:600;font-size:10.5px;
+  padding:10px 12px;text-align:left;font-weight:600;font-size:11.5px;
   white-space:nowrap;position:sticky;top:0;z-index:2;
   letter-spacing:.06em;text-transform:uppercase;
   font-family:'JetBrains Mono','Noto Sans KR','Malgun Gothic',sans-serif;
@@ -262,7 +261,7 @@ button{cursor:pointer;border:none;background:none}
 .tbl th.ctr{text-align:center}
 .tbl th.right{text-align:right}
 .tbl th .wf{
-  display:block;font-size:9px;color:var(--muted);
+  display:block;font-size:10px;color:var(--muted);
   font-weight:500;margin-top:2px;letter-spacing:.04em;
   text-transform:none;
 }
@@ -276,13 +275,14 @@ button{cursor:pointer;border:none;background:none}
 .tbl .num{text-align:right;font-variant-numeric:tabular-nums;font-family:'JetBrains Mono','Noto Sans KR','Malgun Gothic',monospace;font-weight:500}
 .tbl .ctr{text-align:center}
 .tbl .left{text-align:left}
+.tbl .right{text-align:right}
 .tbl .nowrap{white-space:nowrap}
 .tbl .wide{min-width:240px}
 .tbl .code{
   font-family:'JetBrains Mono','Noto Sans KR','Malgun Gothic',monospace;
-  font-weight:600;color:var(--ink);font-size:11.5px;letter-spacing:.02em;
+  font-weight:600;color:var(--ink);font-size:12.5px;letter-spacing:.02em;
 }
-.tbl.dense td{padding:8px 10px;font-size:11.5px}
+.tbl.dense td{padding:8px 10px;font-size:12.5px}
 .tbl.dense th{padding:8px 10px}
 
 /* ============================================================
@@ -291,7 +291,7 @@ button{cursor:pointer;border:none;background:none}
 .tag{
   display:inline-flex;align-items:center;gap:4px;
   border-radius:4px;padding:3px 7px;
-  font-size:10px;font-weight:600;
+  font-size:11px;font-weight:600;
   letter-spacing:.04em;line-height:1;
   white-space:nowrap;
   font-family:'JetBrains Mono','Noto Sans KR','Malgun Gothic',monospace;
@@ -307,15 +307,15 @@ button{cursor:pointer;border:none;background:none}
 /* ============================================================
    금액 셀
    ============================================================ */
-.money{display:flex;flex-direction:column;line-height:1.25;min-width:120px}
+.money{display:flex;flex-direction:column;line-height:1.25;min-width:120px;align-items:flex-end}
 .money .usd{
   font-family:'JetBrains Mono','Noto Sans KR','Malgun Gothic',monospace;
-  font-size:12px;font-weight:600;color:var(--ink);
+  font-size:13px;font-weight:600;color:var(--ink);
   letter-spacing:-.01em;
 }
 .money .krw{
   font-family:'JetBrains Mono','Noto Sans KR','Malgun Gothic',monospace;
-  font-size:10px;font-weight:400;color:var(--muted);
+  font-size:11px;font-weight:400;color:var(--muted);
   margin-top:2px;
 }
 .money.dim .usd{color:var(--muted)}
@@ -341,7 +341,7 @@ button{cursor:pointer;border:none;background:none}
 .bar .fill.dim{background:#CBD5E1}
 .pct{
   font-family:'JetBrains Mono','Noto Sans KR','Malgun Gothic',monospace;
-  font-size:11px;font-weight:600;color:var(--ink);
+  font-size:12px;font-weight:600;color:var(--ink);
   width:46px;text-align:right;
   font-variant-numeric:tabular-nums;
 }
@@ -370,7 +370,7 @@ button{cursor:pointer;border:none;background:none}
 .tpa-track .mark.t90{left:90%;background:var(--danger)}
 .tpa-pct{
   font-family:'JetBrains Mono','Noto Sans KR','Malgun Gothic',monospace;
-  font-size:11px;font-weight:600;
+  font-size:12px;font-weight:600;
   font-variant-numeric:tabular-nums;
   width:50px;text-align:right;color:var(--ink);
 }
@@ -420,10 +420,10 @@ button{cursor:pointer;border:none;background:none}
 }
 .signal-item .code{
   font-family:'JetBrains Mono','Noto Sans KR','Malgun Gothic',monospace;
-  font-size:11px;font-weight:700;color:var(--ink);letter-spacing:.04em;
+  font-size:12px;font-weight:700;color:var(--ink);letter-spacing:.04em;
 }
-.signal-item .kind{font-size:10px;color:var(--muted);font-weight:600}
-.signal-item .msg{font-size:11.5px;color:var(--text);line-height:1.4}
+.signal-item .kind{font-size:11px;color:var(--muted);font-weight:600}
+.signal-item .msg{font-size:12.5px;color:var(--text);line-height:1.4}
 
 .action-row{
   display:grid;grid-template-columns:auto 1fr auto;gap:14px;
@@ -441,8 +441,8 @@ button{cursor:pointer;border:none;background:none}
   display:flex;align-items:center;justify-content:center;
   flex:none;
 }
-.action-title{font-weight:700;font-size:12.5px;color:var(--ink);margin-bottom:3px;letter-spacing:-.005em}
-.action-desc{font-size:11.5px;color:var(--sub);line-height:1.45}
+.action-title{font-weight:700;font-size:13.5px;color:var(--ink);margin-bottom:3px;letter-spacing:-.005em}
+.action-desc{font-size:12.5px;color:var(--sub);line-height:1.45}
 .action-due{
   font-family:'JetBrains Mono','Noto Sans KR','Malgun Gothic',monospace;
   font-size:10px;font-weight:600;color:var(--navy);
@@ -453,12 +453,12 @@ button{cursor:pointer;border:none;background:none}
 .risk-item{
   border-bottom:1px solid var(--line2);padding:10px 0;
   display:flex;justify-content:space-between;gap:12px;
-  font-size:12px;
+  font-size:13px;
 }
 .risk-item:last-child{border-bottom:none}
 .risk-item:first-child{padding-top:0}
 .risk-item .k{font-weight:600;color:var(--ink)}
-.risk-item .v{color:var(--sub);font-size:11.5px;text-align:right}
+.risk-item .v{color:var(--sub);font-size:12.5px;text-align:right}
 .risk-group{margin-bottom:14px}
 .risk-group:last-child{margin-bottom:0}
 .risk-group .grp-title{
@@ -486,7 +486,7 @@ button{cursor:pointer;border:none;background:none}
 .guide-trigger.warn{background:var(--warn-bg);color:var(--warn)}
 .guide-trigger.danger{background:var(--danger-bg);color:var(--danger)}
 .guide-trigger.info{background:var(--info-bg);color:var(--info)}
-.guide-text{font-size:11.5px;color:var(--text);line-height:1.5}
+.guide-text{font-size:12.5px;color:var(--text);line-height:1.5}
 .guide-text b{font-weight:700;color:var(--ink)}
 
 /* ============================================================
@@ -509,10 +509,10 @@ button{cursor:pointer;border:none;background:none}
   width:1px;height:36px;background:#D1D9E4;
   transform:translateX(-50%);
 }
-.org-name{font-size:15px;font-weight:700;color:var(--ink);letter-spacing:-.01em}
+.org-name{font-size:16px;font-weight:700;color:var(--ink);letter-spacing:-.01em}
 .org-role{
   font-family:'JetBrains Mono','Noto Sans KR','Malgun Gothic',monospace;
-  font-size:9.5px;color:var(--sub);font-weight:600;
+  font-size:10.5px;color:var(--sub);font-weight:600;
   margin-top:5px;letter-spacing:.1em;text-transform:uppercase;
 }
 .org-bus{position:relative;max-width:1280px;margin:0 auto;height:0}
@@ -550,16 +550,16 @@ button{cursor:pointer;border:none;background:none}
 }
 .org-person:hover{border-color:#CBD5E1;background:#FAFBFD}
 .org-person .top{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
-.org-person .name{font-size:12.5px;font-weight:700;color:var(--ink);letter-spacing:-.005em}
+.org-person .name{font-size:13.5px;font-weight:700;color:var(--ink);letter-spacing:-.005em}
 .org-person .po{
   font-family:'JetBrains Mono','Noto Sans KR','Malgun Gothic',monospace;
-  font-size:9.5px;font-weight:600;color:var(--navy);
+  font-size:10.5px;font-weight:600;color:var(--navy);
   background:#EFF3F8;border-radius:3px;padding:2px 6px;
   white-space:nowrap;letter-spacing:.04em;
 }
 .org-person .role{
   font-family:'JetBrains Mono','Noto Sans KR','Malgun Gothic',monospace;
-  font-size:10px;color:var(--sub);font-weight:500;margin-top:3px;
+  font-size:11px;color:var(--sub);font-weight:500;margin-top:3px;
   letter-spacing:.02em;
 }
 .org-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:8px}
@@ -586,17 +586,17 @@ button{cursor:pointer;border:none;background:none}
   display:flex;justify-content:space-between;align-items:baseline;
   gap:10px;margin-bottom:6px;
 }
-.issue .title{font-weight:700;font-size:12.5px;color:var(--ink);letter-spacing:-.005em}
-.issue .meta{font-family:'JetBrains Mono','Noto Sans KR','Malgun Gothic',monospace;font-size:10px;color:var(--muted);font-weight:500;letter-spacing:.02em;white-space:nowrap}
+.issue .title{font-weight:700;font-size:13.5px;color:var(--ink);letter-spacing:-.005em}
+.issue .meta{font-family:'JetBrains Mono','Noto Sans KR','Malgun Gothic',monospace;font-size:11px;color:var(--muted);font-weight:500;letter-spacing:.02em;white-space:nowrap}
 .issue .action{
-  font-size:11.5px;color:var(--text);background:var(--soft);
+  font-size:12.5px;color:var(--text);background:var(--soft);
   border-radius:5px;padding:7px 10px;line-height:1.45;margin-top:4px;
 }
 
 /* ============================================================
    유틸
    ============================================================ */
-.muted{color:var(--muted);font-size:11px;font-weight:500}
+.muted{color:var(--muted);font-size:12px;font-weight:500}
 .empty-state{padding:32px 24px;text-align:center;color:var(--muted);font-size:12px;background:var(--soft);border-radius:var(--r);margin:8px}
 .empty-state .ico{font-size:24px;display:block;margin-bottom:8px;opacity:.5}
 .empty-state .title{font-size:13px;font-weight:600;color:var(--sub);margin-bottom:4px}
@@ -720,7 +720,7 @@ button{cursor:pointer;border:none;background:none}
   .g3,.g31,.g21,.g2{grid-template-columns:1fr}
 }
 @media(max-width:760px){
-  body{font-size:12.5px}
+  body{font-size:13.5px}
   .page{padding:16px}
   .g5,.g4,.g3,.g2{grid-template-columns:1fr}
   .hd-meta{flex-direction:column;align-items:flex-start;gap:10px}
@@ -739,6 +739,13 @@ button{cursor:pointer;border:none;background:none}
   .tbl th{position:static}
 }
 </style>
+
+<script>
+window.__REPORT_MODE__ = true;
+window.__REPORT_DATE__ = "2026. 04. 30";
+window.__REPORT_FX_SRC__ = "보고일 기준 오후 01:36 조회";
+window.__REPORT_FX_RATE__ = 1483.34;
+</script>
 </head>
 <body>
 
@@ -750,21 +757,23 @@ button{cursor:pointer;border:none;background:none}
       플랜트구매품질팀 통합관리 대시보드
     </div>
     <div class="hd-meta">
-      <div class="fx-pill" data-tip="원달러 매매기준율을 자동으로 조회합니다.&#10;실패 시 직접 입력하세요.">
+      <div class="fx-pill" data-tip="원달러 매매기준율을 자동으로 조회합니다.
+실패 시 직접 입력하세요.">
         <span class="lbl">KRW/USD</span>
-        <input id="fxInput" type="number" step="0.01" value="1473.00" />
-        <span class="src" id="fxSource">자동조회 중</span>
+        <input id="fxInput" type="number" step="0.01" value="1483.34" readonly />
+        <span class="src" id="fxSource">오후 01:36 조회</span>
       </div>
       <div class="hd-date">
-        <span class="top">REPORT &middot; 플랜트구매품질팀</span>
-        <span class="day" id="reportDate">-</span>
+        <span class="top">REPORT · 플랜트구매품질팀</span>
+        <span class="day" id="reportDate">2026. 04. 30</span>
       </div>
     </div>
   </div>
   <div class="hd-actions">
-    <label class="btn"><input class="file-hidden" type="file" id="rawUpload" accept=".xlsx,.xls" /><span class="ic">↑</span>Excel 업로드</label>
+    <label class="btn"><input class="file-hidden" type="file" id="rawUpload" accept=".xlsx,.xls"><span class="ic">↑</span>Excel 업로드</label>
     <button class="btn" onclick="downloadRawExcel()"><span class="ic">↓</span>Excel 다운로드</button>
-    <button class="btn primary" onclick="downloadStaticHTML()" data-tip="현재 화면을 단일 HTML 파일로 저장합니다.&#10;임원 보고용으로 사용하세요 (Excel 첨부 불필요)."><span class="ic">⎙</span>보고용 HTML 저장</button>
+    <button class="btn primary" onclick="downloadStaticHTML()" data-tip="현재 화면을 단일 HTML 파일로 저장합니다.
+임원 보고용으로 사용하세요 (Excel 첨부 불필요)."><span class="ic">⎙</span>보고용 HTML 저장</button>
     <button class="btn" onclick="window.print()"><span class="ic">⎙</span>PDF 저장</button>
   </div>
   <div class="hd-rule"></div>
@@ -786,30 +795,186 @@ button{cursor:pointer;border:none;background:none}
 
 <section class="page on print-main" id="overview">
   <div id="emptyBannerSlot"></div>
-  <div class="grid g5" id="kpiGrid"></div>
+  <div class="grid g5" id="kpiGrid"><div class="kpi accent">
+    <div class="kpi-label">PROJECTS</div>
+    <div class="kpi-val">11<span class="unit">건</span></div>
+    <div class="kpi-sub">Active <span class="delta">8</span> · MC <span class="delta">2</span> · Bid <span class="delta">1</span></div>
+  </div><div class="kpi ok">
+    <div class="kpi-label">AVG PROGRESS</div>
+    <div class="kpi-val">71.3%</div>
+    <div class="kpi-sub">IRC 50% 가중</div>
+  </div><div class="kpi warn">
+    <div class="kpi-label">OPEN NCR</div>
+    <div class="kpi-val">9<span class="unit">건</span></div>
+    <div class="kpi-sub">발생-종결 차이</div>
+  </div><div class="kpi danger">
+    <div class="kpi-label">TPA WARNINGS</div>
+    <div class="kpi-val">3<span class="unit">건</span></div>
+    <div class="kpi-sub">예산/계약고 임계 초과</div>
+  </div><div class="kpi info">
+    <div class="kpi-label">MANPOWER</div>
+    <div class="kpi-val">20<span class="unit">명</span></div>
+    <div class="kpi-sub">본사 + 현장</div>
+  </div></div>
   <div class="h-sep"></div>
   <div class="grid g31">
     <div class="card">
       <div class="card-hd">
         <div class="card-title"><span class="bar"></span>프로젝트별 핵심 현황</div>
-        <div class="card-meta" id="overviewUpdate">-</div>
+        <div class="card-meta" id="overviewUpdate">최종 갱신 2026. 04. 30. 오후 01:37</div>
       </div>
-      <div class="card-body flush"><div class="tbl-wrap"><table class="tbl dense" id="overviewProjectTbl"></table></div></div>
+      <div class="card-body flush"><div class="tbl-wrap"><table class="tbl dense" id="overviewProjectTbl"><thead><tr>
+    <th>Code</th><th class="ctr">Status</th><th>Client</th><th>Country</th>
+    <th class="right">HDEC분</th><th class="ctr">진척률</th><th class="ctr">NCR</th>
+  </tr></thead><tbody><tr>
+      <td class="code">MIP6</td>
+      <td class="ctr"><span class="tag mc">MC</span></td>
+      <td class="left">Aramco</td>
+      <td class="left">Saudi Arabia</td>
+      <td class="right"><div class="money"><span class="usd">$1,484M</span><span class="krw">₩22,013억</span></div></td>
+      <td class="ctr"><div class="bar-wrap" style="min-width:120px"><div class="bar"><div class="fill ok" style="width:100%"></div></div><span class="pct">100.0%</span></div></td>
+      <td class="ctr"><span class="code">0</span> <span class="muted" style="font-size:10px">/ 55</span></td>
+    </tr><tr>
+      <td class="code">SM12</td>
+      <td class="ctr"><span class="tag ok dot">Active</span></td>
+      <td class="left">Aramco</td>
+      <td class="left">Saudi Arabia</td>
+      <td class="right"><div class="money"><span class="usd">$1,318M</span><span class="krw">₩19,550억</span></div></td>
+      <td class="ctr"><div class="bar-wrap" style="min-width:120px"><div class="bar"><div class="fill ok" style="width:99.28774928774928%"></div></div><span class="pct">99.3%</span></div></td>
+      <td class="ctr"><span class="code">0</span> <span class="muted" style="font-size:10px">/ 74</span></td>
+    </tr><tr>
+      <td class="code">IBRU</td>
+      <td class="ctr"><span class="tag mc">MC</span></td>
+      <td class="left">BOC</td>
+      <td class="left">Iraq</td>
+      <td class="right"><div class="money"><span class="usd">$1,814M</span><span class="krw">₩26,908억</span></div></td>
+      <td class="ctr"><div class="bar-wrap" style="min-width:120px"><div class="bar"><div class="fill ok" style="width:100%"></div></div><span class="pct">100.0%</span></div></td>
+      <td class="ctr"><span class="code">0</span> <span class="muted" style="font-size:10px">/ 7</span></td>
+    </tr><tr>
+      <td class="code">SHN1</td>
+      <td class="ctr"><span class="tag ok dot">Active</span></td>
+      <td class="left">S-Oil</td>
+      <td class="left">Korea</td>
+      <td class="right"><div class="money"><span class="usd">$1,611M</span><span class="krw">₩23,891억</span></div></td>
+      <td class="ctr"><div class="bar-wrap" style="min-width:120px"><div class="bar"><div class="fill " style="width:86.25%"></div></div><span class="pct">86.3%</span></div></td>
+      <td class="ctr"><span class="code">0</span> <span class="muted" style="font-size:10px">/ 15</span></td>
+    </tr><tr>
+      <td class="code">ALOM</td>
+      <td class="ctr"><span class="tag ok dot">Active</span></td>
+      <td class="left">Hyenco</td>
+      <td class="left">Algeria</td>
+      <td class="right"><div class="money"><span class="usd">$584M</span><span class="krw">₩8,663억</span></div></td>
+      <td class="ctr"><div class="bar-wrap" style="min-width:120px"><div class="bar"><div class="fill " style="width:85.13513513513513%"></div></div><span class="pct">85.1%</span></div></td>
+      <td class="ctr"><span class="code">0</span> <span class="muted" style="font-size:10px">/ 16</span></td>
+    </tr><tr>
+      <td class="code">VEQU</td>
+      <td class="ctr"><span class="tag ok dot">Active</span></td>
+      <td class="left">EVN</td>
+      <td class="left">Vietnam</td>
+      <td class="right"><div class="money"><span class="usd">$952M</span><span class="krw">₩14,121억</span></div></td>
+      <td class="ctr"><div class="bar-wrap" style="min-width:120px"><div class="bar"><div class="fill ok" style="width:99.47916666666667%"></div></div><span class="pct">99.5%</span></div></td>
+      <td class="ctr"><span class="code">0</span> <span class="muted" style="font-size:10px">/ 9</span></td>
+    </tr><tr>
+      <td class="code">STA4</td>
+      <td class="ctr"><span class="tag ok dot">Active</span></td>
+      <td class="left">satorp</td>
+      <td class="left">Saudi Arabia</td>
+      <td class="right"><div class="money"><span class="usd">$2,136M</span><span class="krw">₩31,684억</span></div></td>
+      <td class="ctr"><div class="bar-wrap" style="min-width:120px"><div class="bar"><div class="fill " style="width:71.7271071369432%"></div></div><span class="pct">71.7%</span></div></td>
+      <td class="ctr"><span class="code">9</span> <span class="muted" style="font-size:10px">/ 51</span></td>
+    </tr><tr>
+      <td class="code">SAC2</td>
+      <td class="ctr"><span class="tag ok dot">Active</span></td>
+      <td class="left">Aramco</td>
+      <td class="left">Saudi Arabia</td>
+      <td class="right"><div class="money"><span class="usd">$1,184M</span><span class="krw">₩17,563억</span></div></td>
+      <td class="ctr"><div class="bar-wrap" style="min-width:120px"><div class="bar"><div class="fill warn" style="width:60.83001087350489%"></div></div><span class="pct">60.8%</span></div></td>
+      <td class="ctr"><span class="code">0</span> <span class="muted" style="font-size:10px">/ 7</span></td>
+    </tr><tr>
+      <td class="code">CSSP</td>
+      <td class="ctr"><span class="tag ok dot">Active</span></td>
+      <td class="left">TotalEnergies</td>
+      <td class="left">Iraq</td>
+      <td class="right"><div class="money"><span class="usd">$3,160M</span><span class="krw">₩46,874억</span></div></td>
+      <td class="ctr"><div class="bar-wrap" style="min-width:120px"><div class="bar"><div class="fill dim" style="width:4.797297297297297%"></div></div><span class="pct">4.8%</span></div></td>
+      <td class="ctr"><span class="code">0</span> <span class="muted" style="font-size:10px">/ 0</span></td>
+    </tr><tr>
+      <td class="code">PNG1</td>
+      <td class="ctr"><span class="tag ok dot">Active</span></td>
+      <td class="left">ExxonMobil</td>
+      <td class="left">Papua New Genea</td>
+      <td class="right"><div class="money"><span class="usd">$1,600M</span><span class="krw">₩23,733억</span></div></td>
+      <td class="ctr"><div class="bar-wrap" style="min-width:120px"><div class="bar"><div class="fill dim" style="width:5.666666666666667%"></div></div><span class="pct">5.7%</span></div></td>
+      <td class="ctr"><span class="code">0</span> <span class="muted" style="font-size:10px">/ 0</span></td>
+    </tr><tr>
+      <td class="code">ALSM</td>
+      <td class="ctr"><span class="tag info dot">Bid</span></td>
+      <td class="left">HPLS</td>
+      <td class="left">USA</td>
+      <td class="right"><div class="money"><span class="usd">$5,800M</span><span class="krw">₩86,034억</span></div></td>
+      <td class="ctr"><div class="bar-wrap" style="min-width:120px"><div class="bar"><div class="fill dim" style="width:0%"></div></div><span class="pct">-</span></div></td>
+      <td class="ctr"><span class="code">0</span> <span class="muted" style="font-size:10px">/ 0</span></td>
+    </tr></tbody></table></div></div>
     </div>
     <div class="card">
       <div class="card-hd"><div class="card-title"><span class="bar"></span>Warning Signals</div></div>
-      <div class="card-body" id="focusSignals"></div>
+      <div class="card-body" id="focusSignals">
+    <div class="signal-item danger">
+      <div class="top"><span class="code">SM12</span><span class="kind">TPA</span></div>
+      <div class="msg">2차 청산추정 및 예산외품의 준비</div>
+    </div>
+    <div class="signal-item danger">
+      <div class="top"><span class="code">SM12</span><span class="kind">TPA</span></div>
+      <div class="msg">계약고 증액 절차 필요</div>
+    </div>
+    <div class="signal-item ">
+      <div class="top"><span class="code">SHN1</span><span class="kind">TPA</span></div>
+      <div class="msg">1차 청산추정 필요</div>
+    </div>
+    <div class="signal-item ">
+      <div class="top"><span class="code">STA4</span><span class="kind">TPA</span></div>
+      <div class="msg">1차 청산추정 필요</div>
+    </div>
+    <div class="signal-item danger">
+      <div class="top"><span class="code">STA4</span><span class="kind">NCR</span></div>
+      <div class="msg">NCR 장기 미결 244일 (STA4-MR010-OPT-NCR-001)</div>
+    </div></div>
     </div>
   </div>
   <div class="h-sep"></div>
   <div class="grid g2">
     <div class="card">
       <div class="card-hd"><div class="card-title"><span class="bar"></span>실행 항목</div></div>
-      <div class="card-body" id="actionItems"></div>
+      <div class="card-body" id="actionItems"><div class="action-row">
+    <div class="action-no">01</div>
+    <div><div class="action-title">TPA 청산추정 가속화</div><div class="action-desc">예산 70% 초과 PJT 1차 청산추정 착수, 90% 초과 시 예산외품의 준비</div></div>
+    <div class="action-due">상시</div>
+  </div><div class="action-row">
+    <div class="action-no">02</div>
+    <div><div class="action-title">IRC 100% 단계 집중관리</div><div class="action-desc">IRC 진행률 점검 및 잔여 NCR 종결 가속화</div></div>
+    <div class="action-due">분기</div>
+  </div><div class="action-row">
+    <div class="action-no">03</div>
+    <div><div class="action-title">초기단계 프로젝트 셋업</div><div class="action-desc">MR · TBE 발행 일정 확정 및 계약고 미정 항목 협의</div></div>
+    <div class="action-due">착수 후 1개월</div>
+  </div><div class="action-row">
+    <div class="action-no">04</div>
+    <div><div class="action-title">장기 미결 NCR 종결</div><div class="action-desc">180일 초과 NCR 우선 종결, IRC Issuance with Punch List 항목 정리</div></div>
+    <div class="action-due">상시</div>
+  </div></div>
     </div>
     <div class="card">
       <div class="card-hd"><div class="card-title"><span class="bar"></span>리스크 및 관리 포인트</div></div>
-      <div class="card-body" id="riskPoints"></div>
+      <div class="card-body" id="riskPoints"><div class="risk-group">
+    <div class="grp-title">TPA 임계 관리</div>
+    <div class="risk-item"><span class="k">예산 70%↑</span><span class="v">1차 청산추정</span></div><div class="risk-item"><span class="k">예산 90%↑</span><span class="v">예산외품의 준비</span></div><div class="risk-item"><span class="k">계약고 90%↑</span><span class="v">계약고 증액 절차</span></div>
+  </div><div class="risk-group">
+    <div class="grp-title">단계별 가중치</div>
+    <div class="risk-item"><span class="k">IRC 100%</span><span class="v">전체의 50%</span></div><div class="risk-item"><span class="k">PIM</span><span class="v">20%</span></div><div class="risk-item"><span class="k">MR · TBE · PO</span><span class="v">각 10%</span></div>
+  </div><div class="risk-group">
+    <div class="grp-title">NCR 우선순위</div>
+    <div class="risk-item"><span class="k">180일 초과</span><span class="v">장기 미결 - 즉시 종결</span></div><div class="risk-item"><span class="k">90~180일</span><span class="v">중간 점검 및 가속화</span></div><div class="risk-item"><span class="k">MC 제외</span><span class="v">기계적 준공 후 별도 관리</span></div>
+  </div></div>
     </div>
   </div>
 </section>
@@ -817,35 +982,265 @@ button{cursor:pointer;border:none;background:none}
 <section class="page" id="projects">
   <div class="control-row">
     <div class="filters">
-      <input class="input" id="projectSearch" placeholder="프로젝트 / 발주처 / 국가 검색" style="min-width:260px" />
-      <select class="select" id="projectStatusFilter"><option value="">전체 Status</option></select>
+      <input class="input" id="projectSearch" placeholder="프로젝트 / 발주처 / 국가 검색" style="min-width:260px">
+      <select class="select" id="projectStatusFilter"><option value="">전체 Status</option><option value="Mechanical Completion">Mechanical Completion</option><option value="Active">Active</option><option value="Bid">Bid</option></select>
     </div>
   </div>
-  <div class="grid g4" id="projectKpis"></div>
+  <div class="grid g4" id="projectKpis"><div class="kpi accent">
+    <div class="kpi-label">PROJECTS</div>
+    <div class="kpi-val">11<span class="unit">건</span></div>
+    <div class="kpi-sub"></div>
+  </div><div class="kpi ok">
+    <div class="kpi-label">HDEC TOTAL</div>
+    <div class="kpi-val">$20,032M</div>
+    <div class="kpi-sub">USD 환산</div>
+  </div><div class="kpi info">
+    <div class="kpi-label">GRAND TOTAL</div>
+    <div class="kpi-val">$25,989M</div>
+    <div class="kpi-sub">USD 환산</div>
+  </div><div class="kpi warn">
+    <div class="kpi-label">ACTIVE</div>
+    <div class="kpi-val">8<span class="unit">건</span></div>
+    <div class="kpi-sub"></div>
+  </div></div>
   <div class="h-sep"></div>
   <div class="card">
     <div class="card-hd">
       <div class="card-title"><span class="bar"></span>프로젝트 마스터</div>
       <div class="card-meta">USD&nbsp;검정&nbsp;/&nbsp;KRW&nbsp;회색&nbsp;병기</div>
     </div>
-    <div class="card-body flush"><div class="tbl-wrap"><table class="tbl" id="projectTbl"></table></div></div>
+    <div class="card-body flush"><div class="tbl-wrap"><table class="tbl" id="projectTbl"><thead><tr>
+    <th>Code</th><th class="ctr">Status</th><th>Client</th><th>Country</th>
+    <th class="right">HDEC 계약가</th><th class="right">Total 계약가</th>
+    <th>PM</th><th>PQCM</th><th class="ctr">Progress</th>
+  </tr></thead><tbody><tr>
+      <td class="code">MIP6</td>
+      <td class="ctr"><span class="tag mc">MC</span></td>
+      <td class="left">Aramco</td>
+      <td class="left">Saudi Arabia</td>
+      <td class="right"><div class="money"><span class="usd">$1,484M</span><span class="krw">₩22,013억</span></div></td>
+      <td class="right"><div class="money"><span class="usd">$1,484M</span><span class="krw">₩22,013억</span></div></td>
+      <td class="left">-</td>
+      <td class="left">-</td>
+      <td><div class="bar-wrap"><div class="bar"><div class="fill ok" style="width:100%"></div></div><span class="pct">100.0%</span></div></td>
+    </tr><tr>
+      <td class="code">SM12</td>
+      <td class="ctr"><span class="tag ok dot">Active</span></td>
+      <td class="left">Aramco</td>
+      <td class="left">Saudi Arabia</td>
+      <td class="right"><div class="money"><span class="usd">$1,318M</span><span class="krw">₩19,550억</span></div></td>
+      <td class="right"><div class="money"><span class="usd">$1,354M</span><span class="krw">₩20,084억</span></div></td>
+      <td class="left">정준택 상무</td>
+      <td class="left">장동철 책임</td>
+      <td><div class="bar-wrap"><div class="bar"><div class="fill ok" style="width:99.96000000000001%"></div></div><span class="pct">99.9%</span></div></td>
+    </tr><tr>
+      <td class="code">IBRU</td>
+      <td class="ctr"><span class="tag mc">MC</span></td>
+      <td class="left">BOC</td>
+      <td class="left">Iraq</td>
+      <td class="right"><div class="money"><span class="usd">$1,814M</span><span class="krw">₩26,908억</span></div></td>
+      <td class="right"><div class="money"><span class="usd">$3,778M</span><span class="krw">₩56,041억</span></div></td>
+      <td class="left">정태수 소장</td>
+      <td class="left">-</td>
+      <td><div class="bar-wrap"><div class="bar"><div class="fill ok" style="width:100%"></div></div><span class="pct">100.0%</span></div></td>
+    </tr><tr>
+      <td class="code">SHN1</td>
+      <td class="ctr"><span class="tag ok dot">Active</span></td>
+      <td class="left">S-Oil</td>
+      <td class="left">Korea</td>
+      <td class="right"><div class="money"><span class="usd">$1,611M</span><span class="krw">₩23,891억</span></div></td>
+      <td class="right"><div class="money"><span class="usd">$3,665M</span><span class="krw">₩54,368억</span></div></td>
+      <td class="left">이현영 실장</td>
+      <td class="left">이해석 책임</td>
+      <td><div class="bar-wrap"><div class="bar"><div class="fill ok" style="width:95.69%"></div></div><span class="pct">95.7%</span></div></td>
+    </tr><tr>
+      <td class="code">ALOM</td>
+      <td class="ctr"><span class="tag ok dot">Active</span></td>
+      <td class="left">Hyenco</td>
+      <td class="left">Algeria</td>
+      <td class="right"><div class="money"><span class="usd">$584M</span><span class="krw">₩8,663억</span></div></td>
+      <td class="right"><div class="money"><span class="usd">$730M</span><span class="krw">₩10,828억</span></div></td>
+      <td class="left">정민권 소장</td>
+      <td class="left">윤희수 책임</td>
+      <td><div class="bar-wrap"><div class="bar"><div class="fill warn" style="width:58.96%"></div></div><span class="pct">59.0%</span></div></td>
+    </tr><tr>
+      <td class="code">VEQU</td>
+      <td class="ctr"><span class="tag ok dot">Active</span></td>
+      <td class="left">EVN</td>
+      <td class="left">Vietnam</td>
+      <td class="right"><div class="money"><span class="usd">$952M</span><span class="krw">₩14,121억</span></div></td>
+      <td class="right"><div class="money"><span class="usd">$1,178M</span><span class="krw">₩17,474억</span></div></td>
+      <td class="left">이윤석 소장</td>
+      <td class="left">윤희수 책임</td>
+      <td><div class="bar-wrap"><div class="bar"><div class="fill ok" style="width:98.95%"></div></div><span class="pct">99.0%</span></div></td>
+    </tr><tr>
+      <td class="code">STA4</td>
+      <td class="ctr"><span class="tag ok dot">Active</span></td>
+      <td class="left">satorp</td>
+      <td class="left">Saudi Arabia</td>
+      <td class="right"><div class="money"><span class="usd">$2,136M</span><span class="krw">₩31,684억</span></div></td>
+      <td class="right"><div class="money"><span class="usd">$2,136M</span><span class="krw">₩31,684억</span></div></td>
+      <td class="left">임영빈 상무</td>
+      <td class="left">최우석 책임</td>
+      <td><div class="bar-wrap"><div class="bar"><div class="fill " style="width:87.28%"></div></div><span class="pct">87.3%</span></div></td>
+    </tr><tr>
+      <td class="code">SAC2</td>
+      <td class="ctr"><span class="tag ok dot">Active</span></td>
+      <td class="left">Aramco</td>
+      <td class="left">Saudi Arabia</td>
+      <td class="right"><div class="money"><span class="usd">$1,184M</span><span class="krw">₩17,563억</span></div></td>
+      <td class="right"><div class="money"><span class="usd">$2,369M</span><span class="krw">₩35,140억</span></div></td>
+      <td class="left">김형철 실장</td>
+      <td class="left">최종현 책임</td>
+      <td><div class="bar-wrap"><div class="bar"><div class="fill " style="width:70.49%"></div></div><span class="pct">70.5%</span></div></td>
+    </tr><tr>
+      <td class="code">CSSP</td>
+      <td class="ctr"><span class="tag ok dot">Active</span></td>
+      <td class="left">TotalEnergies</td>
+      <td class="left">Iraq</td>
+      <td class="right"><div class="money"><span class="usd">$3,160M</span><span class="krw">₩46,874억</span></div></td>
+      <td class="right"><div class="money"><span class="usd">$3,160M</span><span class="krw">₩46,874억</span></div></td>
+      <td class="left">박수철 상무</td>
+      <td class="left">정진우 책임</td>
+      <td><div class="bar-wrap"><div class="bar"><div class="fill dim" style="width:6.3%"></div></div><span class="pct">6.3%</span></div></td>
+    </tr><tr>
+      <td class="code">PNG1</td>
+      <td class="ctr"><span class="tag ok dot">Active</span></td>
+      <td class="left">ExxonMobil</td>
+      <td class="left">Papua New Genea</td>
+      <td class="right"><div class="money"><span class="usd">$1,600M</span><span class="krw">₩23,733억</span></div></td>
+      <td class="right"><div class="money"><span class="usd">$4,000M</span><span class="krw">₩59,334억</span></div></td>
+      <td class="left">최성식 팀장</td>
+      <td class="left">강태준 책임</td>
+      <td><div class="bar-wrap"><div class="bar"><div class="fill dim" style="width:0%"></div></div><span class="pct">0.0%</span></div></td>
+    </tr><tr>
+      <td class="code">ALSM</td>
+      <td class="ctr"><span class="tag info dot">Bid</span></td>
+      <td class="left">HPLS</td>
+      <td class="left">USA</td>
+      <td class="right"><div class="money"><span class="usd">$5,800M</span><span class="krw">₩86,034억</span></div></td>
+      <td class="right"><div class="money"><span class="usd">$5,800M</span><span class="krw">₩86,034억</span></div></td>
+      <td class="left">백철욱 상무</td>
+      <td class="left">강태준 책임</td>
+      <td><div class="bar-wrap"><div class="bar"><div class="fill dim" style="width:0%"></div></div><span class="pct">0.0%</span></div></td>
+    </tr></tbody></table></div></div>
   </div>
 </section>
 
 <section class="page" id="stage">
-  <div class="grid g5" id="stageKpis"></div>
+  <div class="grid g5" id="stageKpis">
+    <div class="kpi">
+      <div class="kpi-label">MR <span style="color:var(--muted);font-weight:500">·&nbsp;W&nbsp;10%</span></div>
+      <div class="kpi-val">87.9<span class="unit">%</span></div>
+      <div class="kpi-sub">78 / 178 · 10개 PJT</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">TBE <span style="color:var(--muted);font-weight:500">·&nbsp;W&nbsp;10%</span></div>
+      <div class="kpi-val">81.8<span class="unit">%</span></div>
+      <div class="kpi-sub">7 / 178 · 10개 PJT</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">PO <span style="color:var(--muted);font-weight:500">·&nbsp;W&nbsp;10%</span></div>
+      <div class="kpi-val">80.7<span class="unit">%</span></div>
+      <div class="kpi-sub">923 / 1,098 · 10개 PJT</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">PIM <span style="color:var(--muted);font-weight:500">·&nbsp;W&nbsp;20%</span></div>
+      <div class="kpi-val">79.3<span class="unit">%</span></div>
+      <div class="kpi-sub">647 / 726 · 10개 PJT</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">IRC <span style="color:var(--muted);font-weight:500">·&nbsp;W&nbsp;50%</span></div>
+      <div class="kpi-val">60.8<span class="unit">%</span></div>
+      <div class="kpi-sub">1,118 / 1,471 · 10개 PJT</div>
+    </div></div>
   <div class="h-sep"></div>
   <div class="card">
     <div class="card-hd">
       <div class="card-title"><span class="bar"></span>프로젝트별 단계 진행현황</div>
       <div class="card-meta">Weighted = MR×10 + TBE×10 + PO×10 + PIM×20 + IRC×50</div>
     </div>
-    <div class="card-body flush"><div class="tbl-wrap"><table class="tbl" id="stageTbl"></table></div></div>
+    <div class="card-body flush"><div class="tbl-wrap"><table class="tbl" id="stageTbl"><thead><tr>
+    <th>Code</th><th class="ctr">Status</th>
+    <th class="ctr">MR<span class="wf">W 10%</span></th><th class="ctr">TBE<span class="wf">W 10%</span></th><th class="ctr">PO<span class="wf">W 10%</span></th><th class="ctr">PIM<span class="wf">W 20%</span></th><th class="ctr">IRC<span class="wf">W 50%</span></th>
+    <th class="ctr" style="min-width:160px">가중 진척률</th>
+  </tr></thead><tbody><tr>
+      <td class="code">MIP6</td>
+      <td class="ctr"><span class="tag mc">MC</span></td>
+      <td class="ctr"><span class="stage-cell full"><span class="check">✓</span>완료</span></td><td class="ctr"><span class="stage-cell full"><span class="check">✓</span>완료</span></td><td class="ctr"><span class="stage-cell full">200/200</span></td><td class="ctr"><span class="stage-cell full">197/197</span></td><td class="ctr"><span class="stage-cell full">397/397</span></td>
+      <td><div class="bar-wrap"><div class="bar"><div class="fill ok" style="width:100%"></div></div><span class="pct">100.0%</span></div></td>
+    </tr><tr>
+      <td class="code">SM12</td>
+      <td class="ctr"><span class="tag ok dot">Active</span></td>
+      <td class="ctr"><span class="stage-cell full"><span class="check">✓</span>완료</span></td><td class="ctr"><span class="stage-cell full"><span class="check">✓</span>완료</span></td><td class="ctr"><span class="stage-cell full">150/150</span></td><td class="ctr"><span class="stage-cell full">167/167</span></td><td class="ctr"><span class="stage-cell partial">346/351</span></td>
+      <td><div class="bar-wrap"><div class="bar"><div class="fill ok" style="width:99.28774928774928%"></div></div><span class="pct">99.3%</span></div></td>
+    </tr><tr>
+      <td class="code">IBRU</td>
+      <td class="ctr"><span class="tag mc">MC</span></td>
+      <td class="ctr"><span class="stage-cell full"><span class="check">✓</span>완료</span></td><td class="ctr"><span class="stage-cell full"><span class="check">✓</span>완료</span></td><td class="ctr"><span class="stage-cell full">124/124</span></td><td class="ctr"><span class="stage-cell full">45/45</span></td><td class="ctr"><span class="stage-cell full">124/124</span></td>
+      <td><div class="bar-wrap"><div class="bar"><div class="fill ok" style="width:100%"></div></div><span class="pct">100.0%</span></div></td>
+    </tr><tr>
+      <td class="code">SHN1</td>
+      <td class="ctr"><span class="tag ok dot">Active</span></td>
+      <td class="ctr"><span class="stage-cell full"><span class="check">✓</span>완료</span></td><td class="ctr"><span class="stage-cell full"><span class="check">✓</span>완료</span></td><td class="ctr"><span class="stage-cell full">24/24</span></td><td class="ctr"><span class="stage-cell full">17/17</span></td><td class="ctr"><span class="stage-cell partial">29/40</span></td>
+      <td><div class="bar-wrap"><div class="bar"><div class="fill " style="width:86.25%"></div></div><span class="pct">86.3%</span></div></td>
+    </tr><tr>
+      <td class="code">ALOM</td>
+      <td class="ctr"><span class="tag ok dot">Active</span></td>
+      <td class="ctr"><span class="stage-cell full"><span class="check">✓</span>완료</span></td><td class="ctr"><span class="stage-cell full"><span class="check">✓</span>완료</span></td><td class="ctr"><span class="stage-cell full">74/74</span></td><td class="ctr"><span class="stage-cell full">28/28</span></td><td class="ctr"><span class="stage-cell partial">52/74</span></td>
+      <td><div class="bar-wrap"><div class="bar"><div class="fill " style="width:85.13513513513513%"></div></div><span class="pct">85.1%</span></div></td>
+    </tr><tr>
+      <td class="code">VEQU</td>
+      <td class="ctr"><span class="tag ok dot">Active</span></td>
+      <td class="ctr"><span class="stage-cell full"><span class="check">✓</span>완료</span></td><td class="ctr"><span class="stage-cell full"><span class="check">✓</span>완료</span></td><td class="ctr"><span class="stage-cell full">96/96</span></td><td class="ctr"><span class="stage-cell full">37/37</span></td><td class="ctr"><span class="stage-cell partial">95/96</span></td>
+      <td><div class="bar-wrap"><div class="bar"><div class="fill ok" style="width:99.47916666666667%"></div></div><span class="pct">99.5%</span></div></td>
+    </tr><tr>
+      <td class="code">STA4</td>
+      <td class="ctr"><span class="tag ok dot">Active</span></td>
+      <td class="ctr"><span class="stage-cell full"><span class="check">✓</span>완료</span></td><td class="ctr"><span class="stage-cell full"><span class="check">✓</span>완료</span></td><td class="ctr"><span class="stage-cell full">159/159</span></td><td class="ctr"><span class="stage-cell partial">97/99</span></td><td class="ctr"><span class="stage-cell partial">54/122</span></td>
+      <td><div class="bar-wrap"><div class="bar"><div class="fill " style="width:71.7271071369432%"></div></div><span class="pct">71.7%</span></div></td>
+    </tr><tr>
+      <td class="code">SAC2</td>
+      <td class="ctr"><span class="tag ok dot">Active</span></td>
+      <td class="ctr"><span class="stage-cell full"><span class="check">✓</span>완료</span></td><td class="ctr"><span class="stage-cell full"><span class="check">✓</span>완료</span></td><td class="ctr"><span class="stage-cell full">93/93</span></td><td class="ctr"><span class="stage-cell partial">59/62</span></td><td class="ctr"><span class="stage-cell partial">21/89</span></td>
+      <td><div class="bar-wrap"><div class="bar"><div class="fill warn" style="width:60.83001087350489%"></div></div><span class="pct">60.8%</span></div></td>
+    </tr><tr>
+      <td class="code">CSSP</td>
+      <td class="ctr"><span class="tag ok dot">Active</span></td>
+      <td class="ctr"><span class="stage-cell partial">68/148</span></td><td class="ctr"><span class="stage-cell partial">2/148</span></td><td class="ctr"><span class="stage-cell partial">1/148</span></td><td class="ctr"><span class="stage-cell zero">0/57</span></td><td class="ctr"><span class="stage-cell zero">0/148</span></td>
+      <td><div class="bar-wrap"><div class="bar"><div class="fill dim" style="width:4.797297297297297%"></div></div><span class="pct">4.8%</span></div></td>
+    </tr><tr>
+      <td class="code">PNG1</td>
+      <td class="ctr"><span class="tag ok dot">Active</span></td>
+      <td class="ctr"><span class="stage-cell partial">10/30</span></td><td class="ctr"><span class="stage-cell partial">5/30</span></td><td class="ctr"><span class="stage-cell partial">2/30</span></td><td class="ctr"><span class="stage-cell zero">0/17</span></td><td class="ctr"><span class="stage-cell zero">0/30</span></td>
+      <td><div class="bar-wrap"><div class="bar"><div class="fill dim" style="width:5.666666666666667%"></div></div><span class="pct">5.7%</span></div></td>
+    </tr><tr>
+      <td class="code">ALSM</td>
+      <td class="ctr"><span class="tag info dot">Bid</span></td>
+      <td class="ctr"><span class="stage-cell na">미정</span></td><td class="ctr"><span class="stage-cell na">미정</span></td><td class="ctr"><span class="stage-cell na">미정</span></td><td class="ctr"><span class="stage-cell na">미정</span></td><td class="ctr"><span class="stage-cell na">미정</span></td>
+      <td><div class="bar-wrap"><div class="bar"><div class="fill dim" style="width:0%"></div></div><span class="pct">-</span></div></td>
+    </tr></tbody></table></div></div>
   </div>
 </section>
 
 <section class="page" id="tpa">
-  <div class="grid g4" id="tpaKpis"></div>
+  <div class="grid g4" id="tpaKpis"><div class="kpi ok">
+    <div class="kpi-label">TOTAL BUDGET</div>
+    <div class="kpi-val">$51M</div>
+    <div class="kpi-sub">USD 환산</div>
+  </div><div class="kpi info">
+    <div class="kpi-label">TOTAL CONTRACT</div>
+    <div class="kpi-val">$39M</div>
+    <div class="kpi-sub">USD 환산</div>
+  </div><div class="kpi warn">
+    <div class="kpi-label">TOTAL SPENT</div>
+    <div class="kpi-val">$35M</div>
+    <div class="kpi-sub">소진율 69.2%</div>
+  </div><div class="kpi danger">
+    <div class="kpi-label">WARNINGS</div>
+    <div class="kpi-val">3<span class="unit">건</span></div>
+    <div class="kpi-sub">MC 제외 기준</div>
+  </div></div>
   <div class="h-sep"></div>
   <div class="grid g31">
     <div class="card">
@@ -853,50 +1248,1377 @@ button{cursor:pointer;border:none;background:none}
         <div class="card-title"><span class="bar"></span>예산 · 계약고 · 집행금액 현황</div>
         <div class="card-meta">USD 검정 / KRW 회색 병기</div>
       </div>
-      <div class="card-body flush"><div class="tbl-wrap"><table class="tbl" id="tpaTbl"></table></div></div>
+      <div class="card-body flush"><div class="tbl-wrap"><table class="tbl" id="tpaTbl"><thead><tr>
+    <th>Code</th><th class="ctr">Status</th>
+    <th class="right">예산</th><th class="right">계약고</th><th class="right">집행금액</th>
+    <th class="ctr" style="min-width:200px">예산 대비 집행</th>
+    <th class="ctr" style="min-width:200px">계약고 대비 집행</th>
+    <th>Warning</th>
+  </tr></thead><tbody><tr>
+      <td class="code">MIP6</td>
+      <td class="ctr"><span class="tag mc">MC</span></td>
+      <td class="right"><div class="money dim"><span class="usd">$12,511,157</span><span class="krw">₩18,558,299,624</span></div></td>
+      <td class="right"><div class="money dim"><span class="usd">$12,511,157</span><span class="krw">₩18,558,299,624</span></div></td>
+      <td class="right"><div class="money dim"><span class="usd">$12,499,872</span><span class="krw">₩18,541,560,132</span></div></td>
+      <td><div class="tpa-bar"><div class="tpa-track"><div class="fill danger" style="width:99.90980050845818%"></div><div class="mark t70"></div><div class="mark t90"></div></div><span class="tpa-pct">99.9%</span></div></td>
+      <td><div class="tpa-bar"><div class="tpa-track"><div class="fill danger" style="width:99.90980050845818%"></div><div class="mark t70"></div><div class="mark t90"></div></div><span class="tpa-pct">99.9%</span></div></td>
+      <td class="left" style="min-width:180px"><span class="tag mc">MC 제외</span></td>
+    </tr><tr>
+      <td class="code">SM12</td>
+      <td class="ctr"><span class="tag ok dot">Active</span></td>
+      <td class="right"><div class="money"><span class="usd">$9,017,286</span><span class="krw">₩13,375,701,015</span></div></td>
+      <td class="right"><div class="money"><span class="usd">$9,017,286</span><span class="krw">₩13,375,701,015</span></div></td>
+      <td class="right"><div class="money"><span class="usd">$8,964,816</span><span class="krw">₩13,297,870,165</span></div></td>
+      <td><div class="tpa-bar"><div class="tpa-track"><div class="fill danger" style="width:99.41811760212552%"></div><div class="mark t70"></div><div class="mark t90"></div></div><span class="tpa-pct">99.4%</span></div></td>
+      <td><div class="tpa-bar"><div class="tpa-track"><div class="fill danger" style="width:99.41811760212552%"></div><div class="mark t70"></div><div class="mark t90"></div></div><span class="tpa-pct">99.4%</span></div></td>
+      <td class="left" style="min-width:180px"><div class="warn-chip danger">2차 청산추정 및 예산외품의 준비</div><div class="warn-chip danger">계약고 증액 절차 필요</div></td>
+    </tr><tr>
+      <td class="code">IBRU</td>
+      <td class="ctr"><span class="tag mc">MC</span></td>
+      <td class="right"><div class="money dim"><span class="usd">$4,024,396</span><span class="krw">₩5,969,547,563</span></div></td>
+      <td class="right"><div class="money dim"><span class="usd">$2,886,653</span><span class="krw">₩4,281,888,217</span></div></td>
+      <td class="right"><div class="money dim"><span class="usd">$2,588,280</span><span class="krw">₩3,839,299,255</span></div></td>
+      <td><div class="tpa-bar"><div class="tpa-track"><div class="fill " style="width:64.3147443740626%"></div><div class="mark t70"></div><div class="mark t90"></div></div><span class="tpa-pct">64.3%</span></div></td>
+      <td><div class="tpa-bar"><div class="tpa-track"><div class="fill warn" style="width:89.66369649580771%"></div><div class="mark t70"></div><div class="mark t90"></div></div><span class="tpa-pct">89.7%</span></div></td>
+      <td class="left" style="min-width:180px"><span class="tag mc">MC 제외</span></td>
+    </tr><tr>
+      <td class="code">SHN1</td>
+      <td class="ctr"><span class="tag ok dot">Active</span></td>
+      <td class="right"><div class="money"><span class="usd">$2,321,021</span><span class="krw">₩3,442,862,995</span></div></td>
+      <td class="right"><div class="money"><span class="usd">$2,281,626</span><span class="krw">₩3,384,427,737</span></div></td>
+      <td class="right"><div class="money"><span class="usd">$1,768,871</span><span class="krw">₩2,623,837,243</span></div></td>
+      <td><div class="tpa-bar"><div class="tpa-track"><div class="fill dim" style="width:0%"></div><div class="mark t70"></div><div class="mark t90"></div></div><span class="tpa-pct">0.0%</span></div></td>
+      <td><div class="tpa-bar"><div class="tpa-track"><div class="fill warn" style="width:77.52676218537917%"></div><div class="mark t70"></div><div class="mark t90"></div></div><span class="tpa-pct">77.5%</span></div></td>
+      <td class="left" style="min-width:180px"><div class="warn-chip ">1차 청산추정 필요</div></td>
+    </tr><tr>
+      <td class="code">ALOM</td>
+      <td class="ctr"><span class="tag ok dot">Active</span></td>
+      <td class="right"><div class="money"><span class="usd">$766,265</span><span class="krw">₩1,136,631,525</span></div></td>
+      <td class="right"><div class="money"><span class="usd">$766,265</span><span class="krw">₩1,136,631,525</span></div></td>
+      <td class="right"><div class="money"><span class="usd">$373,850</span><span class="krw">₩554,546,659</span></div></td>
+      <td><div class="tpa-bar"><div class="tpa-track"><div class="fill " style="width:48.78860446451293%"></div><div class="mark t70"></div><div class="mark t90"></div></div><span class="tpa-pct">48.8%</span></div></td>
+      <td><div class="tpa-bar"><div class="tpa-track"><div class="fill " style="width:48.78860446451293%"></div><div class="mark t70"></div><div class="mark t90"></div></div><span class="tpa-pct">48.8%</span></div></td>
+      <td class="left" style="min-width:180px"><span class="tag ok dot">정상</span></td>
+    </tr><tr>
+      <td class="code">VEQU</td>
+      <td class="ctr"><span class="tag ok dot">Active</span></td>
+      <td class="right"><div class="money"><span class="usd">$375,828</span><span class="krw">₩557,480,706</span></div></td>
+      <td class="right"><div class="money"><span class="usd">$228,937</span><span class="krw">₩339,591,410</span></div></td>
+      <td class="right"><div class="money"><span class="usd">$203,424</span><span class="krw">₩301,746,956</span></div></td>
+      <td><div class="tpa-bar"><div class="tpa-track"><div class="fill " style="width:54.12688783166768%"></div><div class="mark t70"></div><div class="mark t90"></div></div><span class="tpa-pct">54.1%</span></div></td>
+      <td><div class="tpa-bar"><div class="tpa-track"><div class="fill warn" style="width:88.8558861171414%"></div><div class="mark t70"></div><div class="mark t90"></div></div><span class="tpa-pct">88.9%</span></div></td>
+      <td class="left" style="min-width:180px"><span class="tag ok dot">정상</span></td>
+    </tr><tr>
+      <td class="code">STA4</td>
+      <td class="ctr"><span class="tag ok dot">Active</span></td>
+      <td class="right"><div class="money"><span class="usd">$8,945,512</span><span class="krw">₩13,269,235,770</span></div></td>
+      <td class="right"><div class="money"><span class="usd">$7,462,653</span><span class="krw">₩11,069,651,701</span></div></td>
+      <td class="right"><div class="money"><span class="usd">$6,311,810</span><span class="krw">₩9,362,560,245</span></div></td>
+      <td><div class="tpa-bar"><div class="tpa-track"><div class="fill warn" style="width:70.55839844605876%"></div><div class="mark t70"></div><div class="mark t90"></div></div><span class="tpa-pct">70.6%</span></div></td>
+      <td><div class="tpa-bar"><div class="tpa-track"><div class="fill warn" style="width:84.57863443469769%"></div><div class="mark t70"></div><div class="mark t90"></div></div><span class="tpa-pct">84.6%</span></div></td>
+      <td class="left" style="min-width:180px"><div class="warn-chip ">1차 청산추정 필요</div></td>
+    </tr><tr>
+      <td class="code">SAC2</td>
+      <td class="ctr"><span class="tag ok dot">Active</span></td>
+      <td class="right"><div class="money"><span class="usd">$4,791,851</span><span class="krw">₩7,107,944,262</span></div></td>
+      <td class="right"><div class="money"><span class="usd">$3,650,000</span><span class="krw">₩5,414,191,000</span></div></td>
+      <td class="right"><div class="money"><span class="usd">$2,276,543</span><span class="krw">₩3,376,887,294</span></div></td>
+      <td><div class="tpa-bar"><div class="tpa-track"><div class="fill " style="width:47.5086349721642%"></div><div class="mark t70"></div><div class="mark t90"></div></div><span class="tpa-pct">47.5%</span></div></td>
+      <td><div class="tpa-bar"><div class="tpa-track"><div class="fill " style="width:62.37104109589041%"></div><div class="mark t70"></div><div class="mark t90"></div></div><span class="tpa-pct">62.4%</span></div></td>
+      <td class="left" style="min-width:180px"><span class="tag ok dot">정상</span></td>
+    </tr><tr>
+      <td class="code">CSSP</td>
+      <td class="ctr"><span class="tag ok dot">Active</span></td>
+      <td class="right"><div class="money"><span class="usd">$5,960,701</span><span class="krw">₩8,841,746,221</span></div></td>
+      <td class="right"><div class="money"><span class="usd">$0</span><span class="krw">₩0</span></div></td>
+      <td class="right"><div class="money"><span class="usd">$0</span><span class="krw">₩0</span></div></td>
+      <td><div class="tpa-bar"><div class="tpa-track"><div class="fill dim" style="width:0%"></div><div class="mark t70"></div><div class="mark t90"></div></div><span class="tpa-pct">0.0%</span></div></td>
+      <td><div class="tpa-bar"><div class="tpa-track"><div class="fill dim" style="width:0%"></div><div class="mark t70"></div><div class="mark t90"></div></div><span class="tpa-pct">-</span></div></td>
+      <td class="left" style="min-width:180px"><span class="tag ok dot">정상</span></td>
+    </tr><tr>
+      <td class="code">PNG1</td>
+      <td class="ctr"><span class="tag ok dot">Active</span></td>
+      <td class="right"><div class="money"><span class="usd">$1,875,089</span><span class="krw">₩2,781,394,517</span></div></td>
+      <td class="right"><div class="money"><span class="usd">$0</span><span class="krw">₩0</span></div></td>
+      <td class="right"><div class="money"><span class="usd">$0</span><span class="krw">₩0</span></div></td>
+      <td><div class="tpa-bar"><div class="tpa-track"><div class="fill dim" style="width:0%"></div><div class="mark t70"></div><div class="mark t90"></div></div><span class="tpa-pct">0.0%</span></div></td>
+      <td><div class="tpa-bar"><div class="tpa-track"><div class="fill dim" style="width:0%"></div><div class="mark t70"></div><div class="mark t90"></div></div><span class="tpa-pct">-</span></div></td>
+      <td class="left" style="min-width:180px"><span class="tag ok dot">정상</span></td>
+    </tr><tr>
+      <td class="code">ALSM</td>
+      <td class="ctr"><span class="tag info dot">Bid</span></td>
+      <td class="right"><div class="money"><span class="usd">$0</span><span class="krw">₩0</span></div></td>
+      <td class="right"><div class="money"><span class="usd">$0</span><span class="krw">₩0</span></div></td>
+      <td class="right"><div class="money"><span class="usd">$0</span><span class="krw">₩0</span></div></td>
+      <td><div class="tpa-bar"><div class="tpa-track"><div class="fill dim" style="width:0%"></div><div class="mark t70"></div><div class="mark t90"></div></div><span class="tpa-pct">-</span></div></td>
+      <td><div class="tpa-bar"><div class="tpa-track"><div class="fill dim" style="width:0%"></div><div class="mark t70"></div><div class="mark t90"></div></div><span class="tpa-pct">-</span></div></td>
+      <td class="left" style="min-width:180px"><span class="tag ok dot">정상</span></td>
+    </tr></tbody></table></div></div>
     </div>
     <div class="card">
       <div class="card-hd"><div class="card-title"><span class="bar"></span>Warning 기준</div></div>
-      <div class="card-body" id="tpaGuide"></div>
+      <div class="card-body" id="tpaGuide">
+    <div class="guide-row"><span class="guide-trigger warn">예산 70%↑</span><div class="guide-text"><b>1차 청산추정 필요</b><br>예산 대비 집행이 70%를 초과한 시점</div></div>
+    <div class="guide-row"><span class="guide-trigger danger">예산 90%↑</span><div class="guide-text"><b>2차 청산추정 및 예산외품의 준비</b><br>예산 대비 집행이 90%를 초과한 시점</div></div>
+    <div class="guide-row"><span class="guide-trigger danger">계약고 90%↑</span><div class="guide-text"><b>계약고 증액 절차 필요</b><br>계약고 대비 집행이 90%를 초과한 시점</div></div>
+    <div class="guide-row"><span class="guide-trigger info">MC 제외</span><div class="guide-text">Mechanical Completion 상태 프로젝트는 모든 Warning에서 제외</div></div></div>
     </div>
   </div>
 </section>
 
 <section class="page" id="ncr">
-  <div class="grid g4" id="ncrKpis"></div>
+  <div class="grid g4" id="ncrKpis"><div class="kpi danger">
+    <div class="kpi-label">OPEN NCR</div>
+    <div class="kpi-val">9<span class="unit">건</span></div>
+    <div class="kpi-sub"></div>
+  </div><div class="kpi accent">
+    <div class="kpi-label">TOTAL ISSUED</div>
+    <div class="kpi-val">234<span class="unit">건</span></div>
+    <div class="kpi-sub"></div>
+  </div><div class="kpi ok">
+    <div class="kpi-label">CLOSE RATE</div>
+    <div class="kpi-val">96.2%</div>
+    <div class="kpi-sub">종결 225건</div>
+  </div><div class="kpi warn">
+    <div class="kpi-label">LONG OPEN</div>
+    <div class="kpi-val">1<span class="unit">건</span></div>
+    <div class="kpi-sub">최근 60일 내 3건</div>
+  </div></div>
   <div class="h-sep"></div>
   <div class="grid g31">
     <div class="card">
       <div class="card-hd"><div class="card-title"><span class="bar"></span>미결 NCR 상세</div></div>
-      <div class="card-body flush"><div class="tbl-wrap"><table class="tbl" id="ncrTbl"></table></div></div>
+      <div class="card-body flush"><div class="tbl-wrap"><table class="tbl" id="ncrTbl"><thead><tr>
+    <th class="ctr">S/N</th><th>Code</th><th>NCR No.</th><th>Item</th><th>Vendor</th>
+    <th class="wide">Title</th><th class="ctr">Issue Date</th><th class="ctr">경과일</th>
+  </tr></thead><tbody><tr>
+      <td class="ctr code">1</td>
+      <td class="code">STA4</td>
+      <td class="left nowrap"><span class="code">STA4-MR010-OPT-NCR-001</span></td>
+      <td class="left">Sealless Pump (API 685)</td>
+      <td class="left">Optimex</td>
+      <td class="left wide">High Power Consumption</td>
+      <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-08-29</span></td>
+      <td class="ctr"><span class="tag danger">244일</span></td>
+    </tr><tr>
+      <td class="ctr code">2</td>
+      <td class="code">STA4</td>
+      <td class="left nowrap"><span class="code">STA4-EL009-AFN-NCR-001</span></td>
+      <td class="left">LV Controlgear </td>
+      <td class="left">Al-Fanar</td>
+      <td class="left wide">Factory Acceptance Test and Punch Closing Verification </td>
+      <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-11-02</span></td>
+      <td class="ctr"><span class="tag warn">179일</span></td>
+    </tr><tr>
+      <td class="ctr code">3</td>
+      <td class="code">STA4</td>
+      <td class="left nowrap"><span class="code">STA4-MS017-SYC-NCR-001</span></td>
+      <td class="left">Air Dryer Package </td>
+      <td class="left">Seyang Corporation</td>
+      <td class="left wide">Factory Acceptance Test and Punch Closing Verification </td>
+      <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-11-07</span></td>
+      <td class="ctr"><span class="tag warn">174일</span></td>
+    </tr><tr>
+      <td class="ctr code">4</td>
+      <td class="code">STA4</td>
+      <td class="left nowrap"><span class="code">STA4-EL007-AFN-NCR-001</span></td>
+      <td class="left">HV Switchgear</td>
+      <td class="left">Al-Fanar</td>
+      <td class="left wide">Factory Acceptance Test and Punch Closing Verification </td>
+      <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-12-19</span></td>
+      <td class="ctr"><span class="tag warn">132일</span></td>
+    </tr><tr>
+      <td class="ctr code">5</td>
+      <td class="code">STA4</td>
+      <td class="left nowrap"><span class="code">STA4-MR010-OPT-NCR-002</span></td>
+      <td class="left">Sealless Pump (API 685)</td>
+      <td class="left">Optimex</td>
+      <td class="left wide">IRC Issuance with Punch List</td>
+      <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-12-04</span></td>
+      <td class="ctr"><span class="tag warn">147일</span></td>
+    </tr><tr>
+      <td class="ctr code">6</td>
+      <td class="code">STA4</td>
+      <td class="left nowrap"><span class="code">STA4-CI001-EME-NCR-001</span></td>
+      <td class="left">PCS</td>
+      <td class="left">Emerson</td>
+      <td class="left wide">IRC Issuance with Punch List</td>
+      <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2026-01-20</span></td>
+      <td class="ctr"><span class="tag warn">100일</span></td>
+    </tr><tr>
+      <td class="ctr code">7</td>
+      <td class="code">STA4</td>
+      <td class="left nowrap"><span class="code">STA4-EL012-SEL1-NCR-002</span></td>
+      <td class="left">ECS</td>
+      <td class="left">SEL</td>
+      <td class="left wide">IRC Issuance with Punch List</td>
+      <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2026-03-26</span></td>
+      <td class="ctr"><span class="tag neutral">35일</span></td>
+    </tr><tr>
+      <td class="ctr code">8</td>
+      <td class="code">STA4</td>
+      <td class="left nowrap"><span class="code">STA4-CI001-EME-NCR-002</span></td>
+      <td class="left">PCS</td>
+      <td class="left">Emerson</td>
+      <td class="left wide">IRC Issuance with Punch List</td>
+      <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2026-03-06</span></td>
+      <td class="ctr"><span class="tag neutral">55일</span></td>
+    </tr><tr>
+      <td class="ctr code">9</td>
+      <td class="code">STA4</td>
+      <td class="left nowrap"><span class="code">STA4-CI005-VAL-NCR-002</span></td>
+      <td class="left">On-Off Valve (Ball)</td>
+      <td class="left">Valmet</td>
+      <td class="left wide">High-Pressure Seat Test / DBB Test was omitted for Trunnion Type Ball Valve</td>
+      <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2026-04-08</span></td>
+      <td class="ctr"><span class="tag neutral">22일</span></td>
+    </tr></tbody></table></div></div>
     </div>
     <div class="card">
       <div class="card-hd"><div class="card-title"><span class="bar"></span>프로젝트별 요약</div></div>
-      <div class="card-body" id="ncrSummary"></div>
+      <div class="card-body" id="ncrSummary"><div class="signal-item">
+      <div class="top"><span class="code">STA4</span><span class="kind">미결 9건</span></div>
+      <div class="msg">발생 51 · 종결 42</div>
+    </div></div>
     </div>
   </div>
 </section>
 
 <section class="page" id="manpower">
-  <div class="grid g4" id="manpowerKpis"></div>
+  <div class="grid g4" id="manpowerKpis"><div class="kpi accent">
+    <div class="kpi-label">TOTAL HEADCOUNT</div>
+    <div class="kpi-val">20<span class="unit">명</span></div>
+  </div><div class="kpi info">
+    <div class="kpi-label">PQCM HOLDERS</div>
+    <div class="kpi-val">7<span class="unit">명</span></div>
+  </div><div class="kpi ok">
+    <div class="kpi-label">PQC ENGINEERS</div>
+    <div class="kpi-val">18<span class="unit">명</span></div>
+  </div><div class="kpi warn">
+    <div class="kpi-label">TOTAL PO</div>
+    <div class="kpi-val">415<span class="unit">건</span></div>
+  </div></div>
   <div class="h-sep"></div>
   <div class="card">
     <div class="card-hd"><div class="card-title"><span class="bar"></span>팀 인력 운영 조직도</div></div>
-    <div class="card-body flush"><div class="org-canvas" id="orgChart"></div></div>
+    <div class="card-body flush"><div class="org-canvas" id="orgChart">
+    <div class="org-leader">
+      <div class="org-name">유요석 팀장</div>
+      <div class="org-role">Team Leader</div>
+    </div>
+    <div class="org-groups">
+      
+        <div class="org-group">
+          <div class="org-group-hd"><span class="dept">본사</span><span class="ct">13</span></div>
+          <div class="org-members">
+            <div class="org-person">
+                <div class="top">
+                  <div><div class="name">강택기 책임</div><div class="role">Piping</div></div>
+                  <div class="po">PO 9</div>
+                </div>
+                <div class="org-tags"><span class="org-tag eng">SAC2</span><span class="org-tag eng">VEQU</span></div>
+              </div><div class="org-person">
+                <div class="top">
+                  <div><div class="name">윤희수 책임</div><div class="role">Electrical &amp; Instrument</div></div>
+                  <div class="po">PO 38</div>
+                </div>
+                <div class="org-tags"><span class="org-tag cm">CM·ALOM</span><span class="org-tag cm">CM·VEQU</span><span class="org-tag eng">STA4</span><span class="org-tag eng">ALOM</span><span class="org-tag eng">CSSP</span></div>
+              </div><div class="org-person">
+                <div class="top">
+                  <div><div class="name">서민 책임</div><div class="role">Rotating</div></div>
+                  <div class="po">PO 46</div>
+                </div>
+                <div class="org-tags"><span class="org-tag eng">STA4</span><span class="org-tag eng">CSSP</span><span class="org-tag eng">PNG1</span></div>
+              </div><div class="org-person">
+                <div class="top">
+                  <div><div class="name">장동철 책임</div><div class="role">Piping</div></div>
+                  <div class="po">PO 25</div>
+                </div>
+                <div class="org-tags"><span class="org-tag cm">CM·SM12</span><span class="org-tag eng">SM12</span><span class="org-tag eng">IBRU</span><span class="org-tag eng">CSSP</span><span class="org-tag eng">PNG1</span></div>
+              </div><div class="org-person">
+                <div class="top">
+                  <div><div class="name">정진우 책임</div><div class="role">Static</div></div>
+                  <div class="po">PO 9</div>
+                </div>
+                <div class="org-tags"><span class="org-tag cm">CM·CSSP</span><span class="org-tag eng">SM12</span><span class="org-tag eng">ALOM</span><span class="org-tag eng">CSSP</span></div>
+              </div><div class="org-person">
+                <div class="top">
+                  <div><div class="name">나광조 책임</div><div class="role">Static</div></div>
+                  <div class="po">PO 16</div>
+                </div>
+                <div class="org-tags"><span class="org-tag eng">SHN1</span><span class="org-tag eng">ALOM</span><span class="org-tag eng">CSSP</span><span class="org-tag eng">PNG1</span></div>
+              </div><div class="org-person">
+                <div class="top">
+                  <div><div class="name">강태준 책임</div><div class="role">Strategic Planning</div></div>
+                  <div class="po">PO 39</div>
+                </div>
+                <div class="org-tags"><span class="org-tag cm">CM·PNG1</span><span class="org-tag cm">CM·ALSM</span><span class="org-tag eng">VEQU</span><span class="org-tag eng">CSSP</span><span class="org-tag eng">PNG1</span></div>
+              </div><div class="org-person">
+                <div class="top">
+                  <div><div class="name">이해석 책임</div><div class="role">Electrical &amp; Instrument</div></div>
+                  <div class="po">PO 21</div>
+                </div>
+                <div class="org-tags"><span class="org-tag cm">CM·SHN1</span><span class="org-tag eng">STA4</span><span class="org-tag eng">SHN1</span></div>
+              </div><div class="org-person">
+                <div class="top">
+                  <div><div class="name">최종현 책임</div><div class="role">Electrical &amp; Instrument</div></div>
+                  <div class="po">PO 17</div>
+                </div>
+                <div class="org-tags"><span class="org-tag cm">CM·SAC2</span><span class="org-tag eng">SAC2</span></div>
+              </div><div class="org-person">
+                <div class="top">
+                  <div><div class="name">석우경 매니저</div><div class="role">Piping</div></div>
+                  <div class="po">PO 53</div>
+                </div>
+                <div class="org-tags"><span class="org-tag eng">ALOM</span><span class="org-tag eng">CSSP</span><span class="org-tag eng">PNG1</span></div>
+              </div><div class="org-person">
+                <div class="top">
+                  <div><div class="name">고팔라크리스낸 매니저</div><div class="role">Structural Steel</div></div>
+                  <div class="po">PO 19</div>
+                </div>
+                <div class="org-tags"><span class="org-tag eng">STA4</span><span class="org-tag eng">VEQU</span><span class="org-tag eng">CSSP</span><span class="org-tag eng">PNG1</span></div>
+              </div><div class="org-person">
+                <div class="top">
+                  <div><div class="name">술탄 매니저</div><div class="role">Electrical &amp; Instrument</div></div>
+                  <div class="po">PO 24</div>
+                </div>
+                <div class="org-tags"><span class="org-tag eng">VEQU</span><span class="org-tag eng">CSSP</span></div>
+              </div><div class="org-person">
+                <div class="top">
+                  <div><div class="name">엥흐철멍 매니저</div><div class="role">Piping</div></div>
+                  <div class="po">PO 1</div>
+                </div>
+                <div class="org-tags"><span class="org-tag eng">PNG1</span></div>
+              </div>
+          </div>
+        </div>
+        <div class="org-group">
+          <div class="org-group-hd"><span class="dept">본사 (STA4)</span><span class="ct">1</span></div>
+          <div class="org-members">
+            <div class="org-person">
+                <div class="top">
+                  <div><div class="name">강인묵 책임</div><div class="role">Electrical &amp; Instrument</div></div>
+                  <div class="po">PO 28</div>
+                </div>
+                <div class="org-tags"><span class="org-tag eng">STA4</span><span class="org-tag eng">CSSP</span></div>
+              </div>
+          </div>
+        </div>
+        <div class="org-group">
+          <div class="org-group-hd"><span class="dept">STA4</span><span class="ct">3</span></div>
+          <div class="org-members">
+            <div class="org-person">
+                <div class="top">
+                  <div><div class="name">최우석 책임</div><div class="role">Static</div></div>
+                  
+                </div>
+                <div class="org-tags"><span class="org-tag cm">CM·STA4</span></div>
+              </div><div class="org-person">
+                <div class="top">
+                  <div><div class="name">최영준 책임</div><div class="role">Static</div></div>
+                  <div class="po">PO 8</div>
+                </div>
+                <div class="org-tags"><span class="org-tag eng">STA4</span></div>
+              </div><div class="org-person">
+                <div class="top">
+                  <div><div class="name">임효원 책임</div><div class="role">Piping</div></div>
+                  <div class="po">PO 37</div>
+                </div>
+                <div class="org-tags"><span class="org-tag eng">STA4</span></div>
+              </div>
+          </div>
+        </div>
+        <div class="org-group">
+          <div class="org-group-hd"><span class="dept">SAC2</span><span class="ct">1</span></div>
+          <div class="org-members">
+            <div class="org-person">
+                <div class="top">
+                  <div><div class="name">황윤섭 책임</div><div class="role">Piping</div></div>
+                  <div class="po">PO 13</div>
+                </div>
+                <div class="org-tags"><span class="org-tag eng">SAC2</span></div>
+              </div>
+          </div>
+        </div>
+        <div class="org-group">
+          <div class="org-group-hd"><span class="dept">본사 (SAC2)</span><span class="ct">1</span></div>
+          <div class="org-members">
+            <div class="org-person">
+                <div class="top">
+                  <div><div class="name">박지애 매니저</div><div class="role">Piping</div></div>
+                  <div class="po">PO 12</div>
+                </div>
+                <div class="org-tags"><span class="org-tag eng">SAC2</span></div>
+              </div>
+          </div>
+        </div>
+    </div></div></div>
   </div>
   <div class="h-sep"></div>
   <div class="card">
     <div class="card-hd"><div class="card-title"><span class="bar"></span>인력 상세 목록</div></div>
-    <div class="card-body flush"><div class="tbl-wrap"><table class="tbl" id="mpTbl"></table></div></div>
+    <div class="card-body flush"><div class="tbl-wrap"><table class="tbl" id="mpTbl"><thead><tr>
+    <th>이름</th><th>부서</th><th>주요업무</th><th>PQCM</th><th>PQC Engineer</th><th class="right">PO</th>
+  </tr></thead><tbody><tr>
+    <td><span class="code">유요석 팀장</span></td>
+    <td class="left">본사</td>
+    <td class="left">Team Leader</td>
+    <td class="left">-</td>
+    <td class="left">-</td>
+    <td class="num">-</td>
+  </tr><tr>
+    <td><span class="code">강택기 책임</span></td>
+    <td class="left">본사</td>
+    <td class="left">Piping</td>
+    <td class="left">-</td>
+    <td class="left">SAC2 / VEQU</td>
+    <td class="num">9</td>
+  </tr><tr>
+    <td><span class="code">윤희수 책임</span></td>
+    <td class="left">본사</td>
+    <td class="left">Electrical &amp; Instrument</td>
+    <td class="left">ALOM / VEQU</td>
+    <td class="left">STA4 / ALOM / CSSP</td>
+    <td class="num">38</td>
+  </tr><tr>
+    <td><span class="code">서민 책임</span></td>
+    <td class="left">본사</td>
+    <td class="left">Rotating</td>
+    <td class="left">-</td>
+    <td class="left">STA4 / CSSP / PNG1</td>
+    <td class="num">46</td>
+  </tr><tr>
+    <td><span class="code">장동철 책임</span></td>
+    <td class="left">본사</td>
+    <td class="left">Piping</td>
+    <td class="left">SM12</td>
+    <td class="left">SM12 / IBRU / CSSP / PNG1</td>
+    <td class="num">25</td>
+  </tr><tr>
+    <td><span class="code">정진우 책임</span></td>
+    <td class="left">본사</td>
+    <td class="left">Static</td>
+    <td class="left">CSSP</td>
+    <td class="left">SM12 / ALOM / CSSP</td>
+    <td class="num">9</td>
+  </tr><tr>
+    <td><span class="code">나광조 책임</span></td>
+    <td class="left">본사</td>
+    <td class="left">Static</td>
+    <td class="left">-</td>
+    <td class="left">SHN1 / ALOM / CSSP / PNG1</td>
+    <td class="num">16</td>
+  </tr><tr>
+    <td><span class="code">강인묵 책임</span></td>
+    <td class="left">본사 (STA4)</td>
+    <td class="left">Electrical &amp; Instrument</td>
+    <td class="left">-</td>
+    <td class="left">STA4 / CSSP</td>
+    <td class="num">28</td>
+  </tr><tr>
+    <td><span class="code">강태준 책임</span></td>
+    <td class="left">본사</td>
+    <td class="left">Strategic Planning</td>
+    <td class="left">PNG1 / ALSM</td>
+    <td class="left">VEQU / CSSP / PNG1</td>
+    <td class="num">39</td>
+  </tr><tr>
+    <td><span class="code">이해석 책임</span></td>
+    <td class="left">본사</td>
+    <td class="left">Electrical &amp; Instrument</td>
+    <td class="left">SHN1</td>
+    <td class="left">STA4 / SHN1</td>
+    <td class="num">21</td>
+  </tr><tr>
+    <td><span class="code">최종현 책임</span></td>
+    <td class="left">본사</td>
+    <td class="left">Electrical &amp; Instrument</td>
+    <td class="left">SAC2</td>
+    <td class="left">SAC2</td>
+    <td class="num">17</td>
+  </tr><tr>
+    <td><span class="code">석우경 매니저</span></td>
+    <td class="left">본사</td>
+    <td class="left">Piping</td>
+    <td class="left">-</td>
+    <td class="left">ALOM / CSSP / PNG1</td>
+    <td class="num">53</td>
+  </tr><tr>
+    <td><span class="code">고팔라크리스낸 매니저</span></td>
+    <td class="left">본사</td>
+    <td class="left">Structural Steel</td>
+    <td class="left">-</td>
+    <td class="left">STA4 / VEQU / CSSP / PNG1</td>
+    <td class="num">19</td>
+  </tr><tr>
+    <td><span class="code">술탄 매니저</span></td>
+    <td class="left">본사</td>
+    <td class="left">Electrical &amp; Instrument</td>
+    <td class="left">-</td>
+    <td class="left">VEQU / CSSP</td>
+    <td class="num">24</td>
+  </tr><tr>
+    <td><span class="code">엥흐철멍 매니저</span></td>
+    <td class="left">본사</td>
+    <td class="left">Piping</td>
+    <td class="left">-</td>
+    <td class="left">PNG1</td>
+    <td class="num">1</td>
+  </tr><tr>
+    <td><span class="code">최우석 책임</span></td>
+    <td class="left">STA4</td>
+    <td class="left">Static</td>
+    <td class="left">STA4</td>
+    <td class="left">-</td>
+    <td class="num">0</td>
+  </tr><tr>
+    <td><span class="code">최영준 책임</span></td>
+    <td class="left">STA4</td>
+    <td class="left">Static</td>
+    <td class="left">-</td>
+    <td class="left">STA4</td>
+    <td class="num">8</td>
+  </tr><tr>
+    <td><span class="code">임효원 책임</span></td>
+    <td class="left">STA4</td>
+    <td class="left">Piping</td>
+    <td class="left">-</td>
+    <td class="left">STA4</td>
+    <td class="num">37</td>
+  </tr><tr>
+    <td><span class="code">황윤섭 책임</span></td>
+    <td class="left">SAC2</td>
+    <td class="left">Piping</td>
+    <td class="left">-</td>
+    <td class="left">SAC2</td>
+    <td class="num">13</td>
+  </tr><tr>
+    <td><span class="code">박지애 매니저</span></td>
+    <td class="left">본사 (SAC2)</td>
+    <td class="left">Piping</td>
+    <td class="left">-</td>
+    <td class="left">SAC2</td>
+    <td class="num">12</td>
+  </tr></tbody></table></div></div>
   </div>
 </section>
 
 <section class="page" id="trip">
-  <div class="grid g4" id="tripKpis"></div>
+  <div class="grid g4" id="tripKpis"><div class="kpi accent">
+    <div class="kpi-label">TOTAL TRIPS</div>
+    <div class="kpi-val" style="font-size:24px">88<span class="unit">건</span></div>
+    <div class="kpi-sub"></div>
+  </div><div class="kpi info">
+    <div class="kpi-label">TOP PURPOSE</div>
+    <div class="kpi-val" style="font-size:24px">공장검사</div>
+    <div class="kpi-sub">24건</div>
+  </div><div class="kpi ok">
+    <div class="kpi-label">TOP COUNTRY</div>
+    <div class="kpi-val" style="font-size:24px">대한민국</div>
+    <div class="kpi-sub">47건</div>
+  </div><div class="kpi warn">
+    <div class="kpi-label">TOP TRAVELER</div>
+    <div class="kpi-val" style="font-size:18px">서민 책임</div>
+    <div class="kpi-sub">17건</div>
+  </div></div>
   <div class="h-sep"></div>
   <div class="card">
     <div class="card-hd"><div class="card-title"><span class="bar"></span>출장 현황</div></div>
-    <div class="card-body flush"><div class="tbl-wrap"><table class="tbl" id="tripTbl"></table></div></div>
+    <div class="card-body flush"><div class="tbl-wrap"><table class="tbl" id="tripTbl"><thead><tr>
+    <th>Traveler</th><th class="ctr">목적</th><th>Code</th><th>Item</th><th>Vendor</th><th>국가</th><th class="ctr">Start</th><th class="ctr">End</th>
+  </tr></thead><tbody><tr>
+    <td><span class="code">석우경 매니저</span></td>
+    <td class="ctr"><span class="tag info">FAT</span></td>
+    <td class="code">VEQU</td>
+    <td class="left">ID FAN</td>
+    <td class="left">TLT Turbo</td>
+    <td class="ctr">중국</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-01-05</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-01-11</span></td>
+  </tr><tr>
+    <td><span class="code">최영준 책임</span></td>
+    <td class="ctr"><span class="tag info">PIM</span></td>
+    <td class="code">STA4</td>
+    <td class="left">Incinerator - Chamber &amp; Stack</td>
+    <td class="left">Morimatsu</td>
+    <td class="ctr">중국</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-01-06</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-01-09</span></td>
+  </tr><tr>
+    <td><span class="code">이해석 책임</span></td>
+    <td class="ctr"><span class="tag info">FAT</span></td>
+    <td class="code">SHN1</td>
+    <td class="left">AC,DC UPS</td>
+    <td class="left">GUTOR</td>
+    <td class="ctr">말레이시아</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-01-19</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-01-23</span></td>
+  </tr><tr>
+    <td><span class="code">강택기 책임</span></td>
+    <td class="ctr"><span class="tag info">PIM</span></td>
+    <td class="code">STA4</td>
+    <td class="left">On-Off Valve Butterfly</td>
+    <td class="left">IMI</td>
+    <td class="ctr">사우디</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-01-20</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-01-21</span></td>
+  </tr><tr>
+    <td><span class="code">최종현 책임</span></td>
+    <td class="ctr"><span class="tag info">PIM</span></td>
+    <td class="code">SAC2</td>
+    <td class="left">Analyzer System</td>
+    <td class="left">ABB</td>
+    <td class="ctr">사우디</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-01-20</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-01-24</span></td>
+  </tr><tr>
+    <td><span class="code">서민 책임</span></td>
+    <td class="ctr"><span class="tag info">PIM</span></td>
+    <td class="code">STA4</td>
+    <td class="left">Chemical Injection PKG</td>
+    <td class="left">Saudi Wells</td>
+    <td class="ctr">사우디</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-01-21</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-01-24</span></td>
+  </tr><tr>
+    <td><span class="code">강택기 책임</span></td>
+    <td class="ctr"><span class="tag info">PIM</span></td>
+    <td class="code">STA4</td>
+    <td class="left">On-Off Valve Gate</td>
+    <td class="left">L&amp;T Valve</td>
+    <td class="ctr">사우디</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-01-22</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-01-23</span></td>
+  </tr><tr>
+    <td><span class="code">정진우 책임</span></td>
+    <td class="ctr"><span class="tag info">PIM</span></td>
+    <td class="code">STA4</td>
+    <td class="left">FLARE PKG - Derrick Sturcture</td>
+    <td class="left">DSD-FERROMETALCO</td>
+    <td class="ctr">이집트</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-01-23</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-01-25</span></td>
+  </tr><tr>
+    <td><span class="code">정진우 책임</span></td>
+    <td class="ctr"><span class="tag info">PIM</span></td>
+    <td class="code">STA4</td>
+    <td class="left">FLARE PKG - MPGF</td>
+    <td class="left">ZEECO MIDDLE EAST</td>
+    <td class="ctr">사우디</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-02-03</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-02-07</span></td>
+  </tr><tr>
+    <td><span class="code">최우석 책임</span></td>
+    <td class="ctr"><span class="tag info">PIM</span></td>
+    <td class="code">STA4</td>
+    <td class="left">FLARE PKG - MPGF</td>
+    <td class="left">ZEECO MIDDLE EAST</td>
+    <td class="ctr">사우디</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-02-03</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-02-07</span></td>
+  </tr><tr>
+    <td><span class="code">정진우 책임</span></td>
+    <td class="ctr"><span class="tag info">PIM</span></td>
+    <td class="code">STA4</td>
+    <td class="left">Incinerator PKG - Burner &amp; Skid</td>
+    <td class="left">ZEECO MIDDLE EAST</td>
+    <td class="ctr">사우디</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-02-03</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-02-07</span></td>
+  </tr><tr>
+    <td><span class="code">최우석 책임</span></td>
+    <td class="ctr"><span class="tag info">PIM</span></td>
+    <td class="code">STA4</td>
+    <td class="left">Incinerator PKG - Burner &amp; Skid</td>
+    <td class="left">ZEECO MIDDLE EAST</td>
+    <td class="ctr">사우디</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-02-03</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-02-07</span></td>
+  </tr><tr>
+    <td><span class="code">나광조 책임</span></td>
+    <td class="ctr"><span class="tag info">Monitoring</span></td>
+    <td class="code">SHN1</td>
+    <td class="left">Damper (Diverter, Guillotine, Louver)</td>
+    <td class="left">남광엔지니어링</td>
+    <td class="ctr">대한민국</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-02-06</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-02-06</span></td>
+  </tr><tr>
+    <td><span class="code">이해석 책임</span></td>
+    <td class="ctr"><span class="tag info">Monitoring</span></td>
+    <td class="code">SHN1</td>
+    <td class="left">PCS</td>
+    <td class="left">요코가와</td>
+    <td class="ctr">대한민국</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-02-12</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-02-12</span></td>
+  </tr><tr>
+    <td><span class="code">윤희수 책임</span></td>
+    <td class="ctr"><span class="tag info">FAT</span></td>
+    <td class="code">SHN1</td>
+    <td class="left">Distribution Transformer</td>
+    <td class="left">효성중공업</td>
+    <td class="ctr">대한민국</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-02-17</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-02-19</span></td>
+  </tr><tr>
+    <td><span class="code">나광조 책임</span></td>
+    <td class="ctr"><span class="tag info">업체실사</span></td>
+    <td class="code">SHN1</td>
+    <td class="left">Diverter Damper</td>
+    <td class="left">TS 넥스젠</td>
+    <td class="ctr">대한민국</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-02-17</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-02-17</span></td>
+  </tr><tr>
+    <td><span class="code">이해석 책임</span></td>
+    <td class="ctr"><span class="tag info">FAT</span></td>
+    <td class="code">SHN1</td>
+    <td class="left">MV Switch Gear</td>
+    <td class="left">LS ELECTRIC</td>
+    <td class="ctr">대한민국</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-02-17</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-02-18</span></td>
+  </tr><tr>
+    <td><span class="code">강태준 책임</span></td>
+    <td class="ctr"><span class="tag info">PIM</span></td>
+    <td class="code">SHN1</td>
+    <td class="left">Regenerative Thermal Oxidizer (RTO) Package</td>
+    <td class="left">삼경이엔씨</td>
+    <td class="ctr">대한민국</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-02-19</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-02-20</span></td>
+  </tr><tr>
+    <td><span class="code">최영준 책임</span></td>
+    <td class="ctr"><span class="tag info">업체실사</span></td>
+    <td class="code">STA4</td>
+    <td class="left">Air Release Valve</td>
+    <td class="left">Prosave</td>
+    <td class="ctr">대한민국</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-03-04</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-03-05</span></td>
+  </tr><tr>
+    <td><span class="code">최우석 책임</span></td>
+    <td class="ctr"><span class="tag info">업체실사</span></td>
+    <td class="code">STA4</td>
+    <td class="left">Air Release Valve</td>
+    <td class="left">Prosave</td>
+    <td class="ctr">대한민국</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-03-04</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-03-05</span></td>
+  </tr><tr>
+    <td><span class="code">최영준 책임</span></td>
+    <td class="ctr"><span class="tag info">Monitoring</span></td>
+    <td class="code">MIP6</td>
+    <td class="left">Electric Heater</td>
+    <td class="left">Chromalox</td>
+    <td class="ctr">미국</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-03-09</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-03-16</span></td>
+  </tr><tr>
+    <td><span class="code">최영준 책임</span></td>
+    <td class="ctr"><span class="tag info">Monitoring</span></td>
+    <td class="code">SM12</td>
+    <td class="left">Electric Heater</td>
+    <td class="left">Chromalox</td>
+    <td class="ctr">미국</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-03-09</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-03-16</span></td>
+  </tr><tr>
+    <td><span class="code">윤희수 책임</span></td>
+    <td class="ctr"><span class="tag info">FAT</span></td>
+    <td class="code">STA4</td>
+    <td class="left">230kV Power Transformer</td>
+    <td class="left">Hyosung Nantong</td>
+    <td class="ctr">중국</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-03-17</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-03-20</span></td>
+  </tr><tr>
+    <td><span class="code">정진우 책임</span></td>
+    <td class="ctr"><span class="tag info">PIM</span></td>
+    <td class="code">STA4</td>
+    <td class="left">Activated Carbon Filter Package</td>
+    <td class="left">FILTREX SRL</td>
+    <td class="ctr">이탈리아</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-03-24</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-03-26</span></td>
+  </tr><tr>
+    <td><span class="code">최우석 책임</span></td>
+    <td class="ctr"><span class="tag info">PIM</span></td>
+    <td class="code">STA4</td>
+    <td class="left">Activated Carbon Filter Package</td>
+    <td class="left">FILTREX SRL</td>
+    <td class="ctr">이탈리아</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-03-24</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-03-26</span></td>
+  </tr><tr>
+    <td><span class="code">정진우 책임</span></td>
+    <td class="ctr"><span class="tag info">Monitoring</span></td>
+    <td class="code">STA4</td>
+    <td class="left">Incinerator PKG - Chamber &amp; Stack</td>
+    <td class="left">Morimatsu</td>
+    <td class="ctr">중국</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-03-27</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-03-28</span></td>
+  </tr><tr>
+    <td><span class="code">최우석 책임</span></td>
+    <td class="ctr"><span class="tag info">Monitoring</span></td>
+    <td class="code">STA4</td>
+    <td class="left">Incinerator PKG - Chamber &amp; Stack</td>
+    <td class="left">Morimatsu</td>
+    <td class="ctr">중국</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-03-27</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-03-28</span></td>
+  </tr><tr>
+    <td><span class="code">이해석 책임</span></td>
+    <td class="ctr"><span class="tag info">공장검사</span></td>
+    <td class="code">SHN1</td>
+    <td class="left">LV SWGR</td>
+    <td class="left">광명전기</td>
+    <td class="ctr">대한민국</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-04-03</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-04-04</span></td>
+  </tr><tr>
+    <td><span class="code">정진우 책임</span></td>
+    <td class="ctr"><span class="tag info">PIM</span></td>
+    <td class="code">STA4</td>
+    <td class="left">Activated Carbon Filter Package</td>
+    <td class="left">FABTECH International</td>
+    <td class="ctr">UAE</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-04-07</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-04-10</span></td>
+  </tr><tr>
+    <td><span class="code">최우석 책임</span></td>
+    <td class="ctr"><span class="tag info">PIM</span></td>
+    <td class="code">STA4</td>
+    <td class="left">Activated Carbon Filter Package</td>
+    <td class="left">FABTECH International</td>
+    <td class="ctr">UAE</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-04-07</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-04-10</span></td>
+  </tr><tr>
+    <td><span class="code">서민 책임</span></td>
+    <td class="ctr"><span class="tag info">공장검사</span></td>
+    <td class="code">STA4</td>
+    <td class="left">Cooling Water Pump</td>
+    <td class="left">Flowserve</td>
+    <td class="ctr">이탈리아</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-04-13</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-04-16</span></td>
+  </tr><tr>
+    <td><span class="code">윤희수 책임</span></td>
+    <td class="ctr"><span class="tag info">FAT</span></td>
+    <td class="code">SHN1</td>
+    <td class="left">33kV GIS</td>
+    <td class="left">효성중공업</td>
+    <td class="ctr">대한민국</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-04-13</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-04-18</span></td>
+  </tr><tr>
+    <td><span class="code">이해석 책임</span></td>
+    <td class="ctr"><span class="tag info">공장검사</span></td>
+    <td class="code">SHN1</td>
+    <td class="left">Cracking Heater Burner</td>
+    <td class="left">신아플랜트</td>
+    <td class="ctr">대한민국</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-04-21</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-04-21</span></td>
+  </tr><tr>
+    <td><span class="code">최우석 책임</span></td>
+    <td class="ctr"><span class="tag info">업체실사</span></td>
+    <td class="code">STA4</td>
+    <td class="left">C/S Seamless Pip</td>
+    <td class="left">Hongda (흥양 Sub-Vendor)</td>
+    <td class="ctr">중국</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-04-21</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-04-24</span></td>
+  </tr><tr>
+    <td><span class="code">장동철 책임</span></td>
+    <td class="ctr"><span class="tag info">교육</span></td>
+    <td class="code">-</td>
+    <td class="left">Valve Academy</td>
+    <td class="left">PK Valve</td>
+    <td class="ctr">대한민국</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-04-24</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-04-25</span></td>
+  </tr><tr>
+    <td><span class="code">이해석 책임</span></td>
+    <td class="ctr"><span class="tag info">FAT</span></td>
+    <td class="code">SHN1</td>
+    <td class="left">LOAD SHEDDING</td>
+    <td class="left">코리아데이타</td>
+    <td class="ctr">대한민국</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-04-28</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-04-29</span></td>
+  </tr><tr>
+    <td><span class="code">나광조 책임</span></td>
+    <td class="ctr"><span class="tag info">PIM</span></td>
+    <td class="code">SHN1</td>
+    <td class="left">Regenerative Thermal Oxidizer (RTO) Package</td>
+    <td class="left">대상이엔지</td>
+    <td class="ctr">대한민국</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-05-08</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-05-09</span></td>
+  </tr><tr>
+    <td><span class="code">나광조 책임</span></td>
+    <td class="ctr"><span class="tag info">Monitoring</span></td>
+    <td class="code">SHN1</td>
+    <td class="left">Steel Structure</td>
+    <td class="left">KIC</td>
+    <td class="ctr">대한민국</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-05-29</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-05-29</span></td>
+  </tr><tr>
+    <td><span class="code">최우석 책임</span></td>
+    <td class="ctr"><span class="tag info">업체실사</span></td>
+    <td class="code">STA4</td>
+    <td class="left">Pressure Vessel of Flare PKG &amp; Incierator </td>
+    <td class="left">PERTON (ZEECO Sub-Vendor)</td>
+    <td class="ctr">사우디</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-05-13</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-05-22</span></td>
+  </tr><tr>
+    <td><span class="code">정진우 책임</span></td>
+    <td class="ctr"><span class="tag info">PIM</span></td>
+    <td class="code">STA4</td>
+    <td class="left">INCINERATOR PKG - STANDARD FLANGE</td>
+    <td class="left">WUXI PAIKE (ZEECO Sub-Vendor)</td>
+    <td class="ctr">중국</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-05-20</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-05-22</span></td>
+  </tr><tr>
+    <td><span class="code">서민 책임</span></td>
+    <td class="ctr"><span class="tag info">FAT</span></td>
+    <td class="code">STA4</td>
+    <td class="left">Blow Down Pump(MR-006)</td>
+    <td class="left">DMW(일본)</td>
+    <td class="ctr">일본</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-06-15</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-06-17</span></td>
+  </tr><tr>
+    <td><span class="code">이해석 책임</span></td>
+    <td class="ctr"><span class="tag info">PIM</span></td>
+    <td class="code">SHN1</td>
+    <td class="left">CRACKING HEATER BURNER</td>
+    <td class="left">신아플랜트</td>
+    <td class="ctr">대한민국</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-06-10</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-06-10</span></td>
+  </tr><tr>
+    <td><span class="code">서민 책임</span></td>
+    <td class="ctr"><span class="tag info">공장검사</span></td>
+    <td class="code">STA4</td>
+    <td class="left">Air Compressor PKG</td>
+    <td class="left">현대마린엔진(HHI 터보기계 Sub-Vendor)</td>
+    <td class="ctr">대한민국</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-07-15</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-07-15</span></td>
+  </tr><tr>
+    <td><span class="code">서민 책임</span></td>
+    <td class="ctr"><span class="tag info">현안미팅</span></td>
+    <td class="code">STA4</td>
+    <td class="left">Air Compressor PKG</td>
+    <td class="left">HHI 터보기계</td>
+    <td class="ctr">대한민국</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-07-29</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-07-29</span></td>
+  </tr><tr>
+    <td><span class="code">유요석 팀장</span></td>
+    <td class="ctr"><span class="tag info">업체실사</span></td>
+    <td class="code">STA4</td>
+    <td class="left">FBE Coating / Knife gate valve &amp; Strainer</td>
+    <td class="left">우성플로텍</td>
+    <td class="ctr">대한민국</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-07-31</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-08-01</span></td>
+  </tr><tr>
+    <td><span class="code">나광조 책임</span></td>
+    <td class="ctr"><span class="tag info">FAT</span></td>
+    <td class="code">SHN1</td>
+    <td class="left">FAN</td>
+    <td class="left">서원풍력</td>
+    <td class="ctr">대한민국</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-07-15</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-07-15</span></td>
+  </tr><tr>
+    <td><span class="code">나광조 책임</span></td>
+    <td class="ctr"><span class="tag info">FAT</span></td>
+    <td class="code">SHN1</td>
+    <td class="left">Diverter Damper</td>
+    <td class="left">TS 넥스젠(남광엔지니어링 임대공장)</td>
+    <td class="ctr">대한민국</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-07-25</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-07-28</span></td>
+  </tr><tr>
+    <td><span class="code">윤희수 책임</span></td>
+    <td class="ctr"><span class="tag info">공장검사</span></td>
+    <td class="code">STA4</td>
+    <td class="left">MV Cable</td>
+    <td class="left">Bahra Advanced Cable</td>
+    <td class="ctr">사우디</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-08-08</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-08-12</span></td>
+  </tr><tr>
+    <td><span class="code">윤희수 책임</span></td>
+    <td class="ctr"><span class="tag info">공장검사</span></td>
+    <td class="code">STA4</td>
+    <td class="left">CRP Panel</td>
+    <td class="left">Hitachi Energy</td>
+    <td class="ctr">사우디</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-08-13</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-08-16</span></td>
+  </tr><tr>
+    <td><span class="code">서민 책임</span></td>
+    <td class="ctr"><span class="tag info">업체실사</span></td>
+    <td class="code">STA4</td>
+    <td class="left">Side Entry Mixer</td>
+    <td class="left">하도</td>
+    <td class="ctr">대한민국</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-08-12</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-08-12</span></td>
+  </tr><tr>
+    <td><span class="code">서민 책임</span></td>
+    <td class="ctr"><span class="tag info">공장검사</span></td>
+    <td class="code">STA4</td>
+    <td class="left">Air Compressor PKG</td>
+    <td class="left">HHI 터보기계</td>
+    <td class="ctr">대한민국</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-08-20</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-08-20</span></td>
+  </tr><tr>
+    <td><span class="code">서민 책임</span></td>
+    <td class="ctr"><span class="tag info">FAT</span></td>
+    <td class="code">STA4</td>
+    <td class="left">Air Compressor PKG</td>
+    <td class="left">HHI 터보기계</td>
+    <td class="ctr">대한민국</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-09-01</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-09-02</span></td>
+  </tr><tr>
+    <td><span class="code">서민 책임</span></td>
+    <td class="ctr"><span class="tag info">공장검사</span></td>
+    <td class="code">STA4</td>
+    <td class="left">Air Compressor PKG</td>
+    <td class="left">HHI 터보기계</td>
+    <td class="ctr">대한민국</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-09-04</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-09-04</span></td>
+  </tr><tr>
+    <td><span class="code">정진우 책임</span></td>
+    <td class="ctr"><span class="tag info">공장검사</span></td>
+    <td class="code">STA4</td>
+    <td class="left">Filter</td>
+    <td class="left">Xinxiang Shengda Filtration Technique</td>
+    <td class="ctr">중국</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-09-02</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-09-04</span></td>
+  </tr><tr>
+    <td><span class="code">서민 책임</span></td>
+    <td class="ctr"><span class="tag info">FAT</span></td>
+    <td class="code">STA4</td>
+    <td class="left">Air Compressor PKG</td>
+    <td class="left">HHI 터보기계</td>
+    <td class="ctr">대한민국</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-09-08</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-09-09</span></td>
+  </tr><tr>
+    <td><span class="code">윤희수 책임</span></td>
+    <td class="ctr"><span class="tag info">Monitoring</span></td>
+    <td class="code">SHN1</td>
+    <td class="left">Ceramic Insulator</td>
+    <td class="left">태성쎄라믹</td>
+    <td class="ctr">대한민국</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-09-24</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-09-24</span></td>
+  </tr><tr>
+    <td><span class="code">서민 책임</span></td>
+    <td class="ctr"><span class="tag info">공장검사</span></td>
+    <td class="code">STA4</td>
+    <td class="left">Air Compressor PKG</td>
+    <td class="left">HHI 터보기계</td>
+    <td class="ctr">대한민국</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-09-26</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-09-26</span></td>
+  </tr><tr>
+    <td><span class="code">서민 책임</span></td>
+    <td class="ctr"><span class="tag info">공장검사</span></td>
+    <td class="code">STA4</td>
+    <td class="left">Air Compressor PKG</td>
+    <td class="left">HHI 터보기계</td>
+    <td class="ctr">대한민국</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-09-30</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-09-30</span></td>
+  </tr><tr>
+    <td><span class="code">서민 책임</span></td>
+    <td class="ctr"><span class="tag info">FAT</span></td>
+    <td class="code">STA4</td>
+    <td class="left">Air Compressor PKG</td>
+    <td class="left">HHI 터보기계</td>
+    <td class="ctr">대한민국</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-10-13</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-10-14</span></td>
+  </tr><tr>
+    <td><span class="code">장동철 책임</span></td>
+    <td class="ctr"><span class="tag info">공장검사</span></td>
+    <td class="code">STA4</td>
+    <td class="left">Knife Gate Valve</td>
+    <td class="left">동해밸브</td>
+    <td class="ctr">대한민국</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-10-22</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-10-22</span></td>
+  </tr><tr>
+    <td><span class="code">정진우 책임</span></td>
+    <td class="ctr"><span class="tag info">공장검사</span></td>
+    <td class="code">STA4</td>
+    <td class="left">Air Dryer Package</td>
+    <td class="left">세양기업</td>
+    <td class="ctr">대한민국</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-10-24</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-10-24</span></td>
+  </tr><tr>
+    <td><span class="code">서민 책임</span></td>
+    <td class="ctr"><span class="tag info">공장검사</span></td>
+    <td class="code">STA4</td>
+    <td class="left">Air Compressor PKG</td>
+    <td class="left">HHI 터보기계</td>
+    <td class="ctr">대한민국</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-11-06</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-11-06</span></td>
+  </tr><tr>
+    <td><span class="code">강태준 책임</span></td>
+    <td class="ctr"><span class="tag info">업체감사</span></td>
+    <td class="code">ALOM</td>
+    <td class="left">Exhaust Gas Bypass System</td>
+    <td class="left">티에스넥스젠 인천사업장</td>
+    <td class="ctr">대한민국</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-10-16</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-10-17</span></td>
+  </tr><tr>
+    <td><span class="code">강태준 책임</span></td>
+    <td class="ctr"><span class="tag info">업체감사</span></td>
+    <td class="code">ALOM</td>
+    <td class="left">Exhaust Gas Bypass System</td>
+    <td class="left">티에스넥스젠 인천사업장</td>
+    <td class="ctr">대한민국</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-10-23</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-10-23</span></td>
+  </tr><tr>
+    <td><span class="code">나광조 책임</span></td>
+    <td class="ctr"><span class="tag info">PIM</span></td>
+    <td class="code">ALOM</td>
+    <td class="left">Air Cooled Condenser Package</td>
+    <td class="left">SPG Dry Cooling Belgum</td>
+    <td class="ctr">중국</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-11-04</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-11-07</span></td>
+  </tr><tr>
+    <td><span class="code">강태준 책임</span></td>
+    <td class="ctr"><span class="tag info">공장검사</span></td>
+    <td class="code">STA4</td>
+    <td class="left">Wrought Fitting</td>
+    <td class="left">태광</td>
+    <td class="ctr">대한민국</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-11-06</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-11-06</span></td>
+  </tr><tr>
+    <td><span class="code">강태준 책임</span></td>
+    <td class="ctr"><span class="tag info">공장검사</span></td>
+    <td class="code">STA4</td>
+    <td class="left">FBE Coating / Lining</td>
+    <td class="left">세보테크놀로지</td>
+    <td class="ctr">대한민국</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-11-17</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-11-17</span></td>
+  </tr><tr>
+    <td><span class="code">서민 책임</span></td>
+    <td class="ctr"><span class="tag info">공장검사</span></td>
+    <td class="code">STA4</td>
+    <td class="left">Air Compressor PKG</td>
+    <td class="left">HHI 터보기계</td>
+    <td class="ctr">대한민국</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-11-18</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-11-19</span></td>
+  </tr><tr>
+    <td><span class="code">서민 책임</span></td>
+    <td class="ctr"><span class="tag info">공장검사</span></td>
+    <td class="code">STA4</td>
+    <td class="left">Air Compressor PKG</td>
+    <td class="left">HHI 터보기계</td>
+    <td class="ctr">대한민국</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-11-21</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-11-21</span></td>
+  </tr><tr>
+    <td><span class="code">강태준 책임</span></td>
+    <td class="ctr"><span class="tag info">업체실사</span></td>
+    <td class="code">CSSP</td>
+    <td class="left">Valve</td>
+    <td class="left">DHV VALVE &amp; FOUNDRY</td>
+    <td class="ctr">중국</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-11-24</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-11-24</span></td>
+  </tr><tr>
+    <td><span class="code">강태준 책임</span></td>
+    <td class="ctr"><span class="tag info">업체실사</span></td>
+    <td class="code">CSSP</td>
+    <td class="left">Valve</td>
+    <td class="left">SUFA</td>
+    <td class="ctr">중국</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-11-25</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-11-25</span></td>
+  </tr><tr>
+    <td><span class="code">강태준 책임</span></td>
+    <td class="ctr"><span class="tag info">업체실사</span></td>
+    <td class="code">CSSP</td>
+    <td class="left">Valve</td>
+    <td class="left">NEWAY VALVE</td>
+    <td class="ctr">중국</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-11-26</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-11-26</span></td>
+  </tr><tr>
+    <td><span class="code">강태준 책임</span></td>
+    <td class="ctr"><span class="tag info">업체실사</span></td>
+    <td class="code">CSSP</td>
+    <td class="left">FBE Coating / Lining</td>
+    <td class="left">TYHOO</td>
+    <td class="ctr">중국</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-11-27</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-11-27</span></td>
+  </tr><tr>
+    <td><span class="code">강태준 책임</span></td>
+    <td class="ctr"><span class="tag info">업체실사</span></td>
+    <td class="code">CSSP</td>
+    <td class="left">Flange / Fitting</td>
+    <td class="left">ZHONGNAN HEAVY INDUSTRIES</td>
+    <td class="ctr">중국</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-11-28</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-11-28</span></td>
+  </tr><tr>
+    <td><span class="code">서민 책임</span></td>
+    <td class="ctr"><span class="tag info">공장검사</span></td>
+    <td class="code">STA4</td>
+    <td class="left">Air Compressor PKG</td>
+    <td class="left">HHI 터보기계</td>
+    <td class="ctr">대한민국</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-11-26</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-11-27</span></td>
+  </tr><tr>
+    <td><span class="code">강인묵 책임</span></td>
+    <td class="ctr"><span class="tag info">공장검사</span></td>
+    <td class="code">STA4</td>
+    <td class="left">HV SWGR</td>
+    <td class="left">Al-Fanar</td>
+    <td class="ctr">사우디</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-11-25</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-12-11</span></td>
+  </tr><tr>
+    <td><span class="code">강인묵 책임</span></td>
+    <td class="ctr"><span class="tag info">공장검사</span></td>
+    <td class="code">STA4</td>
+    <td class="left">MV CABLE</td>
+    <td class="left">Habara Cable</td>
+    <td class="ctr">사우디</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-12-01</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-12-01</span></td>
+  </tr><tr>
+    <td><span class="code">강인묵 책임</span></td>
+    <td class="ctr"><span class="tag info">공장검사</span></td>
+    <td class="code">STA4</td>
+    <td class="left">ANALYZER</td>
+    <td class="left">Yogokawa</td>
+    <td class="ctr">사우디</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-12-03</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-12-03</span></td>
+  </tr><tr>
+    <td><span class="code">윤희수 책임</span></td>
+    <td class="ctr"><span class="tag info">공장검사</span></td>
+    <td class="code">STA4</td>
+    <td class="left">Ethan Compressor</td>
+    <td class="left">Hitachi</td>
+    <td class="ctr">일본</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-12-07</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-12-10</span></td>
+  </tr><tr>
+    <td><span class="code">강택기 책임</span></td>
+    <td class="ctr"><span class="tag info">Monitoring</span></td>
+    <td class="code">STA4</td>
+    <td class="left">Knife Gate Valve</td>
+    <td class="left">동해밸브</td>
+    <td class="ctr">대한민국</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-12-23</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2025-12-23</span></td>
+  </tr><tr>
+    <td><span class="code">나광조 책임</span></td>
+    <td class="ctr"><span class="tag info">Monitoring</span></td>
+    <td class="code">MIP6</td>
+    <td class="left">Electric Heater</td>
+    <td class="left">Chromalox Inc.</td>
+    <td class="ctr">미국</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2026-01-20</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2026-02-06</span></td>
+  </tr><tr>
+    <td><span class="code">강택기 책임</span></td>
+    <td class="ctr"><span class="tag info">공장검사</span></td>
+    <td class="code">STA4</td>
+    <td class="left">Knife Gate Valve</td>
+    <td class="left">동해밸브</td>
+    <td class="ctr">대한민국</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2026-02-10</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2026-02-10</span></td>
+  </tr><tr>
+    <td><span class="code">강인묵 책임</span></td>
+    <td class="ctr"><span class="tag info">FAT</span></td>
+    <td class="code">STA4</td>
+    <td class="left">ECS Panel </td>
+    <td class="left">Al-Fanar</td>
+    <td class="ctr">사우디</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2026-02-23</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2026-03-09</span></td>
+  </tr><tr>
+    <td><span class="code">유요석 팀장</span></td>
+    <td class="ctr"><span class="tag info">업체실사</span></td>
+    <td class="code">STA4</td>
+    <td class="left">Oil Skimmer for Storage Tank</td>
+    <td class="left">TTS</td>
+    <td class="ctr">대한민국</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2026-02-26</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2026-02-26</span></td>
+  </tr><tr>
+    <td><span class="code">강태준 책임</span></td>
+    <td class="ctr"><span class="tag info">업체실사</span></td>
+    <td class="code">STA4</td>
+    <td class="left">Oil Skimmer for Storage Tank</td>
+    <td class="left">TTS</td>
+    <td class="ctr">대한민국</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2026-02-26</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2026-02-26</span></td>
+  </tr><tr>
+    <td><span class="code">강태준 책임</span></td>
+    <td class="ctr"><span class="tag info">업체실사</span></td>
+    <td class="code">CSSP</td>
+    <td class="left">Spool Fabrication &amp; External/Internal Coating</td>
+    <td class="left">웰텍</td>
+    <td class="ctr">대한민국</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2026-03-04</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2026-03-04</span></td>
+  </tr><tr>
+    <td><span class="code">유요석 팀장</span></td>
+    <td class="ctr"><span class="tag info">업체실사</span></td>
+    <td class="code">CSSP</td>
+    <td class="left">Spool Fabrication &amp; External/Internal Coating</td>
+    <td class="left">주성이엔지</td>
+    <td class="ctr">대한민국</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2026-03-05</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2026-03-05</span></td>
+  </tr><tr>
+    <td><span class="code">강태준 책임</span></td>
+    <td class="ctr"><span class="tag info">업체실사</span></td>
+    <td class="code">CSSP</td>
+    <td class="left">Spool Fabrication &amp; External/Internal Coating</td>
+    <td class="left">주성이엔지</td>
+    <td class="ctr">대한민국</td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2026-03-05</span></td>
+    <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">2026-03-05</span></td>
+  </tr></tbody></table></div></div>
   </div>
 </section>
 
@@ -904,26 +2626,56 @@ button{cursor:pointer;border:none;background:none}
   <div class="grid g2">
     <div class="card">
       <div class="card-hd"><div class="card-title"><span class="bar"></span>프로젝트 현안</div></div>
-      <div class="card-body" id="projectIssueArea"></div>
+      <div class="card-body" id="projectIssueArea"><div class="issue ">
+    <div class="top"><div class="title">Knife Gate Valve 표면 처리불량</div><div class="meta">STA4 · 임효원 책임</div></div>
+    <div class="action">FBE 작업 진행 중</div>
+  </div><div class="issue ">
+    <div class="top"><div class="title">N2 Receiver 폭발 사고 관련 추가 제작 Item 검사 절차 협의</div><div class="meta">SM12 · 장동철 책임</div></div>
+    <div class="action">SVL &amp; Inspection Level 협의 중 (SAIR)</div>
+  </div><div class="issue ">
+    <div class="top"><div class="title">Produced Water Booster Pump 관련 Casing 파손</div><div class="meta">MIP6 · 서민 책임</div></div>
+    <div class="action">결함 판독을 위해 현장에서 RT 수행 예정</div>
+  </div><div class="issue ">
+    <div class="top"><div class="title">N2 Generation Package 성능 미달</div><div class="meta">IBRU · 장동철 책임</div></div>
+    <div class="action">제작 및 검사 진행 중</div>
+  </div><div class="issue ">
+    <div class="top"><div class="title">Bypass Valve 현장시험 불합격</div><div class="meta">VEQU · 석우경 매니저</div></div>
+    <div class="action">-</div>
+  </div><div class="issue ">
+    <div class="top"><div class="title">LV Switchgear 내부 부식 발생</div><div class="meta">ALOM · 윤희수 책임</div></div>
+    <div class="action">재제작 진행 중 (5월말 FAT 예상)</div>
+  </div></div>
     </div>
     <div class="card">
       <div class="card-hd"><div class="card-title"><span class="bar"></span>팀 내부 현안</div></div>
-      <div class="card-body" id="teamIssueArea"></div>
+      <div class="card-body" id="teamIssueArea"><div class="issue team">
+    <div class="top"><div class="title">원소재 성적서 검토 시스템</div><div class="meta">플랜트구매품질팀 · 장동철 책임</div></div>
+    <div class="action">경영분석팀 &amp; IT지원팀 협의 중</div>
+  </div><div class="issue team">
+    <div class="top"><div class="title">Punch 관리방법 개선</div><div class="meta">플랜트구매품질팀 · 이해석 책임</div></div>
+    <div class="action">추진안 준비 중</div>
+  </div><div class="issue team">
+    <div class="top"><div class="title">TPA Workshop</div><div class="meta">플랜트구매품질팀 · 장동철 책임</div></div>
+    <div class="action">금주 중 참석자 확정 및 사전 설문 완료 예정</div>
+  </div><div class="issue team">
+    <div class="top"><div class="title">TPA 실행 비용 분석 및 입찰 예산 적정성 검증</div><div class="meta">플랜트구매품질팀 · 강태준 책임</div></div>
+    <div class="action">프로젝트별 TPA 청산자료 1차 가공 완료</div>
+  </div></div>
     </div>
   </div>
 </section>
 
 </main>
-<div class="toast" id="toast">데이터가 반영되었습니다.</div>
+<div class="toast" id="toast">Excel 파일이 반영되었습니다.</div>
 
 <script>
-const DEFAULT_RAW = {"Project":[{"Project_Code":"MIP6","Contract_Price_HDEC_Mil_USD":1484,"Contract_Price_Total_Mil_USD":1484,"Contract_Price_HDEC_Mil_KRW":null,"Contract_Price_Total_Mil_KRW":null,"Client":"Aramco","Country":"Saudi Arabia","PM":"-","PQCM":"-","Status":"Mechanical Completion","Progress":1,"Remarks":null},{"Project_Code":"SM12","Contract_Price_HDEC_Mil_USD":1318,"Contract_Price_Total_Mil_USD":1354,"Contract_Price_HDEC_Mil_KRW":null,"Contract_Price_Total_Mil_KRW":null,"Client":"Aramco","Country":"Saudi Arabia","PM":"정준택 상무","PQCM":"장동철 책임","Status":"Active","Progress":0.9996,"Remarks":null},{"Project_Code":"IBRU","Contract_Price_HDEC_Mil_USD":1814,"Contract_Price_Total_Mil_USD":3778,"Contract_Price_HDEC_Mil_KRW":null,"Contract_Price_Total_Mil_KRW":null,"Client":"BOC","Country":"Iraq","PM":"정태수 소장","PQCM":"-","Status":"Mechanical Completion","Progress":1,"Remarks":null},{"Project_Code":"SHN1","Contract_Price_HDEC_Mil_USD":null,"Contract_Price_Total_Mil_USD":null,"Contract_Price_HDEC_Mil_KRW":2389100,"Contract_Price_Total_Mil_KRW":5436800,"Client":"S-Oil","Country":"Korea","PM":"이현영 실장","PQCM":"이해석 책임","Status":"Active","Progress":0.9569,"Remarks":null},{"Project_Code":"ALOM","Contract_Price_HDEC_Mil_USD":584,"Contract_Price_Total_Mil_USD":730,"Contract_Price_HDEC_Mil_KRW":null,"Contract_Price_Total_Mil_KRW":null,"Client":"Hyenco","Country":"Algeria","PM":"정민권 소장","PQCM":"윤희수 책임","Status":"Active","Progress":0.5896,"Remarks":null},{"Project_Code":"VEQU","Contract_Price_HDEC_Mil_USD":952,"Contract_Price_Total_Mil_USD":1178,"Contract_Price_HDEC_Mil_KRW":null,"Contract_Price_Total_Mil_KRW":null,"Client":"EVN","Country":"Vietnam","PM":"이윤석 소장","PQCM":"윤희수 책임","Status":"Active","Progress":0.9895,"Remarks":null},{"Project_Code":"STA4","Contract_Price_HDEC_Mil_USD":2136,"Contract_Price_Total_Mil_USD":2136,"Contract_Price_HDEC_Mil_KRW":null,"Contract_Price_Total_Mil_KRW":null,"Client":"satorp","Country":"Saudi Arabia","PM":"임영빈 상무","PQCM":"최우석 책임","Status":"Active","Progress":0.8728,"Remarks":null},{"Project_Code":"SAC2","Contract_Price_HDEC_Mil_USD":1184,"Contract_Price_Total_Mil_USD":2369,"Contract_Price_HDEC_Mil_KRW":null,"Contract_Price_Total_Mil_KRW":null,"Client":"Aramco","Country":"Saudi Arabia","PM":"김형철 실장","PQCM":"최종현 책임","Status":"Active","Progress":0.7049,"Remarks":null},{"Project_Code":"CSSP","Contract_Price_HDEC_Mil_USD":3160,"Contract_Price_Total_Mil_USD":3160,"Contract_Price_HDEC_Mil_KRW":null,"Contract_Price_Total_Mil_KRW":null,"Client":"TotalEnergies","Country":"Iraq","PM":"박수철 상무","PQCM":"정진우 책임","Status":"Active","Progress":0.063,"Remarks":null},{"Project_Code":"PNG1","Contract_Price_HDEC_Mil_USD":1600,"Contract_Price_Total_Mil_USD":4000,"Contract_Price_HDEC_Mil_KRW":null,"Contract_Price_Total_Mil_KRW":null,"Client":"ExxonMobil","Country":"Papua New Genea","PM":"최성식 팀장","PQCM":"강태준 책임","Status":"Active","Progress":0,"Remarks":null},{"Project_Code":"ALSM","Contract_Price_HDEC_Mil_USD":5800,"Contract_Price_Total_Mil_USD":5800,"Contract_Price_HDEC_Mil_KRW":null,"Contract_Price_Total_Mil_KRW":null,"Client":"HPLS","Country":"USA","PM":"백철욱 상무","PQCM":"강태준 책임","Status":"Bid","Progress":0,"Remarks":null}],"Manpower":[{"Name":"유요석 팀장","Department":"본사","Main_Role_Responsibility":"Team Leader","PQCM":null,"PQC_Engineer":null,"Number_of_PO":null},{"Name":"강택기 책임","Department":"본사","Main_Role_Responsibility":"Piping","PQCM":null,"PQC_Engineer":"SAC2 / VEQU","Number_of_PO":9},{"Name":"윤희수 책임","Department":"본사","Main_Role_Responsibility":"Electrical & Instrument","PQCM":"ALOM / VEQU","PQC_Engineer":"STA4 / ALOM / CSSP","Number_of_PO":38},{"Name":"서민 책임","Department":"본사","Main_Role_Responsibility":"Rotating","PQCM":null,"PQC_Engineer":"STA4 / CSSP / PNG1","Number_of_PO":46},{"Name":"장동철 책임","Department":"본사","Main_Role_Responsibility":"Piping","PQCM":"SM12","PQC_Engineer":"SM12 / IBRU / CSSP / PNG1","Number_of_PO":25},{"Name":"정진우 책임","Department":"본사","Main_Role_Responsibility":"Static","PQCM":"CSSP","PQC_Engineer":"SM12 / ALOM / CSSP","Number_of_PO":9},{"Name":"나광조 책임","Department":"본사","Main_Role_Responsibility":"Static","PQCM":null,"PQC_Engineer":"SHN1 / ALOM / CSSP / PNG1","Number_of_PO":16},{"Name":"강인묵 책임","Department":"본사 (STA4)","Main_Role_Responsibility":"Electrical & Instrument","PQCM":null,"PQC_Engineer":"STA4 / CSSP","Number_of_PO":28},{"Name":"강태준 책임","Department":"본사","Main_Role_Responsibility":"Strategic Planning","PQCM":"PNG1 / ALSM","PQC_Engineer":"VEQU / CSSP / PNG1","Number_of_PO":39},{"Name":"이해석 책임","Department":"본사","Main_Role_Responsibility":"Electrical & Instrument","PQCM":"SHN1","PQC_Engineer":"STA4 / SHN1","Number_of_PO":21},{"Name":"최종현 책임","Department":"본사","Main_Role_Responsibility":"Electrical & Instrument","PQCM":"SAC2","PQC_Engineer":"SAC2","Number_of_PO":17},{"Name":"석우경 매니저","Department":"본사","Main_Role_Responsibility":"Piping","PQCM":null,"PQC_Engineer":"ALOM / CSSP / PNG1","Number_of_PO":53},{"Name":"고팔라크리스낸 매니저","Department":"본사","Main_Role_Responsibility":"Structural Steel","PQCM":null,"PQC_Engineer":"STA4 / VEQU / CSSP / PNG1","Number_of_PO":19},{"Name":"술탄 매니저","Department":"본사","Main_Role_Responsibility":"Electrical & Instrument","PQCM":null,"PQC_Engineer":"VEQU / CSSP","Number_of_PO":24},{"Name":"엥흐철멍 매니저","Department":"본사","Main_Role_Responsibility":"Piping","PQCM":null,"PQC_Engineer":"PNG1","Number_of_PO":1},{"Name":"최우석 책임","Department":"STA4","Main_Role_Responsibility":"Static","PQCM":"STA4","PQC_Engineer":null,"Number_of_PO":0},{"Name":"최영준 책임","Department":"STA4","Main_Role_Responsibility":"Static","PQCM":null,"PQC_Engineer":"STA4","Number_of_PO":8},{"Name":"임효원 책임","Department":"STA4","Main_Role_Responsibility":"Piping","PQCM":null,"PQC_Engineer":"STA4","Number_of_PO":37},{"Name":"황윤섭 책임","Department":"SAC2","Main_Role_Responsibility":"Piping","PQCM":null,"PQC_Engineer":"SAC2","Number_of_PO":13},{"Name":"박지애 매니저","Department":"본사 (SAC2)","Main_Role_Responsibility":"Piping","PQCM":null,"PQC_Engineer":"SAC2","Number_of_PO":12}],"Stage_Status":[{"Project_Code":"MIP6","MR_Total":"완료","MR_Done":"완료","TBE_Total":"완료","TBE_Done":"완료","PO_Total":200,"PO_Done":200,"PIM_Total":197,"PIM_Done":197,"IRC_100%_Total":397,"IRC_100%_Done":397,"NCR_Total":55,"NCR_Done":55},{"Project_Code":"SM12","MR_Total":"완료","MR_Done":"완료","TBE_Total":"완료","TBE_Done":"완료","PO_Total":150,"PO_Done":150,"PIM_Total":167,"PIM_Done":167,"IRC_100%_Total":351,"IRC_100%_Done":346,"NCR_Total":74,"NCR_Done":74},{"Project_Code":"IBRU","MR_Total":"완료","MR_Done":"완료","TBE_Total":"완료","TBE_Done":"완료","PO_Total":124,"PO_Done":124,"PIM_Total":45,"PIM_Done":45,"IRC_100%_Total":124,"IRC_100%_Done":124,"NCR_Total":7,"NCR_Done":7},{"Project_Code":"SHN1","MR_Total":"완료","MR_Done":"완료","TBE_Total":"완료","TBE_Done":"완료","PO_Total":24,"PO_Done":24,"PIM_Total":17,"PIM_Done":17,"IRC_100%_Total":40,"IRC_100%_Done":29,"NCR_Total":15,"NCR_Done":15},{"Project_Code":"ALOM","MR_Total":"완료","MR_Done":"완료","TBE_Total":"완료","TBE_Done":"완료","PO_Total":74,"PO_Done":74,"PIM_Total":28,"PIM_Done":28,"IRC_100%_Total":74,"IRC_100%_Done":52,"NCR_Total":16,"NCR_Done":16},{"Project_Code":"VEQU","MR_Total":"완료","MR_Done":"완료","TBE_Total":"완료","TBE_Done":"완료","PO_Total":96,"PO_Done":96,"PIM_Total":37,"PIM_Done":37,"IRC_100%_Total":96,"IRC_100%_Done":95,"NCR_Total":9,"NCR_Done":9},{"Project_Code":"STA4","MR_Total":"완료","MR_Done":"완료","TBE_Total":"완료","TBE_Done":"완료","PO_Total":159,"PO_Done":159,"PIM_Total":99,"PIM_Done":97,"IRC_100%_Total":122,"IRC_100%_Done":54,"NCR_Total":51,"NCR_Done":42},{"Project_Code":"SAC2","MR_Total":"완료","MR_Done":"완료","TBE_Total":"완료","TBE_Done":"완료","PO_Total":93,"PO_Done":93,"PIM_Total":62,"PIM_Done":59,"IRC_100%_Total":89,"IRC_100%_Done":21,"NCR_Total":7,"NCR_Done":7},{"Project_Code":"CSSP","MR_Total":148,"MR_Done":68,"TBE_Total":148,"TBE_Done":2,"PO_Total":148,"PO_Done":1,"PIM_Total":57,"PIM_Done":0,"IRC_100%_Total":148,"IRC_100%_Done":0,"NCR_Total":0,"NCR_Done":0},{"Project_Code":"PNG1","MR_Total":30,"MR_Done":10,"TBE_Total":30,"TBE_Done":5,"PO_Total":30,"PO_Done":2,"PIM_Total":17,"PIM_Done":0,"IRC_100%_Total":30,"IRC_100%_Done":0,"NCR_Total":0,"NCR_Done":0},{"Project_Code":"ALSM","MR_Total":"미정","MR_Done":"미정","TBE_Total":"미정","TBE_Done":"미정","PO_Total":"미정","PO_Done":"미정","PIM_Total":"미정","PIM_Done":"미정","IRC_100%_Total":"미정","IRC_100%_Done":"미정","NCR_Total":"미정","NCR_Done":"미정"}],"Open_NCR":[{"Serial_Number":1,"Project_Code":"STA4","NCR_Number":"STA4-MR010-OPT-NCR-001","Item":"Sealless Pump (API 685)","Vendor":"Optimex","NCR_Title":"High Power Consumption","Issue_Date":45898,"Days_to_Date":243,"Reamrks":null},{"Serial_Number":2,"Project_Code":"STA4","NCR_Number":"STA4-EL009-AFN-NCR-001","Item":"LV Controlgear ","Vendor":"Al-Fanar","NCR_Title":"Factory Acceptance Test and Punch Closing Verification ","Issue_Date":45963,"Days_to_Date":178,"Reamrks":null},{"Serial_Number":3,"Project_Code":"STA4","NCR_Number":"STA4-MS017-SYC-NCR-001","Item":"Air Dryer Package ","Vendor":"Seyang Corporation","NCR_Title":"Factory Acceptance Test and Punch Closing Verification ","Issue_Date":45968,"Days_to_Date":173,"Reamrks":null},{"Serial_Number":4,"Project_Code":"STA4","NCR_Number":"STA4-EL007-AFN-NCR-001","Item":"HV Switchgear","Vendor":"Al-Fanar","NCR_Title":"Factory Acceptance Test and Punch Closing Verification ","Issue_Date":46010,"Days_to_Date":131,"Reamrks":null},{"Serial_Number":5,"Project_Code":"STA4","NCR_Number":"STA4-MR010-OPT-NCR-002","Item":"Sealless Pump (API 685)","Vendor":"Optimex","NCR_Title":"IRC Issuance with Punch List","Issue_Date":45995,"Days_to_Date":146,"Reamrks":null},{"Serial_Number":6,"Project_Code":"STA4","NCR_Number":"STA4-CI001-EME-NCR-001","Item":"PCS","Vendor":"Emerson","NCR_Title":"IRC Issuance with Punch List","Issue_Date":46042,"Days_to_Date":99,"Reamrks":null},{"Serial_Number":7,"Project_Code":"STA4","NCR_Number":"STA4-EL012-SEL1-NCR-002","Item":"ECS","Vendor":"SEL","NCR_Title":"IRC Issuance with Punch List","Issue_Date":46107,"Days_to_Date":34,"Reamrks":null},{"Serial_Number":8,"Project_Code":"STA4","NCR_Number":"STA4-CI001-EME-NCR-002","Item":"PCS","Vendor":"Emerson","NCR_Title":"IRC Issuance with Punch List","Issue_Date":46087,"Days_to_Date":54,"Reamrks":null},{"Serial_Number":9,"Project_Code":"STA4","NCR_Number":"STA4-CI005-VAL-NCR-002","Item":"On-Off Valve (Ball)","Vendor":"Valmet","NCR_Title":"High-Pressure Seat Test / DBB Test was omitted for Trunnion Type Ball Valve","Issue_Date":46120,"Days_to_Date":21,"Reamrks":null}],"TPA":[{"Project_Code":"MIP6","Status":"Mechanical Completion","예산(USD)":12511157,"계약고(USD)":12511157,"집행비용(USD)":12499872,"예산(KRW)":null,"계약고(KRW)":null,"집행비용(KRW)":null,"예산 소진율":0.9990980050845817,"現 계약고 소진율":0.9990980050845817},{"Project_Code":"SM12","Status":"Active","예산(USD)":9017286,"계약고(USD)":9017286,"집행비용(USD)":8964816,"예산(KRW)":null,"계약고(KRW)":null,"집행비용(KRW)":null,"예산 소진율":0.9941811760212552,"現 계약고 소진율":0.9941811760212552},{"Project_Code":"IBRU","Status":"Mechanical Completion","예산(USD)":4024396,"계약고(USD)":2886653.24,"집행비용(USD)":2588280,"예산(KRW)":null,"계약고(KRW)":null,"집행비용(KRW)":null,"예산 소진율":0.6431474437406259,"現 계약고 소진율":0.8966369649580771},{"Project_Code":"SHN1","Status":"Active","예산(USD)":null,"계약고(USD)":null,"집행비용(USD)":null,"예산(KRW)":3442862995,"계약고(KRW)":3384427737,"집행비용(KRW)":2623837243,"예산 소진율":null,"現 계약고 소진율":0.7752676218537917},{"Project_Code":"ALOM","Status":"Active","예산(USD)":766265,"계약고(USD)":766265,"집행비용(USD)":373850,"예산(KRW)":null,"계약고(KRW)":null,"집행비용(KRW)":null,"예산 소진율":0.4878860446451293,"現 계약고 소진율":0.4878860446451293},{"Project_Code":"VEQU","Status":"Active","예산(USD)":375828,"계약고(USD)":228937,"집행비용(USD)":203424,"예산(KRW)":null,"계약고(KRW)":null,"집행비용(KRW)":null,"예산 소진율":0.5412688783166768,"現 계약고 소진율":0.8885588611714139},{"Project_Code":"STA4","Status":"Active","예산(USD)":8945512,"계약고(USD)":7462653,"집행비용(USD)":6311810,"예산(KRW)":null,"계약고(KRW)":null,"집행비용(KRW)":null,"예산 소진율":0.7055839844605876,"現 계약고 소진율":0.8457863443469769},{"Project_Code":"SAC2","Status":"Active","예산(USD)":4791851,"계약고(USD)":3650000,"집행비용(USD)":2276543,"예산(KRW)":null,"계약고(KRW)":null,"집행비용(KRW)":null,"예산 소진율":0.475086349721642,"現 계약고 소진율":0.6237104109589041},{"Project_Code":"CSSP","Status":"Active","예산(USD)":5960701,"계약고(USD)":"미정","집행비용(USD)":0,"예산(KRW)":null,"계약고(KRW)":null,"집행비용(KRW)":null,"예산 소진율":0,"現 계약고 소진율":"N/A"},{"Project_Code":"PNG1","Status":"Active","예산(USD)":1875089,"계약고(USD)":"미정","집행비용(USD)":0,"예산(KRW)":null,"계약고(KRW)":null,"집행비용(KRW)":null,"예산 소진율":0,"現 계약고 소진율":"N/A"},{"Project_Code":"ALSM","Status":"Bid","예산(USD)":"미정","계약고(USD)":"미정","집행비용(USD)":0,"예산(KRW)":null,"계약고(KRW)":null,"집행비용(KRW)":null,"예산 소진율":"N/A","現 계약고 소진율":"N/A"}],"Trip":[{"Traveler":"석우경 매니저","Purpose":"FAT","Project_Code":"VEQU","Item":"ID FAN","Vendor":"TLT Turbo","Country_Trip":"중국","Start_Date":45662,"End_Date":45668},{"Traveler":"최영준 책임","Purpose":"PIM","Project_Code":"STA4","Item":"Incinerator - Chamber & Stack","Vendor":"Morimatsu","Country_Trip":"중국","Start_Date":45663,"End_Date":45666},{"Traveler":"이해석 책임","Purpose":"FAT","Project_Code":"SHN1","Item":"AC,DC UPS","Vendor":"GUTOR","Country_Trip":"말레이시아","Start_Date":45676,"End_Date":45680},{"Traveler":"강택기 책임","Purpose":"PIM","Project_Code":"STA4","Item":"On-Off Valve Butterfly","Vendor":"IMI","Country_Trip":"사우디","Start_Date":45677,"End_Date":45678},{"Traveler":"최종현 책임","Purpose":"PIM","Project_Code":"SAC2","Item":"Analyzer System","Vendor":"ABB","Country_Trip":"사우디","Start_Date":45677,"End_Date":45681},{"Traveler":"서민 책임","Purpose":"PIM","Project_Code":"STA4","Item":"Chemical Injection PKG","Vendor":"Saudi Wells","Country_Trip":"사우디","Start_Date":45678,"End_Date":45681},{"Traveler":"강택기 책임","Purpose":"PIM","Project_Code":"STA4","Item":"On-Off Valve Gate","Vendor":"L&T Valve","Country_Trip":"사우디","Start_Date":45679,"End_Date":45680},{"Traveler":"정진우 책임","Purpose":"PIM","Project_Code":"STA4","Item":"FLARE PKG - Derrick Sturcture","Vendor":"DSD-FERROMETALCO","Country_Trip":"이집트","Start_Date":45680,"End_Date":45682},{"Traveler":"정진우 책임","Purpose":"PIM","Project_Code":"STA4","Item":"FLARE PKG - MPGF","Vendor":"ZEECO MIDDLE EAST","Country_Trip":"사우디","Start_Date":45691,"End_Date":45695},{"Traveler":"최우석 책임","Purpose":"PIM","Project_Code":"STA4","Item":"FLARE PKG - MPGF","Vendor":"ZEECO MIDDLE EAST","Country_Trip":"사우디","Start_Date":45691,"End_Date":45695},{"Traveler":"정진우 책임","Purpose":"PIM","Project_Code":"STA4","Item":"Incinerator PKG - Burner & Skid","Vendor":"ZEECO MIDDLE EAST","Country_Trip":"사우디","Start_Date":45691,"End_Date":45695},{"Traveler":"최우석 책임","Purpose":"PIM","Project_Code":"STA4","Item":"Incinerator PKG - Burner & Skid","Vendor":"ZEECO MIDDLE EAST","Country_Trip":"사우디","Start_Date":45691,"End_Date":45695},{"Traveler":"나광조 책임","Purpose":"Monitoring","Project_Code":"SHN1","Item":"Damper (Diverter, Guillotine, Louver)","Vendor":"남광엔지니어링","Country_Trip":"대한민국","Start_Date":45694,"End_Date":45694},{"Traveler":"이해석 책임","Purpose":"Monitoring","Project_Code":"SHN1","Item":"PCS","Vendor":"요코가와","Country_Trip":"대한민국","Start_Date":45700,"End_Date":45700},{"Traveler":"윤희수 책임","Purpose":"FAT","Project_Code":"SHN1","Item":"Distribution Transformer","Vendor":"효성중공업","Country_Trip":"대한민국","Start_Date":45705,"End_Date":45707},{"Traveler":"나광조 책임","Purpose":"업체실사","Project_Code":"SHN1","Item":"Diverter Damper","Vendor":"TS 넥스젠","Country_Trip":"대한민국","Start_Date":45705,"End_Date":45705},{"Traveler":"이해석 책임","Purpose":"FAT","Project_Code":"SHN1","Item":"MV Switch Gear","Vendor":"LS ELECTRIC","Country_Trip":"대한민국","Start_Date":45705,"End_Date":45706},{"Traveler":"강태준 책임","Purpose":"PIM","Project_Code":"SHN1","Item":"Regenerative Thermal Oxidizer (RTO) Package","Vendor":"삼경이엔씨","Country_Trip":"대한민국","Start_Date":45707,"End_Date":45708},{"Traveler":"최영준 책임","Purpose":"업체실사","Project_Code":"STA4","Item":"Air Release Valve","Vendor":"Prosave","Country_Trip":"대한민국","Start_Date":45720,"End_Date":45721},{"Traveler":"최우석 책임","Purpose":"업체실사","Project_Code":"STA4","Item":"Air Release Valve","Vendor":"Prosave","Country_Trip":"대한민국","Start_Date":45720,"End_Date":45721},{"Traveler":"최영준 책임","Purpose":"Monitoring","Project_Code":"MIP6","Item":"Electric Heater","Vendor":"Chromalox","Country_Trip":"미국","Start_Date":45725,"End_Date":45732},{"Traveler":"최영준 책임","Purpose":"Monitoring","Project_Code":"SM12","Item":"Electric Heater","Vendor":"Chromalox","Country_Trip":"미국","Start_Date":45725,"End_Date":45732},{"Traveler":"윤희수 책임","Purpose":"FAT","Project_Code":"STA4","Item":"230kV Power Transformer","Vendor":"Hyosung Nantong","Country_Trip":"중국","Start_Date":45733,"End_Date":45736},{"Traveler":"정진우 책임","Purpose":"PIM","Project_Code":"STA4","Item":"Activated Carbon Filter Package","Vendor":"FILTREX SRL","Country_Trip":"이탈리아","Start_Date":45740,"End_Date":45742},{"Traveler":"최우석 책임","Purpose":"PIM","Project_Code":"STA4","Item":"Activated Carbon Filter Package","Vendor":"FILTREX SRL","Country_Trip":"이탈리아","Start_Date":45740,"End_Date":45742},{"Traveler":"정진우 책임","Purpose":"Monitoring","Project_Code":"STA4","Item":"Incinerator PKG - Chamber & Stack","Vendor":"Morimatsu","Country_Trip":"중국","Start_Date":45743,"End_Date":45744},{"Traveler":"최우석 책임","Purpose":"Monitoring","Project_Code":"STA4","Item":"Incinerator PKG - Chamber & Stack","Vendor":"Morimatsu","Country_Trip":"중국","Start_Date":45743,"End_Date":45744},{"Traveler":"이해석 책임","Purpose":"공장검사","Project_Code":"SHN1","Item":"LV SWGR","Vendor":"광명전기","Country_Trip":"대한민국","Start_Date":45750,"End_Date":45751},{"Traveler":"정진우 책임","Purpose":"PIM","Project_Code":"STA4","Item":"Activated Carbon Filter Package","Vendor":"FABTECH International","Country_Trip":"UAE","Start_Date":45754,"End_Date":45757},{"Traveler":"최우석 책임","Purpose":"PIM","Project_Code":"STA4","Item":"Activated Carbon Filter Package","Vendor":"FABTECH International","Country_Trip":"UAE","Start_Date":45754,"End_Date":45757},{"Traveler":"서민 책임","Purpose":"공장검사","Project_Code":"STA4","Item":"Cooling Water Pump","Vendor":"Flowserve","Country_Trip":"이탈리아","Start_Date":45760,"End_Date":45763},{"Traveler":"윤희수 책임","Purpose":"FAT","Project_Code":"SHN1","Item":"33kV GIS","Vendor":"효성중공업","Country_Trip":"대한민국","Start_Date":45760,"End_Date":45765},{"Traveler":"이해석 책임","Purpose":"공장검사","Project_Code":"SHN1","Item":"Cracking Heater Burner","Vendor":"신아플랜트","Country_Trip":"대한민국","Start_Date":45768,"End_Date":45768},{"Traveler":"최우석 책임","Purpose":"업체실사","Project_Code":"STA4","Item":"C/S Seamless Pip","Vendor":"Hongda (흥양 Sub-Vendor)","Country_Trip":"중국","Start_Date":45768,"End_Date":45771},{"Traveler":"장동철 책임","Purpose":"교육","Project_Code":"-","Item":"Valve Academy","Vendor":"PK Valve","Country_Trip":"대한민국","Start_Date":45771,"End_Date":45772},{"Traveler":"이해석 책임","Purpose":"FAT","Project_Code":"SHN1","Item":"LOAD SHEDDING","Vendor":"코리아데이타","Country_Trip":"대한민국","Start_Date":45775,"End_Date":45776},{"Traveler":"나광조 책임","Purpose":"PIM","Project_Code":"SHN1","Item":"Regenerative Thermal Oxidizer (RTO) Package","Vendor":"대상이엔지","Country_Trip":"대한민국","Start_Date":45785,"End_Date":45786},{"Traveler":"나광조 책임","Purpose":"Monitoring","Project_Code":"SHN1","Item":"Steel Structure","Vendor":"KIC","Country_Trip":"대한민국","Start_Date":45806,"End_Date":45806},{"Traveler":"최우석 책임","Purpose":"업체실사","Project_Code":"STA4","Item":"Pressure Vessel of Flare PKG & Incierator ","Vendor":"PERTON (ZEECO Sub-Vendor)","Country_Trip":"사우디","Start_Date":45790,"End_Date":45799},{"Traveler":"정진우 책임","Purpose":"PIM","Project_Code":"STA4","Item":"INCINERATOR PKG - STANDARD FLANGE","Vendor":"WUXI PAIKE (ZEECO Sub-Vendor)","Country_Trip":"중국","Start_Date":45797,"End_Date":45799},{"Traveler":"서민 책임","Purpose":"FAT","Project_Code":"STA4","Item":"Blow Down Pump(MR-006)","Vendor":"DMW(일본)","Country_Trip":"일본","Start_Date":45823,"End_Date":45825},{"Traveler":"이해석 책임","Purpose":"PIM","Project_Code":"SHN1","Item":"CRACKING HEATER BURNER","Vendor":"신아플랜트","Country_Trip":"대한민국","Start_Date":45818,"End_Date":45818},{"Traveler":"서민 책임","Purpose":"공장검사","Project_Code":"STA4","Item":"Air Compressor PKG","Vendor":"현대마린엔진(HHI 터보기계 Sub-Vendor)","Country_Trip":"대한민국","Start_Date":45853,"End_Date":45853},{"Traveler":"서민 책임","Purpose":"현안미팅","Project_Code":"STA4","Item":"Air Compressor PKG","Vendor":"HHI 터보기계","Country_Trip":"대한민국","Start_Date":45867,"End_Date":45867},{"Traveler":"유요석 팀장","Purpose":"업체실사","Project_Code":"STA4","Item":"FBE Coating / Knife gate valve & Strainer","Vendor":"우성플로텍","Country_Trip":"대한민국","Start_Date":45869,"End_Date":45870},{"Traveler":"나광조 책임","Purpose":"FAT","Project_Code":"SHN1","Item":"FAN","Vendor":"서원풍력","Country_Trip":"대한민국","Start_Date":45853,"End_Date":45853},{"Traveler":"나광조 책임","Purpose":"FAT","Project_Code":"SHN1","Item":"Diverter Damper","Vendor":"TS 넥스젠(남광엔지니어링 임대공장)","Country_Trip":"대한민국","Start_Date":45863,"End_Date":45866},{"Traveler":"윤희수 책임","Purpose":"공장검사","Project_Code":"STA4","Item":"MV Cable","Vendor":"Bahra Advanced Cable","Country_Trip":"사우디","Start_Date":45877,"End_Date":45881},{"Traveler":"윤희수 책임","Purpose":"공장검사","Project_Code":"STA4","Item":"CRP Panel","Vendor":"Hitachi Energy","Country_Trip":"사우디","Start_Date":45882,"End_Date":45885},{"Traveler":"서민 책임","Purpose":"업체실사","Project_Code":"STA4","Item":"Side Entry Mixer","Vendor":"하도","Country_Trip":"대한민국","Start_Date":45881,"End_Date":45881},{"Traveler":"서민 책임","Purpose":"공장검사","Project_Code":"STA4","Item":"Air Compressor PKG","Vendor":"HHI 터보기계","Country_Trip":"대한민국","Start_Date":45889,"End_Date":45889},{"Traveler":"서민 책임","Purpose":"FAT","Project_Code":"STA4","Item":"Air Compressor PKG","Vendor":"HHI 터보기계","Country_Trip":"대한민국","Start_Date":45901,"End_Date":45902},{"Traveler":"서민 책임","Purpose":"공장검사","Project_Code":"STA4","Item":"Air Compressor PKG","Vendor":"HHI 터보기계","Country_Trip":"대한민국","Start_Date":45904,"End_Date":45904},{"Traveler":"정진우 책임","Purpose":"공장검사","Project_Code":"STA4","Item":"Filter","Vendor":"Xinxiang Shengda Filtration Technique","Country_Trip":"중국","Start_Date":45902,"End_Date":45904},{"Traveler":"서민 책임","Purpose":"FAT","Project_Code":"STA4","Item":"Air Compressor PKG","Vendor":"HHI 터보기계","Country_Trip":"대한민국","Start_Date":45908,"End_Date":45909},{"Traveler":"윤희수 책임","Purpose":"Monitoring","Project_Code":"SHN1","Item":"Ceramic Insulator","Vendor":"태성쎄라믹","Country_Trip":"대한민국","Start_Date":45924,"End_Date":45924},{"Traveler":"서민 책임","Purpose":"공장검사","Project_Code":"STA4","Item":"Air Compressor PKG","Vendor":"HHI 터보기계","Country_Trip":"대한민국","Start_Date":45926,"End_Date":45926},{"Traveler":"서민 책임","Purpose":"공장검사","Project_Code":"STA4","Item":"Air Compressor PKG","Vendor":"HHI 터보기계","Country_Trip":"대한민국","Start_Date":45930,"End_Date":45930},{"Traveler":"서민 책임","Purpose":"FAT","Project_Code":"STA4","Item":"Air Compressor PKG","Vendor":"HHI 터보기계","Country_Trip":"대한민국","Start_Date":45943,"End_Date":45944},{"Traveler":"장동철 책임","Purpose":"공장검사","Project_Code":"STA4","Item":"Knife Gate Valve","Vendor":"동해밸브","Country_Trip":"대한민국","Start_Date":45952,"End_Date":45952},{"Traveler":"정진우 책임","Purpose":"공장검사","Project_Code":"STA4","Item":"Air Dryer Package","Vendor":"세양기업","Country_Trip":"대한민국","Start_Date":45954,"End_Date":45954},{"Traveler":"서민 책임","Purpose":"공장검사","Project_Code":"STA4","Item":"Air Compressor PKG","Vendor":"HHI 터보기계","Country_Trip":"대한민국","Start_Date":45967,"End_Date":45967},{"Traveler":"강태준 책임","Purpose":"업체감사","Project_Code":"ALOM","Item":"Exhaust Gas Bypass System","Vendor":"티에스넥스젠 인천사업장","Country_Trip":"대한민국","Start_Date":45946,"End_Date":45947},{"Traveler":"강태준 책임","Purpose":"업체감사","Project_Code":"ALOM","Item":"Exhaust Gas Bypass System","Vendor":"티에스넥스젠 인천사업장","Country_Trip":"대한민국","Start_Date":45953,"End_Date":45953},{"Traveler":"나광조 책임","Purpose":"PIM","Project_Code":"ALOM","Item":"Air Cooled Condenser Package","Vendor":"SPG Dry Cooling Belgum","Country_Trip":"중국","Start_Date":45965,"End_Date":45968},{"Traveler":"강태준 책임","Purpose":"공장검사","Project_Code":"STA4","Item":"Wrought Fitting","Vendor":"태광","Country_Trip":"대한민국","Start_Date":45967,"End_Date":45967},{"Traveler":"강태준 책임","Purpose":"공장검사","Project_Code":"STA4","Item":"FBE Coating / Lining","Vendor":"세보테크놀로지","Country_Trip":"대한민국","Start_Date":45978,"End_Date":45978},{"Traveler":"서민 책임","Purpose":"공장검사","Project_Code":"STA4","Item":"Air Compressor PKG","Vendor":"HHI 터보기계","Country_Trip":"대한민국","Start_Date":45979,"End_Date":45980},{"Traveler":"서민 책임","Purpose":"공장검사","Project_Code":"STA4","Item":"Air Compressor PKG","Vendor":"HHI 터보기계","Country_Trip":"대한민국","Start_Date":45982,"End_Date":45982},{"Traveler":"강태준 책임","Purpose":"업체실사","Project_Code":"CSSP","Item":"Valve","Vendor":"DHV VALVE & FOUNDRY","Country_Trip":"중국","Start_Date":45985,"End_Date":45985},{"Traveler":"강태준 책임","Purpose":"업체실사","Project_Code":"CSSP","Item":"Valve","Vendor":"SUFA","Country_Trip":"중국","Start_Date":45986,"End_Date":45986},{"Traveler":"강태준 책임","Purpose":"업체실사","Project_Code":"CSSP","Item":"Valve","Vendor":"NEWAY VALVE","Country_Trip":"중국","Start_Date":45987,"End_Date":45987},{"Traveler":"강태준 책임","Purpose":"업체실사","Project_Code":"CSSP","Item":"FBE Coating / Lining","Vendor":"TYHOO","Country_Trip":"중국","Start_Date":45988,"End_Date":45988},{"Traveler":"강태준 책임","Purpose":"업체실사","Project_Code":"CSSP","Item":"Flange / Fitting","Vendor":"ZHONGNAN HEAVY INDUSTRIES","Country_Trip":"중국","Start_Date":45989,"End_Date":45989},{"Traveler":"서민 책임","Purpose":"공장검사","Project_Code":"STA4","Item":"Air Compressor PKG","Vendor":"HHI 터보기계","Country_Trip":"대한민국","Start_Date":45987,"End_Date":45988},{"Traveler":"강인묵 책임","Purpose":"공장검사","Project_Code":"STA4","Item":"HV SWGR","Vendor":"Al-Fanar","Country_Trip":"사우디","Start_Date":45986,"End_Date":46002},{"Traveler":"강인묵 책임","Purpose":"공장검사","Project_Code":"STA4","Item":"MV CABLE","Vendor":"Habara Cable","Country_Trip":"사우디","Start_Date":45992,"End_Date":45992},{"Traveler":"강인묵 책임","Purpose":"공장검사","Project_Code":"STA4","Item":"ANALYZER","Vendor":"Yogokawa","Country_Trip":"사우디","Start_Date":45994,"End_Date":45994},{"Traveler":"윤희수 책임","Purpose":"공장검사","Project_Code":"STA4","Item":"Ethan Compressor","Vendor":"Hitachi","Country_Trip":"일본","Start_Date":45998,"End_Date":46001},{"Traveler":"강택기 책임","Purpose":"Monitoring","Project_Code":"STA4","Item":"Knife Gate Valve","Vendor":"동해밸브","Country_Trip":"대한민국","Start_Date":46014,"End_Date":46014},{"Traveler":"나광조 책임","Purpose":"Monitoring","Project_Code":"MIP6","Item":"Electric Heater","Vendor":"Chromalox Inc.","Country_Trip":"미국","Start_Date":46042,"End_Date":46059},{"Traveler":"강택기 책임","Purpose":"공장검사","Project_Code":"STA4","Item":"Knife Gate Valve","Vendor":"동해밸브","Country_Trip":"대한민국","Start_Date":46063,"End_Date":46063},{"Traveler":"강인묵 책임","Purpose":"FAT","Project_Code":"STA4","Item":"ECS Panel ","Vendor":"Al-Fanar","Country_Trip":"사우디","Start_Date":46076,"End_Date":46090},{"Traveler":"유요석 팀장","Purpose":"업체실사","Project_Code":"STA4","Item":"Oil Skimmer for Storage Tank","Vendor":"TTS","Country_Trip":"대한민국","Start_Date":46079,"End_Date":46079},{"Traveler":"강태준 책임","Purpose":"업체실사","Project_Code":"STA4","Item":"Oil Skimmer for Storage Tank","Vendor":"TTS","Country_Trip":"대한민국","Start_Date":46079,"End_Date":46079},{"Traveler":"강태준 책임","Purpose":"업체실사","Project_Code":"CSSP","Item":"Spool Fabrication & External/Internal Coating","Vendor":"웰텍","Country_Trip":"대한민국","Start_Date":46085,"End_Date":46085},{"Traveler":"유요석 팀장","Purpose":"업체실사","Project_Code":"CSSP","Item":"Spool Fabrication & External/Internal Coating","Vendor":"주성이엔지","Country_Trip":"대한민국","Start_Date":46086,"End_Date":46086},{"Traveler":"강태준 책임","Purpose":"업체실사","Project_Code":"CSSP","Item":"Spool Fabrication & External/Internal Coating","Vendor":"주성이엔지","Country_Trip":"대한민국","Start_Date":46086,"End_Date":46086}],"Issue":[{"Title":"Knife Gate Valve 표면 처리불량","Owner":"임효원 책임","Project_Code":"STA4","Action_Required":"FBE 작업 진행 중"},{"Title":"N2 Receiver 폭발 사고 관련 추가 제작 Item 검사 절차 협의","Owner":"장동철 책임","Project_Code":"SM12","Action_Required":"SVL & Inspection Level 협의 중 (SAIR)"},{"Title":"Produced Water Booster Pump 관련 Casing 파손","Owner":"서민 책임","Project_Code":"MIP6","Action_Required":"결함 판독을 위해 현장에서 RT 수행 예정"},{"Title":"N2 Generation Package 성능 미달","Owner":"장동철 책임","Project_Code":"IBRU","Action_Required":"제작 및 검사 진행 중"},{"Title":"Bypass Valve 현장시험 불합격","Owner":"석우경 매니저","Project_Code":"VEQU","Action_Required":null},{"Title":"LV Switchgear 내부 부식 발생","Owner":"윤희수 책임","Project_Code":"ALOM","Action_Required":"재제작 진행 중 (5월말 FAT 예상)"},{"Title":"원소재 성적서 검토 시스템","Owner":"장동철 책임","Project_Code":"플랜트구매품질팀","Action_Required":"경영분석팀 & IT지원팀 협의 중"},{"Title":"Punch 관리방법 개선","Owner":"이해석 책임","Project_Code":"플랜트구매품질팀","Action_Required":"추진안 준비 중"},{"Title":"TPA Workshop","Owner":"장동철 책임","Project_Code":"플랜트구매품질팀","Action_Required":"금주 중 참석자 확정 및 사전 설문 완료 예정"},{"Title":"TPA 실행 비용 분석 및 입찰 예산 적정성 검증","Owner":"강태준 책임","Project_Code":"플랜트구매품질팀","Action_Required":"프로젝트별 TPA 청산자료 1차 가공 완료"}]};
+const DEFAULT_RAW = {"Project":[{"Project_Code":"MIP6","Contract_Price_HDEC_Mil_USD":"1484","Contract_Price_Total_Mil_USD":"1484","Contract_Price_HDEC_Mil_KRW":"","Contract_Price_Total_Mil_KRW":"","Client":"Aramco","Country":"Saudi Arabia","PM":"-","PQCM":"-","Status":"Mechanical Completion","Progress":"1","Remarks":""},{"Project_Code":"SM12","Contract_Price_HDEC_Mil_USD":"1318","Contract_Price_Total_Mil_USD":"1354","Contract_Price_HDEC_Mil_KRW":"","Contract_Price_Total_Mil_KRW":"","Client":"Aramco","Country":"Saudi Arabia","PM":"정준택 상무","PQCM":"장동철 책임","Status":"Active","Progress":"0.99960000000000004","Remarks":""},{"Project_Code":"IBRU","Contract_Price_HDEC_Mil_USD":"1814","Contract_Price_Total_Mil_USD":"3778","Contract_Price_HDEC_Mil_KRW":"","Contract_Price_Total_Mil_KRW":"","Client":"BOC","Country":"Iraq","PM":"정태수 소장","PQCM":"-","Status":"Mechanical Completion","Progress":"1","Remarks":""},{"Project_Code":"SHN1","Contract_Price_HDEC_Mil_USD":"","Contract_Price_Total_Mil_USD":"","Contract_Price_HDEC_Mil_KRW":"2389100","Contract_Price_Total_Mil_KRW":"5436800","Client":"S-Oil","Country":"Korea","PM":"이현영 실장","PQCM":"이해석 책임","Status":"Active","Progress":"0.95689999999999997","Remarks":""},{"Project_Code":"ALOM","Contract_Price_HDEC_Mil_USD":"584","Contract_Price_Total_Mil_USD":"730","Contract_Price_HDEC_Mil_KRW":"","Contract_Price_Total_Mil_KRW":"","Client":"Hyenco","Country":"Algeria","PM":"정민권 소장","PQCM":"윤희수 책임","Status":"Active","Progress":"0.58960000000000001","Remarks":""},{"Project_Code":"VEQU","Contract_Price_HDEC_Mil_USD":"952","Contract_Price_Total_Mil_USD":"1178","Contract_Price_HDEC_Mil_KRW":"","Contract_Price_Total_Mil_KRW":"","Client":"EVN","Country":"Vietnam","PM":"이윤석 소장","PQCM":"윤희수 책임","Status":"Active","Progress":"0.98950000000000005","Remarks":""},{"Project_Code":"STA4","Contract_Price_HDEC_Mil_USD":"2136","Contract_Price_Total_Mil_USD":"2136","Contract_Price_HDEC_Mil_KRW":"","Contract_Price_Total_Mil_KRW":"","Client":"satorp","Country":"Saudi Arabia","PM":"임영빈 상무","PQCM":"최우석 책임","Status":"Active","Progress":"0.87280000000000002","Remarks":""},{"Project_Code":"SAC2","Contract_Price_HDEC_Mil_USD":"1184","Contract_Price_Total_Mil_USD":"2369","Contract_Price_HDEC_Mil_KRW":"","Contract_Price_Total_Mil_KRW":"","Client":"Aramco","Country":"Saudi Arabia","PM":"김형철 실장","PQCM":"최종현 책임","Status":"Active","Progress":"0.70489999999999997","Remarks":""},{"Project_Code":"CSSP","Contract_Price_HDEC_Mil_USD":"3160","Contract_Price_Total_Mil_USD":"3160","Contract_Price_HDEC_Mil_KRW":"","Contract_Price_Total_Mil_KRW":"","Client":"TotalEnergies","Country":"Iraq","PM":"박수철 상무","PQCM":"정진우 책임","Status":"Active","Progress":"6.3E-2","Remarks":""},{"Project_Code":"PNG1","Contract_Price_HDEC_Mil_USD":"1600","Contract_Price_Total_Mil_USD":"4000","Contract_Price_HDEC_Mil_KRW":"","Contract_Price_Total_Mil_KRW":"","Client":"ExxonMobil","Country":"Papua New Genea","PM":"최성식 팀장","PQCM":"강태준 책임","Status":"Active","Progress":"0","Remarks":""},{"Project_Code":"ALSM","Contract_Price_HDEC_Mil_USD":"5800","Contract_Price_Total_Mil_USD":"5800","Contract_Price_HDEC_Mil_KRW":"","Contract_Price_Total_Mil_KRW":"","Client":"HPLS","Country":"USA","PM":"백철욱 상무","PQCM":"강태준 책임","Status":"Bid","Progress":"0","Remarks":""}],"Manpower":[{"Name":"유요석 팀장","Department":"본사","Main_Role_Responsibility":"Team Leader","PQCM":"","PQC_Engineer":"","Number_of_PO":""},{"Name":"강택기 책임","Department":"본사","Main_Role_Responsibility":"Piping","PQCM":"","PQC_Engineer":"SAC2 / VEQU","Number_of_PO":"9"},{"Name":"윤희수 책임","Department":"본사","Main_Role_Responsibility":"Electrical & Instrument","PQCM":"ALOM / VEQU","PQC_Engineer":"STA4 / ALOM / CSSP","Number_of_PO":"38"},{"Name":"서민 책임","Department":"본사","Main_Role_Responsibility":"Rotating","PQCM":"","PQC_Engineer":"STA4 / CSSP / PNG1","Number_of_PO":"46"},{"Name":"장동철 책임","Department":"본사","Main_Role_Responsibility":"Piping","PQCM":"SM12","PQC_Engineer":"SM12 / IBRU / CSSP / PNG1","Number_of_PO":"25"},{"Name":"정진우 책임","Department":"본사","Main_Role_Responsibility":"Static","PQCM":"CSSP","PQC_Engineer":"SM12 / ALOM / CSSP","Number_of_PO":"9"},{"Name":"나광조 책임","Department":"본사","Main_Role_Responsibility":"Static","PQCM":"","PQC_Engineer":"SHN1 / ALOM / CSSP / PNG1","Number_of_PO":"16"},{"Name":"강인묵 책임","Department":"본사 (STA4)","Main_Role_Responsibility":"Electrical & Instrument","PQCM":"","PQC_Engineer":"STA4 / CSSP","Number_of_PO":"28"},{"Name":"강태준 책임","Department":"본사","Main_Role_Responsibility":"Strategic Planning","PQCM":"PNG1 / ALSM","PQC_Engineer":"VEQU / CSSP / PNG1","Number_of_PO":"39"},{"Name":"이해석 책임","Department":"본사","Main_Role_Responsibility":"Electrical & Instrument","PQCM":"SHN1","PQC_Engineer":"STA4 / SHN1","Number_of_PO":"21"},{"Name":"최종현 책임","Department":"본사","Main_Role_Responsibility":"Electrical & Instrument","PQCM":"SAC2","PQC_Engineer":"SAC2","Number_of_PO":"17"},{"Name":"석우경 매니저","Department":"본사","Main_Role_Responsibility":"Piping","PQCM":"","PQC_Engineer":"ALOM / CSSP / PNG1","Number_of_PO":"53"},{"Name":"고팔라크리스낸 매니저","Department":"본사","Main_Role_Responsibility":"Structural Steel","PQCM":"","PQC_Engineer":"STA4 / VEQU / CSSP / PNG1","Number_of_PO":"19"},{"Name":"술탄 매니저","Department":"본사","Main_Role_Responsibility":"Electrical & Instrument","PQCM":"","PQC_Engineer":"VEQU / CSSP","Number_of_PO":"24"},{"Name":"엥흐철멍 매니저","Department":"본사","Main_Role_Responsibility":"Piping","PQCM":"","PQC_Engineer":"PNG1","Number_of_PO":"1"},{"Name":"최우석 책임","Department":"STA4","Main_Role_Responsibility":"Static","PQCM":"STA4","PQC_Engineer":"","Number_of_PO":"0"},{"Name":"최영준 책임","Department":"STA4","Main_Role_Responsibility":"Static","PQCM":"","PQC_Engineer":"STA4","Number_of_PO":"8"},{"Name":"임효원 책임","Department":"STA4","Main_Role_Responsibility":"Piping","PQCM":"","PQC_Engineer":"STA4","Number_of_PO":"37"},{"Name":"황윤섭 책임","Department":"SAC2","Main_Role_Responsibility":"Piping","PQCM":"","PQC_Engineer":"SAC2","Number_of_PO":"13"},{"Name":"박지애 매니저","Department":"본사 (SAC2)","Main_Role_Responsibility":"Piping","PQCM":"","PQC_Engineer":"SAC2","Number_of_PO":"12"}],"Stage_Status":[{"Project_Code":"MIP6","MR_Total":"완료","MR_Done":"완료","TBE_Total":"완료","TBE_Done":"완료","PO_Total":"200","PO_Done":"200","PIM_Total":"197","PIM_Done":"197","IRC_100%_Total":"397","IRC_100%_Done":"397","NCR_Total":"55","NCR_Done":"55"},{"Project_Code":"SM12","MR_Total":"완료","MR_Done":"완료","TBE_Total":"완료","TBE_Done":"완료","PO_Total":"150","PO_Done":"150","PIM_Total":"167","PIM_Done":"167","IRC_100%_Total":"351","IRC_100%_Done":"346","NCR_Total":"74","NCR_Done":"74"},{"Project_Code":"IBRU","MR_Total":"완료","MR_Done":"완료","TBE_Total":"완료","TBE_Done":"완료","PO_Total":"124","PO_Done":"124","PIM_Total":"45","PIM_Done":"45","IRC_100%_Total":"124","IRC_100%_Done":"124","NCR_Total":"7","NCR_Done":"7"},{"Project_Code":"SHN1","MR_Total":"완료","MR_Done":"완료","TBE_Total":"완료","TBE_Done":"완료","PO_Total":"24","PO_Done":"24","PIM_Total":"17","PIM_Done":"17","IRC_100%_Total":"40","IRC_100%_Done":"29","NCR_Total":"15","NCR_Done":"15"},{"Project_Code":"ALOM","MR_Total":"완료","MR_Done":"완료","TBE_Total":"완료","TBE_Done":"완료","PO_Total":"74","PO_Done":"74","PIM_Total":"28","PIM_Done":"28","IRC_100%_Total":"74","IRC_100%_Done":"52","NCR_Total":"16","NCR_Done":"16"},{"Project_Code":"VEQU","MR_Total":"완료","MR_Done":"완료","TBE_Total":"완료","TBE_Done":"완료","PO_Total":"96","PO_Done":"96","PIM_Total":"37","PIM_Done":"37","IRC_100%_Total":"96","IRC_100%_Done":"95","NCR_Total":"9","NCR_Done":"9"},{"Project_Code":"STA4","MR_Total":"완료","MR_Done":"완료","TBE_Total":"완료","TBE_Done":"완료","PO_Total":"159","PO_Done":"159","PIM_Total":"99","PIM_Done":"97","IRC_100%_Total":"122","IRC_100%_Done":"54","NCR_Total":"51","NCR_Done":"42"},{"Project_Code":"SAC2","MR_Total":"완료","MR_Done":"완료","TBE_Total":"완료","TBE_Done":"완료","PO_Total":"93","PO_Done":"93","PIM_Total":"62","PIM_Done":"59","IRC_100%_Total":"89","IRC_100%_Done":"21","NCR_Total":"7","NCR_Done":"7"},{"Project_Code":"CSSP","MR_Total":"148","MR_Done":"68","TBE_Total":"148","TBE_Done":"2","PO_Total":"148","PO_Done":"1","PIM_Total":"57","PIM_Done":"0","IRC_100%_Total":"148","IRC_100%_Done":"0","NCR_Total":"0","NCR_Done":"0"},{"Project_Code":"PNG1","MR_Total":"30","MR_Done":"10","TBE_Total":"30","TBE_Done":"5","PO_Total":"30","PO_Done":"2","PIM_Total":"17","PIM_Done":"0","IRC_100%_Total":"30","IRC_100%_Done":"0","NCR_Total":"0","NCR_Done":"0"},{"Project_Code":"ALSM","MR_Total":"미정","MR_Done":"미정","TBE_Total":"미정","TBE_Done":"미정","PO_Total":"미정","PO_Done":"미정","PIM_Total":"미정","PIM_Done":"미정","IRC_100%_Total":"미정","IRC_100%_Done":"미정","NCR_Total":"미정","NCR_Done":"미정"}],"Open_NCR":[{"Serial_Number":"1","Project_Code":"STA4","NCR_Number":"STA4-MR010-OPT-NCR-001","Item":"Sealless Pump (API 685)","Vendor":"Optimex","NCR_Title":"High Power Consumption","Issue_Date":"45898","Days_to_Date":"244","Remarks":""},{"Serial_Number":"2","Project_Code":"STA4","NCR_Number":"STA4-EL009-AFN-NCR-001","Item":"LV Controlgear ","Vendor":"Al-Fanar","NCR_Title":"Factory Acceptance Test and Punch Closing Verification ","Issue_Date":"45963","Days_to_Date":"179","Remarks":""},{"Serial_Number":"3","Project_Code":"STA4","NCR_Number":"STA4-MS017-SYC-NCR-001","Item":"Air Dryer Package ","Vendor":"Seyang Corporation","NCR_Title":"Factory Acceptance Test and Punch Closing Verification ","Issue_Date":"45968","Days_to_Date":"174","Remarks":""},{"Serial_Number":"4","Project_Code":"STA4","NCR_Number":"STA4-EL007-AFN-NCR-001","Item":"HV Switchgear","Vendor":"Al-Fanar","NCR_Title":"Factory Acceptance Test and Punch Closing Verification ","Issue_Date":"46010","Days_to_Date":"132","Remarks":""},{"Serial_Number":"5","Project_Code":"STA4","NCR_Number":"STA4-MR010-OPT-NCR-002","Item":"Sealless Pump (API 685)","Vendor":"Optimex","NCR_Title":"IRC Issuance with Punch List","Issue_Date":"45995","Days_to_Date":"147","Remarks":""},{"Serial_Number":"6","Project_Code":"STA4","NCR_Number":"STA4-CI001-EME-NCR-001","Item":"PCS","Vendor":"Emerson","NCR_Title":"IRC Issuance with Punch List","Issue_Date":"46042","Days_to_Date":"100","Remarks":""},{"Serial_Number":"7","Project_Code":"STA4","NCR_Number":"STA4-EL012-SEL1-NCR-002","Item":"ECS","Vendor":"SEL","NCR_Title":"IRC Issuance with Punch List","Issue_Date":"46107","Days_to_Date":"35","Remarks":""},{"Serial_Number":"8","Project_Code":"STA4","NCR_Number":"STA4-CI001-EME-NCR-002","Item":"PCS","Vendor":"Emerson","NCR_Title":"IRC Issuance with Punch List","Issue_Date":"46087","Days_to_Date":"55","Remarks":""},{"Serial_Number":"9","Project_Code":"STA4","NCR_Number":"STA4-CI005-VAL-NCR-002","Item":"On-Off Valve (Ball)","Vendor":"Valmet","NCR_Title":"High-Pressure Seat Test / DBB Test was omitted for Trunnion Type Ball Valve","Issue_Date":"46120","Days_to_Date":"22","Remarks":""}],"TPA":[{"Project_Code":"MIP6","Status":"Mechanical Completion","예산(USD)":"12511157","계약고(USD)":"12511157","집행비용(USD)":"12499872","예산(KRW)":"","계약고(KRW)":"","집행비용(KRW)":"","예산 소진율":"0.99909800508458169","現 계약고 소진율":"0.99909800508458169"},{"Project_Code":"SM12","Status":"Active","예산(USD)":"9017286","계약고(USD)":"9017286","집행비용(USD)":"8964816","예산(KRW)":"","계약고(KRW)":"","집행비용(KRW)":"","예산 소진율":"0.99418117602125522","現 계약고 소진율":"0.99418117602125522"},{"Project_Code":"IBRU","Status":"Mechanical Completion","예산(USD)":"4024396","계약고(USD)":"2886653.24","집행비용(USD)":"2588280","예산(KRW)":"","계약고(KRW)":"","집행비용(KRW)":"","예산 소진율":"0.64314744374062593","現 계약고 소진율":"0.8966369649580771"},{"Project_Code":"SHN1","Status":"Active","예산(USD)":"","계약고(USD)":"","집행비용(USD)":"","예산(KRW)":"3442862995","계약고(KRW)":"3384427737","집행비용(KRW)":"2623837243","예산 소진율":"","現 계약고 소진율":"0.77526762185379172"},{"Project_Code":"ALOM","Status":"Active","예산(USD)":"766265","계약고(USD)":"766265","집행비용(USD)":"373850","예산(KRW)":"","계약고(KRW)":"","집행비용(KRW)":"","예산 소진율":"0.4878860446451293","現 계약고 소진율":"0.4878860446451293"},{"Project_Code":"VEQU","Status":"Active","예산(USD)":"375828","계약고(USD)":"228937","집행비용(USD)":"203424","예산(KRW)":"","계약고(KRW)":"","집행비용(KRW)":"","예산 소진율":"0.5412688783166768","現 계약고 소진율":"0.88855886117141392"},{"Project_Code":"STA4","Status":"Active","예산(USD)":"8945512","계약고(USD)":"7462653","집행비용(USD)":"6311810","예산(KRW)":"","계약고(KRW)":"","집행비용(KRW)":"","예산 소진율":"0.70558398446058757","現 계약고 소진율":"0.84578634434697686"},{"Project_Code":"SAC2","Status":"Active","예산(USD)":"4791851","계약고(USD)":"3650000","집행비용(USD)":"2276543","예산(KRW)":"","계약고(KRW)":"","집행비용(KRW)":"","예산 소진율":"0.47508634972164199","現 계약고 소진율":"0.62371041095890412"},{"Project_Code":"CSSP","Status":"Active","예산(USD)":"5960701","계약고(USD)":"미정","집행비용(USD)":"0","예산(KRW)":"","계약고(KRW)":"","집행비용(KRW)":"","예산 소진율":"0","現 계약고 소진율":"N/A"},{"Project_Code":"PNG1","Status":"Active","예산(USD)":"1875089","계약고(USD)":"미정","집행비용(USD)":"0","예산(KRW)":"","계약고(KRW)":"","집행비용(KRW)":"","예산 소진율":"0","現 계약고 소진율":"N/A"},{"Project_Code":"ALSM","Status":"Bid","예산(USD)":"미정","계약고(USD)":"미정","집행비용(USD)":"0","예산(KRW)":"","계약고(KRW)":"","집행비용(KRW)":"","예산 소진율":"N/A","現 계약고 소진율":"N/A"}],"Trip":[{"Traveler":"석우경 매니저","Purpose":"FAT","Project_Code":"VEQU","Item":"ID FAN","Vendor":"TLT Turbo","Country_Trip":"중국","Start_Date":"45662","End_Date":"45668"},{"Traveler":"최영준 책임","Purpose":"PIM","Project_Code":"STA4","Item":"Incinerator - Chamber & Stack","Vendor":"Morimatsu","Country_Trip":"중국","Start_Date":"45663","End_Date":"45666"},{"Traveler":"이해석 책임","Purpose":"FAT","Project_Code":"SHN1","Item":"AC,DC UPS","Vendor":"GUTOR","Country_Trip":"말레이시아","Start_Date":"45676","End_Date":"45680"},{"Traveler":"강택기 책임","Purpose":"PIM","Project_Code":"STA4","Item":"On-Off Valve Butterfly","Vendor":"IMI","Country_Trip":"사우디","Start_Date":"45677","End_Date":"45678"},{"Traveler":"최종현 책임","Purpose":"PIM","Project_Code":"SAC2","Item":"Analyzer System","Vendor":"ABB","Country_Trip":"사우디","Start_Date":"45677","End_Date":"45681"},{"Traveler":"서민 책임","Purpose":"PIM","Project_Code":"STA4","Item":"Chemical Injection PKG","Vendor":"Saudi Wells","Country_Trip":"사우디","Start_Date":"45678","End_Date":"45681"},{"Traveler":"강택기 책임","Purpose":"PIM","Project_Code":"STA4","Item":"On-Off Valve Gate","Vendor":"L&T Valve","Country_Trip":"사우디","Start_Date":"45679","End_Date":"45680"},{"Traveler":"정진우 책임","Purpose":"PIM","Project_Code":"STA4","Item":"FLARE PKG - Derrick Sturcture","Vendor":"DSD-FERROMETALCO","Country_Trip":"이집트","Start_Date":"45680","End_Date":"45682"},{"Traveler":"정진우 책임","Purpose":"PIM","Project_Code":"STA4","Item":"FLARE PKG - MPGF","Vendor":"ZEECO MIDDLE EAST","Country_Trip":"사우디","Start_Date":"45691","End_Date":"45695"},{"Traveler":"최우석 책임","Purpose":"PIM","Project_Code":"STA4","Item":"FLARE PKG - MPGF","Vendor":"ZEECO MIDDLE EAST","Country_Trip":"사우디","Start_Date":"45691","End_Date":"45695"},{"Traveler":"정진우 책임","Purpose":"PIM","Project_Code":"STA4","Item":"Incinerator PKG - Burner & Skid","Vendor":"ZEECO MIDDLE EAST","Country_Trip":"사우디","Start_Date":"45691","End_Date":"45695"},{"Traveler":"최우석 책임","Purpose":"PIM","Project_Code":"STA4","Item":"Incinerator PKG - Burner & Skid","Vendor":"ZEECO MIDDLE EAST","Country_Trip":"사우디","Start_Date":"45691","End_Date":"45695"},{"Traveler":"나광조 책임","Purpose":"Monitoring","Project_Code":"SHN1","Item":"Damper (Diverter, Guillotine, Louver)","Vendor":"남광엔지니어링","Country_Trip":"대한민국","Start_Date":"45694","End_Date":"45694"},{"Traveler":"이해석 책임","Purpose":"Monitoring","Project_Code":"SHN1","Item":"PCS","Vendor":"요코가와","Country_Trip":"대한민국","Start_Date":"45700","End_Date":"45700"},{"Traveler":"윤희수 책임","Purpose":"FAT","Project_Code":"SHN1","Item":"Distribution Transformer","Vendor":"효성중공업","Country_Trip":"대한민국","Start_Date":"45705","End_Date":"45707"},{"Traveler":"나광조 책임","Purpose":"업체실사","Project_Code":"SHN1","Item":"Diverter Damper","Vendor":"TS 넥스젠","Country_Trip":"대한민국","Start_Date":"45705","End_Date":"45705"},{"Traveler":"이해석 책임","Purpose":"FAT","Project_Code":"SHN1","Item":"MV Switch Gear","Vendor":"LS ELECTRIC","Country_Trip":"대한민국","Start_Date":"45705","End_Date":"45706"},{"Traveler":"강태준 책임","Purpose":"PIM","Project_Code":"SHN1","Item":"Regenerative Thermal Oxidizer (RTO) Package","Vendor":"삼경이엔씨","Country_Trip":"대한민국","Start_Date":"45707","End_Date":"45708"},{"Traveler":"최영준 책임","Purpose":"업체실사","Project_Code":"STA4","Item":"Air Release Valve","Vendor":"Prosave","Country_Trip":"대한민국","Start_Date":"45720","End_Date":"45721"},{"Traveler":"최우석 책임","Purpose":"업체실사","Project_Code":"STA4","Item":"Air Release Valve","Vendor":"Prosave","Country_Trip":"대한민국","Start_Date":"45720","End_Date":"45721"},{"Traveler":"최영준 책임","Purpose":"Monitoring","Project_Code":"MIP6","Item":"Electric Heater","Vendor":"Chromalox","Country_Trip":"미국","Start_Date":"45725","End_Date":"45732"},{"Traveler":"최영준 책임","Purpose":"Monitoring","Project_Code":"SM12","Item":"Electric Heater","Vendor":"Chromalox","Country_Trip":"미국","Start_Date":"45725","End_Date":"45732"},{"Traveler":"윤희수 책임","Purpose":"FAT","Project_Code":"STA4","Item":"230kV Power Transformer","Vendor":"Hyosung Nantong","Country_Trip":"중국","Start_Date":"45733","End_Date":"45736"},{"Traveler":"정진우 책임","Purpose":"PIM","Project_Code":"STA4","Item":"Activated Carbon Filter Package","Vendor":"FILTREX SRL","Country_Trip":"이탈리아","Start_Date":"45740","End_Date":"45742"},{"Traveler":"최우석 책임","Purpose":"PIM","Project_Code":"STA4","Item":"Activated Carbon Filter Package","Vendor":"FILTREX SRL","Country_Trip":"이탈리아","Start_Date":"45740","End_Date":"45742"},{"Traveler":"정진우 책임","Purpose":"Monitoring","Project_Code":"STA4","Item":"Incinerator PKG - Chamber & Stack","Vendor":"Morimatsu","Country_Trip":"중국","Start_Date":"45743","End_Date":"45744"},{"Traveler":"최우석 책임","Purpose":"Monitoring","Project_Code":"STA4","Item":"Incinerator PKG - Chamber & Stack","Vendor":"Morimatsu","Country_Trip":"중국","Start_Date":"45743","End_Date":"45744"},{"Traveler":"이해석 책임","Purpose":"공장검사","Project_Code":"SHN1","Item":"LV SWGR","Vendor":"광명전기","Country_Trip":"대한민국","Start_Date":"45750","End_Date":"45751"},{"Traveler":"정진우 책임","Purpose":"PIM","Project_Code":"STA4","Item":"Activated Carbon Filter Package","Vendor":"FABTECH International","Country_Trip":"UAE","Start_Date":"45754","End_Date":"45757"},{"Traveler":"최우석 책임","Purpose":"PIM","Project_Code":"STA4","Item":"Activated Carbon Filter Package","Vendor":"FABTECH International","Country_Trip":"UAE","Start_Date":"45754","End_Date":"45757"},{"Traveler":"서민 책임","Purpose":"공장검사","Project_Code":"STA4","Item":"Cooling Water Pump","Vendor":"Flowserve","Country_Trip":"이탈리아","Start_Date":"45760","End_Date":"45763"},{"Traveler":"윤희수 책임","Purpose":"FAT","Project_Code":"SHN1","Item":"33kV GIS","Vendor":"효성중공업","Country_Trip":"대한민국","Start_Date":"45760","End_Date":"45765"},{"Traveler":"이해석 책임","Purpose":"공장검사","Project_Code":"SHN1","Item":"Cracking Heater Burner","Vendor":"신아플랜트","Country_Trip":"대한민국","Start_Date":"45768","End_Date":"45768"},{"Traveler":"최우석 책임","Purpose":"업체실사","Project_Code":"STA4","Item":"C/S Seamless Pip","Vendor":"Hongda (흥양 Sub-Vendor)","Country_Trip":"중국","Start_Date":"45768","End_Date":"45771"},{"Traveler":"장동철 책임","Purpose":"교육","Project_Code":"-","Item":"Valve Academy","Vendor":"PK Valve","Country_Trip":"대한민국","Start_Date":"45771","End_Date":"45772"},{"Traveler":"이해석 책임","Purpose":"FAT","Project_Code":"SHN1","Item":"LOAD SHEDDING","Vendor":"코리아데이타","Country_Trip":"대한민국","Start_Date":"45775","End_Date":"45776"},{"Traveler":"나광조 책임","Purpose":"PIM","Project_Code":"SHN1","Item":"Regenerative Thermal Oxidizer (RTO) Package","Vendor":"대상이엔지","Country_Trip":"대한민국","Start_Date":"45785","End_Date":"45786"},{"Traveler":"나광조 책임","Purpose":"Monitoring","Project_Code":"SHN1","Item":"Steel Structure","Vendor":"KIC","Country_Trip":"대한민국","Start_Date":"45806","End_Date":"45806"},{"Traveler":"최우석 책임","Purpose":"업체실사","Project_Code":"STA4","Item":"Pressure Vessel of Flare PKG & Incierator ","Vendor":"PERTON (ZEECO Sub-Vendor)","Country_Trip":"사우디","Start_Date":"45790","End_Date":"45799"},{"Traveler":"정진우 책임","Purpose":"PIM","Project_Code":"STA4","Item":"INCINERATOR PKG - STANDARD FLANGE","Vendor":"WUXI PAIKE (ZEECO Sub-Vendor)","Country_Trip":"중국","Start_Date":"45797","End_Date":"45799"},{"Traveler":"서민 책임","Purpose":"FAT","Project_Code":"STA4","Item":"Blow Down Pump(MR-006)","Vendor":"DMW(일본)","Country_Trip":"일본","Start_Date":"45823","End_Date":"45825"},{"Traveler":"이해석 책임","Purpose":"PIM","Project_Code":"SHN1","Item":"CRACKING HEATER BURNER","Vendor":"신아플랜트","Country_Trip":"대한민국","Start_Date":"45818","End_Date":"45818"},{"Traveler":"서민 책임","Purpose":"공장검사","Project_Code":"STA4","Item":"Air Compressor PKG","Vendor":"현대마린엔진(HHI 터보기계 Sub-Vendor)","Country_Trip":"대한민국","Start_Date":"45853","End_Date":"45853"},{"Traveler":"서민 책임","Purpose":"현안미팅","Project_Code":"STA4","Item":"Air Compressor PKG","Vendor":"HHI 터보기계","Country_Trip":"대한민국","Start_Date":"45867","End_Date":"45867"},{"Traveler":"유요석 팀장","Purpose":"업체실사","Project_Code":"STA4","Item":"FBE Coating / Knife gate valve & Strainer","Vendor":"우성플로텍","Country_Trip":"대한민국","Start_Date":"45869","End_Date":"45870"},{"Traveler":"나광조 책임","Purpose":"FAT","Project_Code":"SHN1","Item":"FAN","Vendor":"서원풍력","Country_Trip":"대한민국","Start_Date":"45853","End_Date":"45853"},{"Traveler":"나광조 책임","Purpose":"FAT","Project_Code":"SHN1","Item":"Diverter Damper","Vendor":"TS 넥스젠(남광엔지니어링 임대공장)","Country_Trip":"대한민국","Start_Date":"45863","End_Date":"45866"},{"Traveler":"윤희수 책임","Purpose":"공장검사","Project_Code":"STA4","Item":"MV Cable","Vendor":"Bahra Advanced Cable","Country_Trip":"사우디","Start_Date":"45877","End_Date":"45881"},{"Traveler":"윤희수 책임","Purpose":"공장검사","Project_Code":"STA4","Item":"CRP Panel","Vendor":"Hitachi Energy","Country_Trip":"사우디","Start_Date":"45882","End_Date":"45885"},{"Traveler":"서민 책임","Purpose":"업체실사","Project_Code":"STA4","Item":"Side Entry Mixer","Vendor":"하도","Country_Trip":"대한민국","Start_Date":"45881","End_Date":"45881"},{"Traveler":"서민 책임","Purpose":"공장검사","Project_Code":"STA4","Item":"Air Compressor PKG","Vendor":"HHI 터보기계","Country_Trip":"대한민국","Start_Date":"45889","End_Date":"45889"},{"Traveler":"서민 책임","Purpose":"FAT","Project_Code":"STA4","Item":"Air Compressor PKG","Vendor":"HHI 터보기계","Country_Trip":"대한민국","Start_Date":"45901","End_Date":"45902"},{"Traveler":"서민 책임","Purpose":"공장검사","Project_Code":"STA4","Item":"Air Compressor PKG","Vendor":"HHI 터보기계","Country_Trip":"대한민국","Start_Date":"45904","End_Date":"45904"},{"Traveler":"정진우 책임","Purpose":"공장검사","Project_Code":"STA4","Item":"Filter","Vendor":"Xinxiang Shengda Filtration Technique","Country_Trip":"중국","Start_Date":"45902","End_Date":"45904"},{"Traveler":"서민 책임","Purpose":"FAT","Project_Code":"STA4","Item":"Air Compressor PKG","Vendor":"HHI 터보기계","Country_Trip":"대한민국","Start_Date":"45908","End_Date":"45909"},{"Traveler":"윤희수 책임","Purpose":"Monitoring","Project_Code":"SHN1","Item":"Ceramic Insulator","Vendor":"태성쎄라믹","Country_Trip":"대한민국","Start_Date":"45924","End_Date":"45924"},{"Traveler":"서민 책임","Purpose":"공장검사","Project_Code":"STA4","Item":"Air Compressor PKG","Vendor":"HHI 터보기계","Country_Trip":"대한민국","Start_Date":"45926","End_Date":"45926"},{"Traveler":"서민 책임","Purpose":"공장검사","Project_Code":"STA4","Item":"Air Compressor PKG","Vendor":"HHI 터보기계","Country_Trip":"대한민국","Start_Date":"45930","End_Date":"45930"},{"Traveler":"서민 책임","Purpose":"FAT","Project_Code":"STA4","Item":"Air Compressor PKG","Vendor":"HHI 터보기계","Country_Trip":"대한민국","Start_Date":"45943","End_Date":"45944"},{"Traveler":"장동철 책임","Purpose":"공장검사","Project_Code":"STA4","Item":"Knife Gate Valve","Vendor":"동해밸브","Country_Trip":"대한민국","Start_Date":"45952","End_Date":"45952"},{"Traveler":"정진우 책임","Purpose":"공장검사","Project_Code":"STA4","Item":"Air Dryer Package","Vendor":"세양기업","Country_Trip":"대한민국","Start_Date":"45954","End_Date":"45954"},{"Traveler":"서민 책임","Purpose":"공장검사","Project_Code":"STA4","Item":"Air Compressor PKG","Vendor":"HHI 터보기계","Country_Trip":"대한민국","Start_Date":"45967","End_Date":"45967"},{"Traveler":"강태준 책임","Purpose":"업체감사","Project_Code":"ALOM","Item":"Exhaust Gas Bypass System","Vendor":"티에스넥스젠 인천사업장","Country_Trip":"대한민국","Start_Date":"45946","End_Date":"45947"},{"Traveler":"강태준 책임","Purpose":"업체감사","Project_Code":"ALOM","Item":"Exhaust Gas Bypass System","Vendor":"티에스넥스젠 인천사업장","Country_Trip":"대한민국","Start_Date":"45953","End_Date":"45953"},{"Traveler":"나광조 책임","Purpose":"PIM","Project_Code":"ALOM","Item":"Air Cooled Condenser Package","Vendor":"SPG Dry Cooling Belgum","Country_Trip":"중국","Start_Date":"45965","End_Date":"45968"},{"Traveler":"강태준 책임","Purpose":"공장검사","Project_Code":"STA4","Item":"Wrought Fitting","Vendor":"태광","Country_Trip":"대한민국","Start_Date":"45967","End_Date":"45967"},{"Traveler":"강태준 책임","Purpose":"공장검사","Project_Code":"STA4","Item":"FBE Coating / Lining","Vendor":"세보테크놀로지","Country_Trip":"대한민국","Start_Date":"45978","End_Date":"45978"},{"Traveler":"서민 책임","Purpose":"공장검사","Project_Code":"STA4","Item":"Air Compressor PKG","Vendor":"HHI 터보기계","Country_Trip":"대한민국","Start_Date":"45979","End_Date":"45980"},{"Traveler":"서민 책임","Purpose":"공장검사","Project_Code":"STA4","Item":"Air Compressor PKG","Vendor":"HHI 터보기계","Country_Trip":"대한민국","Start_Date":"45982","End_Date":"45982"},{"Traveler":"강태준 책임","Purpose":"업체실사","Project_Code":"CSSP","Item":"Valve","Vendor":"DHV VALVE & FOUNDRY","Country_Trip":"중국","Start_Date":"45985","End_Date":"45985"},{"Traveler":"강태준 책임","Purpose":"업체실사","Project_Code":"CSSP","Item":"Valve","Vendor":"SUFA","Country_Trip":"중국","Start_Date":"45986","End_Date":"45986"},{"Traveler":"강태준 책임","Purpose":"업체실사","Project_Code":"CSSP","Item":"Valve","Vendor":"NEWAY VALVE","Country_Trip":"중국","Start_Date":"45987","End_Date":"45987"},{"Traveler":"강태준 책임","Purpose":"업체실사","Project_Code":"CSSP","Item":"FBE Coating / Lining","Vendor":"TYHOO","Country_Trip":"중국","Start_Date":"45988","End_Date":"45988"},{"Traveler":"강태준 책임","Purpose":"업체실사","Project_Code":"CSSP","Item":"Flange / Fitting","Vendor":"ZHONGNAN HEAVY INDUSTRIES","Country_Trip":"중국","Start_Date":"45989","End_Date":"45989"},{"Traveler":"서민 책임","Purpose":"공장검사","Project_Code":"STA4","Item":"Air Compressor PKG","Vendor":"HHI 터보기계","Country_Trip":"대한민국","Start_Date":"45987","End_Date":"45988"},{"Traveler":"강인묵 책임","Purpose":"공장검사","Project_Code":"STA4","Item":"HV SWGR","Vendor":"Al-Fanar","Country_Trip":"사우디","Start_Date":"45986","End_Date":"46002"},{"Traveler":"강인묵 책임","Purpose":"공장검사","Project_Code":"STA4","Item":"MV CABLE","Vendor":"Habara Cable","Country_Trip":"사우디","Start_Date":"45992","End_Date":"45992"},{"Traveler":"강인묵 책임","Purpose":"공장검사","Project_Code":"STA4","Item":"ANALYZER","Vendor":"Yogokawa","Country_Trip":"사우디","Start_Date":"45994","End_Date":"45994"},{"Traveler":"윤희수 책임","Purpose":"공장검사","Project_Code":"STA4","Item":"Ethan Compressor","Vendor":"Hitachi","Country_Trip":"일본","Start_Date":"45998","End_Date":"46001"},{"Traveler":"강택기 책임","Purpose":"Monitoring","Project_Code":"STA4","Item":"Knife Gate Valve","Vendor":"동해밸브","Country_Trip":"대한민국","Start_Date":"46014","End_Date":"46014"},{"Traveler":"나광조 책임","Purpose":"Monitoring","Project_Code":"MIP6","Item":"Electric Heater","Vendor":"Chromalox Inc.","Country_Trip":"미국","Start_Date":"46042","End_Date":"46059"},{"Traveler":"강택기 책임","Purpose":"공장검사","Project_Code":"STA4","Item":"Knife Gate Valve","Vendor":"동해밸브","Country_Trip":"대한민국","Start_Date":"46063","End_Date":"46063"},{"Traveler":"강인묵 책임","Purpose":"FAT","Project_Code":"STA4","Item":"ECS Panel ","Vendor":"Al-Fanar","Country_Trip":"사우디","Start_Date":"46076","End_Date":"46090"},{"Traveler":"유요석 팀장","Purpose":"업체실사","Project_Code":"STA4","Item":"Oil Skimmer for Storage Tank","Vendor":"TTS","Country_Trip":"대한민국","Start_Date":"46079","End_Date":"46079"},{"Traveler":"강태준 책임","Purpose":"업체실사","Project_Code":"STA4","Item":"Oil Skimmer for Storage Tank","Vendor":"TTS","Country_Trip":"대한민국","Start_Date":"46079","End_Date":"46079"},{"Traveler":"강태준 책임","Purpose":"업체실사","Project_Code":"CSSP","Item":"Spool Fabrication & External/Internal Coating","Vendor":"웰텍","Country_Trip":"대한민국","Start_Date":"46085","End_Date":"46085"},{"Traveler":"유요석 팀장","Purpose":"업체실사","Project_Code":"CSSP","Item":"Spool Fabrication & External/Internal Coating","Vendor":"주성이엔지","Country_Trip":"대한민국","Start_Date":"46086","End_Date":"46086"},{"Traveler":"강태준 책임","Purpose":"업체실사","Project_Code":"CSSP","Item":"Spool Fabrication & External/Internal Coating","Vendor":"주성이엔지","Country_Trip":"대한민국","Start_Date":"46086","End_Date":"46086"}],"Issue":[{"Title":"Knife Gate Valve 표면 처리불량","Owner":"임효원 책임","Project_Code":"STA4","Action_Required":"FBE 작업 진행 중"},{"Title":"N2 Receiver 폭발 사고 관련 추가 제작 Item 검사 절차 협의","Owner":"장동철 책임","Project_Code":"SM12","Action_Required":"SVL & Inspection Level 협의 중 (SAIR)"},{"Title":"Produced Water Booster Pump 관련 Casing 파손","Owner":"서민 책임","Project_Code":"MIP6","Action_Required":"결함 판독을 위해 현장에서 RT 수행 예정"},{"Title":"N2 Generation Package 성능 미달","Owner":"장동철 책임","Project_Code":"IBRU","Action_Required":"제작 및 검사 진행 중"},{"Title":"Bypass Valve 현장시험 불합격","Owner":"석우경 매니저","Project_Code":"VEQU","Action_Required":""},{"Title":"LV Switchgear 내부 부식 발생","Owner":"윤희수 책임","Project_Code":"ALOM","Action_Required":"재제작 진행 중 (5월말 FAT 예상)"},{"Title":"원소재 성적서 검토 시스템","Owner":"장동철 책임","Project_Code":"플랜트구매품질팀","Action_Required":"경영분석팀 & IT지원팀 협의 중"},{"Title":"Punch 관리방법 개선","Owner":"이해석 책임","Project_Code":"플랜트구매품질팀","Action_Required":"추진안 준비 중"},{"Title":"TPA Workshop","Owner":"장동철 책임","Project_Code":"플랜트구매품질팀","Action_Required":"금주 중 참석자 확정 및 사전 설문 완료 예정"},{"Title":"TPA 실행 비용 분석 및 입찰 예산 적정성 검증","Owner":"강태준 책임","Project_Code":"플랜트구매품질팀","Action_Required":"프로젝트별 TPA 청산자료 1차 가공 완료"}],"📖 README":[{"플랜트구매품질팀 통합관리 대시보드 - Excel 입력 양식":"사용 방법"},{"플랜트구매품질팀 통합관리 대시보드 - Excel 입력 양식":"1. 아래 시트탭의 각 시트(Project / Manpower / Stage_Status / Open_NCR / TPA / Trip / Issue)에 데이터를 입력합니다."},{"플랜트구매품질팀 통합관리 대시보드 - Excel 입력 양식":"2. 1행의 컬럼명(헤더)은 절대 변경하지 마세요. 시트명도 그대로 유지해야 합니다."},{"플랜트구매품질팀 통합관리 대시보드 - Excel 입력 양식":"3. 데이터는 2행부터 입력합니다. 컬럼 순서는 자유롭게 변경해도 됩니다."},{"플랜트구매품질팀 통합관리 대시보드 - Excel 입력 양식":"4. 작성이 끝나면 이 파일을 저장하고, 대시보드 HTML을 열어 'Excel 업로드' 버튼으로 불러옵니다."},{"플랜트구매품질팀 통합관리 대시보드 - Excel 입력 양식":"5. 모든 KPI · 표 · 차트 · 조직도가 자동으로 채워집니다."},{"플랜트구매품질팀 통합관리 대시보드 - Excel 입력 양식":"주요 입력 규칙"},{"플랜트구매품질팀 통합관리 대시보드 - Excel 입력 양식":"• Stage_Status 시트: 단계 컬럼(MR/TBE/PO/PIM/IRC)에 '완료'를 입력하면 100%로 처리됩니다."},{"플랜트구매품질팀 통합관리 대시보드 - Excel 입력 양식":"• TPA 시트: 금액은 USD 또는 KRW 중 한쪽만 입력해도 환율로 자동 환산됩니다 (USD 단위, 백만 단위 아님)."},{"플랜트구매품질팀 통합관리 대시보드 - Excel 입력 양식":"• Status 컬럼: 'Active', 'Mechanical Completion', 'Bid' 중 하나로 입력해주세요."},{"플랜트구매품질팀 통합관리 대시보드 - Excel 입력 양식":"• Mechanical Completion 상태 프로젝트는 TPA Warning 로직에서 자동 제외됩니다."},{"플랜트구매품질팀 통합관리 대시보드 - Excel 입력 양식":"• Project 시트의 계약가는 백만 단위(Mil_USD, Mil_KRW)로 입력합니다."},{"플랜트구매품질팀 통합관리 대시보드 - Excel 입력 양식":"• 날짜 필드(Issue_Date, Start_Date, End_Date)는 Excel 날짜 형식으로 입력해주세요."},{"플랜트구매품질팀 통합관리 대시보드 - Excel 입력 양식":"TPA Warning 기준 (참고)"},{"플랜트구매품질팀 통합관리 대시보드 - Excel 입력 양식":"• 예산 대비 집행 70% 초과 → '1차 청산추정 필요'"},{"플랜트구매품질팀 통합관리 대시보드 - Excel 입력 양식":"• 예산 대비 집행 90% 초과 → '2차 청산추정 및 예산외품의 준비 필요'"},{"플랜트구매품질팀 통합관리 대시보드 - Excel 입력 양식":"• 계약고 대비 집행 90% 초과 → '계약고 증액 절차 필요'"},{"플랜트구매품질팀 통합관리 대시보드 - Excel 입력 양식":"단계별 가중치 (참고)"},{"플랜트구매품질팀 통합관리 대시보드 - Excel 입력 양식":"• MR 10% · TBE 10% · PO 10% · PIM 20% · IRC 100% 50%"},{"플랜트구매품질팀 통합관리 대시보드 - Excel 입력 양식":"• 가중 진척률 = (각 단계 진행률 × 가중치)의 합"}]};
 
 const SHEET_FIELDS = {
   "Project":["Project_Code","Contract_Price_HDEC_Mil_USD","Contract_Price_Total_Mil_USD","Contract_Price_HDEC_Mil_KRW","Contract_Price_Total_Mil_KRW","Client","Country","PM","PQCM","Status","Progress","Remarks"],
   "Manpower":["Name","Department","Main_Role_Responsibility","PQCM","PQC_Engineer","Number_of_PO"],
   "Stage_Status":["Project_Code","MR_Total","MR_Done","TBE_Total","TBE_Done","PO_Total","PO_Done","PIM_Total","PIM_Done","IRC_100%_Total","IRC_100%_Done","NCR_Total","NCR_Done"],
-  "Open_NCR":["Serial_Number","Project_Code","NCR_Number","Item","Vendor","NCR_Title","Issue_Date","Days_to_Date","Reamrks"],
+  "Open_NCR":["Serial_Number","Project_Code","NCR_Number","Item","Vendor","NCR_Title","Issue_Date","Days_to_Date","Remarks"],
   "TPA":["Project_Code","Status","예산(USD)","계약고(USD)","집행비용(USD)","예산(KRW)","계약고(KRW)","집행비용(KRW)","예산 소진율","現 계약고 소진율"],
   "Trip":["Traveler","Purpose","Project_Code","Item","Vendor","Country_Trip","Start_Date","End_Date"],
   "Issue":["Title","Owner","Project_Code","Action_Required"]
@@ -1227,12 +2979,12 @@ function renderOverview(){
       <div class="msg">${esc(s.txt)}</div>
     </div>`).join('') : '<div class="empty-state">현재 발생한 Warning 신호가 없습니다.</div>';
 
-  // 실행 항목
+  // 실행 항목 - 운영 가이드 (데이터와 무관한 기본 운영 원칙)
   $('actionItems').innerHTML = [
-    {n:'01',t:'TPA 청산추정 가속화',d:'예산 70% 초과 PJT 1차 청산추정 착수, 90% 초과 시 예산외품의 준비',due:'4월말'},
-    {n:'02',t:'IRC 100% 단계 집중관리',d:'STA4 / SAC2 IRC 진행률 점검 및 잔여 NCR 종결 가속화',due:'5월'},
-    {n:'03',t:'CSSP / PNG1 초기단계 셋업',d:'MR · TBE 발행 일정 확정 및 계약고 미정 항목 협의',due:'5월 중'},
-    {n:'04',t:'STA4 미결 NCR 9건 종결',d:'IRC Issuance with Punch List 항목 일괄 정리',due:'상시'}
+    {n:'01',t:'TPA 청산추정 가속화',d:'예산 70% 초과 PJT 1차 청산추정 착수, 90% 초과 시 예산외품의 준비',due:'상시'},
+    {n:'02',t:'IRC 100% 단계 집중관리',d:'IRC 진행률 점검 및 잔여 NCR 종결 가속화',due:'분기'},
+    {n:'03',t:'초기단계 프로젝트 셋업',d:'MR · TBE 발행 일정 확정 및 계약고 미정 항목 협의',due:'착수 후 1개월'},
+    {n:'04',t:'장기 미결 NCR 종결',d:'180일 초과 NCR 우선 종결, IRC Issuance with Punch List 항목 정리',due:'상시'}
   ].map(a=>`<div class="action-row">
     <div class="action-no">${a.n}</div>
     <div><div class="action-title">${esc(a.t)}</div><div class="action-desc">${esc(a.d)}</div></div>
@@ -1253,7 +3005,8 @@ function renderOverview(){
     ]},
     {t:'NCR 우선순위',rows:[
       {k:'180일 초과',v:'장기 미결 - 즉시 종결'},
-      {k:'STA4',v:'미결 NCR의 다수 차지'}
+      {k:'90~180일',v:'중간 점검 및 가속화'},
+      {k:'MC 제외',v:'기계적 준공 후 별도 관리'}
     ]}
   ].map(r=>`<div class="risk-group">
     <div class="grp-title">${esc(r.t)}</div>
@@ -1889,34 +3642,24 @@ function init(){
   setReportDate();
   bindTabs();
   bindControls();
-  // 보고 모드 감지 - 정적 HTML 저장본일 때 업로드/다운로드/Excel 버튼 숨김
   if(window.__REPORT_MODE__){ applyReportMode(); }
   renderAll();
   if(!window.__REPORT_MODE__) fetchFx();
 }
 
-/* ============================================================
-   보고 모드: 임원에게 전달된 정적 HTML을 열었을 때
-   - 업로드/다운로드/환율수정 등 편집 기능 비활성화
-   - 작성일은 저장 시점으로 고정
-   ============================================================ */
 function applyReportMode(){
-  // 업로드, Excel 다운로드, 보고용 저장 버튼 숨김
   document.querySelectorAll('.hd-actions label, .hd-actions button').forEach(el=>{
     const txt = el.textContent || '';
     if(txt.includes('Excel') || txt.includes('보고용 HTML')) el.style.display = 'none';
   });
-  // 환율 수정 잠금
   const fx = document.getElementById('fxInput');
   if(fx){ fx.readOnly = true; fx.style.opacity = '.7'; fx.style.cursor = 'not-allowed'; }
   const fxs = document.getElementById('fxSource');
   if(fxs && window.__REPORT_FX_SRC__){ fxs.textContent = window.__REPORT_FX_SRC__; }
-  // 보고일 표시
   if(window.__REPORT_DATE__){
     const el = document.getElementById('reportDate');
     if(el) el.textContent = window.__REPORT_DATE__;
   }
-  // 보고 모드 안내 배지 추가 (헤더에)
   const top = document.querySelector('.hd-top .hd-meta');
   if(top){
     const badge = document.createElement('div');
@@ -1926,11 +3669,6 @@ function applyReportMode(){
   }
 }
 
-/* ============================================================
-   현재 화면을 정적 HTML로 저장 (Excel 없이도 열림)
-   - 현재 RAW 데이터를 인라인 박아넣고
-   - 보고 모드 플래그를 켜서 편집 기능 비활성화
-   ============================================================ */
 function downloadStaticHTML(){
   try{
     if(isAllEmpty()){
@@ -1940,18 +3678,15 @@ function downloadStaticHTML(){
     const doctype = '<!DOCTYPE html>\n';
     let html = document.documentElement.outerHTML;
 
-    // 2. DEFAULT_RAW를 현재 RAW로 교체 (사용자 인라인된 데이터)
     const dataJson = JSON.stringify(RAW);
     const rawRegex = /const DEFAULT_RAW = [\s\S]*?;(\s*\nconst SHEET_FIELDS)/;
     if(!rawRegex.test(html)){
       throw new Error('DEFAULT_RAW 블록을 찾지 못했습니다.');
     }
-    // 함수 콜백 - $ 특수문자 영향 없음, 캡처 그룹은 두 번째 인자로 받음
     html = html.replace(rawRegex, function(match, suffix){
       return 'const DEFAULT_RAW = ' + dataJson + ';' + suffix;
     });
 
-    // 3. 보고 모드 활성화 플래그 + 메타 정보 주입
     const fxSrcEl = document.getElementById('fxSource');
     const fxSrc = fxSrcEl ? fxSrcEl.textContent : '';
     const reportDate = document.getElementById('reportDate')?.textContent || '';
@@ -1963,24 +3698,19 @@ window.__REPORT_DATE__ = ${JSON.stringify(reportDate)};
 window.__REPORT_FX_SRC__ = ${JSON.stringify('보고일 기준 ' + fxSrc)};
 window.__REPORT_FX_RATE__ = ${fxRate};
 <\/script>`;
-    // <head> 닫기 직전에 삽입
     html = html.replace('</head>', meta + '\n</head>');
 
-    // 4. 환율 input의 value도 현재 값으로 박아넣기 (HTML 직렬화는 value 속성을 안 따라감)
     const fxInputVal = FX_RATE.toFixed(2);
     html = html.replace(
       /<input id="fxInput" type="number" step="0\.01"[^>]*\/?>/,
       `<input id="fxInput" type="number" step="0.01" value="${fxInputVal}" readonly />`
     );
 
-    // 5. title도 보고일 포함으로
-    const projects = (RAW.Project||[]).length;
     html = html.replace(
       /<title>[^<]*<\/title>/,
       `<title>플랜트구매품질팀 통합관리 대시보드 · ${reportDate}</title>`
     );
 
-    // 6. Blob으로 다운로드
     const blob = new Blob([doctype + html], {type:'text/html;charset=utf-8'});
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -1998,5 +3728,6 @@ window.__REPORT_FX_RATE__ = ${fxRate};
 
 init();
 </script>
-</body>
-</html>
+
+
+</body></html>
