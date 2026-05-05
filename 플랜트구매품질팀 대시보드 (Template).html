@@ -151,6 +151,22 @@ button{cursor:pointer;border:none;background:none}
 }
 .tab.on .num{color:var(--navy);opacity:.6}
 
+/* 서브탭 (02 프로젝트 현황 하위) */
+.subtabs{
+  background:#F7F9FC;
+  border-bottom:1px solid var(--line);
+  padding:0 28px;display:flex;flex-wrap:wrap;gap:0;
+}
+.subtabs.hidden{display:none}
+.subtab{
+  border:none;background:transparent;padding:9px 14px;
+  font-size:12.5px;font-weight:500;color:var(--sub);
+  border-bottom:2px solid transparent;margin-bottom:-1px;
+  white-space:nowrap;transition:.15s;letter-spacing:-.01em;cursor:pointer;
+}
+.subtab:hover{color:var(--ink);background:#fff}
+.subtab.on{color:var(--navy);border-bottom-color:var(--navy);font-weight:700;background:#fff}
+
 /* ============================================================
    페이지 / 그리드
    ============================================================ */
@@ -573,6 +589,92 @@ button{cursor:pointer;border:none;background:none}
 .org-tag.eng{background:var(--ok-bg);color:var(--ok)}
 .org-tag.empty{background:#F4F6FA;color:var(--muted);font-style:italic}
 
+/* ── 조직도 2-tier (근무위치 → 담당품목) ── */
+.org-tier1-row{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:16px;max-width:1320px;margin:0 auto;
+  position:relative;
+}
+.org-tier1-row:before{
+  content:'';position:absolute;left:50%;top:-24px;
+  width:60%;max-width:800px;height:1px;background:#D1D9E4;
+  transform:translateX(-50%);
+}
+.org-tier1{
+  border:1px solid var(--line);border-radius:var(--r);
+  background:#fff;position:relative;overflow:hidden;
+  display:flex;flex-direction:column;
+}
+.org-tier1:before{
+  content:'';position:absolute;left:50%;top:-24px;
+  width:1px;height:24px;background:#D1D9E4;
+  transform:translateX(-50%);
+}
+.org-tier1-hd{
+  padding:11px 14px;
+  background:linear-gradient(135deg,#1B2A4E 0%,#2A3F6B 100%);
+  color:#fff;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.org-tier1-hd .loc{
+  font-size:13px;font-weight:700;letter-spacing:-.005em;color:#fff;
+}
+.org-tier1-hd .ct{
+  font-family:'JetBrains Mono','Noto Sans KR','Malgun Gothic',monospace;
+  font-size:10px;font-weight:600;
+  background:rgba(255,255,255,.18);color:#fff;
+  border-radius:999px;padding:2px 8px;letter-spacing:.04em;
+}
+.org-tier2-list{padding:10px;display:flex;flex-direction:column;gap:8px;background:#FAFBFD}
+.org-tier2{
+  border:1px solid var(--line2);border-radius:6px;
+  background:#fff;overflow:hidden;
+}
+.org-tier2-hd{
+  padding:7px 11px;background:#F0F3F8;
+  border-bottom:1px solid var(--line2);
+  display:flex;justify-content:space-between;align-items:center;
+}
+.org-tier2-hd .role{
+  font-size:10.5px;font-weight:700;color:var(--navy);
+  letter-spacing:.04em;text-transform:uppercase;
+}
+.org-tier2-hd .ct{
+  font-family:'JetBrains Mono','Noto Sans KR','Malgun Gothic',monospace;
+  font-size:9.5px;font-weight:600;color:var(--sub);letter-spacing:.04em;
+}
+.org-tier2 .org-members{padding:8px;background:#fff}
+
+/* ── 출장 통계 차트 ── */
+.trip-stat{padding:12px 14px;display:flex;flex-direction:column;gap:6px;max-height:340px;overflow-y:auto}
+.trip-stat-row{display:flex;align-items:center;gap:8px;font-size:12px}
+.trip-stat-row .label{
+  flex:0 0 90px;
+  font-size:11.5px;font-weight:600;color:var(--ink);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  letter-spacing:-.005em;
+}
+.trip-stat-row .bar-wrap{
+  flex:1;height:16px;
+  background:#F4F6FA;border-radius:3px;
+  position:relative;overflow:hidden;
+}
+.trip-stat-row .bar-fill{
+  height:100%;border-radius:3px;
+  background:linear-gradient(to right,#4A5F8E,#6F8AB7);
+}
+.trip-stat-row .count{
+  flex:0 0 50px;text-align:right;
+  font-family:'JetBrains Mono','Noto Sans KR','Malgun Gothic',monospace;
+  font-weight:600;color:var(--navy);font-size:11px;letter-spacing:.02em;
+}
+.trip-stat-row.year .bar-fill{background:linear-gradient(to right,#0F4391,#1B5BC4)}
+.trip-stat-row.country .bar-fill{background:linear-gradient(to right,#1F8F4A,#34BC68)}
+.trip-stat-row.purpose .bar-fill{background:linear-gradient(to right,#B47010,#E5A031)}
+.trip-stat-row.project .bar-fill{background:linear-gradient(to right,#5B2DA0,#8852D7)}
+.trip-stat-row.traveler .bar-fill{background:linear-gradient(to right,#0F4391,#4A5F8E)}
+
 /* ============================================================
    Issue 카드
    ============================================================ */
@@ -728,10 +830,135 @@ button{cursor:pointer;border:none;background:none}
   .hd-date{text-align:left}
   .tab{padding:11px 14px}
 }
+
+/* ============================================================
+   모바일 최적화 – Galaxy S24 (≤430px)
+   데스크톱(>760px) 레이아웃에 영향 없음
+   ============================================================ */
+@media(max-width:430px){
+
+  /* ── 헤더 ── */
+  .report-head{padding:10px 12px 0}
+  .hd-top{flex-direction:column;align-items:flex-start;gap:8px;padding-bottom:6px}
+  .hd-brand{font-size:17px;letter-spacing:-.02em}
+  .hd-brand .kicker{font-size:9.5px;margin-bottom:3px;letter-spacing:.1em}
+
+  /* fx-pill 전체 너비 */
+  .hd-meta{flex-direction:column;align-items:flex-start;gap:8px;width:100%}
+  .fx-pill{width:100%;justify-content:space-between}
+  .fx-pill input{width:90px}
+  .fx-pill .src{flex:1;text-align:right;max-width:none}
+  .hd-date{text-align:left;width:100%}
+  .hd-date .day{font-size:12.5px}
+
+  /* ── 액션 버튼 – 가로 스크롤 ── */
+  .hd-actions{flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;padding-bottom:8px;gap:6px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .hd-actions::-webkit-scrollbar{display:none}
+  .btn{padding:8px 10px;font-size:11px;min-height:38px;flex-shrink:0;white-space:nowrap}
+
+  /* ── 탭 – 가로 스크롤 ── */
+  .tabs{flex-wrap:nowrap;overflow-x:auto;padding:0 10px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .tabs::-webkit-scrollbar{display:none}
+  .tab{padding:10px 10px;font-size:11.5px;flex-shrink:0;white-space:nowrap}
+  .tab .num{font-size:9px;margin-right:3px}
+
+  /* ── 서브탭 – 가로 스크롤 ── */
+  .subtabs{flex-wrap:nowrap;overflow-x:auto;padding:0 10px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .subtabs::-webkit-scrollbar{display:none}
+  .subtab{padding:8px 10px;font-size:11px;flex-shrink:0;white-space:nowrap}
+
+  /* ── 페이지 컨테이너 ── */
+  .page{padding:12px 12px 32px}
+  .h-sep{height:10px}
+
+  /* ── 그리드 – 모두 단열 ── */
+  .g5,.g4,.g3,.g2,.g31,.g21{grid-template-columns:1fr}
+
+  /* ── KPI 카드 ── */
+  .kpi{padding:12px 13px;min-height:88px}
+  .kpi-val{font-size:24px}
+  .kpi-val .unit{font-size:12px}
+  .kpi-label{font-size:10px;letter-spacing:.06em}
+  .kpi-sub{font-size:11px}
+
+  /* ── 카드 공통 ── */
+  .card-hd{padding:10px 13px 9px}
+  .card-title{font-size:12.5px}
+  .card-meta{font-size:11px}
+  .card-body{padding:12px 13px}
+
+  /* ── 섹션 헤드 ── */
+  .section-head{flex-direction:column;align-items:flex-start;gap:6px}
+  .section-title{font-size:13px}
+  .section-meta{font-size:11px}
+
+  /* ── 테이블 ── */
+  .tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .tbl{font-size:11.5px}
+  .tbl th,.tbl td{padding:8px 9px}
+  .tbl th{font-size:9.5px;letter-spacing:.04em}
+  .tbl.dense td,.tbl.dense th{padding:7px 8px;font-size:11px}
+
+  /* ── 금액 셀 ── */
+  .money .usd{font-size:11.5px}
+  .money .krw{font-size:10px}
+
+  /* ── 액션 로우 ── */
+  .action-row{grid-template-columns:auto 1fr;gap:8px;padding:10px 12px}
+  .action-due{grid-column:1/-1;justify-self:start}
+  .action-title{font-size:13px}
+  .action-desc{font-size:12px}
+
+  /* ── 업로드 배너 ── */
+  .upload-banner{flex-direction:column;align-items:flex-start;gap:12px;padding:14px}
+  .upload-banner .icon-box{width:40px;height:40px;font-size:20px}
+  .upload-banner .title{font-size:13px}
+  .upload-banner .desc{font-size:11.5px}
+  .upload-banner .cta{width:100%;justify-content:center;padding:10px 16px}
+
+  /* ── 시그널 / 이슈 ── */
+  .signal-item{padding:9px 11px}
+  .signal-item .msg{font-size:12px}
+  .issue{padding:10px 12px}
+  .issue .title{font-size:13px}
+  .issue .action{font-size:12px;padding:6px 9px}
+
+  /* ── 가이드 ── */
+  .guide-row{flex-direction:column;gap:8px}
+  .guide-text{font-size:12px}
+
+  /* ── risk-item 세로 정렬 ── */
+  .risk-item{flex-direction:column;gap:3px}
+  .risk-item .v{text-align:left}
+
+  /* ── 바 ── */
+  .bar-wrap{min-width:90px}
+  .tpa-bar{min-width:110px}
+  .pct{font-size:11px;width:40px}
+  .tpa-pct{font-size:11px;width:42px}
+
+  /* ── 조직도 ── */
+  .org-canvas{padding:14px 10px 6px}
+  .org-leader{max-width:100%}
+  .org-groups{grid-template-columns:1fr}
+  .org-name{font-size:14px}
+
+  /* ── 필터 / 컨트롤 ── */
+  .control-row{flex-direction:column;align-items:flex-start;gap:8px}
+  .filters{flex-wrap:wrap;gap:6px}
+  .select,.input{font-size:13px;padding:9px 10px;min-height:38px;width:100%}
+
+  /* ── 토스트 ── */
+  .toast{right:12px;left:12px;bottom:14px;text-align:center}
+
+  /* ── 툴팁 비활성 (모바일 hover 불가) ── */
+  [data-tip]:after{display:none}
+}
+
 @media print{
   @page{size:A4 landscape;margin:10mm}
   body{background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-  .report-head,.tabs,.control-row,.btn,.fx-pill,.hd-actions,.file-hidden,.toast{display:none!important}
+  .report-head,.tabs,.subtabs,.control-row,.btn,.fx-pill,.hd-actions,.file-hidden,.toast{display:none!important}
   .print-only{display:block;margin-bottom:14px}
   .page{display:block!important;padding:0;max-width:none;break-after:page}
   .page:not(.print-main){break-before:page}
@@ -773,13 +1000,16 @@ button{cursor:pointer;border:none;background:none}
 
 <nav class="tabs">
   <button class="tab on" data-page="overview"><span class="num">01</span>Executive Summary</button>
-  <button class="tab" data-page="projects"><span class="num">02</span>프로젝트 현황</button>
-  <button class="tab" data-page="stage"><span class="num">03</span>단계별 실적</button>
-  <button class="tab" data-page="tpa"><span class="num">04</span>TPA 집행현황</button>
-  <button class="tab" data-page="ncr"><span class="num">05</span>NCR 현황</button>
-  <button class="tab" data-page="manpower"><span class="num">06</span>팀 인력운영현황</button>
-  <button class="tab" data-page="trip"><span class="num">07</span>출장현황</button>
-  <button class="tab" data-page="issues"><span class="num">08</span>주요현안</button>
+  <button class="tab" data-page="projects" data-group="projects"><span class="num">02</span>프로젝트 현황</button>
+  <button class="tab" data-page="manpower"><span class="num">03</span>팀 인력운영현황</button>
+  <button class="tab" data-page="trip"><span class="num">04</span>출장현황</button>
+  <button class="tab" data-page="issues"><span class="num">05</span>주요현안</button>
+</nav>
+<nav class="subtabs hidden" id="projectsSubtabs">
+  <button class="subtab on" data-page="projects">프로젝트 마스터</button>
+  <button class="subtab" data-page="stage">프로젝트 구매품질 실적</button>
+  <button class="subtab" data-page="tpa">TPA 집행현황</button>
+  <button class="subtab" data-page="ncr">NCR 현황</button>
 </nav>
 </div>
 
@@ -831,7 +1061,7 @@ button{cursor:pointer;border:none;background:none}
   <div class="h-sep"></div>
   <div class="card">
     <div class="card-hd">
-      <div class="card-title"><span class="bar"></span>프로젝트별 단계 진행현황</div>
+      <div class="card-title"><span class="bar"></span>프로젝트별 구매품질 진행현황</div>
       <div class="card-meta">Weighted = MR×10 + TBE×10 + PO×10 + PIM×20 + IRC×50</div>
     </div>
     <div class="card-body flush"><div class="tbl-wrap"><table class="tbl" id="stageTbl"></table></div></div>
@@ -886,10 +1116,34 @@ button{cursor:pointer;border:none;background:none}
 </section>
 
 <section class="page" id="trip">
-  <div class="grid g4" id="tripKpis"></div>
+  <div class="grid g3">
+    <div class="card">
+      <div class="card-hd"><div class="card-title"><span class="bar"></span>연도별</div></div>
+      <div class="card-body trip-stat" id="tripStatYear"></div>
+    </div>
+    <div class="card">
+      <div class="card-hd"><div class="card-title"><span class="bar"></span>국가별</div></div>
+      <div class="card-body trip-stat" id="tripStatCountry"></div>
+    </div>
+    <div class="card">
+      <div class="card-hd"><div class="card-title"><span class="bar"></span>목적별</div></div>
+      <div class="card-body trip-stat" id="tripStatPurpose"></div>
+    </div>
+  </div>
+  <div class="h-sep"></div>
+  <div class="grid g2">
+    <div class="card">
+      <div class="card-hd"><div class="card-title"><span class="bar"></span>프로젝트별</div></div>
+      <div class="card-body trip-stat" id="tripStatProject"></div>
+    </div>
+    <div class="card">
+      <div class="card-hd"><div class="card-title"><span class="bar"></span>인원별</div></div>
+      <div class="card-body trip-stat" id="tripStatTraveler"></div>
+    </div>
+  </div>
   <div class="h-sep"></div>
   <div class="card">
-    <div class="card-hd"><div class="card-title"><span class="bar"></span>출장 현황</div></div>
+    <div class="card-hd"><div class="card-title"><span class="bar"></span>출장 현황 (최신순)</div></div>
     <div class="card-body flush"><div class="tbl-wrap"><table class="tbl" id="tripTbl"></table></div></div>
   </div>
 </section>
@@ -1111,15 +1365,41 @@ async function fetchFx(){
 }
 
 /* === 탭 / 컨트롤 === */
+/* 페이지 → 메인 탭 그룹 매핑 (서브탭 페이지는 'projects' 그룹) */
+const PAGE_GROUP = {
+  'overview':'overview',
+  'projects':'projects','stage':'projects','tpa':'projects','ncr':'projects',
+  'manpower':'manpower','trip':'trip','issues':'issues'
+};
+function switchPage(page){
+  const group = PAGE_GROUP[page] || page;
+  // 메인 탭: 그룹과 일치하는 탭만 active (data-group 우선, 없으면 data-page 매칭)
+  document.querySelectorAll('.tab').forEach(t=>{
+    const tabKey = t.dataset.group || t.dataset.page;
+    t.classList.toggle('on', tabKey === group);
+  });
+  // 서브탭 nav 표시/숨김
+  const subNav = $('projectsSubtabs');
+  if(group === 'projects'){
+    subNav.classList.remove('hidden');
+    document.querySelectorAll('#projectsSubtabs .subtab').forEach(s=>{
+      s.classList.toggle('on', s.dataset.page === page);
+    });
+  } else {
+    subNav.classList.add('hidden');
+  }
+  // 페이지 전환
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
+  const target = $(page);
+  if(target) target.classList.add('on');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
 function bindTabs(){
   document.querySelectorAll('.tab').forEach(b=>{
-    b.addEventListener('click',()=>{
-      document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
-      document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
-      b.classList.add('on');
-      $(b.dataset.page).classList.add('on');
-      window.scrollTo({top:0,behavior:'smooth'});
-    });
+    b.addEventListener('click',()=>switchPage(b.dataset.page));
+  });
+  document.querySelectorAll('.subtab').forEach(b=>{
+    b.addEventListener('click',()=>switchPage(b.dataset.page));
   });
 }
 function bindControls(){
@@ -1353,7 +1633,7 @@ function renderStagePage(){
     <th>Code</th><th class="ctr">Status</th>
     ${STAGE.map(st=>`<th class="ctr">${st.name}<span class="wf">W ${(st.weight*100).toFixed(0)}%</span></th>`).join('')}
     <th class="ctr" style="min-width:160px">가중 진척률</th>
-  </tr></thead><tbody>${stages.length===0 ? emptyRow(8,'Excel을 업로드하면 단계별 진행현황이 표시됩니다.') : stages.map(s=>{
+  </tr></thead><tbody>${stages.length===0 ? emptyRow(8,'Excel을 업로드하면 구매품질 진행현황이 표시됩니다.') : stages.map(s=>{
     const p = projects.find(x=>x.Project_Code===s.Project_Code) || {};
     const w = weightedProgress(s);
     const pv = w ? w.value : 0;
@@ -1513,13 +1793,40 @@ function renderManpowerPage(){
   </div>`).join('');
 
   const leader = mp.find(m=>/팀장|Team Leader/i.test(m.Main_Role_Responsibility||'') || /팀장/.test(m.Name||''));
-  const groups = {};
+
+  // 근무위치 정규화: "본사 (XXX)"는 본사 그룹으로 (실 근무지 기준)
+  function normLoc(dept){
+    if(!dept) return '미분류';
+    const d = String(dept).trim();
+    if(d.startsWith('본사')) return '본사';
+    return d;
+  }
+
+  // 1tier: 근무위치별 그룹핑
+  const tier1 = {};
   mp.forEach(m=>{
     if(leader && m.Name===leader.Name) return;
-    const dept = m.Department || '미분류';
-    if(!groups[dept]) groups[dept] = [];
-    groups[dept].push(m);
+    const loc = normLoc(m.Department);
+    if(!tier1[loc]) tier1[loc] = [];
+    tier1[loc].push(m);
   });
+
+  // 근무위치 정렬: 본사 → STA4 → SAC2 → 그 외 (가나다)
+  const LOC_ORDER = {'본사':1,'STA4':2,'SAC2':3};
+  const sortedLocs = Object.keys(tier1).sort((a,b)=>{
+    const oa = LOC_ORDER[a]||99, ob = LOC_ORDER[b]||99;
+    return oa!==ob ? oa-ob : a.localeCompare(b);
+  });
+
+  // 2tier: 담당 품목 정렬 (Planning → Static → Rotating → Piping → E&I → Structural Steel)
+  const ROLE_ORDER = {
+    'Strategic Planning':1,
+    'Static':2,
+    'Rotating':3,
+    'Piping':4,
+    'Electrical & Instrument':5,
+    'Structural Steel':6
+  };
 
   $('orgChart').innerHTML = mp.length===0 ? `
     <div class="empty-state">
@@ -1531,26 +1838,49 @@ function renderManpowerPage(){
       <div class="org-name">${esc(leader.Name)}</div>
       <div class="org-role">${esc(leader.Main_Role_Responsibility||'Team Leader')}</div>
     </div>` : ''}
-    <div class="org-groups">
-      ${Object.entries(groups).map(([dept,members])=>`
-        <div class="org-group">
-          <div class="org-group-hd"><span class="dept">${esc(dept)}</span><span class="ct">${members.length}</span></div>
-          <div class="org-members">
-            ${members.map(m=>{
-              const tags = [];
-              if(m.PQCM){ String(m.PQCM).split('/').forEach(x=>{const t=x.trim();if(t)tags.push(`<span class="org-tag cm">CM·${esc(t)}</span>`);}); }
-              if(m.PQC_Engineer){ String(m.PQC_Engineer).split('/').forEach(x=>{const t=x.trim();if(t)tags.push(`<span class="org-tag eng">${esc(t)}</span>`);}); }
-              if(!tags.length) tags.push('<span class="org-tag empty">미배정</span>');
-              return `<div class="org-person">
-                <div class="top">
-                  <div><div class="name">${esc(m.Name)}</div><div class="role">${esc(m.Main_Role_Responsibility||'-')}</div></div>
-                  ${isNumLike(m.Number_of_PO) && num(m.Number_of_PO)>0 ? `<div class="po">PO ${num(m.Number_of_PO)}</div>` : ''}
+    <div class="org-tier1-row">
+      ${sortedLocs.map(loc=>{
+        const members = tier1[loc];
+        // 2tier 그룹핑 (담당 품목별)
+        const tier2 = {};
+        members.forEach(m=>{
+          const role = m.Main_Role_Responsibility || '미분류';
+          if(!tier2[role]) tier2[role] = [];
+          tier2[role].push(m);
+        });
+        const sortedRoles = Object.keys(tier2).sort((a,b)=>{
+          const oa = ROLE_ORDER[a]||99, ob = ROLE_ORDER[b]||99;
+          return oa!==ob ? oa-ob : a.localeCompare(b);
+        });
+        return `<div class="org-tier1">
+          <div class="org-tier1-hd"><span class="loc">${esc(loc)}</span><span class="ct">${members.length}명</span></div>
+          <div class="org-tier2-list">
+            ${sortedRoles.map(role=>{
+              const list = tier2[role];
+              return `<div class="org-tier2">
+                <div class="org-tier2-hd"><span class="role">${esc(role)}</span><span class="ct">${list.length}명</span></div>
+                <div class="org-members">
+                  ${list.map(m=>{
+                    const tags = [];
+                    if(m.PQCM){ String(m.PQCM).split('/').forEach(x=>{const t=x.trim();if(t)tags.push(`<span class="org-tag cm">PQCM·${esc(t)}</span>`);}); }
+                    if(m.PQC_Engineer){ String(m.PQC_Engineer).split('/').forEach(x=>{const t=x.trim();if(t)tags.push(`<span class="org-tag eng">${esc(t)}</span>`);}); }
+                    if(!tags.length) tags.push('<span class="org-tag empty">미배정</span>');
+                    // 본사 (XXX) 같이 원소속이 다른 경우 부속 표시
+                    const subDept = (m.Department && m.Department !== loc) ? m.Department : '';
+                    return `<div class="org-person">
+                      <div class="top">
+                        <div><div class="name">${esc(m.Name)}</div><div class="role">${esc(m.Main_Role_Responsibility||'-')}${subDept?` · ${esc(subDept)}`:''}</div></div>
+                        ${isNumLike(m.Number_of_PO) && num(m.Number_of_PO)>0 ? `<div class="po">PO ${num(m.Number_of_PO)}</div>` : ''}
+                      </div>
+                      <div class="org-tags">${tags.join('')}</div>
+                    </div>`;
+                  }).join('')}
                 </div>
-                <div class="org-tags">${tags.join('')}</div>
               </div>`;
             }).join('')}
           </div>
-        </div>`).join('')}
+        </div>`;
+      }).join('')}
     </div>`;
 
   $('mpTbl').innerHTML = `<thead><tr>
@@ -1569,30 +1899,62 @@ function renderManpowerPage(){
    출장 / 현안
    ============================================================ */
 function renderTripPage(){
-  const trips = RAW.Trip || [];
-  const purposes={}, countries={}, travelers={};
-  trips.forEach(t=>{
-    purposes[t.Purpose] = (purposes[t.Purpose]||0)+1;
-    countries[t.Country_Trip] = (countries[t.Country_Trip]||0)+1;
-    travelers[t.Traveler] = (travelers[t.Traveler]||0)+1;
-  });
-  const top = obj => Object.entries(obj).sort((a,b)=>b[1]-a[1])[0];
-  const tp = top(purposes), tc = top(countries), tt = top(travelers);
+  const trips = (RAW.Trip || []).slice();
 
-  $('tripKpis').innerHTML = [
-    {label:'TOTAL TRIPS',val:trips.length,unit:'건',cls:'accent'},
-    {label:'TOP PURPOSE',val:tp?tp[0]:'-',sub:tp?`${tp[1]}건`:'',cls:'info'},
-    {label:'TOP COUNTRY',val:tc?tc[0]:'-',sub:tc?`${tc[1]}건`:'',cls:'ok'},
-    {label:'TOP TRAVELER',val:tt?tt[0]:'-',sub:tt?`${tt[1]}건`:'',cls:'warn'}
-  ].map(k=>`<div class="kpi ${k.cls}">
-    <div class="kpi-label">${esc(k.label)}</div>
-    <div class="kpi-val" style="font-size:${typeof k.val==='string' && k.val.length>4?'18px':'24px'}">${typeof k.val==='string'?esc(k.val):k.val}${k.unit?`<span class="unit">${esc(k.unit)}</span>`:''}</div>
-    <div class="kpi-sub">${esc(k.sub||'')}</div>
-  </div>`).join('');
+  // 통계 집계
+  const yearStat={}, countryStat={}, projectStat={}, purposeStat={}, travelerStat={};
+
+  // Excel serial → Date
+  function excelToDate(serial){
+    if(serial===null||serial===undefined||serial==='') return null;
+    const n = Number(serial);
+    if(!Number.isFinite(n)) return null;
+    return new Date((n - 25569) * 86400 * 1000);
+  }
+
+  trips.forEach(t=>{
+    const d = excelToDate(t.Start_Date);
+    const year = d && !isNaN(d.getTime()) ? d.getFullYear()+'년' : '미상';
+    yearStat[year] = (yearStat[year]||0)+1;
+    if(t.Country_Trip) countryStat[t.Country_Trip] = (countryStat[t.Country_Trip]||0)+1;
+    if(t.Project_Code) projectStat[t.Project_Code] = (projectStat[t.Project_Code]||0)+1;
+    if(t.Purpose) purposeStat[t.Purpose] = (purposeStat[t.Purpose]||0)+1;
+    if(t.Traveler) travelerStat[t.Traveler] = (travelerStat[t.Traveler]||0)+1;
+  });
+
+  function renderStat(elId, statObj, cls, opts={}){
+    const entries = Object.entries(statObj);
+    if(opts.sortByKey){
+      entries.sort((a,b)=>String(b[0]).localeCompare(String(a[0])));
+    }else{
+      entries.sort((a,b)=>b[1]-a[1]);
+    }
+    if(!entries.length){
+      $(elId).innerHTML = `<div class="empty-state" style="margin:0;padding:18px"><div class="title" style="font-size:12px">데이터 없음</div></div>`;
+      return;
+    }
+    const max = Math.max(...entries.map(e=>e[1]));
+    const list = opts.limit ? entries.slice(0, opts.limit) : entries;
+    $(elId).innerHTML = list.map(([k,v])=>`
+      <div class="trip-stat-row ${cls}">
+        <div class="label" title="${esc(k)}">${esc(k)}</div>
+        <div class="bar-wrap"><div class="bar-fill" style="width:${(v/max*100).toFixed(1)}%"></div></div>
+        <div class="count">${v}건</div>
+      </div>`).join('');
+  }
+
+  renderStat('tripStatYear',     yearStat,     'year',     {sortByKey:true});
+  renderStat('tripStatCountry',  countryStat,  'country');
+  renderStat('tripStatPurpose',  purposeStat,  'purpose');
+  renderStat('tripStatProject',  projectStat,  'project');
+  renderStat('tripStatTraveler', travelerStat, 'traveler');
+
+  // 출장 표 - 최신 출발일 순 (내림차순)
+  const sorted = trips.slice().sort((a,b)=>num(b.Start_Date)-num(a.Start_Date));
 
   $('tripTbl').innerHTML = `<thead><tr>
     <th>Traveler</th><th class="ctr">목적</th><th>Code</th><th>Item</th><th>Vendor</th><th>국가</th><th class="ctr">Start</th><th class="ctr">End</th>
-  </tr></thead><tbody>${trips.length===0 ? emptyRow(8,'Excel을 업로드하면 출장 현황이 표시됩니다.') : trips.map(t=>`<tr>
+  </tr></thead><tbody>${sorted.length===0 ? emptyRow(8,'Excel을 업로드하면 출장 현황이 표시됩니다.') : sorted.map(t=>`<tr>
     <td><span class="code">${esc(t.Traveler)}</span></td>
     <td class="ctr"><span class="tag info">${esc(t.Purpose)}</span></td>
     <td class="code">${esc(t.Project_Code)}</td>
