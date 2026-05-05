@@ -1338,7 +1338,7 @@ function moneyContractCell(row, kind){
 }
 
 function toast(msg){ const t=$('toast'); if(!t)return; t.textContent=msg||'완료'; t.classList.add('on'); clearTimeout(toast._t); toast._t=setTimeout(()=>t.classList.remove('on'),2200); }
-function setReportDate(){ const dt=todayKor(); const el=$('reportDate'); if(el) el.textContent=dt; }
+function setReportDate(){ if(window.__REPORT_MODE__ && window.__REPORT_DATE__) return; const dt=todayKor(); const el=$('reportDate'); if(el) el.textContent=dt; }
 
 /* === 환율 자동조회 === */
 async function fetchFx(){
@@ -2102,7 +2102,8 @@ function rowsToObjects(matrix){
 }
 
 function downloadRawExcel(){
-  const filename = `PQ_Dashboard_${new Date().toISOString().slice(0,10)}.xlsx`;
+  const today = new Date(); const ymd = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
+  const filename = `플랜트구매품질팀_대시보드_${ymd}.xlsx`;
   const bytes = buildXLSX();
   const blob = new Blob([bytes], {type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
   const url = URL.createObjectURL(blob);
