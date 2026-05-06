@@ -2266,7 +2266,10 @@ function renderManpowerPage(){
   };
   const fieldDeployLabel = loc => {
     const d = String(loc||'').trim();
-    return d.startsWith('본사') ? '서울사무소' : '현장';
+    if(d.startsWith('서울사무소')) return '서울사무소';
+    if(d.startsWith('현장')) return '현장';
+    if(d.startsWith('본사')) return '서울사무소'; // 구버전 호환 ('본사 (XXX)')
+    return '현장';
   };
   const FIELD_PROJECTS = ['SAC2','STA4','SHN1'];
   const fieldProject = loc => {
