@@ -225,6 +225,13 @@ button{cursor:pointer;border:none;background:none}
 }
 .card-title .bar{width:3px;height:13px;background:var(--navy);border-radius:1px}
 .card-meta{font-size:12px;color:var(--muted);font-weight:500;font-family:'JetBrains Mono','Noto Sans KR','Malgun Gothic',monospace}
+.card-title .hd-ct{
+  display:inline-block;
+  font-family:'JetBrains Mono','Noto Sans KR',monospace;
+  font-size:0.8em;font-weight:500;color:var(--sub);
+  background:none;border:none;padding:0 0 0 2px;letter-spacing:0;
+  margin-left:2px;align-self:flex-end;
+}
 .card-body{padding:16px 18px}
 .card-body.flush{padding:0}
 
@@ -567,7 +574,7 @@ button{cursor:pointer;border:none;background:none}
 }
 .org-person:hover{border-color:#CBD5E1;background:#FAFBFD}
 .org-person .top{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
-.org-person .name{font-size:13.5px;font-weight:700;color:var(--ink);letter-spacing:-.005em}
+.org-person .name{font-size:13.5px;font-weight:700;color:var(--ink);letter-spacing:-.005em;white-space:nowrap;overflow:hidden}
 .org-person .po{
   font-family:'JetBrains Mono','Noto Sans KR','Malgun Gothic',monospace;
   font-size:10.5px;font-weight:600;color:var(--navy);
@@ -577,7 +584,7 @@ button{cursor:pointer;border:none;background:none}
 .org-person .role{
   font-family:'JetBrains Mono','Noto Sans KR','Malgun Gothic',monospace;
   font-size:11px;color:var(--sub);font-weight:500;margin-top:3px;
-  letter-spacing:.02em;
+  letter-spacing:.02em;white-space:nowrap;overflow:hidden;
 }
 .org-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:8px}
 .org-tag{
@@ -645,6 +652,21 @@ button{cursor:pointer;border:none;background:none}
   font-size:9.5px;font-weight:600;color:var(--sub);letter-spacing:.04em;
 }
 .org-tier2 .org-members{padding:8px;background:#fff}
+.org-loc-list{display:flex;flex-direction:column}
+.org-loc-group{overflow:hidden}
+.org-loc-group+.org-loc-group{border-top:1px solid var(--line2)}
+.org-loc-hd{
+  padding:5px 11px;background:#F4F6FA;
+  display:flex;justify-content:space-between;align-items:center;
+}
+[data-loc="현장"] .org-loc-hd,[data-loc="서울사무소"] .org-loc-hd{background:#EAF0F9;color:#1E3F72}
+[data-loc="현장"] .org-loc-hd .loc-name,[data-loc="서울사무소"] .org-loc-hd .loc-name{color:#1E3F72}
+.org-loc-hd .loc-name{font-size:11px;font-weight:700;color:var(--navy);letter-spacing:.02em}
+.org-loc-hd .loc-ct{
+  font-family:'JetBrains Mono','Noto Sans KR','Malgun Gothic',monospace;
+  font-size:9.5px;font-weight:600;color:var(--sub);letter-spacing:.04em;
+}
+.org-loc-group .org-tier2-list{padding:8px;background:#FAFBFD;display:flex;flex-direction:column;gap:8px}
 
 /* ── 출장 통계 차트 ── */
 .trip-stat{padding:12px 14px;display:flex;flex-direction:column;gap:6px;max-height:340px;overflow-y:auto}
@@ -674,6 +696,14 @@ button{cursor:pointer;border:none;background:none}
 .trip-stat-row.purpose .bar-fill{background:linear-gradient(to right,#B47010,#E5A031)}
 .trip-stat-row.project .bar-fill{background:linear-gradient(to right,#5B2DA0,#8852D7)}
 .trip-stat-row.traveler .bar-fill{background:linear-gradient(to right,#0F4391,#4A5F8E)}
+.trip-stat-row.year{cursor:pointer;user-select:none}
+.trip-stat-row.year .year-toggle{flex:0 0 10px;font-size:8px;color:var(--sub);transition:transform .18s;line-height:1}
+.trip-stat-row.year.open .year-toggle{transform:rotate(90deg)}
+.trip-stat-month-group{display:none;flex-direction:column;gap:3px;padding:1px 0 5px 18px}
+.trip-stat-month-group.open{display:flex}
+.trip-stat-row.month .label{flex:0 0 46px;font-size:11px;font-weight:500;color:var(--sub)}
+.trip-stat-row.month .bar-fill{background:linear-gradient(to right,#3A73C4,#6A9BE0)}
+.trip-stat-row.month .count{font-size:10.5px;color:var(--sub)}
 
 /* ============================================================
    Issue 카드
@@ -999,7 +1029,7 @@ button{cursor:pointer;border:none;background:none}
   border-bottom:1px solid var(--line)}
 .person-popover .pp-tbl td{padding:5px 8px;border-bottom:1px solid var(--line2);color:var(--text)}
 .person-popover .pp-tbl tr:last-child td{border-bottom:none}
-.person-popover .pp-tbl td .code{font-family:'JetBrains Mono','Noto Sans KR',monospace;font-weight:600}
+.person-popover .pp-tbl td .code{font-family:'JetBrains Mono','Noto Sans KR',monospace;font-weight:600;white-space:nowrap}
 .org-person{cursor:pointer}
 .org-deploy{display:inline-block;font-weight:600;font-size:10px;
   padding:1px 6px;background:#E5F1F8;border:1px solid #BDD9EA;color:#0B5278;
@@ -1050,11 +1080,16 @@ button{cursor:pointer;border:none;background:none}
   padding:0 4px;font-size:9.5px;color:var(--muted);
   font-family:'JetBrains Mono',monospace}
 
+/* ─ 인력운영 목록 테이블 ─ */
+#mpTbl td,#mpTbl th{text-align:center}
 /* ─ 인력운영 직급 표기 ─ */
 .grade-pill{display:inline-block;padding:2px 7px;background:#EEF2F7;
   border:1px solid #D5DEE9;color:var(--navy);border-radius:3px;
   font-family:'JetBrains Mono','Noto Sans KR',monospace;
   font-size:10.5px;font-weight:700;letter-spacing:.04em}
+.org-person .grade-pill{background:none;border:none;padding:0 0 0 2px;
+  font-size:0.8em;font-weight:500;color:var(--sub);letter-spacing:0;vertical-align:baseline}
+.org-tags+.org-tags{margin-top:3px}
 </style>
 </head>
 <body>
@@ -1242,12 +1277,12 @@ button{cursor:pointer;border:none;background:none}
 
 <section class="page" id="manpower">
   <div class="card">
-    <div class="card-hd"><div class="card-title"><span class="bar"></span>본사 플랜트구매품질팀 조직도</div></div>
+    <div class="card-hd"><div class="card-title" id="orgHdHQ"><span class="bar"></span>플랜트구매품질팀</div></div>
     <div class="card-body flush"><div class="org-canvas" id="orgChartHQ"></div></div>
   </div>
   <div class="h-sep"></div>
   <div class="card">
-    <div class="card-hd"><div class="card-title"><span class="bar"></span>현장/파견 인력 조직도</div></div>
+    <div class="card-hd"><div class="card-title" id="orgHdField"><span class="bar"></span>현장/서울사무소</div></div>
     <div class="card-body flush"><div class="org-canvas" id="orgChartField"></div></div>
   </div>
   <div class="h-sep"></div>
@@ -1292,7 +1327,7 @@ button{cursor:pointer;border:none;background:none}
   </div>
   <div class="card">
     <div class="card-hd">
-      <div class="card-title"><span class="bar"></span>출장 현황 (최신순)</div>
+      <div class="card-title"><span class="bar"></span>출장 현황</div>
       <div class="trip-legend" id="tripLegend"></div>
     </div>
     <div class="card-body flush"><div class="tbl-wrap"><table class="tbl" id="tripTbl"></table></div></div>
@@ -1318,7 +1353,7 @@ button{cursor:pointer;border:none;background:none}
 
 <script>const DEFAULT_RAW = {"프로젝트_현황": [], "프로젝트_구매품질 실적": [], "프로젝트_미결 NCR 현황": [], "PQAN": [], "TPA_목록": [], "TPA_집행현황": [], "TPA_월별대금청구현황": [], "인력운영_현황": [], "인력운영_세부내역": [], "출장현황": [], "주요현안": []};
 
-const SHEET_FIELDS = {"프로젝트_현황": ["프로젝트", "HDEC 계약고 (USD)", "전체 계약고 (USD)", "HDEC 계약고 (KRW)", "전체 계약고 (KRW)", "발주처", "국가", "PM", "PQCM", "단계", "공정률", "비고"], "프로젝트_구매품질 실적": ["프로젝트", "MR_Total", "MR_Done", "TBE_Total", "TBE_Done", "PO_Total", "PO_Done", "PIM_Total", "PIM_Done", "IRC_100%_Total", "IRC_100%_Done", "NCR_Total", "NCR_Done"], "프로젝트_미결 NCR 현황": ["Serial_Number", "Project_Code", "NCR_Number", "Item", "Vendor", "NCR_Title", "Issue_Date", "Days_to_Date", "Remarks"], "PQAN": ["순번", "PQAN No.", "PQAN 배포일자", "연", "월", "Feedback", "작성자", "검토자", "공종", "프로젝트", "PO No.", "NCR No.", "Transmittal No.", "제목", "품목", "공급업체", "국가", "지역", "발견 시기", "발견 장소", "개요", "원인", "후속/예방 조치 (권고)", "이미지 URL (Teams)"], "TPA_목록": ["순번", "TPA", "등록평가", "정기평가 (2025)", "정기평가 (2026)", "연도별 실적 (TPA 집행세부내역 참조)"], "TPA_집행현황": ["프로젝트", "단계", "TPA 예산 (USD)", "TPA 계약고 (USD)", "집행비용 (USD)", "TPA 예산 (KRW)", "TPA 계약고 (KRW)", "집행비용 (KRW)", "예산 소진율", "現 계약고 소진율"], "TPA_월별대금청구현황": ["순번", "프로젝트", "TPA", "청구연월", "지급대금", "단위"], "인력운영_현황": ["순번", "이름", "근무지", "직급", "담당", "PQCM", "PQC_Engineer", "Number_of_PO"], "인력운영_세부내역": ["순번", "프로젝트", "공종", "PO", "PO Description", "Quantity", "업무 종료 예상 시기", "IRC %", "비고", "담당자(정)", "담당자(부)"], "출장현황": ["순번", "출장자", "출장목적", "프로젝트", "품목", "방문업체", "국가", "출발일", "복귀일"], "주요현안": ["Title", "Owner", "Project_Code", "Action_Required"]};
+const SHEET_FIELDS = {"프로젝트_현황": ["프로젝트", "HDEC 계약고 (USD)", "전체 계약고 (USD)", "HDEC 계약고 (KRW)", "전체 계약고 (KRW)", "발주처", "국가", "PM", "PQCM", "단계", "공정률", "비고"], "프로젝트_구매품질 실적": ["프로젝트", "MR_Total", "MR_Done", "TBE_Total", "TBE_Done", "PO_Total", "PO_Done", "PIM_Total", "PIM_Done", "IRC_100%_Total", "IRC_100%_Done", "NCR_Total", "NCR_Done"], "프로젝트_미결 NCR 현황": ["Serial_Number", "Project_Code", "NCR_Number", "Item", "Vendor", "NCR_Title", "Issue_Date", "Days_to_Date", "Remarks"], "PQAN": ["순번", "PQAN No.", "PQAN 배포일자", "연", "월", "Feedback", "작성자", "검토자", "공종", "프로젝트", "PO No.", "NCR No.", "Transmittal No.", "제목", "품목", "공급업체", "국가", "지역", "발견 시기", "발견 장소", "개요", "원인", "후속/예방 조치 (권고)", "이미지 URL (Teams)"], "TPA_목록": ["순번", "TPA", "등록평가", "정기평가 (2025)", "정기평가 (2026)"], "TPA_집행현황": ["프로젝트", "단계", "TPA 예산 (USD)", "TPA 계약고 (USD)", "집행비용 (USD)", "TPA 예산 (KRW)", "TPA 계약고 (KRW)", "집행비용 (KRW)", "예산 소진율", "現 계약고 소진율"], "TPA_월별대금청구현황": ["순번", "프로젝트", "TPA", "청구연월", "지급대금", "단위"], "인력운영_현황": ["순번", "이름", "소속", "근무지", "직급", "파트", "담당 공종", "PQCM", "PQC_Engineer", "Number_of_PO"], "인력운영_세부내역": ["순번", "프로젝트", "공종", "PO", "PO Description", "Quantity", "업무 종료 예상 시기", "IRC %", "비고", "담당자(정)", "담당자(부)"], "출장현황": ["출장자", "출장목적", "프로젝트", "품목", "방문업체", "국가", "출발일", "복귀일"], "주요현안": ["Title", "Owner", "Project_Code", "Action_Required"]};
 
 let RAW = structuredClone(DEFAULT_RAW);
 Object.keys(SHEET_FIELDS).forEach(k=>{ if(!RAW[k]) RAW[k] = []; });
@@ -2008,15 +2043,13 @@ function renderTpaListPage(){
     <th class="ctr">등록평가</th>
     <th class="ctr">정기평가 (2025)</th>
     <th class="ctr">정기평가 (2026)</th>
-    <th>연도별 실적</th>
-  </tr></thead><tbody>${list.length===0 ? emptyRow(6,'Excel을 업로드하면 TPA 목록이 표시됩니다.') : list.map(r=>`
+  </tr></thead><tbody>${list.length===0 ? emptyRow(5,'Excel을 업로드하면 TPA 목록이 표시됩니다.') : list.map(r=>`
     <tr>
       <td class="ctr code">${esc(r['순번']||'-')}</td>
       <td class="left"><span class="code">${esc(r['TPA']||'-')}</span></td>
       <td class="ctr">${scoreCell(r['등록평가'])}</td>
       <td class="ctr">${scoreCell(r['정기평가 (2025)'])}</td>
       <td class="ctr">${scoreCell(r['정기평가 (2026)'])}</td>
-      <td class="left muted">${esc(r['연도별 실적 (TPA 집행세부내역 참조)']||'-')}</td>
     </tr>`).join('')}</tbody>`;
 }
 
@@ -2200,11 +2233,11 @@ function showPersonPopover(target, name, pos){
   } else {
     el.innerHTML = `<div class="pp-name">${esc(name)}<span class="pp-count">진행 중 ${pos.length}건</span></div>`
       + `<table class="pp-tbl">
-          <thead><tr><th>PO</th><th>Item</th><th>프로젝트</th></tr></thead>
+          <thead><tr><th>프로젝트</th><th>PO</th><th>품목</th></tr></thead>
           <tbody>${pos.map(p=>`<tr>
+            <td><span class="code">${esc(p.project)}</span></td>
             <td><span class="code">${esc(p.po)}</span></td>
             <td>${esc(p.item)}</td>
-            <td><span class="code">${esc(p.project)}</span></td>
           </tr>`).join('')}</tbody>
         </table>`;
   }
@@ -2262,7 +2295,7 @@ function renderManpowerPage(){
 
   const isHQ = loc => {
     const d = String(loc||'').trim();
-    return d === '본사' || d.startsWith('플랜트');
+    return d === '플랜트구매품질팀' || d === '본사' || d.startsWith('플랜트');
   };
   const fieldDeployLabel = loc => {
     const d = String(loc||'').trim();
@@ -2279,28 +2312,38 @@ function renderManpowerPage(){
   };
 
   const ROLE_ORDER = {
-    'Strategic Planning':1,'Static':2,'Rotating':3,'Piping':4,
-    'Electrical & Instrument':5,'Structural Steel':6
+    '전략기획':1,'Strategic Planning':1,
+    '장치기계':2,'Static':2,
+    '회전기계':3,'Rotating':3,
+    '배관':4,'Piping':4,
+    '전기/계장':5,'전기계장':5,'Electrical & Instrument':5,
+    '철골':6,'Structural Steel':6
   };
   function primaryRole(m){
-    const role = String(m['담당']||'').trim();
+    const role = String(m['파트']||m['담당 공종']||'').trim();
     for(const r of Object.keys(ROLE_ORDER)){ if(role.includes(r)) return r; }
     return role || '미분류';
   }
 
-  const leader = mp.find(m=>/팀장|Team Leader/i.test(m['담당']||'') || /팀장/.test(m['이름']||''));
-  const hqMembers = mp.filter(m => m !== leader && isHQ(m['근무지']));
-  const fieldMembers = mp.filter(m => m !== leader && !isHQ(m['근무지']));
+  const leader = mp.find(m=>/팀장|Team Leader/i.test(m['파트']||'') || /팀장|Team Leader/i.test(m['담당 공종']||'') || /팀장/.test(m['이름']||''));
+  const hqMembers = mp.filter(m => m !== leader && isHQ(m['소속']));
+  const fieldMembers = mp.filter(m => m !== leader && !isHQ(m['소속']));
 
   function buildTags(m){
-    const tags = [];
-    if(m.PQCM){ String(m.PQCM).split('/').forEach(x=>{const t=x.trim();if(t)tags.push(`<span class="org-tag cm">PQCM·${esc(t)}</span>`);}); }
-    if(m.PQC_Engineer){ String(m.PQC_Engineer).split('/').forEach(x=>{const t=x.trim();if(t)tags.push(`<span class="org-tag eng">${esc(t)}</span>`);}); }
-    if(!tags.length){
-      const isIC = /Inspection Coordinator/i.test(String(m['담당']||''));
-      tags.push(`<span class="org-tag empty">${isIC ? 'N/A' : '미배정'}</span>`);
-    }
-    return tags;
+    const cmTags = [];
+    const engTags = [];
+    if(m.PQCM){ String(m.PQCM).split('/').forEach(x=>{const t=x.trim();if(t)cmTags.push(`<span class="org-tag cm">PQCM·${esc(t)}</span>`);}); }
+    if(m.PQC_Engineer){ String(m.PQC_Engineer).split('/').forEach(x=>{const t=x.trim();if(t)engTags.push(`<span class="org-tag eng">${esc(t)}</span>`);}); }
+    if(!cmTags.length && !engTags.length){ return ''; }
+    return (cmTags.length ? `<div class="org-tags">${cmTags.join('')}</div>` : '')
+         + (engTags.length ? `<div class="org-tags">${engTags.join('')}</div>` : '');
+  }
+  function fitOrgText(){
+    document.querySelectorAll('.org-person .name, .org-person .role').forEach(el=>{
+      el.style.fontSize = '';
+      let fs = parseFloat(getComputedStyle(el).fontSize);
+      while(el.scrollWidth > el.offsetWidth && fs > 8){ fs -= 0.5; el.style.fontSize = fs+'px'; }
+    });
   }
   function poBadge(m){
     const cnt = (poByPerson[String(m['이름']||'').trim()] || []).length;
@@ -2309,26 +2352,25 @@ function renderManpowerPage(){
   function hqPersonCard(m){
     return `<div class="org-person" data-name="${esc(m['이름'])}">
       <div class="top">
-        <div>
+        <div style="min-width:0;flex:1">
           <div class="name">${esc(m['이름'])} ${m['직급']?`<span class="grade-pill">${esc(m['직급'])}</span>`:''}</div>
-          <div class="role">${esc(m['담당']||'-')}</div>
+          ${m['담당 공종']?`<div class="role">${esc(m['담당 공종'])}</div>`:''}
         </div>
         ${poBadge(m)}
       </div>
-      <div class="org-tags">${buildTags(m).join('')}</div>
+      ${buildTags(m)}
     </div>`;
   }
   function fieldPersonCard(m){
-    const label = fieldDeployLabel(m['근무지']);
     return `<div class="org-person" data-name="${esc(m['이름'])}">
       <div class="top">
-        <div>
+        <div style="min-width:0;flex:1">
           <div class="name">${esc(m['이름'])} ${m['직급']?`<span class="grade-pill">${esc(m['직급'])}</span>`:''}</div>
-          <div class="role">${esc(m['담당']||'-')}<span class="org-deploy">${esc(label)}</span></div>
+          ${m['담당 공종']?`<div class="role">${esc(m['담당 공종'])}</div>`:''}
         </div>
         ${poBadge(m)}
       </div>
-      <div class="org-tags">${buildTags(m).join('')}</div>
+      ${buildTags(m)}
     </div>`;
   }
 
@@ -2351,10 +2393,14 @@ function renderManpowerPage(){
       return oa!==ob ? oa-ob : a.localeCompare(b);
     });
 
+    const hqTotal = hqMembers.length + (leader ? 1 : 0);
+    $('orgHdHQ').innerHTML = `<span class="bar"></span>플랜트구매품질팀<span class="hd-ct">${hqTotal}명</span>`;
+    $('orgHdField').innerHTML = `<span class="bar"></span>현장/서울사무소<span class="hd-ct">${fieldMembers.length}명</span>`;
+
     $('orgChartHQ').innerHTML = `
       ${leader ? `<div class="org-leader">
-        <div class="org-name">${esc(leader['이름'])} ${leader['직급']?`<span class="grade-pill">${esc(leader['직급'])}</span>`:''}</div>
-        <div class="org-role">${esc(leader['담당']||'Team Leader')}</div>
+        <div class="org-name">${esc(leader['이름'])}</div>
+        <div class="org-role">${esc(leader['담당 공종']||'Team Leader')}</div>
       </div>` : ''}
       <div class="org-tier1-row hq-roles">
         ${sortedHqRoles.map(role=>{
@@ -2375,7 +2421,7 @@ function renderManpowerPage(){
     } else {
       const fieldByProj = {};
       fieldMembers.forEach(m=>{
-        const p = fieldProject(m['근무지']);
+        const p = String(m['소속']||'').trim() || fieldProject(m['근무지']);
         (fieldByProj[p] = fieldByProj[p] || []).push(m);
       });
       const sortedFieldProjs = Object.keys(fieldByProj).sort((a,b)=>{
@@ -2385,28 +2431,49 @@ function renderManpowerPage(){
         if(ob>=0) return 1;
         return a.localeCompare(b);
       });
+      const LOC_ORDER = ['현장','서울사무소'];
 
       $('orgChartField').innerHTML = `
         <div class="org-tier1-row">
           ${sortedFieldProjs.map(proj=>{
             const list = fieldByProj[proj];
-            const byRole = {};
+            const byLoc = {};
             list.forEach(m=>{
-              const r = primaryRole(m);
-              (byRole[r] = byRole[r] || []).push(m);
+              const loc = fieldDeployLabel(m['근무지']);
+              (byLoc[loc] = byLoc[loc] || []).push(m);
             });
-            const sortedRoles = Object.keys(byRole).sort((a,b)=>{
-              const oa = ROLE_ORDER[a]||99, ob = ROLE_ORDER[b]||99;
-              return oa!==ob ? oa-ob : a.localeCompare(b);
+            const sortedLocs = Object.keys(byLoc).sort((a,b)=>{
+              const oa = LOC_ORDER.indexOf(a), ob = LOC_ORDER.indexOf(b);
+              if(oa>=0 && ob>=0) return oa-ob;
+              if(oa>=0) return -1;
+              if(ob>=0) return 1;
+              return a.localeCompare(b);
             });
             return `<div class="org-tier1">
               <div class="org-tier1-hd"><span class="loc">${esc(proj)}</span><span class="ct">${list.length}명</span></div>
-              <div class="org-tier2-list">
-                ${sortedRoles.map(role=>{
-                  const sub = byRole[role];
-                  return `<div class="org-tier2">
-                    <div class="org-tier2-hd"><span class="role">${esc(role)}</span><span class="ct">${sub.length}명</span></div>
-                    <div class="org-members">${sub.map(fieldPersonCard).join('')}</div>
+              <div class="org-loc-list">
+                ${sortedLocs.map(loc=>{
+                  const locList = byLoc[loc];
+                  const byRole = {};
+                  locList.forEach(m=>{
+                    const r = primaryRole(m);
+                    (byRole[r] = byRole[r] || []).push(m);
+                  });
+                  const sortedRoles = Object.keys(byRole).sort((a,b)=>{
+                    const oa = ROLE_ORDER[a]||99, ob = ROLE_ORDER[b]||99;
+                    return oa!==ob ? oa-ob : a.localeCompare(b);
+                  });
+                  return `<div class="org-loc-group" data-loc="${esc(loc)}">
+                    <div class="org-loc-hd"><span class="loc-name">${esc(loc)}</span><span class="loc-ct">${locList.length}명</span></div>
+                    <div class="org-tier2-list">
+                      ${sortedRoles.map(role=>{
+                        const sub = byRole[role];
+                        return `<div class="org-tier2">
+                          <div class="org-tier2-hd"><span class="role">${esc(role)}</span><span class="ct">${sub.length}명</span></div>
+                          <div class="org-members">${sub.map(fieldPersonCard).join('')}</div>
+                        </div>`;
+                      }).join('')}
+                    </div>
                   </div>`;
                 }).join('')}
               </div>
@@ -2414,20 +2481,23 @@ function renderManpowerPage(){
           }).join('')}
         </div>`;
     }
+    fitOrgText();
   }
 
   $('mpTbl').innerHTML = `<thead><tr>
-    <th class="ctr">순번</th><th>이름</th><th>근무지</th><th class="ctr">직급</th>
-    <th>담당</th><th>PQCM</th><th>PQC Engineer</th><th class="right">PO</th>
-  </tr></thead><tbody>${mp.length===0 ? emptyRow(8,'Excel을 업로드하면 인력 목록이 표시됩니다.') : mp.map(m=>`<tr>
-    <td class="ctr code">${esc(m['순번']||'-')}</td>
+    <th>순번</th><th>이름</th><th>소속</th><th>근무지</th><th>직급</th>
+    <th>파트</th><th>담당 공종</th><th>PQCM</th><th>PQC Engineer</th><th>PO</th>
+  </tr></thead><tbody>${mp.length===0 ? emptyRow(10,'Excel을 업로드하면 인력 목록이 표시됩니다.') : mp.map(m=>`<tr>
+    <td class="code">${esc(m['순번']||'-')}</td>
     <td><span class="code">${esc(m['이름'])}</span></td>
-    <td class="left">${esc(m['근무지']||'-')}</td>
-    <td class="ctr">${m['직급']?`<span class="grade-pill">${esc(m['직급'])}</span>`:'-'}</td>
-    <td class="left">${esc(m['담당']||'-')}</td>
-    <td class="left">${esc(m.PQCM||'-')}</td>
-    <td class="left">${esc(m.PQC_Engineer||'-')}</td>
-    <td class="num">${isNumLike(m.Number_of_PO)?fmt(num(m.Number_of_PO)):'-'}</td>
+    <td>${esc(m['소속']||'-')}</td>
+    <td>${esc(m['근무지']||'-')}</td>
+    <td>${esc(m['직급']||'-')}</td>
+    <td>${esc(m['파트']||'-')}</td>
+    <td>${esc(m['담당 공종']||'-')}</td>
+    <td>${esc(m.PQCM||'-')}</td>
+    <td>${esc(m.PQC_Engineer||'-')}</td>
+    <td>${isNumLike(m.Number_of_PO)?fmt(num(m.Number_of_PO)):'-'}</td>
   </tr>`).join('')}</tbody>`;
 
   bindPersonPopover(poByPerson);
@@ -2438,10 +2508,16 @@ function renderTripPage(){
   const trips = (RAW['출장현황'] || []).slice();
   const yearStat={}, countryStat={}, projectStat={}, purposeStat={}, travelerStat={};
 
+  const yearMonthStat = {};
   trips.forEach(t=>{
     const d = excelToDate(t['출발일']);
     const year = d && !isNaN(d.getTime()) ? d.getFullYear()+'년' : '미상';
     yearStat[year] = (yearStat[year]||0)+1;
+    if(d && !isNaN(d.getTime())){
+      const mKey = String(d.getMonth()+1).padStart(2,'0')+'월';
+      if(!yearMonthStat[year]) yearMonthStat[year]={};
+      yearMonthStat[year][mKey] = (yearMonthStat[year][mKey]||0)+1;
+    }
     if(t['국가']) countryStat[t['국가']] = (countryStat[t['국가']]||0)+1;
     if(t['프로젝트']) projectStat[t['프로젝트']] = (projectStat[t['프로젝트']]||0)+1;
     if(t['출장목적']) purposeStat[t['출장목적']] = (purposeStat[t['출장목적']]||0)+1;
@@ -2466,7 +2542,54 @@ function renderTripPage(){
       </div>`).join('');
   }
 
-  renderStat('tripStatYear',     yearStat,     'year',     {sortByKey:true});
+  function renderYearStat(elId, yearStat, yearMonthStat){
+    const el = $(elId); if(!el) return;
+    const now = new Date();
+    const curYearNum = now.getFullYear();
+    const curMonthNum = now.getMonth()+1;
+    const entries = Object.entries(yearStat).sort((a,b)=>String(b[0]).localeCompare(String(a[0])));
+    if(!entries.length){
+      el.innerHTML = `<div class="empty-state" style="margin:0;padding:18px"><div class="title" style="font-size:12px">데이터 없음</div></div>`;
+      return;
+    }
+    const max = Math.max(...entries.map(e=>e[1]));
+    el.innerHTML = entries.map(([yearKey, total], idx)=>{
+      const yearNum = parseInt(yearKey);
+      const monthMap = yearMonthStat[yearKey] || {};
+      const monthEntries = Object.entries(monthMap)
+        .filter(([mKey])=>{
+          if(yearNum < curYearNum) return true;
+          if(yearNum > curYearNum) return false;
+          return parseInt(mKey) <= curMonthNum;
+        })
+        .sort((a,b)=>String(b[0]).localeCompare(String(a[0])));
+      const isOpen = idx === 0;
+      const mMax = monthEntries.length ? Math.max(...monthEntries.map(e=>e[1])) : 1;
+      const monthHtml = monthEntries.map(([mKey,cnt])=>`
+        <div class="trip-stat-row month">
+          <div class="label">${esc(mKey)}</div>
+          <div class="bar-wrap"><div class="bar-fill" style="width:${(cnt/mMax*100).toFixed(1)}%"></div></div>
+          <div class="count">${cnt}건</div>
+        </div>`).join('');
+      return `<div class="trip-stat-row year${isOpen?' open':''}">
+        <div class="year-toggle">▶</div>
+        <div class="label">${esc(yearKey)}</div>
+        <div class="bar-wrap"><div class="bar-fill" style="width:${(total/max*100).toFixed(1)}%"></div></div>
+        <div class="count">${total}건</div>
+      </div>
+      <div class="trip-stat-month-group${isOpen?' open':''}">
+        ${monthHtml || '<div class="trip-stat-row month"><div class="label" style="color:var(--muted);flex:1">데이터 없음</div></div>'}
+      </div>`;
+    }).join('');
+    el.querySelectorAll('.trip-stat-row.year').forEach(row=>{
+      row.addEventListener('click', ()=>{
+        row.classList.toggle('open');
+        row.nextElementSibling?.classList.toggle('open');
+      });
+    });
+  }
+
+  renderYearStat('tripStatYear', yearStat, yearMonthStat);
   renderStat('tripStatCountry',  countryStat,  'country');
   renderStat('tripStatPurpose',  purposeStat,  'purpose');
   renderStat('tripStatProject',  projectStat,  'project');
@@ -2476,7 +2599,7 @@ function renderTripPage(){
   const legendOrder = [...TRIP_PURPOSES, '기타'];
   const legendEl = $('tripLegend');
   if(legendEl){
-    legendEl.innerHTML = `<span class="lbl">목적</span>` + legendOrder.map(p=>`
+    legendEl.innerHTML = legendOrder.map(p=>`
       <span class="purpose-tag purpose-${esc(p)}"><span class="dot"></span>${esc(p)}</span>`).join('');
   }
 
@@ -2502,10 +2625,11 @@ function renderTripPage(){
     <th class="ctr">국가</th>
     <th class="ctr">출발</th>
     <th class="ctr">복귀</th>
-  </tr></thead><tbody>${sorted.length===0 ? emptyRow(9,'Excel을 업로드하면 출장 현황이 표시됩니다.') : sorted.map(t=>{
+  </tr></thead><tbody>${sorted.length===0 ? emptyRow(9,'Excel을 업로드하면 출장 현황이 표시됩니다.') : sorted.map((t,i)=>{
     const pk = purposeKey(t['출장목적']);
+    const displayNo = sorted.length - i;
     return `<tr>
-      <td class="ctr code">${esc(t['순번']||'-')}</td>
+      <td class="ctr code">${displayNo}</td>
       <td class="ctr"><span class="code">${esc(t['출장자'])}</span></td>
       <td class="ctr"><span class="purpose-tag purpose-${esc(pk)}"><span class="dot"></span>${esc(t['출장목적']||'-')}</span></td>
       <td class="ctr code">${esc(t['프로젝트'])}</td>
@@ -2725,12 +2849,12 @@ const SHEET_COLS = {
   '프로젝트_구매품질 실적':   {A:14},
   '프로젝트_미결 NCR 현황':  {A:10, B:14, C:30},
   'PQAN':                  {A:8, B:18, C:14, F:10, J:12, N:32, O:24, P:24, U:42, V:42, W:42, X:48},
-  'TPA_목록':               {A:8, B:14, C:14, D:18, E:18, F:42},
+  'TPA_목록':               {A:8, B:14, C:14, D:18, E:18},
   'TPA_집행현황':           {A:14, B:24},
   'TPA_월별대금청구현황':    {A:8, B:14, C:14, D:14, E:18, F:10},
-  '인력운영_현황':           {A:8, B:18, C:24, D:8, E:24},
+  '인력운영_현황':           {A:8, B:18, C:14, D:18, E:8, F:16, G:24, H:24, I:24, J:14},
   '인력운영_세부내역':        {A:8, B:14, C:14, D:14, E:32, F:14, G:18},
-  '출장현황':                {A:8, B:18, C:14, D:14, E:32, F:24, G:14, H:14, I:14},
+  '출장현황':                {A:18, B:14, C:14, D:32, E:24, F:14, G:14, H:14},
   '주요현안':                {A:34, D:24}
 };
 
@@ -2928,7 +3052,7 @@ function init(){
 function applyReportMode(){
   document.querySelectorAll('.hd-actions label, .hd-actions button').forEach(el=>{
     const txt = el.textContent || '';
-    if(txt.includes('Excel') || txt.includes('보고용 HTML')) el.style.display = 'none';
+    if(txt.includes('업로드') || txt.includes('보고용 HTML')) el.style.display = 'none';
   });
   const fx = document.getElementById('fxInput');
   if(fx){ fx.readOnly = true; fx.style.opacity = '.7'; fx.style.cursor = 'not-allowed'; }
@@ -2956,7 +3080,7 @@ function downloadStaticHTML(){
     const doctype = '<!DOCTYPE html>\n';
     let html = document.documentElement.outerHTML;
 
-    const dataJson = JSON.stringify(RAW);
+    const dataJson = JSON.stringify(RAW).replace(/<\//g, '<\\/');
     const rawRegex = /const DEFAULT_RAW = [\s\S]*?;(\s*\nconst SHEET_FIELDS)/;
     if(!rawRegex.test(html)){
       throw new Error('DEFAULT_RAW 블록을 찾지 못했습니다.');
