@@ -669,41 +669,42 @@ button{cursor:pointer;border:none;background:none}
 .org-loc-group .org-tier2-list{padding:8px;background:#FAFBFD;display:flex;flex-direction:column;gap:8px}
 
 /* ── 출장 통계 차트 ── */
-.trip-stat{padding:12px 14px;display:flex;flex-direction:column;gap:6px;max-height:340px;overflow-y:auto}
-.trip-stat-row{display:flex;align-items:center;gap:8px;font-size:12px}
+.trip-stat{padding:8px 10px 14px;display:flex;flex-direction:column;gap:5px;max-height:420px;overflow-y:auto}
+.trip-stat-row{display:flex;align-items:center;gap:5px;font-size:11.5px}
 .trip-stat-row .label{
-  flex:0 0 90px;
-  font-size:11.5px;font-weight:600;color:var(--ink);
+  flex:0 0 72px;
+  font-size:11px;font-weight:600;color:var(--ink);
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
   letter-spacing:-.005em;
 }
 .trip-stat-row .bar-wrap{
-  flex:1;height:16px;
-  background:#F4F6FA;border-radius:3px;
+  flex:1;min-width:0;height:9px;
+  background:#ECEEF6;border-radius:999px;
   position:relative;overflow:hidden;
 }
 .trip-stat-row .bar-fill{
-  height:100%;border-radius:3px;
-  background:linear-gradient(to right,#4A5F8E,#6F8AB7);
+  height:100%;border-radius:999px;
+  background:linear-gradient(90deg,#6366F1,#A5B4FC);
+  transition:width .45s cubic-bezier(.22,1,.36,1);
 }
 .trip-stat-row .count{
-  flex:0 0 50px;text-align:right;
+  flex:0 0 38px;text-align:right;
   font-family:'JetBrains Mono','Noto Sans KR','Malgun Gothic',monospace;
-  font-weight:600;color:var(--navy);font-size:11px;letter-spacing:.02em;
+  font-weight:600;color:var(--navy);font-size:10.5px;letter-spacing:.02em;
 }
-.trip-stat-row.year .bar-fill{background:linear-gradient(to right,#0F4391,#1B5BC4)}
-.trip-stat-row.country .bar-fill{background:linear-gradient(to right,#1F8F4A,#34BC68)}
-.trip-stat-row.purpose .bar-fill{background:linear-gradient(to right,#B47010,#E5A031)}
-.trip-stat-row.project .bar-fill{background:linear-gradient(to right,#5B2DA0,#8852D7)}
-.trip-stat-row.traveler .bar-fill{background:linear-gradient(to right,#0F4391,#4A5F8E)}
+.trip-stat-row.year .bar-fill{background:linear-gradient(90deg,#6366F1,#A5B4FC)}
+.trip-stat-row.country .bar-fill{background:linear-gradient(90deg,#10B981,#6EE7B7)}
+.trip-stat-row.purpose .bar-fill{background:linear-gradient(90deg,#F97316,#FCD34D)}
+.trip-stat-row.project .bar-fill{background:linear-gradient(90deg,#8B5CF6,#C4B5FD)}
+.trip-stat-row.traveler .bar-fill{background:linear-gradient(90deg,#0EA5E9,#7DD3FC)}
 .trip-stat-row.year{cursor:pointer;user-select:none}
 .trip-stat-row.year .year-toggle{flex:0 0 10px;font-size:8px;color:var(--sub);transition:transform .18s;line-height:1}
 .trip-stat-row.year.open .year-toggle{transform:rotate(90deg)}
 .trip-stat-month-group{display:none;flex-direction:column;gap:3px;padding:1px 0 5px 18px}
 .trip-stat-month-group.open{display:flex}
-.trip-stat-row.month .label{flex:0 0 46px;font-size:11px;font-weight:500;color:var(--sub)}
-.trip-stat-row.month .bar-fill{background:linear-gradient(to right,#3A73C4,#6A9BE0)}
-.trip-stat-row.month .count{font-size:10.5px;color:var(--sub)}
+.trip-stat-row.month .label{flex:0 0 38px;font-size:10.5px;font-weight:500;color:var(--sub)}
+.trip-stat-row.month .bar-fill{background:linear-gradient(90deg,#A5B4FC,#DDD6FE)}
+.trip-stat-row.month .count{font-size:10px;color:var(--sub)}
 
 /* ============================================================
    Issue 카드
@@ -1020,6 +1021,7 @@ button{cursor:pointer;border:none;background:none}
 .person-popover.on{display:block}
 .org-tier1-row.hq-roles{grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
 .org-tier1-row.hq-roles:before{display:none}
+#orgChartField .org-tier1-row:before{display:none}
 .person-popover .pp-name{font-weight:700;color:var(--ink);margin-bottom:8px;font-size:12.5px}
 .person-popover .pp-count{font-weight:500;color:var(--muted);font-size:10.5px;margin-left:6px}
 .person-popover .pp-empty{color:var(--muted);font-size:11px;padding:6px 0}
@@ -1061,28 +1063,46 @@ button{cursor:pointer;border:none;background:none}
 .tpa-score{font-family:'JetBrains Mono','Noto Sans KR',monospace;font-weight:700;
   color:var(--ink);font-size:13px}
 .tpa-score.warn{color:var(--warn)}
-.tpa-score.danger{color:var(--danger)}
+.tpa-score.danger{color:rgb(226, 31, 31)}
 .tpa-score.ok{color:var(--ok)}
-.tpa-score.info{color:var(--info)}
-.tpa-score.muted{color:var(--muted);font-weight:500}
+.tpa-score.info{color:#0b52d6}
+.tpa-score.muted{color:var(--muted);font-weight:500;font-size:11px}
+#tpaListTbl{table-layout:fixed;width:100%}
+#tpaListTbl th,#tpaListTbl td{text-align:center}
+#tpaListTbl thead th{white-space:nowrap}
+#tpaListTbl thead tr:first-child th{border-bottom:1px solid var(--line2)}
+#tpaListTbl thead tr:last-child th{font-size:11px;color:var(--sub);font-weight:600;padding-top:5px;padding-bottom:5px}
+#tpaListTbl th.col-no{width:64px}
+#tpaListTbl th.col-tpa{width:auto}
+#tpaListTbl th.col-score{width:64px}
 
-.monthly-bar-wrap{display:flex;align-items:flex-end;gap:3px;height:200px;padding:8px 4px}
-.monthly-bar{flex:1;min-width:8px;background:var(--navy2);border-radius:2px 2px 0 0;
-  position:relative;transition:opacity .15s;opacity:.85;cursor:pointer}
-.monthly-bar:hover{opacity:1;background:var(--navy)}
+.monthly-bar-wrap{display:flex;align-items:flex-end;justify-content:space-between;gap:0;height:220px;padding:8px 4px 0;position:relative}
+.monthly-bar-wrap::before{
+  content:'';position:absolute;inset:8px 4px 0;
+  background:repeating-linear-gradient(to bottom,#E8EBF4 0px,#E8EBF4 1px,transparent 1px,transparent 25%);
+  pointer-events:none;z-index:0}
+.monthly-bar{flex:0 0 11px;
+  background:linear-gradient(to top,#0EA5E9 0%,#38BDF8 55%,#7DD3FC 100%);
+  border-radius:4px 4px 0 0;
+  position:relative;z-index:1;
+  transition:filter .18s,box-shadow .18s,z-index 0s;cursor:pointer}
+.monthly-bar:hover{filter:brightness(1.12);box-shadow:0 -6px 16px rgba(14,165,233,.38);z-index:50}
 .monthly-bar .lbl{position:absolute;bottom:-18px;left:50%;transform:translateX(-50%);
   font-size:9px;color:var(--muted);white-space:nowrap;
   font-family:'JetBrains Mono',monospace}
 .monthly-bar .lbl:empty{display:none}
 .monthly-bar:hover .tip{display:block}
-.monthly-bar .tip{display:none;position:absolute;bottom:calc(100% + 6px);left:50%;
-  transform:translateX(-50%);background:var(--ink);color:#fff;font-size:10px;
-  padding:4px 8px;border-radius:4px;white-space:nowrap;pointer-events:none;z-index:10}
+.monthly-bar .tip{display:none;position:absolute;bottom:calc(100% + 8px);left:50%;
+  transform:translateX(-50%);background:#0C2D48;color:#E0F2FE;font-size:10px;
+  padding:5px 10px;border-radius:6px;white-space:nowrap;pointer-events:none;z-index:10;
+  box-shadow:0 4px 12px rgba(0,0,0,.18)}
 .monthly-bar.tip-r .tip{left:0;transform:none}
 .monthly-bar.tip-l .tip{left:auto;right:0;transform:none}
 .trip-stat-row.pay-month .label{flex:0 0 58px}
-#tpaMonthlyByTpa .trip-stat-row.year .bar-fill{background:linear-gradient(to right,#6B3FA0,#9B6DD4)}
-#tpaMonthlyByTpa .trip-stat-row.month .bar-fill{background:linear-gradient(to right,#9B6DD4,#C4A0E8)}
+#tpaMonthlyByTpa .trip-stat-row.year .bar-fill{background:linear-gradient(90deg,#8B5CF6,#C4B5FD)}
+#tpaMonthlyByTpa .trip-stat-row.month .bar-fill{background:linear-gradient(90deg,#A78BFA,#DDD6FE)}
+#tpaMonthlyByTpa .trip-stat-month-group{gap:5px;padding-top:5px}
+#tpaMonthlyByTpa .trip-stat-row.year~.trip-stat-row.year{margin-top:8px}
 .monthly-axis{display:flex;justify-content:space-between;margin-top:24px;
   padding:0 4px;font-size:9.5px;color:var(--muted);
   font-family:'JetBrains Mono',monospace}
@@ -1091,6 +1111,7 @@ button{cursor:pointer;border:none;background:none}
 #mpTbl td,#mpTbl th{text-align:center}
 #tpaByYearTbl{table-layout:fixed}
 #tpaByYearTbl th:first-child,#tpaByYearTbl td:first-child{width:18%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#tpaProjChart{overflow:visible}
 /* ─ 인력운영 직급 표기 ─ */
 .grade-pill{display:inline-block;padding:2px 7px;background:#EEF2F7;
   border:1px solid #D5DEE9;color:var(--navy);border-radius:3px;
@@ -1260,26 +1281,49 @@ button{cursor:pointer;border:none;background:none}
 </section>
 
 <section class="page" id="tpaMonthly">
+  <!-- ROW 1: 프로젝트별 추이 (2fr) + 연도별 추이 (1fr) -->
   <div class="grid g21">
     <div class="card">
       <div class="card-hd">
-        <div class="card-title"><span class="bar"></span>월별 대금지급 추이 (최근 5개년)</div>
+        <div class="card-title"><span class="bar"></span>프로젝트별 대금지급 추이</div>
+        <div class="card-meta">
+          <select class="select" id="tpaProjSelect" style="font-size:11px;padding:1px 8px;height:24px;min-width:140px"></select>
+        </div>
       </div>
-      <div class="card-body" id="tpaMonthlyChart" style="min-height:280px"></div>
+      <div class="card-body" id="tpaProjChart" style="min-height:240px;overflow:visible"></div>
     </div>
     <div class="card">
-      <div class="card-hd"><div class="card-title"><span class="bar"></span>연도별</div></div>
+      <div class="card-hd"><div class="card-title"><span class="bar"></span>연도별 대금지급 추이</div></div>
       <div class="card-body" id="tpaMonthlyByTpa"></div>
     </div>
   </div>
   <div class="h-sep"></div>
-  <div class="card">
-    <div class="card-hd"><div class="card-title"><span class="bar"></span>TPA별 대금지급 추이 (최근 5개년)</div></div>
-    <div class="card-body flush"><div class="tbl-wrap"><table class="tbl" id="tpaByYearTbl"></table></div></div>
+  <!-- ROW 2: 월별 추이 차트 (2fr) + TPA별 추이 테이블 (1fr) -->
+  <div class="grid g21">
+    <div class="card">
+      <div class="card-hd">
+        <div class="card-title"><span class="bar"></span>월별 대금지급 추이 (최근 3개년)</div>
+      </div>
+      <div class="card-body" id="tpaMonthlyChart" style="min-height:260px"></div>
+    </div>
+    <div class="card">
+      <div class="card-hd"><div class="card-title"><span class="bar"></span>TPA별 대금지급 추이 (최근 3개년)</div></div>
+      <div class="card-body flush"><div class="tbl-wrap"><table class="tbl" id="tpaByYearTbl"></table></div></div>
+    </div>
   </div>
   <div class="h-sep"></div>
+  <!-- ROW 3: 월별 이력 테이블 (full width) -->
   <div class="card">
-    <div class="card-hd"><div class="card-title"><span class="bar"></span>월별 대금지급 상세</div></div>
+    <div class="card-hd"><div class="card-title"><span class="bar"></span>월별 대금지급 이력</div></div>
+    <div class="filters" style="padding:10px 16px">
+      <input class="input" id="tpaMonthlySearchYM"  placeholder="지급연월 검색" style="width:150px">
+      <input class="input" id="tpaMonthlySearchProj" placeholder="프로젝트 검색" style="width:150px">
+      <input class="input" id="tpaMonthlySearchTpa"  placeholder="TPA 검색"    style="width:150px">
+      <span id="tpaMonthlyCount" style="font-size:11px;color:var(--muted)"></span>
+      <span id="tpaMonthlySum" style="display:none;font-size:11.5px;font-weight:700;color:var(--navy);
+        background:#EEF2FF;border:1px solid #C7D2FE;border-radius:6px;padding:3px 10px;
+        font-family:'JetBrains Mono','Noto Sans KR',monospace;letter-spacing:.01em"></span>
+    </div>
     <div class="card-body flush"><div class="tbl-wrap"><table class="tbl" id="tpaMonthlyTbl"></table></div></div>
   </div>
 </section>
@@ -1302,25 +1346,22 @@ button{cursor:pointer;border:none;background:none}
 </section>
 
 <section class="page" id="trip">
-  <div class="grid g3">
+  <div class="grid g5">
     <div class="card">
       <div class="card-hd"><div class="card-title"><span class="bar"></span>연도별</div></div>
       <div class="card-body trip-stat" id="tripStatYear"></div>
     </div>
     <div class="card">
-      <div class="card-hd"><div class="card-title"><span class="bar"></span>국가별</div></div>
-      <div class="card-body trip-stat" id="tripStatCountry"></div>
-    </div>
-    <div class="card">
       <div class="card-hd"><div class="card-title"><span class="bar"></span>목적별</div></div>
       <div class="card-body trip-stat" id="tripStatPurpose"></div>
     </div>
-  </div>
-  <div class="h-sep"></div>
-  <div class="grid g2">
     <div class="card">
       <div class="card-hd"><div class="card-title"><span class="bar"></span>프로젝트별</div></div>
       <div class="card-body trip-stat" id="tripStatProject"></div>
+    </div>
+    <div class="card">
+      <div class="card-hd"><div class="card-title"><span class="bar"></span>국가별</div></div>
+      <div class="card-body trip-stat" id="tripStatCountry"></div>
     </div>
     <div class="card">
       <div class="card-hd"><div class="card-title"><span class="bar"></span>인원별</div></div>
@@ -1328,16 +1369,17 @@ button{cursor:pointer;border:none;background:none}
     </div>
   </div>
   <div class="h-sep"></div>
-  <div class="control-row">
-    <div class="filters">
-      <input class="input" id="tripSearch" placeholder="검색: 출장자 / 목적 / 프로젝트 / 품목 / 방문업체 / 국가" style="min-width:340px">
-      <span class="muted" id="tripCount" style="font-size:11px;color:var(--muted)"></span>
-    </div>
-  </div>
   <div class="card">
-    <div class="card-hd">
-      <div class="card-title"><span class="bar"></span>출장 현황</div>
-      <div class="trip-legend" id="tripLegend"></div>
+    <div class="card-hd"><div class="card-title"><span class="bar"></span>출장 이력</div></div>
+    <div class="filters" style="padding:10px 16px">
+      <input class="input" id="tripSearchYear"     placeholder="연도 검색"    style="width:130px">
+      <input class="input" id="tripSearchTraveler" placeholder="출장자 검색"  style="width:130px">
+      <input class="input" id="tripSearchPurpose"  placeholder="목적 검색"    style="width:130px">
+      <input class="input" id="tripSearchProject"  placeholder="프로젝트 검색" style="width:130px">
+      <input class="input" id="tripSearchVendor"   placeholder="방문업체 검색" style="width:130px">
+      <input class="input" id="tripSearchCountry"  placeholder="국가 검색"    style="width:130px">
+      <span class="muted" id="tripCount" style="font-size:11px;color:var(--muted)"></span>
+      <div class="trip-legend" id="tripLegend" style="margin-left:auto;padding-right:4px"></div>
     </div>
     <div class="card-body flush"><div class="tbl-wrap"><table class="tbl" id="tripTbl"></table></div></div>
   </div>
@@ -1599,7 +1641,13 @@ function bindControls(){
   const up = $('rawUpload'); if(up) up.addEventListener('change',handleRawUpload);
   const ps = $('projectSearch'); if(ps) ps.addEventListener('input',renderProjectsPage);
   const psf = $('projectStatusFilter'); if(psf) psf.addEventListener('change',renderProjectsPage);
-  const ts = $('tripSearch'); if(ts) ts.addEventListener('input',renderTripPage);
+  ['tripSearchYear','tripSearchTraveler','tripSearchProject','tripSearchPurpose','tripSearchCountry','tripSearchVendor'].forEach(id=>{
+    const el = $(id); if(el) el.addEventListener('input', renderTripPage);
+  });
+  ['tpaMonthlySearchYM','tpaMonthlySearchProj','tpaMonthlySearchTpa'].forEach(id=>{
+    const el = $(id); if(el) el.addEventListener('input', renderTpaMonthlyPage);
+  });
+  const tpps=$('tpaProjSelect'); if(tpps) tpps.addEventListener('change', renderTpaProjChart);
 }
 
 /* === TPA Warning 로직 === */
@@ -1885,7 +1933,7 @@ function renderNcrPage(){
       <td class="left">${esc(n.Item)}</td>
       <td class="left">${esc(n.Vendor)}</td>
       <td class="left wide">${esc(n.NCR_Title)}</td>
-      <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">${excelDate(n.Issue_Date)}</span></td>
+      <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:12px">${excelDate(n.Issue_Date)}</span></td>
       <td class="ctr"><span class="tag ${cls}">${days}일</span></td>
     </tr>`;
   }).join('')}</tbody>`;
@@ -1991,7 +2039,7 @@ function renderPqanPage(){
   </tr></thead><tbody>${merged.length===0 ? emptyRow(10,'Excel을 업로드하면 PQAN 목록이 표시됩니다.') : merged.map((m,idx)=>`
     <tr>
       <td class="ctr code">${esc(m['PQAN No.'])}</td>
-      <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">${esc(m['PQAN 배포일자'])}</span></td>
+      <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:12px">${esc(m['PQAN 배포일자'])}</span></td>
       <td class="ctr">${esc(m['공종']||'-')}</td>
       <td class="ctr code">${esc(m['프로젝트']||'-')}</td>
       <td class="left">${esc(m['제목']||'-')}</td>
@@ -2014,16 +2062,23 @@ function renderPqanPage(){
 }
 
 /* ────────────── TPA > 목록 ────────────── */
+let _tpaSort = {col: '순번', dir: 1};
+function setSortTpa(col){
+  if(_tpaSort.col === col) _tpaSort.dir *= -1;
+  else { _tpaSort.col = col; _tpaSort.dir = col==='순번' ? 1 : -1; }
+  renderTpaListPage();
+}
 function renderTpaListPage(){
   const list = RAW['TPA_목록'] || [];
-  const exec = RAW['TPA_집행현황'] || [];
 
-  const totalTpa = list.length;
-  const reg = list.filter(r=>isNumLike(r['등록평가'])).length;
-  const reg2025 = list.filter(r=>isNumLike(r['정기평가 (2025)'])).length;
-  const reg2026 = list.filter(r=>isNumLike(r['정기평가 (2026)'])).length;
-
-
+  // 실제 데이터에 있는 "정기평가 (YYYY)" 컬럼명을 동적으로 탐지
+  const yearColMap = {};
+  Object.keys(list[0] || {}).forEach(k=>{
+    const m = String(k).match(/정기평가\s*[（(](\d{4})[）)]/);
+    if(m) yearColMap[Number(m[1])] = k;
+  });
+  const recentYears = Object.keys(yearColMap).map(Number).sort((a,b)=>b-a).slice(0,3).sort((a,b)=>a-b);
+  function getScore(r, year){ const col=yearColMap[year]; return col!==undefined ? r[col] : undefined; }
 
   function scoreCls(v){
     if(!isNumLike(v)) return 'muted';
@@ -2033,24 +2088,102 @@ function renderTpaListPage(){
     return 'danger';
   }
   function scoreCell(v){
-    if(!isNumLike(v)) return `<span class="tpa-score muted">${esc(v||'-')}</span>`;
+    if(v===undefined||v===null||String(v).trim()==='')
+      return `<span class="tpa-score muted">미평가</span>`;
+    if(!isNumLike(v)) return `<span class="tpa-score muted">${esc(String(v))}</span>`;
     return `<span class="tpa-score ${scoreCls(v)}">${num(v).toFixed(1)}</span>`;
   }
+  function regScoreCell(v){
+    if(v===undefined||v===null||String(v).trim()==='')
+      return `<span class="tpa-score muted">미평가</span>`;
+    if(!isNumLike(v)) return `<span class="tpa-score muted">${esc(String(v))}</span>`;
+    return `<span class="tpa-score">${num(v).toFixed(1)}</span>`;
+  }
+  function avgCell(scores){
+    const valid = scores.filter(v=>isNumLike(v));
+    if(!valid.length) return `<span class="tpa-score muted">-</span>`;
+    const avg = valid.reduce((s,v)=>s+num(v),0)/valid.length;
+    return `<span class="tpa-score ${avg>=90?'info':avg>=70?'':'danger'}">${avg.toFixed(1)}</span>`;
+  }
+  function sparkline(scores){
+    const vals = scores.map(v=>isNumLike(v)?num(v):null);
+    if(!vals.some(v=>v!==null)) return `<span style="color:var(--muted);font-size:10px">-</span>`;
+    const w=52,h=28,px=4,py=4;
+    const nums = vals.filter(v=>v!==null);
+    const mn=Math.min(...nums), mx=Math.max(...nums);
+    const span=mx-mn||10;
+    const n=vals.length;
+    const toX=(i)=>px+i*(w-px*2)/(n-1);
+    const toY=(v)=>h-py-((v-(mn-span*.1))/(span*1.2))*(h-py*2);
+    let d=''; let prev=null;
+    vals.forEach((v,i)=>{
+      if(v===null) return;
+      const x=toX(i).toFixed(1),y=toY(v).toFixed(1);
+      d+=prev===null?`M${x},${y}`:`L${x},${y}`;
+      prev=v;
+    });
+    const dotClr=v=>v>=90?'#0b52d6':v>=70?'#0B1220':'rgb(226, 31, 31)';
+    const dots=vals.map((v,i)=>v===null?'':
+      `<circle cx="${toX(i).toFixed(1)}" cy="${toY(v).toFixed(1)}" r="2.8" fill="${dotClr(v)}"/>`
+    ).join('');
+    return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" style="display:block;margin:0 auto;overflow:visible">
+      <path d="${d}" stroke="#CBD5E1" stroke-width="1.5" fill="none" stroke-linejoin="round" stroke-linecap="round"/>
+      ${dots}
+    </svg>`;
+  }
 
-  $('tpaListTbl').innerHTML = `<thead><tr>
-    <th class="ctr">순번</th>
-    <th>TPA</th>
-    <th class="ctr">등록평가</th>
-    <th class="ctr">정기평가 (2025)</th>
-    <th class="ctr">정기평가 (2026)</th>
-  </tr></thead><tbody>${list.length===0 ? emptyRow(5,'Excel을 업로드하면 TPA 목록이 표시됩니다.') : list.map(r=>`
+  const avgOf = ss => { const v=ss.filter(s=>isNumLike(s)); return v.length?v.reduce((a,x)=>a+num(x),0)/v.length:null; };
+  const sortedList = [...list].sort((a,b)=>{
+    const d = _tpaSort.dir;
+    if(_tpaSort.col===null) return String(a['TPA']||'').localeCompare(String(b['TPA']||''));
+    if(_tpaSort.col==='순번') return _tpaSort.dir*((Number(a['순번'])||0)-(Number(b['순번'])||0));
+    let va,vb;
+    if(_tpaSort.col==='등록평가'){
+      va=isNumLike(a['등록평가'])?num(a['등록평가']):null;
+      vb=isNumLike(b['등록평가'])?num(b['등록평가']):null;
+    } else if(_tpaSort.col==='평균'){
+      va=avgOf(recentYears.map(y=>getScore(a,y)));
+      vb=avgOf(recentYears.map(y=>getScore(b,y)));
+    } else {
+      va=isNumLike(getScore(a,_tpaSort.col))?num(getScore(a,_tpaSort.col)):null;
+      vb=isNumLike(getScore(b,_tpaSort.col))?num(getScore(b,_tpaSort.col)):null;
+    }
+    if(va===null&&vb===null) return 0;
+    if(va===null) return 1; if(vb===null) return -1;
+    return d*(vb-va);
+  });
+  const sa = col => _tpaSort.col===col?(_tpaSort.dir===-1?' ▼':' ▲'):'';
+
+  const colSpan = recentYears.length + 2;
+  const totalCols = 3 + colSpan;
+  $('tpaListTbl').innerHTML = `<colgroup>
+    <col style="width:64px">
+    <col>
+    ${Array(1+colSpan).fill('<col style="width:200px">').join('')}
+
+  </colgroup><thead>
     <tr>
+      <th rowspan="2" class="ctr col-no" style="vertical-align:middle;cursor:pointer" onclick="setSortTpa('순번')">순번${sa('순번')}</th>
+      <th rowspan="2" class="col-tpa" style="vertical-align:middle">TPA</th>
+      <th rowspan="2" class="ctr col-score" style="vertical-align:middle;cursor:pointer" onclick="setSortTpa('등록평가')">등록평가${sa('등록평가')}</th>
+      <th colspan="${colSpan}" class="ctr">정기평가</th>
+    </tr>
+    <tr>
+      ${recentYears.map(y=>`<th class="ctr col-score" style="cursor:pointer" onclick="setSortTpa(${y})">${y}${sa(y)}</th>`).join('')}
+      <th class="ctr col-score" style="cursor:pointer" onclick="setSortTpa('평균')">평균${sa('평균')}</th>
+      <th class="ctr col-score">추이</th>
+    </tr>
+  </thead><tbody>${sortedList.length===0 ? emptyRow(totalCols,'Excel을 업로드하면 TPA 목록이 표시됩니다.') : sortedList.map(r=>{
+    const scores = recentYears.map(y=>getScore(r,y));
+    return `<tr>
       <td class="ctr code">${esc(r['순번']||'-')}</td>
-      <td class="left"><span class="code">${esc(r['TPA']||'-')}</span></td>
-      <td class="ctr">${scoreCell(r['등록평가'])}</td>
-      <td class="ctr">${scoreCell(r['정기평가 (2025)'])}</td>
-      <td class="ctr">${scoreCell(r['정기평가 (2026)'])}</td>
-    </tr>`).join('')}</tbody>`;
+      <td><span class="code">${esc(r['TPA']||'-')}</span></td>
+      <td class="ctr">${regScoreCell(r['등록평가'])}</td>
+      ${scores.map(v=>`<td class="ctr">${scoreCell(v)}</td>`).join('')}
+      <td class="ctr">${avgCell(scores)}</td>
+      <td class="ctr" style="padding:4px 6px">${sparkline(scores)}</td>
+    </tr>`;
+  }).join('')}</tbody>`;
 }
 
 /* ────────────── TPA > 집행현황 ────────────── */
@@ -2130,10 +2263,202 @@ function parseYM(v){
   if(!m) return null;
   return {y:Number(m[1]), m:Number(m[2])};
 }
+function _tpjTipOn(el,m,v){var t=document.getElementById('tpaProjTipBox');if(!t)return;t.textContent=m+' · '+v;var r=el.getBoundingClientRect();t.style.left=(r.left+r.width/2)+'px';t.style.top=(r.top-8)+'px';t.style.display='block';}
+function _tpjTipOff(){var t=document.getElementById('tpaProjTipBox');if(t)t.style.display='none';}
+function renderTpaProjChart(){
+  const sel = $('tpaProjSelect');
+  const chartEl = $('tpaProjChart');
+  if(!sel || !chartEl) return;
+
+  const allData = (RAW['TPA_월별대금청구현황']||[]).filter(r=>r['프로젝트']||r['TPA']||r['청구연월']||isNumLike(r['지급대금']));
+  const tpaStatus = RAW['TPA_집행현황']||[];
+  const toUSD = r=>{
+    const amt=num(r['지급대금']), unit=String(r['단위']||'').toUpperCase();
+    return (unit.includes('KRW')||unit.includes('원')) ? amt/FX_RATE : amt;
+  };
+
+  const projects=[...new Set(allData.map(r=>r['프로젝트']).filter(Boolean))].sort();
+  const curSel=sel.value;
+  if(sel.options.length!==projects.length){
+    sel.innerHTML=projects.length===0
+      ?'<option value="">프로젝트 없음</option>'
+      :projects.map(p=>`<option value="${esc(p)}"${p===curSel?' selected':''}>${esc(p)}</option>`).join('');
+  }
+  if(!projects.length){
+    chartEl.innerHTML='<div class="empty-state"><span class="ico">⊕</span><div class="title">데이터 없음</div></div>';
+    return;
+  }
+  if(!sel.value) sel.value=projects[0];
+  const proj=sel.value;
+
+  const monthMap={};
+  allData.filter(r=>r['프로젝트']===proj).forEach(r=>{
+    const ym=parseYM(r['청구연월']); if(!ym) return;
+    const k=`${ym.y}-${String(ym.m).padStart(2,'0')}`;
+    monthMap[k]=(monthMap[k]||0)+toUSD(r);
+  });
+  if(!Object.keys(monthMap).length){
+    chartEl.innerHTML='<div class="empty-state"><span class="ico">⊕</span><div class="title">선택한 프로젝트의 지급 내역 없음</div></div>';
+    return;
+  }
+
+  // 최초 투입월부터 현재월까지 전체 월 배열 생성
+  const sorted=Object.keys(monthMap).sort();
+  const fy=parseInt(sorted[0].slice(0,4)), fm=parseInt(sorted[0].slice(5,7));
+  const now=new Date(), cy=now.getFullYear(), cm=now.getMonth()+1;
+  const allMonths=[];
+  let ay=fy, am=fm;
+  while(ay<cy||(ay===cy&&am<=cm)){ allMonths.push(`${ay}-${String(am).padStart(2,'0')}`); if(++am>12){am=1;ay++;} }
+
+  const amounts=allMonths.map(k=>monthMap[k]||0);
+  const cumulative=[];
+  amounts.reduce((acc,v,i)=>{cumulative[i]=acc+v;return acc+v;},0);
+  const cumTotal=cumulative[cumulative.length-1];
+
+  // 예산·계약고 (TPA_집행현황 우선, 없으면 0)
+  const tpaRow=tpaStatus.find(t=>t['프로젝트']===proj)||{};
+  const budUSD=(()=>{const u=num(tpaRow['TPA 예산 (USD)']),k=num(tpaRow['TPA 예산 (KRW)']);return u>0?u:k>0?k/FX_RATE:0;})();
+  const ctrUSD=(()=>{const u=num(tpaRow['TPA 계약고 (USD)']),k=num(tpaRow['TPA 계약고 (KRW)']);return u>0?u:k>0?k/FX_RATE:0;})();
+  const isMC=String(tpaRow['단계']||'').trim()==='Mechanical Completion';
+
+  const budBurn=budUSD>0?(cumTotal/budUSD*100):null;
+  const ctrBurn=ctrUSD>0?(cumTotal/ctrUSD*100):null;
+
+  // 선형회귀로 도달 예상 시점 산출
+  let projBudLabel=null, projCtrLabel=null;
+  if(!isMC && cumulative.length>=3){
+    const n=cumulative.length, xbar=(n-1)/2;
+    const ybar=cumulative.reduce((a,b)=>a+b,0)/n;
+    let sxy=0, sxx=0;
+    cumulative.forEach((v,i)=>{sxy+=(i-xbar)*(v-ybar); sxx+=(i-xbar)**2;});
+    const slope=sxx>0?sxy/sxx:0;
+    const projLabel=remaining=>{
+      if(slope<=0) return null;
+      const mo=Math.ceil(remaining/slope);
+      if(mo>300) return null;
+      const d=new Date(cy, cm-1+mo, 1);
+      return `${d.getFullYear()}년 ${d.getMonth()+1}월`;
+    };
+    if(budUSD>0) projBudLabel=cumTotal>=budUSD?'이미 초과':(projLabel(budUSD-cumTotal)||'예측 불가');
+    if(ctrUSD>0) projCtrLabel=cumTotal>=ctrUSD?'이미 초과':(projLabel(ctrUSD-cumTotal)||'예측 불가');
+  }
+
+  // SVG 렌더링 — 이중 Y축, 스무스 베지어 누적선, 에리어 그라데이션
+  const W=800, H=272, pL=52, pR=14, pT=28, pB=38;
+  const cW=W-pL-pR, cH=H-pT-pB;
+  const nn=allMonths.length;
+  const barMax=Math.max(1,...amounts.filter(v=>v>0));
+  const lineMax=Math.max(budUSD>0?budUSD*1.15:0,ctrUSD>0?ctrUSD*1.15:0,cumTotal*1.2,1);
+  const fmtK=v=>'$'+Math.round(v/1e3).toString().replace(/\B(?=(\d{3})+(?!\d))/g,',')+' K';
+  const tx=i=>pL+(i+0.5)*(cW/nn);
+  const tyBar=v=>pT+cH-Math.min(v/barMax*cH,cH);
+  const tyLine=v=>pT+cH-Math.min(v/lineMax*cH,cH);
+
+  // 좌측 Y축 그리드 (막대 스케일, 점선)
+  const nT=5;
+  const gridSvg=Array.from({length:nT+1},(_,i)=>i*barMax/nT).map(v=>`
+    <line x1="${pL}" y1="${tyBar(v).toFixed(1)}" x2="${pL+cW}" y2="${tyBar(v).toFixed(1)}" stroke="#E2E8F0" stroke-width="0.8" stroke-dasharray="3,3" opacity="0.8"/>
+    <text x="${(pL-4).toFixed(1)}" y="${(tyBar(v)+3.5).toFixed(1)}" text-anchor="end" font-size="8.5" fill="#94A3B8" font-family="'JetBrains Mono',monospace">${fmtK(v)}</text>`).join('');
+
+  // X축 연도 레이블
+  const xLabSvg=allMonths.map((mk,i)=>{
+    const mo=parseInt(mk.slice(5,7));
+    if(mo!==1&&i!==0) return '';
+    return `<text x="${tx(i).toFixed(1)}" y="${(pT+cH+15).toFixed(1)}" text-anchor="middle" font-size="9" fill="#94A3B8" font-family="'JetBrains Mono',monospace">'${mk.slice(2,4)}</text>`;
+  }).join('');
+
+  // 막대 — 상단만 라운드, 하단 직각 (path 사용)
+  const bw=Math.max(2,Math.min(cW/nn*0.65,18));
+  const barPath=(bx,by,bw2)=>{const r=Math.min(3,bw2/2);return `M ${bx.toFixed(1)},${(pT+cH).toFixed(1)} H ${(bx+bw2).toFixed(1)} V ${(by+r).toFixed(1)} Q ${(bx+bw2).toFixed(1)},${by.toFixed(1)} ${(bx+bw2-r).toFixed(1)},${by.toFixed(1)} H ${(bx+r).toFixed(1)} Q ${bx.toFixed(1)},${by.toFixed(1)} ${bx.toFixed(1)},${(by+r).toFixed(1)} Z`;};
+  const barsSvg=amounts.map((v,i)=>{
+    if(!v) return '';
+    const bh=v/barMax*cH,bx=tx(i)-bw/2,by=pT+cH-bh;
+    return `<path class="tpj-bar" d="${barPath(bx,by,bw)}" fill="url(#tpj_bar)" onmouseover="_tpjTipOn(this,'${allMonths[i]}','${fmtK(v)}')" onmouseout="_tpjTipOff()"/>`;
+  }).join('');
+
+  // 기준선 (우측 스케일)
+  const dashLines=[];
+  if(budUSD) dashLines.push(`<line x1="${pL}" y1="${tyLine(budUSD).toFixed(1)}" x2="${pL+cW}" y2="${tyLine(budUSD).toFixed(1)}" stroke="#B42318" stroke-width="1.2" stroke-dasharray="5,4" opacity="0.5"/>`);
+  if(ctrUSD) dashLines.push(`<line x1="${pL}" y1="${tyLine(ctrUSD).toFixed(1)}" x2="${pL+cW}" y2="${tyLine(ctrUSD).toFixed(1)}" stroke="#B7791F" stroke-width="1.2" stroke-dasharray="5,4" opacity="0.5"/>`);
+
+  // 스무스 베지어 누적선 + 에리어 (우측 스케일)
+  const cPts=cumulative.map((v,i)=>[tx(i),tyLine(v)]);
+  let bezierD='';
+  if(cPts.length){
+    bezierD=`M ${cPts[0][0].toFixed(1)},${cPts[0][1].toFixed(1)}`;
+    for(let i=1;i<cPts.length;i++){
+      const [px,py]=cPts[i-1],[cx,cy]=cPts[i];
+      const [ppx,ppy]=cPts[Math.max(0,i-2)];
+      const [nx,ny]=cPts[Math.min(cPts.length-1,i+1)];
+      const t=0.18;
+      bezierD+=` C ${(px+(cx-ppx)*t).toFixed(1)},${(py+(cy-ppy)*t).toFixed(1)} ${(cx-(nx-px)*t).toFixed(1)},${(cy-(ny-py)*t).toFixed(1)} ${cx.toFixed(1)},${cy.toFixed(1)}`;
+    }
+  }
+  const lastPt=cPts.length?cPts[cPts.length-1]:[pL,pT+cH];
+  const areaD=bezierD+` L ${lastPt[0].toFixed(1)},${(pT+cH).toFixed(1)} L ${pL},${(pT+cH).toFixed(1)} Z`;
+  const lx=lastPt[0], ly=lastPt[1];
+
+  // 기준선 소형 식별 태그 (선 좌측 끝, 색상만으로 구분 어려울 때 보조)
+  const refTagSvg=[];
+  if(budUSD) refTagSvg.push(`<text x="${(pL+5).toFixed(1)}" y="${(tyLine(budUSD)-3).toFixed(1)}" font-size="7.5" fill="#B42318" opacity="0.7" font-family="'Noto Sans KR',sans-serif">예산</text>`);
+  if(ctrUSD) refTagSvg.push(`<text x="${(pL+5).toFixed(1)}" y="${(tyLine(ctrUSD)-3).toFixed(1)}" font-size="7.5" fill="#B7791F" opacity="0.7" font-family="'Noto Sans KR',sans-serif">계약고</text>`);
+
+  // 하단 요약 테이블
+  const na='<span style="color:#94A3B8">—</span>';
+  const fmtProj=lbl=>lbl==='이미 초과'?'<span style="color:#B42318;font-weight:600">이미 초과</span>':lbl;
+  const tblRows=[];
+  if(budUSD){
+    const b=budBurn!=null?`<span style="font-weight:700;color:#B42318">${budBurn.toFixed(1)}%</span>`:na;
+    const p=projBudLabel&&projBudLabel!=='예측 불가'?fmtProj(projBudLabel):na;
+    tblRows.push(`<tr style="border-bottom:1px solid #F1F5F9"><td style="padding:4px 8px;color:#B42318;font-weight:700">예산</td><td style="padding:4px 8px;text-align:right;font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#1E293B">${fmtK(budUSD)}</td><td style="padding:4px 8px;text-align:right">${b}</td><td style="padding:4px 8px;text-align:right;color:#374151;font-size:10.5px">${p}</td></tr>`);
+  }
+  if(ctrUSD){
+    const b=ctrBurn!=null?`<span style="font-weight:700;color:#B7791F">${ctrBurn.toFixed(1)}%</span>`:na;
+    const p=projCtrLabel&&projCtrLabel!=='예측 불가'?fmtProj(projCtrLabel):na;
+    tblRows.push(`<tr style="border-bottom:1px solid #F1F5F9"><td style="padding:4px 8px;color:#B7791F;font-weight:700">계약고</td><td style="padding:4px 8px;text-align:right;font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#1E293B">${fmtK(ctrUSD)}</td><td style="padding:4px 8px;text-align:right">${b}</td><td style="padding:4px 8px;text-align:right;color:#374151;font-size:10.5px">${p}</td></tr>`);
+  }
+  tblRows.push(`<tr><td style="padding:4px 8px;color:#1E40AF;font-weight:700">누적집행</td><td style="padding:4px 8px;text-align:right;font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:700;color:#1E293B">${fmtK(cumTotal)}</td><td style="padding:4px 8px;text-align:right">${na}</td><td style="padding:4px 8px;text-align:right">${na}</td></tr>`);
+  const tblHtml=`<table style="width:100%;border-collapse:collapse;margin-top:8px;font-size:11px;font-family:'Noto Sans KR',sans-serif"><thead><tr style="border-bottom:1.5px solid #E2E8F0"><th style="padding:4px 8px;text-align:left;font-size:9px;color:#94A3B8;font-weight:500">구분</th><th style="padding:4px 8px;text-align:right;font-size:9px;color:#94A3B8;font-weight:500">금액</th><th style="padding:4px 8px;text-align:right;font-size:9px;color:#94A3B8;font-weight:500">소진율</th><th style="padding:4px 8px;text-align:right;font-size:9px;color:#94A3B8;font-weight:500">소진 예상</th></tr></thead><tbody>${tblRows.join('')}</tbody></table>`;
+
+  const mcTag=isMC?`<div style="display:inline-flex;align-items:center;gap:5px;background:#F5F5F5;border:1px solid #D0D0D0;border-radius:5px;padding:2px 10px;font-size:10px;color:#888888;font-weight:600;margin-bottom:5px;font-family:'JetBrains Mono',monospace">Mechanical Completion</div><br>`:'';
+
+  chartEl.innerHTML=mcTag+`<div id="tpaProjTipBox" style="display:none;position:fixed;background:#0C2D48;color:#E0F2FE;font-size:10px;padding:5px 10px;border-radius:6px;white-space:nowrap;pointer-events:none;z-index:9999;box-shadow:0 4px 12px rgba(0,0,0,.22);transform:translate(-50%,-100%);font-family:'Noto Sans KR',sans-serif"></div><svg viewBox="0 0 ${W} ${H}" width="100%" style="overflow:visible;display:block;max-height:320px">
+  <defs>
+    <style>.tpj-bar{cursor:pointer;transition:filter .15s,opacity .15s;opacity:.82}.tpj-bar:hover{filter:brightness(1.2);opacity:1}</style>
+    <linearGradient id="tpj_bar" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0%" stop-color="#0EA5E9"/>
+      <stop offset="55%" stop-color="#38BDF8"/>
+      <stop offset="100%" stop-color="#BAE6FD"/>
+    </linearGradient>
+    <linearGradient id="tpj_area" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1E40AF" stop-opacity="0.16"/>
+      <stop offset="100%" stop-color="#1E40AF" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="tpj_glow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="3.5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  ${gridSvg}
+  <path d="${areaD}" fill="url(#tpj_area)"/>
+  ${barsSvg}
+  ${dashLines.join('\n  ')}
+  ${refTagSvg.join('\n  ')}
+  <path d="${bezierD}" fill="none" stroke="#1E40AF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
+  <circle cx="${lx.toFixed(1)}" cy="${ly.toFixed(1)}" r="6" fill="#1E40AF" opacity="0.18" filter="url(#tpj_glow)"/>
+  <circle cx="${lx.toFixed(1)}" cy="${ly.toFixed(1)}" r="3.5" fill="#1E40AF" stroke="#fff" stroke-width="1.5"/>
+  ${xLabSvg}
+  <line x1="${pL}" y1="${pT}" x2="${pL}" y2="${pT+cH}" stroke="#CBD5E1" stroke-width="0.8"/>
+  <line x1="${pL}" y1="${(pT+cH).toFixed(1)}" x2="${pL+cW}" y2="${(pT+cH).toFixed(1)}" stroke="#CBD5E1" stroke-width="0.8"/>
+</svg>${tblHtml}`;
+}
+
 function renderTpaMonthlyPage(){
+  renderTpaProjChart();
   const data = (RAW['TPA_월별대금청구현황'] || []).filter(r=>r['프로젝트'] || r['TPA'] || r['청구연월'] || isNumLike(r['지급대금']));
   const curYear = new Date().getFullYear();
-  const cutoffYear = curYear - 4;
+  const cutoffYear = curYear - 2;
+  const cutoffYear5 = curYear - 4;
 
   const toUSD = r => {
     const amt = num(r['지급대금']);
@@ -2164,8 +2489,9 @@ function renderTpaMonthlyPage(){
         const tipCls = pct<0.15 ? ' tip-r' : pct>0.85 ? ' tip-l' : '';
         const mo = parseInt(m.slice(5,7));
         const lbl = mo===1 ? `'${m.slice(2,4)}` : '';
-        return `<div class="monthly-bar${tipCls}" style="height:${(monthly[m]/max*100).toFixed(1)}%">
-          <span class="tip">${esc(m)} · ${compactK(monthly[m])}</span>
+        const heightPct = (monthly[m]/max*100).toFixed(1);
+        return `<div class="monthly-bar${tipCls}" style="height:${heightPct}%" title="${esc(m)}">
+          <span class="tip">${esc(m.slice(0,4))}년 ${parseInt(m.slice(5,7))}월 · ${compactK(monthly[m])}</span>
           <span class="lbl">${lbl}</span>
         </div>`;
       }).join('')}</div>
@@ -2176,7 +2502,7 @@ function renderTpaMonthlyPage(){
   const yearSumMap = {};
   data.forEach(r=>{
     const ym = parseYM(r['청구연월']);
-    if(!ym || ym.y < cutoffYear) return;
+    if(!ym || ym.y < cutoffYear5) return;
     const usd = toUSD(r);
     yearSumMap[ym.y] = (yearSumMap[ym.y]||0) + usd;
     if(!yearMonthSum[ym.y]) yearMonthSum[ym.y] = {};
@@ -2217,7 +2543,7 @@ function renderTpaMonthlyPage(){
     });
   }
 
-  // ── TPA별 대금지급 추이 (최근 5개년) ──
+  // ── TPA별 대금지급 추이 (최근 3개년) ──
   const years5 = [];
   for(let y=cutoffYear; y<=curYear; y++) years5.push(y);  // 오름차순, 최신이 우측
   const tpaYearSum = {};
@@ -2240,8 +2566,8 @@ function renderTpaMonthlyPage(){
   </tr></thead><tbody>${allTpa.length===0 ? emptyRow(years5.length+2,'데이터 없음') :
     allTpa.map(tpa=>`<tr>
       <td class="ctr">${esc(tpa)}</td>
-      ${years5.map(y=>`<td class="num" style="padding-right:5%">${tpaYearSum[tpa]?.[y] ? compactK(tpaYearSum[tpa][y]) : '-'}</td>`).join('')}
-      <td class="num" style="padding-right:5%">${tpaTotalSum[tpa]>0 ? compactK(tpaTotalSum[tpa]) : '-'}</td>
+      ${years5.map(y=>`<td class="num" style="padding-right:8px">${tpaYearSum[tpa]?.[y] ? compactK(tpaYearSum[tpa][y]) : '-'}</td>`).join('')}
+      <td class="num" style="padding-right:8px">${(()=>{const s=years5.reduce((a,y)=>a+(tpaYearSum[tpa]?.[y]||0),0);return s>0?compactK(s):'-';})()}</td>
     </tr>`).join('')}
   </tbody>`;
 
@@ -2251,7 +2577,21 @@ function renderTpaMonthlyPage(){
     const yb = parseYM(b['청구연월']) || {y:0,m:0};
     return (yb.y*100+yb.m) - (ya.y*100+ya.m);
   });
-  const total = sorted.length;
+  const qYM   = ($('tpaMonthlySearchYM')?.value  || '').trim().toLowerCase();
+  const qProj = ($('tpaMonthlySearchProj')?.value || '').trim().toLowerCase();
+  const qTpa  = ($('tpaMonthlySearchTpa')?.value  || '').trim().toLowerCase();
+  const hasFilter = !!(qYM || qProj || qTpa);
+  const filtered = sorted.filter(r =>
+    (!qYM   || (fmtYM(r)||'').toLowerCase().includes(qYM))             &&
+    (!qProj || String(r['프로젝트']||'').toLowerCase().includes(qProj)) &&
+    (!qTpa  || String(r['TPA']||'').toLowerCase().includes(qTpa))
+  );
+  const cntEl = $('tpaMonthlyCount');
+  if(cntEl) cntEl.textContent = hasFilter ? `${filtered.length} / ${sorted.length}건` : `${sorted.length}건`;
+  const sumEl = $('tpaMonthlySum');
+  const sumUSD = hasFilter ? filtered.reduce((s,r) => s + toUSD(r), 0) : 0;
+  if(sumEl){ sumEl.style.display = hasFilter ? '' : 'none'; if(hasFilter) sumEl.textContent = `합계  $${fmt(sumUSD,0)}`; }
+  const total = filtered.length;
   $('tpaMonthlyTbl').innerHTML = `<colgroup>
     <col style="width:14%">
     <col style="width:14%">
@@ -2266,13 +2606,13 @@ function renderTpaMonthlyPage(){
     <th class="ctr">TPA</th>
     <th class="ctr">지급대금</th>
     <th class="ctr">단위</th>
-  </tr></thead><tbody>${total===0 ? emptyRow(6,'Excel을 업로드하면 월별 대금지급현황이 표시됩니다.') : sorted.map((r,i)=>`
+  </tr></thead><tbody>${total===0 ? emptyRow(6,'Excel을 업로드하면 월별 대금지급현황이 표시됩니다.') : filtered.map((r,i)=>`
     <tr>
       <td class="ctr code">${total-i}</td>
       <td class="ctr"><span class="code" style="font-size:11px">${esc(fmtYM(r)||'-')}</span></td>
       <td class="ctr code">${esc(r['프로젝트']||'-')}</td>
       <td class="ctr">${esc(r['TPA']||'-')}</td>
-      <td class="num" style="padding-right:9%">${isNumLike(r['지급대금'])?fmt(num(r['지급대금'])):esc(r['지급대금']||'-')}</td>
+      <td class="num" style="padding-right:9.1%">${isNumLike(r['지급대금'])?fmt(num(r['지급대금'])):esc(r['지급대금']||'-')}</td>
       <td class="ctr muted">${esc(r['단위']||'-')}</td>
     </tr>`).join('')}</tbody>`;
 }
@@ -2373,7 +2713,11 @@ function renderManpowerPage(){
     if(d.startsWith('본사')) return '서울사무소'; // 구버전 호환 ('본사 (XXX)')
     return '현장';
   };
-  const FIELD_PROJECTS = ['SAC2','STA4','SHN1'];
+  const FIELD_PROJECTS = [...new Set(
+    mp.flatMap(m => [m['소속'], m['근무지']]
+      .flatMap(v => (String(v||'').match(/[A-Z]{2,4}\d+/g) || []))
+    )
+  )];
   const fieldProject = loc => {
     const d = String(loc||'').trim();
     for(const p of FIELD_PROJECTS){ if(d.includes(p)) return p; }
@@ -2566,7 +2910,7 @@ function renderManpowerPage(){
     <td>${esc(m['담당 공종']||'-')}</td>
     <td>${esc(m.PQCM||'-')}</td>
     <td>${esc(m.PQC_Engineer||'-')}</td>
-    <td>${isNumLike(m.Number_of_PO)?fmt(num(m.Number_of_PO)):'-'}</td>
+    <td><span class="code" style="color:var(--sub);font-size:13px">${isNumLike(m.Number_of_PO)?fmt(num(m.Number_of_PO)):'-'}</span></td>
   </tr>`).join('')}</tbody>`;
 
   bindPersonPopover(poByPerson);
@@ -2672,13 +3016,30 @@ function renderTripPage(){
       <span class="purpose-tag purpose-${esc(p)}"><span class="dot"></span>${esc(p)}</span>`).join('');
   }
 
-  const q = ($('tripSearch')?.value || '').trim().toLowerCase();
-  const filtered = q ? trips.filter(t=>{
-    return ['출장자','출장목적','프로젝트','품목','방문업체','국가']
-      .some(k => String(t[k]||'').toLowerCase().includes(q));
-  }) : trips;
+  const qYear     = ($('tripSearchYear')?.value     || '').trim();
+  const qTraveler = ($('tripSearchTraveler')?.value || '').trim().toLowerCase();
+  const qProject  = ($('tripSearchProject')?.value  || '').trim().toLowerCase();
+  const qPurpose  = ($('tripSearchPurpose')?.value  || '').trim().toLowerCase();
+  const qCountry  = ($('tripSearchCountry')?.value  || '').trim().toLowerCase();
+  const qVendor   = ($('tripSearchVendor')?.value   || '').trim().toLowerCase();
+  const hasFilter = !!(qYear || qTraveler || qProject || qPurpose || qCountry || qVendor);
+  const filtered = trips.filter(t =>{
+    if(qYear){
+      const dDep = excelToDate(t['출발일']); const dRet = excelToDate(t['복귀일']);
+      const depY = dDep ? String(dDep.getFullYear()) : '';
+      const retY = dRet ? String(dRet.getFullYear()) : '';
+      if(!depY.includes(qYear) && !retY.includes(qYear)) return false;
+    }
+    return (
+      (!qTraveler || String(t['출장자']  ||'').toLowerCase().includes(qTraveler)) &&
+      (!qProject  || String(t['프로젝트']||'').toLowerCase().includes(qProject))  &&
+      (!qPurpose  || String(t['출장목적']||'').toLowerCase().includes(qPurpose))  &&
+      (!qCountry  || String(t['국가']    ||'').toLowerCase().includes(qCountry))  &&
+      (!qVendor   || String(t['방문업체']||'').toLowerCase().includes(qVendor))
+    );
+  });
   const cntEl = $('tripCount');
-  if(cntEl) cntEl.textContent = q ? `${filtered.length} / ${trips.length}건` : `${trips.length}건`;
+  if(cntEl) cntEl.textContent = hasFilter ? `${filtered.length} / ${trips.length}건` : `${trips.length}건`;
   const sorted = filtered.slice().sort((a,b)=>{
     const da = excelToDate(a['출발일']);
     const db = excelToDate(b['출발일']);
@@ -2705,8 +3066,8 @@ function renderTripPage(){
       <td class="ctr">${esc(t['품목'])}</td>
       <td class="ctr">${esc(t['방문업체'])}</td>
       <td class="ctr">${esc(t['국가'])}</td>
-      <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">${excelDate(t['출발일'])}</span></td>
-      <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:11px">${excelDate(t['복귀일'])}</span></td>
+      <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:12px">${excelDate(t['출발일'])}</span></td>
+      <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:12px">${excelDate(t['복귀일'])}</span></td>
     </tr>`;
   }).join('')}</tbody>`;
 }
@@ -2834,7 +3195,7 @@ async function parseXLSX(buffer){
         else val = getText(c.getElementsByTagName('v')[0]);
         arr[idx] = val;
       });
-      matrix.push(arr.map(x=>x??''));
+      matrix.push(Array.from({length:arr.length||0},(_,i)=>arr[i]??''));
     });
     if(matrix.length) out[sname] = rowsToObjects(matrix);
   });
