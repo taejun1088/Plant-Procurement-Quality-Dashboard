@@ -42,7 +42,7 @@
 }
 
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;overflow-x:hidden}
 body{
   font-family:'Noto Sans KR','Malgun Gothic','Apple SD Gothic Neo',sans-serif;
   background:var(--bg);
@@ -51,6 +51,7 @@ body{
   font-feature-settings:"ss01","cv11";
   -webkit-font-smoothing:antialiased;
   min-height:100vh;
+  overflow-x:hidden;max-width:100vw;
 }
 button,input,select{font-family:inherit;color:inherit}
 button{cursor:pointer;border:none;background:none}
@@ -276,6 +277,8 @@ button{cursor:pointer;border:none;background:none}
 .card-fill{display:flex;flex-direction:column}
 .card-fill .card-body{flex:1;overflow:hidden;min-height:0}
 .card-fill .tbl-wrap{height:100%;overflow-y:auto;overflow-x:auto}
+#stage>.card{min-height:calc(100vh - 240px);display:flex;flex-direction:column}
+#stage>.card .card-body{flex:1}
 #tpaByYearTbl thead th{position:sticky;top:0;z-index:2;background:var(--soft);box-shadow:0 1px 0 var(--line)}
 .tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:13px}
 .tbl th{
@@ -335,7 +338,7 @@ button{cursor:pointer;border:none;background:none}
 /* ============================================================
    금액 셀
    ============================================================ */
-.money{display:flex;flex-direction:column;line-height:1.25;align-items:flex-end}
+.money{display:flex;flex-direction:column;line-height:1;align-items:flex-end}
 .money .usd{
   font-family:'JetBrains Mono','Noto Sans KR','Malgun Gothic',monospace;
   font-size:13px;font-weight:600;color:var(--ink);
@@ -353,7 +356,7 @@ button{cursor:pointer;border:none;background:none}
    진행률 바
    ============================================================ */
 .bar-wrap{
-  display:flex;align-items:center;gap:10px;min-width:140px;
+  display:flex;align-items:center;gap:10px;min-width:140px;line-height:1;
 }
 .bar{
   height:6px;background:#EDF1F7;border-radius:999px;
@@ -923,10 +926,10 @@ button{cursor:pointer;border:none;background:none}
   .section-meta{font-size:11px}
 
   /* ── 테이블 ── */
-  .tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;transform:translateZ(0)}
   .tbl{font-size:11.5px}
   .tbl th,.tbl td{padding:8px 9px}
-  .tbl th{font-size:9.5px;letter-spacing:.04em}
+  .tbl th{font-size:9.5px;letter-spacing:.04em;-webkit-transform:translateZ(0);transform:translateZ(0)}
   .tbl.dense td,.tbl.dense th{padding:7px 8px;font-size:11px}
 
   /* ── 금액 셀 ── */
@@ -1163,9 +1166,9 @@ button{cursor:pointer;border:none;background:none}
   <button class="tab" data-page="trip"><span class="num">06</span>출장현황</button>
 </nav>
 <nav class="subtabs hidden" id="projectsSubtabs">
-  <button class="subtab on" data-page="projects">현황</button>
-  <button class="subtab" data-page="stage">구매품질 실적</button>
-  <button class="subtab" data-page="ncr">NCR 현황</button>
+  <button class="subtab on" data-page="projects">통합현황</button>
+  <button class="subtab" data-page="stage">구매품질현황</button>
+  <button class="subtab" data-page="ncr">구매 NCR 현황</button>
   <button class="subtab" data-page="tpaStatus">TPA 집행현황</button>
 </nav>
 <nav class="subtabs hidden" id="tpaSubtabs">
@@ -1192,8 +1195,6 @@ button{cursor:pointer;border:none;background:none}
 </section>
 
 <section class="page" id="stage">
-  <div class="grid g5" id="stageKpis"></div>
-  <div class="h-sep"></div>
   <div class="card">
     <div class="card-hd">
       <div class="card-title"><span class="bar"></span>프로젝트별 구매품질 진행현황</div>
@@ -1695,7 +1696,7 @@ function renderProjectsPage(){
       <td><div class="bar-wrap"><div class="bar"><div class="fill ${fillCls(rawProgVal)}" style="width:${rawProgVal}%"></div></div><span class="pct${rawProg==null?' dim':''}">${rawProg!=null?rawProgVal.toFixed(1)+'%':'-'}</span></div></td>
       <td><div class="bar-wrap"><div class="bar"><div class="fill ${fillCls(progValue)}" style="width:${progValue}%"></div></div><span class="pct${w?'':' dim'}">${progStr}</span></div></td>
       <td><div class="bar-wrap"><div class="bar"><div class="fill ${tpaCls}" style="width:${Math.min(burnB||0,100)}%"></div></div><span class="pct${tpaCls==='dim'?' dim':''}">${burnB!=null?burnB.toFixed(1)+'%':'-'}</span></div></td>
-      <td class="ctr"><span class="code">${ncrOpen}</span> <span class="muted">/ ${isNumLike(ncrTotal)?ncrTotal:'-'}</span></td>
+      <td class="ctr"><span class="code" style="font-size:12px">${ncrOpen}</span> <span class="muted">/ ${isNumLike(ncrTotal)?ncrTotal:'-'}</span></td>
     </tr>`;
   }).join('')}</tbody>`;
 }
@@ -1720,13 +1721,6 @@ function renderStagePage(){
       avg: plannedCnt ? sumRatio/plannedCnt*100 : 0,
       doneCount, totalCount, plannedCnt};
   });
-
-  $('stageKpis').innerHTML = stat.map(s=>`
-    <div class="kpi">
-      <div class="kpi-label">${s.name} <span style="color:var(--muted);font-weight:500">·&nbsp;W&nbsp;${(s.weight*100).toFixed(0)}%</span></div>
-      <div class="kpi-val">${s.avg.toFixed(1)}<span class="unit">%</span></div>
-      <div class="kpi-sub">${s.totalCount>0?`${fmt(s.doneCount)} / ${fmt(s.totalCount)} · `:''}${s.plannedCnt}개 PJT</div>
-    </div>`).join('');
 
   $('stageTbl').innerHTML = `<thead><tr>
     <th>프로젝트</th><th class="ctr">단계</th>
@@ -1910,7 +1904,7 @@ function renderPqanPage(){
 }
 
 /* ────────────── TPA > 목록 ────────────── */
-let _tpaSort = {col: '순번', dir: 1};
+let _tpaSort = {col: 'TPA', dir: 1};
 function setSortTpa(col){
   if(_tpaSort.col === col) _tpaSort.dir *= -1;
   else { _tpaSort.col = col; _tpaSort.dir = col==='순번' ? 1 : -1; }
@@ -1981,9 +1975,11 @@ function renderTpaListPage(){
   }
 
   const avgOf = ss => { const v=ss.filter(s=>isNumLike(s)); return v.length?v.reduce((a,x)=>a+num(x),0)/v.length:null; };
+  const fixedNo = new Map([...list].sort((a,b)=>String(a['TPA']||'').localeCompare(String(b['TPA']||''))).map((r,i)=>[r,i+1]));
   const sortedList = [...list].sort((a,b)=>{
     const d = _tpaSort.dir;
     if(_tpaSort.col===null) return String(a['TPA']||'').localeCompare(String(b['TPA']||''));
+    if(_tpaSort.col==='TPA') return _tpaSort.dir * String(a['TPA']||'').localeCompare(String(b['TPA']||''));
     if(_tpaSort.col==='순번') return _tpaSort.dir*((Number(a['순번'])||0)-(Number(b['순번'])||0));
     let va,vb;
     if(_tpaSort.col==='등록평가'){
@@ -2012,19 +2008,19 @@ function renderTpaListPage(){
   </colgroup><thead>
     <tr>
       <th rowspan="2" class="ctr col-no" style="vertical-align:middle;cursor:pointer" onclick="setSortTpa('순번')">순번${sa('순번')}</th>
-      <th rowspan="2" class="col-tpa" style="vertical-align:middle">TPA</th>
+      <th rowspan="2" class="col-tpa" style="vertical-align:middle;cursor:pointer" onclick="setSortTpa('TPA')">TPA${sa('TPA')}</th>
       <th rowspan="2" class="ctr col-score" style="vertical-align:middle;cursor:pointer" onclick="setSortTpa('등록평가')">등록평가${sa('등록평가')}</th>
       <th colspan="${colSpan}" class="ctr">정기평가</th>
     </tr>
     <tr>
-      ${recentYears.map(y=>`<th class="ctr col-score" style="cursor:pointer" onclick="setSortTpa(${y})">${y}${sa(y)}</th>`).join('')}
-      <th class="ctr col-score" style="cursor:pointer" onclick="setSortTpa('평균')">평균${sa('평균')}</th>
-      <th class="ctr col-score">추이</th>
+      ${recentYears.map(y=>`<th class="ctr col-score" style="cursor:pointer;top:38px" onclick="setSortTpa(${y})">${y}${sa(y)}</th>`).join('')}
+      <th class="ctr col-score" style="cursor:pointer;top:38px" onclick="setSortTpa('평균')">평균${sa('평균')}</th>
+      <th class="ctr col-score" style="top:38px">추이</th>
     </tr>
   </thead><tbody>${sortedList.length===0 ? emptyRow(totalCols,'Excel을 업로드하면 TPA 목록이 표시됩니다.') : sortedList.map(r=>{
     const scores = recentYears.map(y=>getScore(r,y));
     return `<tr>
-      <td class="ctr code">${esc(r['순번']||'-')}</td>
+      <td class="ctr code">${fixedNo.get(r)}</td>
       <td><span class="code">${esc(r['TPA']||'-')}</span></td>
       <td class="ctr">${regScoreCell(r['등록평가'])}</td>
       ${scores.map(v=>`<td class="ctr">${scoreCell(v)}</td>`).join('')}
@@ -2919,8 +2915,8 @@ function renderTpaMonthlyPage(){
   </tr></thead><tbody>${allTpa.length===0 ? emptyRow(years5.length+2,'데이터 없음') :
     allTpa.map(tpa=>`<tr>
       <td class="ctr">${esc(tpa)}</td>
-      ${years5.map(y=>`<td class="num" style="padding-right:8px">${tpaYearSum[tpa]?.[y] ? compactK(tpaYearSum[tpa][y]) : '-'}</td>`).join('')}
-      <td class="num" style="padding-right:8px">${(()=>{const s=years5.reduce((a,y)=>a+(tpaYearSum[tpa]?.[y]||0),0);return s>0?compactK(s):'-';})()}</td>
+      ${years5.map(y=>`<td class="num" style="padding-right:28px">${tpaYearSum[tpa]?.[y] ? compactK(tpaYearSum[tpa][y]) : '-'}</td>`).join('')}
+      <td class="num" style="padding-right:28px">${(()=>{const s=years5.reduce((a,y)=>a+(tpaYearSum[tpa]?.[y]||0),0);return s>0?compactK(s):'-';})()}</td>
     </tr>`).join('')}
   </tbody>`;
 
@@ -2972,7 +2968,7 @@ function renderTpaMonthlyPage(){
 
 /* ────────────── 인력운영현황 ────────────── */
 /* 인력운영 — 인원 카드 PO 팝오버 인프라 */
-let _personPopover, _personHideTimer, _personShowTimer;
+let _personPopover, _personHideTimer, _personShowTimer, _personActiveCard;
 function ensurePersonPopover(){
   if(_personPopover) return _personPopover;
   const el = document.createElement('div');
@@ -2984,7 +2980,7 @@ function ensurePersonPopover(){
     _personHideTimer = setTimeout(()=> el.classList.remove('on'), 90);
   });
   document.addEventListener('click', e=>{
-    if(!el.contains(e.target) && !e.target.closest('.org-person')) el.classList.remove('on');
+    if(!el.contains(e.target) && !e.target.closest('.org-person')){ el.classList.remove('on'); _personActiveCard = null; }
   });
   return el;
 }
@@ -3003,6 +2999,7 @@ function showPersonPopover(target, name, pos){
           </tr>`).join('')}</tbody>
         </table></div>`;
   }
+  _personActiveCard = target;
   el.classList.add('on');
   const r = target.getBoundingClientRect();
   const w = el.offsetWidth, h = el.offsetHeight;
@@ -3033,7 +3030,13 @@ function bindPersonPopover(poByPerson){
     card.addEventListener('click', e=>{
       e.stopPropagation();
       clearTimeout(_personHideTimer);
-      showPersonPopover(card, name, pos);
+      clearTimeout(_personShowTimer);
+      if(_personActiveCard === card && _personPopover && _personPopover.classList.contains('on')){
+        _personPopover.classList.remove('on');
+        _personActiveCard = null;
+      } else {
+        showPersonPopover(card, name, pos);
+      }
     });
   });
 }
@@ -3457,22 +3460,43 @@ function renderAll(){
 async function handleRawUpload(e){
   const file = e.target.files[0];
   if(!file) return;
+  console.log('[Upload] 파일 선택됨:', file.name, file.size, 'bytes');
   try{
     const name = file.name.toLowerCase();
     if(!(name.endsWith('.xlsx') || name.endsWith('.xls'))){
       alert('Excel 파일(.xlsx)만 업로드 가능합니다.');
       e.target.value=''; return;
     }
+    console.log('[Upload] parseXLSX 시작...');
     const workbook = await parseXLSX(await file.arrayBuffer());
+    const foundSheets = Object.keys(workbook);
+    const expectedSheets = Object.keys(SHEET_FIELDS);
+    const matched = foundSheets.filter(s=>SHEET_FIELDS[s]);
+    const missing = expectedSheets.filter(s=>!workbook[s]);
+    console.log('[Upload] 파일 내 시트:', foundSheets);
+    console.log('[Upload] 매칭된 시트:', matched);
+    console.log('[Upload] 누락된 시트:', missing);
     Object.keys(SHEET_FIELDS).forEach(s=>{ RAW[s] = []; });
     Object.keys(workbook).forEach(s=>{
-      if(SHEET_FIELDS[s]) RAW[s] = workbook[s];
+      if(SHEET_FIELDS[s]){
+        RAW[s] = workbook[s];
+        console.log(`[Upload] ${s}: ${workbook[s].length}행 로드됨`);
+      }
     });
-    toast('Excel 파일이 반영되었습니다.');
+    if(matched.length === 0){
+      const msg = '업로드된 파일에서 인식된 시트가 없습니다.\n\n'
+        + '파일 내 시트명:\n' + foundSheets.map(s=>'  · '+s).join('\n')
+        + '\n\n기대 시트명:\n' + expectedSheets.map(s=>'  · '+s).join('\n');
+      alert(msg);
+      return;
+    }
+    const summary = matched.map(s=>`${s}: ${RAW[s].length}행`).join(', ');
+    toast(`반영 완료 — ${summary}`);
+    console.log('[Upload] renderAll 호출');
     renderAll();
   }catch(err){
-    console.error(err);
-    alert('Excel 파일 처리 중 오류가 발생했습니다.\n동일 구조의 .xlsx 파일인지 확인하세요.\n\n' + err.message);
+    console.error('[Upload] 오류:', err);
+    alert('Excel 파일 처리 중 오류가 발생했습니다.\n\n' + err.message + '\n\n브라우저 콘솔(F12)에서 상세 내용을 확인하세요.');
   }finally{
     e.target.value = '';
   }
