@@ -390,12 +390,6 @@ button{cursor:pointer;border:none;background:none}
 .tpa-track .fill.warn{background:var(--warn)}
 .tpa-track .fill.danger{background:var(--danger)}
 .tpa-track .fill.dim{background:#CBD5E1}
-.tpa-track .mark{
-  position:absolute;top:-2px;width:1px;height:12px;
-  background:var(--muted);
-}
-.tpa-track .mark.t70{left:70%;background:var(--warn)}
-.tpa-track .mark.t90{left:90%;background:var(--danger)}
 .tpa-pct{
   font-family:'JetBrains Mono','Noto Sans KR','Malgun Gothic',monospace;
   font-size:12px;font-weight:600;
@@ -431,7 +425,8 @@ button{cursor:pointer;border:none;background:none}
   letter-spacing:-.005em;
 }
 .warn-chip.danger{background:var(--danger-bg);color:var(--danger);border-color:#F2BCB6}
-.warn-chip + .warn-chip{margin-top:3px}
+.warn-chip.orange{background:#F3EFFE;color:#6B21A8;border-color:#D4AAFC}
+.warn-chip + .warn-chip{margin-top:5px}
 
 /* ============================================================
    리스트 항목
@@ -1160,13 +1155,12 @@ button{cursor:pointer;border:none;background:none}
 </header>
 
 <nav class="tabs">
-  <button class="tab on" data-page="overview"><span class="num">01</span>Executive Summary</button>
+  <button class="tab on" data-page="issues"><span class="num">01</span>주요현안</button>
   <button class="tab" data-page="projects" data-group="projects"><span class="num">02</span>프로젝트</button>
   <button class="tab" data-page="pqan"><span class="num">03</span>PQAN</button>
   <button class="tab" data-page="tpa" data-group="tpa"><span class="num">04</span>TPA</button>
   <button class="tab" data-page="manpower"><span class="num">05</span>인력운영현황</button>
   <button class="tab" data-page="trip"><span class="num">06</span>출장현황</button>
-  <button class="tab" data-page="issues"><span class="num">07</span>주요현안</button>
 </nav>
 <nav class="subtabs hidden" id="projectsSubtabs">
   <button class="subtab on" data-page="projects">현황</button>
@@ -1183,42 +1177,15 @@ button{cursor:pointer;border:none;background:none}
 <main>
 
 
-<section class="page on print-main" id="overview">
-  <div id="emptyBannerSlot"></div>
-  <div class="grid g5" id="kpiGrid"></div>
-  <div class="h-sep"></div>
-  <div class="card">
-    <div class="card-hd">
-      <div class="card-title"><span class="bar"></span>프로젝트 현황</div>
-    </div>
-    <div class="card-body flush"><div class="tbl-wrap"><table class="tbl dense" id="overviewProjectTbl" style="table-layout:fixed"></table></div></div>
-  </div>
-  <div class="h-sep"></div>
-  <div class="grid g2">
-    <div class="card">
-      <div class="card-hd"><div class="card-title"><span class="bar"></span>실행 항목</div></div>
-      <div class="card-body" id="actionItems"></div>
-    </div>
-    <div class="card">
-      <div class="card-hd"><div class="card-title"><span class="bar"></span>리스크 및 관리 포인트</div></div>
-      <div class="card-body" id="riskPoints"></div>
-    </div>
-  </div>
-</section>
 
 <section class="page" id="projects">
-  <div class="control-row">
-    <div class="filters">
-      <input class="input" id="projectSearch" placeholder="프로젝트 / 발주처 / 국가 검색" style="min-width:260px" />
-      <select class="select" id="projectStatusFilter"><option value="">전체 단계</option></select>
-    </div>
-  </div>
-  <div class="grid g4" id="projectKpis"></div>
-  <div class="h-sep"></div>
   <div class="card">
     <div class="card-hd">
       <div class="card-title"><span class="bar"></span>프로젝트 현황</div>
-      <div class="card-meta">USD&nbsp;검정&nbsp;/&nbsp;KRW&nbsp;회색&nbsp;병기</div>
+    </div>
+    <div class="filters" style="padding:10px 16px">
+      <input class="input" id="projectSearch" placeholder="프로젝트 / 발주처 / 국가 검색" style="min-width:260px" />
+      <select class="select" id="projectStatusFilter"><option value="">전체 단계</option></select>
     </div>
     <div class="card-body flush"><div class="tbl-wrap"><table class="tbl" id="projectTbl"></table></div></div>
   </div>
@@ -1230,7 +1197,6 @@ button{cursor:pointer;border:none;background:none}
   <div class="card">
     <div class="card-hd">
       <div class="card-title"><span class="bar"></span>프로젝트별 구매품질 진행현황</div>
-      <div class="card-meta">Weighted = MR×10 + TBE×10 + PO×10 + PIM×20 + IRC×50</div>
     </div>
     <div class="card-body flush"><div class="tbl-wrap"><table class="tbl" id="stageTbl"></table></div></div>
   </div>
@@ -1257,7 +1223,6 @@ button{cursor:pointer;border:none;background:none}
   <div class="card">
     <div class="card-hd">
       <div class="card-title"><span class="bar"></span>PQAN 목록</div>
-      <div class="card-meta">동일 PQAN No.는 통합 표시 / 이미지는 셀 hover 시 미리보기</div>
     </div>
     <div class="card-body flush"><div class="tbl-wrap"><table class="tbl" id="pqanTbl"></table></div></div>
   </div>
@@ -1271,20 +1236,15 @@ button{cursor:pointer;border:none;background:none}
 </section>
 
 <section class="page" id="tpaStatus">
-  <div class="grid g4" id="tpaKpis"></div>
-  <div class="h-sep"></div>
-  <div class="grid g31">
-    <div class="card">
-      <div class="card-hd">
-        <div class="card-title"><span class="bar"></span>예산 · 계약고 · 집행금액 현황</div>
-        <div class="card-meta">USD 검정 / KRW 회색 병기</div>
-      </div>
-      <div class="card-body flush"><div class="tbl-wrap"><table class="tbl" id="tpaTbl"></table></div></div>
+  <div class="card">
+    <div class="card-hd">
+      <div class="card-title"><span class="bar"></span>TPA 예산 · 계약고 · 집행금액 현황</div>
     </div>
-    <div class="card">
-      <div class="card-hd"><div class="card-title"><span class="bar"></span>Warning 기준</div></div>
-      <div class="card-body" id="tpaGuide"></div>
+    <div class="filters" style="padding:10px 16px">
+      <select class="select" id="tpaStatusStageFilter"><option value="">전체 단계</option></select>
+      <span id="tpaStatusCount" style="font-size:11px;color:var(--muted)"></span>
     </div>
+    <div class="card-body flush"><div class="tbl-wrap"><table class="tbl" id="tpaTbl"></table></div></div>
   </div>
 </section>
 
@@ -1298,7 +1258,7 @@ button{cursor:pointer;border:none;background:none}
           <select class="select" id="tpaProjSelect" style="font-size:11px;padding:1px 8px;height:24px;min-width:140px"></select>
         </div>
       </div>
-      <div class="card-body" id="tpaProjChart" style="min-height:240px;overflow:visible"></div>
+      <div class="card-body" id="tpaProjChart" style="min-height:240px;overflow:visible;padding-bottom:6px"></div>
     </div>
     <div class="card">
       <div class="card-hd"><div class="card-title"><span class="bar"></span>연도별 대금지급 추이</div></div>
@@ -1393,7 +1353,8 @@ button{cursor:pointer;border:none;background:none}
   </div>
 </section>
 
-<section class="page" id="issues">
+<section class="page on print-main" id="issues">
+  <div id="emptyBannerSlot"></div>
   <div class="grid g2">
     <div class="card">
       <div class="card-hd"><div class="card-title"><span class="bar"></span>프로젝트 현안</div></div>
@@ -1609,7 +1570,6 @@ async function fetchFx(){
 }
 
 const PAGE_GROUP = {
-  'overview':'overview',
   'projects':'projects','stage':'projects','ncr':'projects','tpaStatus':'projects',
   'pqan':'pqan',
   'tpa':'tpa','tpaMonthly':'tpa',
@@ -1652,6 +1612,7 @@ function bindControls(){
   ['tripSearchYear','tripSearchTraveler','tripSearchProject','tripSearchPurpose','tripSearchCountry','tripSearchVendor'].forEach(id=>{
     const el = $(id); if(el) el.addEventListener('input', renderTripPage);
   });
+  const tpaSF = $('tpaStatusStageFilter'); if(tpaSF) tpaSF.addEventListener('change', renderTpaPage);
   ['tpaMonthlySearchYM','tpaMonthlySearchProj','tpaMonthlySearchTpa'].forEach(id=>{
     const el = $(id); if(el) el.addEventListener('input', renderTpaMonthlyPage);
   });
@@ -1667,125 +1628,16 @@ function tpaWarnings(row){
   const spent = num(row['집행비용 (USD)']) || num(row['집행비용 (KRW)']);
   if(budget > 0){
     const r = spent/budget*100;
-    if(r >= 90) warnings.push({lv:'danger',txt:'2차 청산추정 및 예산외품의 준비'});
+    if(r >= 90) warnings.push({lv:'danger',txt:'2차 청산추정 및 예산외품의 검토 필요'});
     else if(r >= 70) warnings.push({lv:'warn',txt:'1차 청산추정 필요'});
   }
   if(contract > 0){
     const r = spent/contract*100;
-    if(r >= 90) warnings.push({lv:'danger',txt:'계약고 증액 절차 필요'});
+    if(r >= 90) warnings.push({lv:'orange',txt:'계약고 증액 필요'});
   }
   return warnings;
 }
 
-/* ────────────── Executive Summary ────────────── */
-function renderOverview(){
-  const projects = RAW['프로젝트_현황'] || [];
-  const stages = RAW['프로젝트_구매품질 실적'] || [];
-  const ncrs = RAW['프로젝트_미결 NCR 현황'] || [];
-  const tpa = RAW['TPA_집행현황'] || [];
-  const mp  = RAW['인력운영_현황'] || [];
-
-  const active = projects.filter(p=>p['단계']==='Active').length;
-  const mc = projects.filter(p=>p['단계']==='Mechanical Completion').length;
-  const bid = projects.filter(p=>p['단계']==='Bid').length;
-
-  let progSum=0, progCnt=0;
-  stages.forEach(s=>{
-    const p = projects.find(x=>x['프로젝트']===s['프로젝트']);
-    if(!p || p['단계']==='Bid') return;
-    const w = weightedProgress(s);
-    if(w && w.full){ progSum += w.value; progCnt++; }
-  });
-  const avgProg = progCnt ? (progSum/progCnt).toFixed(1)+'%' : '-';
-
-  let warnCount = 0;
-  tpa.forEach(t=>{ if(tpaWarnings(t).length) warnCount++; });
-
-  $('kpiGrid').innerHTML = [
-    {label:'PROJECTS',val:projects.length,unit:'건',sub:`Active <span class="delta">${active}</span> · MC <span class="delta">${mc}</span> · Bid <span class="delta">${bid}</span>`,cls:'accent'},
-    {label:'AVG PROGRESS',val:avgProg,sub:'IRC 50% 가중',cls:'ok'},
-    {label:'OPEN NCR',val:ncrs.length,unit:'건',sub:'발생-종결 차이',cls:'warn'},
-    {label:'TPA WARNINGS',val:warnCount,unit:'건',sub:'예산/계약고 임계 초과',cls:'danger'},
-    {label:'MANPOWER',val:mp.length,unit:'명',sub:'본사 + 현장',cls:'info'}
-  ].map(k=>`<div class="kpi ${k.cls}">
-    <div class="kpi-label">${esc(k.label)}</div>
-    <div class="kpi-val">${typeof k.val==='string'?esc(k.val):k.val}${k.unit?`<span class="unit">${esc(k.unit)}</span>`:''}</div>
-    <div class="kpi-sub">${k.sub||''}</div>
-  </div>`).join('');
-
-  // 프로젝트 현황 표 (헤더 = '프로젝트 > 현황' 서브탭과 동일)
-  const tbl = $('overviewProjectTbl');
-  tbl.innerHTML = `<thead><tr>
-    <th class="ctr" style="width:90px">프로젝트</th>
-    <th class="ctr" style="width:90px">단계</th>
-    <th class="ctr" style="width:100px">발주처</th>
-    <th class="ctr" style="width:120px">국가</th>
-    <th class="ctr" style="width:100px">PM</th>
-    <th class="ctr" style="width:100px">PQCM</th>
-    <th class="right" style="width:115px">HDEC 계약고</th>
-    <th class="ctr" style="width:110px">공정률</th>
-    <th class="ctr" style="width:120px">구매품질 진척률</th>
-    <th class="ctr" style="width:110px">TPA 계약고 소진율</th>
-    <th class="ctr" style="width:80px">NCR</th>
-  </tr></thead><tbody>${projects.length===0 ? emptyRow(11,'Excel을 업로드하면 프로젝트 현황이 표시됩니다.') : projects.map(p=>{
-    const s = stages.find(x=>x['프로젝트']===p['프로젝트']) || {};
-    const w = weightedProgress(s);
-    const progStr = w ? w.value.toFixed(1)+'%' : '-';
-    const progValue = w ? w.value : 0;
-    const ncrOpen = ncrs.filter(n=>n.Project_Code===p['프로젝트']).length;
-    const ncrTotal = num(s.NCR_Total);
-    const rawProg = pctRaw(p['공정률']);
-    const rawProgVal = rawProg != null ? Math.min(Math.max(rawProg, 0), 100) : 0;
-    const tpaRow = tpa.find(t=>t['프로젝트']===p['프로젝트']) || {};
-    const burnB = pctRaw(tpaRow['現 계약고 소진율']);
-    const tpaCls = burnB!=null ? (burnB>=90?'danger':burnB>=70?'warn':burnB===0?'dim':'') : 'dim';
-    return `<tr>
-      <td class="ctr code">${esc(p['프로젝트'])}</td>
-      <td class="ctr">${statusTag(p['단계'])}</td>
-      <td class="ctr">${esc(p['발주처']||'-')}</td>
-      <td class="ctr">${esc(p['국가']||'-')}</td>
-      <td class="ctr">${esc(p['PM']||'-')}</td>
-      <td class="ctr">${esc(p['PQCM']||'-')}</td>
-      <td class="right">${moneyContractCell(p,'HDEC')}</td>
-      <td><div class="bar-wrap"><div class="bar"><div class="fill ${fillCls(rawProgVal)}" style="width:${rawProgVal}%"></div></div><span class="pct${rawProg==null?' dim':''}">${rawProg!=null?rawProgVal.toFixed(1)+'%':'-'}</span></div></td>
-      <td><div class="bar-wrap"><div class="bar"><div class="fill ${fillCls(progValue)}" style="width:${progValue}%"></div></div><span class="pct${w?'':' dim'}">${progStr}</span></div></td>
-      <td><div class="bar-wrap"><div class="bar"><div class="fill ${tpaCls}" style="width:${Math.min(burnB||0,100)}%"></div></div><span class="pct${tpaCls==='dim'?' dim':''}">${burnB!=null?burnB.toFixed(1)+'%':'-'}</span></div></td>
-      <td class="ctr"><span class="code">${ncrOpen}</span> <span class="muted">/ ${isNumLike(ncrTotal)?ncrTotal:'-'}</span></td>
-    </tr>`;
-  }).join('')}</tbody>`;
-
-  $('actionItems').innerHTML = [
-    {n:'01',t:'TPA 청산추정 가속화',d:'예산 70% 초과 PJT 1차 청산추정 착수, 90% 초과 시 예산외품의 준비',due:'상시'},
-    {n:'02',t:'IRC 100% 단계 집중관리',d:'IRC 진행률 점검 및 잔여 NCR 종결 가속화',due:'분기'},
-    {n:'03',t:'초기단계 프로젝트 셋업',d:'MR · TBE 발행 일정 확정 및 계약고 미정 항목 협의',due:'착수 후 1개월'},
-    {n:'04',t:'장기 미결 NCR 종결',d:'180일 초과 NCR 우선 종결, IRC Issuance with Punch List 항목 정리',due:'상시'}
-  ].map(a=>`<div class="action-row">
-    <div class="action-no">${a.n}</div>
-    <div><div class="action-title">${esc(a.t)}</div><div class="action-desc">${esc(a.d)}</div></div>
-    <div class="action-due">${esc(a.due)}</div>
-  </div>`).join('');
-
-  $('riskPoints').innerHTML = [
-    {t:'TPA 임계 관리',rows:[
-      {k:'예산 70%↑',v:'1차 청산추정'},
-      {k:'예산 90%↑',v:'예산외품의 준비'},
-      {k:'계약고 90%↑',v:'계약고 증액 절차'}
-    ]},
-    {t:'단계별 가중치',rows:[
-      {k:'IRC 100%',v:'전체의 50%'},
-      {k:'PIM',v:'20%'},
-      {k:'MR · TBE · PO',v:'각 10%'}
-    ]},
-    {t:'NCR 우선순위',rows:[
-      {k:'180일 초과',v:'장기 미결 - 즉시 종결'},
-      {k:'90~180일',v:'중간 점검 및 가속화'},
-      {k:'MC 제외',v:'기계적 준공 후 별도 관리'}
-    ]}
-  ].map(r=>`<div class="risk-group">
-    <div class="grp-title">${esc(r.t)}</div>
-    ${r.rows.map(x=>`<div class="risk-item"><span class="k">${esc(x.k)}</span><span class="v">${esc(x.v)}</span></div>`).join('')}
-  </div>`).join('');
-}
 
 /* ────────────── 프로젝트 > 현황 ────────────── */
 function renderProjectsPage(){
@@ -1795,18 +1647,6 @@ function renderProjectsPage(){
   if(!sel) return;
   const cur = sel.value;
   sel.innerHTML = '<option value="">전체 단계</option>' + statuses.map(s=>`<option value="${esc(s)}" ${s===cur?'selected':''}>${esc(s)}</option>`).join('');
-
-  const sumUSD = key => projects.reduce((a,p)=>a+(isNumLike(p[key])?num(p[key]):0),0);
-  $('projectKpis').innerHTML = [
-    {label:'PROJECTS',val:projects.length,unit:'건',cls:'accent'},
-    {label:'HDEC TOTAL',val:'$'+fmt(sumUSD('HDEC 계약고 (USD)'))+'M',sub:'USD 환산',cls:'ok'},
-    {label:'GRAND TOTAL',val:'$'+fmt(sumUSD('전체 계약고 (USD)'))+'M',sub:'USD 환산',cls:'info'},
-    {label:'ACTIVE',val:projects.filter(p=>p['단계']==='Active').length,unit:'건',cls:'warn'}
-  ].map(k=>`<div class="kpi ${k.cls}">
-    <div class="kpi-label">${esc(k.label)}</div>
-    <div class="kpi-val">${typeof k.val==='string'?esc(k.val):k.val}${k.unit?`<span class="unit">${esc(k.unit)}</span>`:''}</div>
-    <div class="kpi-sub">${esc(k.sub||'')}</div>
-  </div>`).join('');
 
   const q = ($('projectSearch')?.value || '').trim().toLowerCase();
   const st = sel.value;
@@ -1843,7 +1683,7 @@ function renderProjectsPage(){
     const rawProgVal = rawProg != null ? Math.min(Math.max(rawProg, 0), 100) : 0;
     const tpaRow = tpa.find(t=>t['프로젝트']===p['프로젝트']) || {};
     const burnB = pctRaw(tpaRow['現 계약고 소진율']);
-    const tpaCls = burnB!=null ? (burnB>=90?'danger':burnB>=70?'warn':burnB===0?'dim':'') : 'dim';
+    const tpaCls = (burnB!=null && Number.isFinite(burnB)) ? (burnB>=90?'danger':(burnB>=70?'warn':(burnB===0?'dim':''))) : 'dim';
     return `<tr>
       <td class="ctr code">${esc(p['프로젝트'])}</td>
       <td class="ctr">${statusTag(p['단계'])}</td>
@@ -1851,7 +1691,7 @@ function renderProjectsPage(){
       <td class="ctr">${esc(p['국가']||'-')}</td>
       <td class="ctr">${esc(p['PM']||'-')}</td>
       <td class="ctr">${esc(p['PQCM']||'-')}</td>
-      <td class="right">${moneyContractCell(p,'HDEC')}</td>
+      <td class="ctr" style="padding-right:19px">${moneyContractCell(p,'HDEC')}</td>
       <td><div class="bar-wrap"><div class="bar"><div class="fill ${fillCls(rawProgVal)}" style="width:${rawProgVal}%"></div></div><span class="pct${rawProg==null?' dim':''}">${rawProg!=null?rawProgVal.toFixed(1)+'%':'-'}</span></div></td>
       <td><div class="bar-wrap"><div class="bar"><div class="fill ${fillCls(progValue)}" style="width:${progValue}%"></div></div><span class="pct${w?'':' dim'}">${progStr}</span></div></td>
       <td><div class="bar-wrap"><div class="bar"><div class="fill ${tpaCls}" style="width:${Math.min(burnB||0,100)}%"></div></div><span class="pct${tpaCls==='dim'?' dim':''}">${burnB!=null?burnB.toFixed(1)+'%':'-'}</span></div></td>
@@ -2196,61 +2036,46 @@ function renderTpaListPage(){
 
 /* ────────────── TPA > 집행현황 ────────────── */
 function renderTpaPage(){
-  const tpa = RAW['TPA_집행현황'] || [];
-  let totBudget=0, totContract=0, totSpent=0, warnCount=0;
-  tpa.forEach(t=>{
-    totBudget += num(t['TPA 예산 (USD)']) + num(t['TPA 예산 (KRW)'])/FX_RATE;
-    totContract += num(t['TPA 계약고 (USD)']) + num(t['TPA 계약고 (KRW)'])/FX_RATE;
-    totSpent += num(t['집행비용 (USD)']) + num(t['집행비용 (KRW)'])/FX_RATE;
-    if(tpaWarnings(t).length) warnCount++;
-  });
-  const burn = totBudget>0 ? (totSpent/totBudget*100) : 0;
-  function compactUSD(v){
-    if(v>=1e9) return '$'+(v/1e9).toFixed(2)+'B';
-    if(v>=1e6) return '$'+fmt(Math.round(v/1e6))+'M';
-    if(v>=1e3) return '$'+fmt(Math.round(v/1e3))+'K';
-    return '$'+fmt(Math.round(v));
+  const tpaAll = RAW['TPA_집행현황'] || [];
+  const sel = $('tpaStatusStageFilter');
+  const stages = [...new Set(tpaAll.map(t=>t['단계']).filter(Boolean))];
+  if(sel){
+    const cur = sel.value;
+    sel.innerHTML = '<option value="">전체 단계</option>' + stages.map(s=>`<option value="${esc(s)}" ${s===cur?'selected':''}>${esc(s)}</option>`).join('');
   }
+  const qStage = sel?.value || '';
+  const hasFilter = !!qStage;
+  const tpa = hasFilter ? tpaAll.filter(t=>t['단계']===qStage) : tpaAll;
+  const cntEl = $('tpaStatusCount');
+  if(cntEl) cntEl.textContent = hasFilter ? `${tpa.length} / ${tpaAll.length}건` : `${tpaAll.length}건`;
 
-  $('tpaKpis').innerHTML = [
-    {label:'TOTAL BUDGET',val:compactUSD(totBudget),sub:'USD 환산',cls:'ok'},
-    {label:'TOTAL CONTRACT',val:compactUSD(totContract),sub:'USD 환산',cls:'info'},
-    {label:'TOTAL SPENT',val:compactUSD(totSpent),sub:`소진율 ${burn.toFixed(1)}%`,cls:'warn'},
-    {label:'WARNINGS',val:warnCount,unit:'건',sub:'MC 제외 기준',cls:'danger'}
-  ].map(k=>`<div class="kpi ${k.cls}">
-    <div class="kpi-label">${esc(k.label)}</div>
-    <div class="kpi-val">${typeof k.val==='string'?esc(k.val):k.val}${k.unit?`<span class="unit">${esc(k.unit)}</span>`:''}</div>
-    <div class="kpi-sub">${esc(k.sub||'')}</div>
-  </div>`).join('');
-
-  $('tpaGuide').innerHTML = `
-    <div class="guide-row"><span class="guide-trigger warn">예산 70%↑</span><div class="guide-text"><b>1차 청산추정 필요</b><br/>예산 대비 집행이 70%를 초과한 시점</div></div>
-    <div class="guide-row"><span class="guide-trigger danger">예산 90%↑</span><div class="guide-text"><b>2차 청산추정 및 예산외품의 준비</b><br/>예산 대비 집행이 90%를 초과한 시점</div></div>
-    <div class="guide-row"><span class="guide-trigger danger">계약고 90%↑</span><div class="guide-text"><b>계약고 증액 절차 필요</b><br/>계약고 대비 집행이 90%를 초과한 시점</div></div>
-    <div class="guide-row"><span class="guide-trigger info">MC 제외</span><div class="guide-text">Mechanical Completion 상태 프로젝트는 모든 Warning에서 제외</div></div>`;
-
-  $('tpaTbl').innerHTML = `<thead><tr>
-    <th>프로젝트</th><th class="ctr">단계</th>
-    <th class="right">예산</th><th class="right">계약고</th><th class="right">집행금액</th>
-    <th class="ctr" style="min-width:200px">예산 대비 집행</th>
-    <th class="ctr" style="min-width:200px">계약고 대비 집행</th>
-    <th>Warning</th>
+  $('tpaTbl').innerHTML = `<colgroup>
+    <col style="width:8%"><col style="width:8%">
+    <col style="width:12.8%"><col style="width:12.8%"><col style="width:12.8%">
+    <col style="width:12.8%"><col style="width:12.8%"><col style="width:20%">
+  </colgroup><thead><tr>
+    <th class="ctr">프로젝트</th><th class="ctr">단계</th>
+    <th class="ctr">예산</th><th class="ctr">계약고</th><th class="ctr">집행금액</th>
+    <th class="ctr">TPA 예산 소진율</th>
+    <th class="ctr">TPA 계약고 소진율</th>
+    <th class="ctr">비고</th>
   </tr></thead><tbody>${tpa.length===0 ? emptyRow(8,'Excel을 업로드하면 TPA 집행현황이 표시됩니다.') : tpa.map(t=>{
     const isMC = t['단계']==='Mechanical Completion';
+    const isBid = t['단계']==='Bid';
     const burnB = pctRaw(t['예산 소진율']);
     const burnC = pctRaw(t['現 계약고 소진율']);
     const ws = tpaWarnings(t);
     const cls70 = burnB!=null ? (burnB>=90?'danger':(burnB>=70?'warn':(burnB===0?'dim':''))) : 'dim';
     const cls90 = (burnC!=null && Number.isFinite(burnC)) ? (burnC>=90?'danger':(burnC>=70?'warn':(burnC===0?'dim':''))) : 'dim';
     return `<tr>
-      <td class="code">${esc(t['프로젝트'])}</td>
+      <td class="ctr">${esc(t['프로젝트'])}</td>
       <td class="ctr">${statusTag(t['단계'])}</td>
-      <td class="right">${moneyCell(t['TPA 예산 (USD)'],t['TPA 예산 (KRW)'],{dim:isMC})}</td>
-      <td class="right">${moneyCell(t['TPA 계약고 (USD)'],t['TPA 계약고 (KRW)'],{dim:isMC})}</td>
-      <td class="right">${moneyCell(t['집행비용 (USD)'],t['집행비용 (KRW)'],{dim:isMC})}</td>
-      <td><div class="tpa-bar"><div class="tpa-track"><div class="fill ${cls70}" style="width:${Math.min(Math.max(burnB||0,0),100)}%"></div><div class="mark t70"></div><div class="mark t90"></div></div><span class="tpa-pct">${burnB!=null?burnB.toFixed(1)+'%':'-'}</span></div></td>
-      <td><div class="tpa-bar"><div class="tpa-track"><div class="fill ${cls90}" style="width:${Math.min(Math.max(burnC||0,0),100)}%"></div><div class="mark t70"></div><div class="mark t90"></div></div><span class="tpa-pct">${(burnC!=null && Number.isFinite(burnC))?burnC.toFixed(1)+'%':'-'}</span></div></td>
-      <td class="left" style="min-width:180px">${isMC ? '<span class="tag mc">MC 제외</span>' : (ws.length ? ws.map(w=>`<div class="warn-chip ${w.lv==='danger'?'danger':''}">${esc(w.txt)}</div>`).join('') : '<span class="tag ok dot">정상</span>')}</td>
+      <td class="right" style="padding-right:3.9%">${isBid ? moneyCell(null,null) : moneyCell(t['TPA 예산 (USD)'],t['TPA 예산 (KRW)'],{dim:isMC})}</td>
+      <td class="right" style="padding-right:3.9%">${isBid ? moneyCell(null,null) : moneyCell(t['TPA 계약고 (USD)'],t['TPA 계약고 (KRW)'],{dim:isMC})}</td>
+      <td class="right" style="padding-right:3.9%">${isBid ? moneyCell(null,null) : moneyCell(t['집행비용 (USD)'],t['집행비용 (KRW)'],{dim:isMC})}</td>
+      <td><div class="tpa-bar"><div class="tpa-track"><div class="fill ${cls70}" style="width:${Math.min(Math.max(burnB||0,0),100)}%"></div></div><span class="tpa-pct">${burnB!=null?burnB.toFixed(1)+'%':'-'}</span></div></td>
+      <td><div class="tpa-bar"><div class="tpa-track"><div class="fill ${cls90}" style="width:${Math.min(Math.max(burnC||0,0),100)}%"></div></div><span class="tpa-pct">${(burnC!=null && Number.isFinite(burnC))?burnC.toFixed(1)+'%':'-'}</span></div></td>
+      <td class="ctr" style="min-width:100px">${ws.length ? ws.map(w=>`<div class="warn-chip ${w.lv==='danger'?'danger':(w.lv==='orange'?'orange':'')}">${esc(w.txt)}</div>`).join(ws.length>1?' ':'') : ''}</td>
     </tr>`;
   }).join('')}</tbody>`;
 }
@@ -2815,12 +2640,13 @@ function renderTpaProjChart(){
   }
 
   // SVG 렌더링 — 이중 Y축, 스무스 베지어 누적선, 에리어 그라데이션
-  const W=800, H=272, pL=52, pR=52, pT=28, pB=38;
+  const W=800, H=272, pL=32, pR=32, pT=28, pB=38;
   const cW=W-pL-pR, cH=H-pT-pB;
   const nn=allMonths.length;
   const barMax=Math.max(1,...amounts.filter(v=>v>0));
   const lineMax=Math.max(budUSD>0?budUSD*1.15:0,ctrUSD>0?ctrUSD*1.15:0,(cumulative[cumulative.length-1]||0)*1.2,1);
   const fmtK=v=>'$'+Math.round(v/1e3).toString().replace(/\B(?=(\d{3})+(?!\d))/g,',')+' K';
+  const fmtUSD=v=>'$'+Math.round(v).toString().replace(/\B(?=(\d{3})+(?!\d))/g,',');
   const tx=i=>pL+(i+0.5)*(cW/nn);
   const tyBar=v=>pT+cH-Math.min(v/barMax*cH,cH);
   const tyLine=v=>pT+cH-Math.min(v/lineMax*cH,cH);
@@ -2891,22 +2717,24 @@ function renderTpaProjChart(){
   const na='<span style="color:#94A3B8">—</span>';
   const fmtProj=lbl=>lbl==='이미 초과'?'<span style="color:#B42318;font-weight:600">이미 초과</span>':lbl;
   const tblRows=[];
+  const tdC='padding:4px 8px;text-align:center';
+  const tdC1=tdC+';padding-right:11.5%';
   if(budUSD){
     const b=budBurn!=null?`<span style="font-weight:700;color:#B42318">${budBurn.toFixed(1)}%</span>`:na;
     const p=projBudLabel&&projBudLabel!=='예측 불가'?fmtProj(projBudLabel):na;
-    tblRows.push(`<tr style="border-bottom:1px solid #F1F5F9"><td style="padding:4px 8px;color:#B42318;font-weight:700">예산</td><td style="padding:4px 8px;text-align:right;font-family:'JetBrains Mono','Noto Sans KR','Malgun Gothic',monospace;font-size:12px;color:#1E293B">${fmtK(budUSD)}</td><td style="padding:4px 8px;text-align:right">${b}</td><td style="padding:4px 8px;text-align:right;color:#374151;font-size:12px">${p}</td></tr>`);
+    tblRows.push(`<tr style="border-bottom:1px solid #F1F5F9"><td style="${tdC1};color:#B42318;font-weight:700">예산</td><td style="${tdC};font-family:'JetBrains Mono','Noto Sans KR','Malgun Gothic',monospace;font-size:12px;color:#1E293B">${fmtUSD(budUSD)}</td><td style="${tdC}">${b}</td><td style="${tdC};color:#374151;font-size:12px">${p}</td></tr>`);
   }
   if(ctrUSD){
     const b=ctrBurn!=null?`<span style="font-weight:700;color:#B7791F">${ctrBurn.toFixed(1)}%</span>`:na;
     const p=projCtrLabel&&projCtrLabel!=='예측 불가'?fmtProj(projCtrLabel):na;
-    tblRows.push(`<tr style="border-bottom:1px solid #F1F5F9"><td style="padding:4px 8px;color:#B7791F;font-weight:700">계약고</td><td style="padding:4px 8px;text-align:right;font-family:'JetBrains Mono','Noto Sans KR','Malgun Gothic',monospace;font-size:12px;color:#1E293B">${fmtK(ctrUSD)}</td><td style="padding:4px 8px;text-align:right">${b}</td><td style="padding:4px 8px;text-align:right;color:#374151;font-size:12px">${p}</td></tr>`);
+    tblRows.push(`<tr style="border-bottom:1px solid #F1F5F9"><td style="${tdC1};color:#B7791F;font-weight:700">계약고</td><td style="${tdC};font-family:'JetBrains Mono','Noto Sans KR','Malgun Gothic',monospace;font-size:12px;color:#1E293B">${fmtUSD(ctrUSD)}</td><td style="${tdC}">${b}</td><td style="${tdC};color:#374151;font-size:12px">${p}</td></tr>`);
   }
-  tblRows.push(`<tr><td style="padding:4px 8px;color:#1E40AF;font-weight:700">누적집행</td><td style="padding:4px 8px;text-align:right;font-family:'JetBrains Mono','Noto Sans KR','Malgun Gothic',monospace;font-size:12px;font-weight:700;color:#1E293B">${fmtK(cumTotal)}</td><td style="padding:4px 8px;text-align:right">${na}</td><td style="padding:4px 8px;text-align:right">${na}</td></tr>`);
-  const tblHtml=`<table style="width:100%;border-collapse:collapse;margin-top:8px;font-size:12px;font-family:'Noto Sans KR','Malgun Gothic','Apple SD Gothic Neo',sans-serif"><thead><tr style="border-bottom:1.5px solid #E2E8F0"><th style="padding:4px 8px;text-align:left;font-size:11px;color:#94A3B8;font-weight:500">구분</th><th style="padding:4px 8px;text-align:right;font-size:11px;color:#94A3B8;font-weight:500">금액</th><th style="padding:4px 8px;text-align:right;font-size:11px;color:#94A3B8;font-weight:500">소진율</th><th style="padding:4px 8px;text-align:right;font-size:11px;color:#94A3B8;font-weight:500">소진 예상</th></tr></thead><tbody>${tblRows.join('')}</tbody></table>`;
+  tblRows.push(`<tr><td style="${tdC1};color:#1E40AF;font-weight:700">누적집행</td><td style="${tdC};font-family:'JetBrains Mono','Noto Sans KR','Malgun Gothic',monospace;font-size:12px;font-weight:700;color:#1E293B">${fmtUSD(cumTotal)}</td><td style="${tdC}">${na}</td><td style="${tdC}">${na}</td></tr>`);
+  const tblHtml=`<table style="width:100%;table-layout:fixed;border-collapse:collapse;margin-top:20px;font-size:12px;font-family:'Noto Sans KR','Malgun Gothic','Apple SD Gothic Neo',sans-serif"><colgroup><col style="width:30%"><col style="width:25%"><col style="width:25%"><col style="width:20%"></colgroup><thead><tr style="border-bottom:1.5px solid #E2E8F0"><th style="padding:4px 8px;padding-right:11.5%;text-align:center;font-size:11px;color:#94A3B8;font-weight:500">구분</th><th style="padding:4px 8px;text-align:center;font-size:11px;color:#94A3B8;font-weight:500">금액</th><th style="padding:4px 8px;text-align:center;font-size:11px;color:#94A3B8;font-weight:500">소진율</th><th style="padding:4px 8px;text-align:center;font-size:11px;color:#94A3B8;font-weight:500">소진 예상</th></tr></thead><tbody>${tblRows.join('')}</tbody></table>`;
 
 
-  const fixedNote=`<div style="margin-top:4px;font-size:11px;color:#64748B;font-family:'JetBrains Mono','Noto Sans KR','Malgun Gothic',monospace;letter-spacing:.02em;opacity:.85">Hybrid S-Curve (Logistic/Gompertz/Linear) 기반 예측 (최근 지급 실적 가중 반영)</div>`;
-  const noteHtml=scurveNote?`<div style="margin-top:2px;font-size:11px;color:#64748B;font-family:'JetBrains Mono','Noto Sans KR','Malgun Gothic',monospace;letter-spacing:.02em;opacity:.85">${scurveNote}</div>`:'';
+  const fixedNote=`<div style="margin-top:-10px;padding-left:3.6%;font-size:11px;color:#64748B;font-family:'JetBrains Mono','Noto Sans KR','Malgun Gothic',monospace;letter-spacing:.02em;opacity:.85">Hybrid S-Curve (Logistic/Gompertz/Linear) 기반 예측 (최근 지급 실적 가중 반영)</div>`;
+  const noteHtml=scurveNote?`<div style="margin-top:2px;padding-left:3.6%;font-size:11px;color:#64748B;font-family:'JetBrains Mono','Noto Sans KR','Malgun Gothic',monospace;letter-spacing:.02em;opacity:.85">${scurveNote}</div>`:'';
   const allNotes=fixedNote+noteHtml;
 
   chartEl.innerHTML=`<div id="tpaProjTipBox" style="display:none;position:fixed;background:#0C2D48;color:#E0F2FE;font-size:10px;padding:5px 10px;border-radius:6px;white-space:nowrap;pointer-events:none;z-index:9999;box-shadow:0 4px 12px rgba(0,0,0,.22);transform:translate(-50%,-100%);font-family:'Noto Sans KR','Malgun Gothic','Apple SD Gothic Neo',sans-serif"></div><svg viewBox="0 0 ${W} ${H}" width="100%" style="overflow:visible;display:block;max-height:320px">
@@ -2941,8 +2769,8 @@ function renderTpaProjChart(){
   <circle cx="${lx.toFixed(1)}" cy="${ly.toFixed(1)}" r="6" fill="#1E40AF" opacity="0.18" filter="url(#tpj_glow)"/>
   <circle cx="${lx.toFixed(1)}" cy="${ly.toFixed(1)}" r="3.5" fill="#1E40AF" stroke="#fff" stroke-width="1.5"/>
   ${xLabSvg}
-  <text x="${pL}" y="${(pT-8).toFixed(1)}" text-anchor="start" font-size="10" fill="#94A3B8" font-family="'Noto Sans KR','Malgun Gothic',sans-serif" opacity="0.8">월별</text>
-  <text x="${(pL+cW).toFixed(1)}" y="${(pT-8).toFixed(1)}" text-anchor="end" font-size="10" fill="#94A3B8" font-family="'Noto Sans KR','Malgun Gothic',sans-serif" opacity="0.8">누적</text>
+  <text x="${(pL-4).toFixed(1)}" y="${(pT-16).toFixed(1)}" text-anchor="end" font-size="10" fill="#94A3B8" font-family="'Noto Sans KR','Malgun Gothic',sans-serif" opacity="0.8">월별</text>
+  <text x="${(pL+cW+5).toFixed(1)}" y="${(pT-16).toFixed(1)}" text-anchor="start" font-size="10" fill="#94A3B8" font-family="'Noto Sans KR','Malgun Gothic',sans-serif" opacity="0.8">누적</text>
   <line x1="${pL}" y1="${pT}" x2="${pL}" y2="${pT+cH}" stroke="#CBD5E1" stroke-width="0.8"/>
   <line x1="${pL+cW}" y1="${pT}" x2="${pL+cW}" y2="${pT+cH}" stroke="#CBD5E1" stroke-width="0.8"/>
   <line x1="${pL}" y1="${(pT+cH).toFixed(1)}" x2="${pL+cW}" y2="${(pT+cH).toFixed(1)}" stroke="#CBD5E1" stroke-width="0.8"/>
@@ -3046,13 +2874,13 @@ function renderTpaMonthlyPage(){
       const mMax = Math.max(1, ...mEntries.map(e=>e[1]));
       const monthHtml = mEntries.map(([mk,v])=>`
         <div class="trip-stat-row month pay-month">
-          <div class="label">${yr}-${mk}</div>
+          <div class="label">${mk}월</div>
           <div class="bar-wrap"><div class="bar-fill" style="width:${(v/mMax*100).toFixed(1)}%"></div></div>
           <div class="count">${compactK(v)}</div>
         </div>`).join('');
       return `<div class="trip-stat-row year">
         <div class="year-toggle">▶</div>
-        <div class="label">${esc(yr)}</div>
+        <div class="label">${esc(yr)}년</div>
         <div class="bar-wrap"><div class="bar-fill" style="width:${(total/ymax*100).toFixed(1)}%"></div></div>
         <div class="count">${compactK(total)}</div>
       </div>
@@ -3613,7 +3441,6 @@ function renderIssuesPage(){
 function renderAll(){
   setReportDate();
   renderUploadBanner();
-  renderOverview();
   renderProjectsPage();
   renderStagePage();
   renderNcrPage();
@@ -3792,8 +3619,8 @@ const README_CONTENT = [
   {text:null},
   {text:'TPA Warning 기준 (참고)', style:2, height:17.25},
   {text:"• 예산 대비 집행 70% 초과 → '1차 청산추정 필요'", style:0, height:18},
-  {text:"• 예산 대비 집행 90% 초과 → '2차 청산추정 및 예산외품의 준비 필요'", style:0, height:18},
-  {text:"• 계약고 대비 집행 90% 초과 → '계약고 증액 절차 필요'", style:0, height:18},
+  {text:"• 예산 대비 집행 90% 초과 → '2차 청산추정 및 예산외품의 검토 필요'", style:0, height:18},
+  {text:"• 계약고 대비 집행 90% 초과 → '계약고 증액 필요'", style:0, height:18},
   {text:null},
   {text:'단계별 가중치 (참고)', style:2, height:17.25},
   {text:'• MR 10% · TBE 10% · PO 10% · PIM 20% · IRC 100% 50%', style:0, height:18},
