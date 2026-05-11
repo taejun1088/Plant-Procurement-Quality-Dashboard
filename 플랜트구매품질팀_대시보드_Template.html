@@ -1017,7 +1017,7 @@ button{cursor:pointer;border:none;background:none}
   border-radius:8px;padding:10px 12px;box-shadow:0 8px 24px rgba(15,23,42,.18);
   display:none;width:max-content;max-width:min(420px,calc(100vw - 16px));
   min-width:240px;max-height:min(420px,calc(100vh - 24px));
-  overflow-y:auto;overflow-x:hidden;font-size:11.5px}
+  overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;font-size:11.5px}
 .person-popover.on{display:block}
 .org-tier1-row.hq-roles{grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
 .org-tier1-row.hq-roles:before{display:none}
@@ -2265,6 +2265,400 @@ function parseYM(v){
 }
 function _tpjTipOn(el,m,v){var t=document.getElementById('tpaProjTipBox');if(!t)return;t.textContent=m+' · '+v;var r=el.getBoundingClientRect();t.style.left=(r.left+r.width/2)+'px';t.style.top=(r.top-8)+'px';t.style.display='block';}
 function _tpjTipOff(){var t=document.getElementById('tpaProjTipBox');if(t)t.style.display='none';}
+/* --- TPA Hybrid S-Curve Forecast v2.1 --- */
+const tpaSafeExp = z => Math.exp(Math.max(-50, Math.min(50, z)));
+
+const tpaAvg = arr => arr.reduce((a, b) => a + b, 0) / Math.max(1, arr.length);
+const tpaSum = arr => arr.reduce((a, b) => a + b, 0);
+const tpaClamp = (v, min, max) => Math.max(min, Math.min(max, v));
+
+function tpaTrailingZeroCount(vals, eps = 1e-9) {
+  let c = 0;
+  for (let i = vals.length - 1; i >= 0; i--) {
+    if (Math.abs(vals[i]) <= eps) c++;
+    else break;
+  }
+  return c;
+}
+
+// 계약고/예산은 Forecast 상한이 아니라, close-out 판단용 기준값으로만 사용
+function tpaGetLifecycleRef(budUSD, ctrUSD, cumTotal) {
+  const ctr = Number(ctrUSD) || 0;
+  const bud = Number(budUSD) || 0;
+  const cum = Number(cumTotal) || 0;
+
+  // 계약고가 있으면 계약고를 우선 기준으로 사용
+  // 단, 이것은 예측을 멈추는 상한값이 아님
+  if (ctr > 0) return ctr;
+  if (bud > 0) return bud;
+
+  // 기준값이 없으면 현재 누계 기준으로 임시 판단
+  return cum > 0 ? cum * 1.25 : 0;
+}
+
+function tpaCumulate(arr) {
+  const out = [];
+  arr.reduce((acc, v, i) => { out[i] = acc + (Number(v) || 0); return out[i]; }, 0);
+  return out;
+}
+
+function tpaMedian(arr) {
+  const a = arr.filter(v => Number.isFinite(v)).slice().sort((x, y) => x - y);
+  if (!a.length) return 0;
+  const m = Math.floor(a.length / 2);
+  return a.length % 2 ? a[m] : (a[m - 1] + a[m]) / 2;
+}
+
+function tpaRobustRunRate(monthlyAmounts) {
+  const vals = monthlyAmounts.map(v => Math.max(0, Number(v) || 0));
+  const n = vals.length;
+  if (!n) return 0;
+
+  const positives = vals.filter(v => v > 0);
+  if (!positives.length) return 0;
+
+  const last3 = vals.slice(-Math.min(3, n));
+  const last6 = vals.slice(-Math.min(6, n));
+  const last12 = vals.slice(-Math.min(12, n));
+
+  const avg3 = tpaAvg(last3);
+  const avg6 = tpaAvg(last6);
+  const avg12 = tpaAvg(last12);
+  const medPositive = tpaMedian(positives);
+  const trailingZeros = tpaTrailingZeroCount(vals);
+
+  let recentWeighted =
+    avg3 * 0.65 +
+    avg6 * 0.25 +
+    avg12 * 0.08 +
+    medPositive * 0.02;
+
+  const ratio12 = avg12 > 0 ? avg3 / avg12 : 1;
+  const ratio6 = avg6 > 0 ? avg3 / avg6 : 1;
+
+  // 최근 청구가 과거 평균 대비 크게 줄어든 경우 감쇠
+  if (avg12 > 0 && ratio12 < 0.30) {
+    const decayFactor = tpaClamp(Math.min(ratio12, ratio6), 0.05, 1);
+    recentWeighted *= decayFactor;
+  }
+
+  // 최근 2개월 무청구라고 무조건 0 처리하지 않음
+  // 다만 강하게 감쇠
+  if (trailingZeros === 1) recentWeighted *= 0.50;
+  if (trailingZeros === 2) recentWeighted *= 0.20;
+  if (trailingZeros >= 3) recentWeighted *= 0.05;
+
+  return Math.max(0, recentWeighted);
+}
+
+function tpaAmountsFromCum(cum) {
+  return cum.map((v, i) => {
+    const prev = i > 0 ? cum[i - 1] : 0;
+    return Math.max(0, (Number(v) || 0) - (Number(prev) || 0));
+  });
+}
+
+function tpaRecentForecastStats(monthlyAmounts, lifecycleRef = 0) {
+  const vals = monthlyAmounts.map(v => Math.max(0, Number(v) || 0));
+  const n = vals.length;
+
+  const positives = vals.filter(v => v > 0);
+
+  const last3 = vals.slice(-Math.min(3, n));
+  const last6 = vals.slice(-Math.min(6, n));
+  const last12 = vals.slice(-Math.min(12, n));
+
+  const avg3 = tpaAvg(last3);
+  const avg6 = tpaAvg(last6);
+  const avg12 = tpaAvg(last12);
+  const avgAll = tpaAvg(vals);
+  const medPositive = tpaMedian(positives);
+
+  const rawRecentRate = tpaRobustRunRate(vals);
+  const trailingZeros = tpaTrailingZeroCount(vals);
+  const cumTotal = tpaSum(vals);
+
+  const completionRatio =
+    lifecycleRef > 0 ? cumTotal / lifecycleRef : 0;
+
+  const recentTo6 = avg6 > 0 ? avg3 / avg6 : 1;
+  const recentTo12 = avg12 > 0 ? avg3 / avg12 : 1;
+
+  const isCooling = avg6 > 0 && recentTo6 < 0.55;
+
+  // Close-out 판단:
+  // 계약고/예산에 근접했는지가 아니라,
+  // "높은 집행률 + 최근 청구 급감"이 동시에 있어야 종료성 tail로 본다.
+  const closeOutMode =
+    lifecycleRef > 0 &&
+    completionRatio >= 0.85 &&
+    (
+      recentTo12 < 0.30 ||
+      recentTo6 < 0.45 ||
+      trailingZeros >= 1
+    );
+
+  // 강제 0은 아주 제한적으로만 적용
+  const forceZero =
+    trailingZeros >= 4 ||
+    (
+      closeOutMode &&
+      trailingZeros >= 2 &&
+      recentTo12 < 0.20
+    );
+
+  const recentRate = forceZero ? 0 : rawRecentRate;
+
+  let monthlyCap = 0;
+
+  if (isCooling) {
+    monthlyCap = Math.max(
+      recentRate * 1.6,
+      avg3 * 1.3,
+      avg6 * 0.75
+    );
+  } else {
+    monthlyCap = Math.max(
+      recentRate * 2.0,
+      avg6 * 1.3,
+      avg12 * 1.0,
+      avgAll * 0.9
+    );
+  }
+
+  // Close-out 구간에서는 "계약고 잔액"으로 자르지 않고,
+  // 최근 실적 기준으로만 월별 예측치를 낮춘다.
+  if (closeOutMode) {
+    monthlyCap = Math.min(
+      monthlyCap,
+      Math.max(recentRate, avg3) * 1.10,
+      avg6 * 0.60,
+      avg12 * 0.35
+    );
+  }
+
+  if (forceZero) monthlyCap = 0;
+
+  return {
+    recentRate,
+    rawRecentRate,
+    avg3,
+    avg6,
+    avg12,
+    avgAll,
+    medPositive,
+    trailingZeros,
+    completionRatio,
+    recentTo6,
+    recentTo12,
+    isCooling,
+    closeOutMode,
+    forceZero,
+    monthlyCap: Math.max(0, monthlyCap)
+  };
+}
+
+function tpaEvalModel(m, t) {
+  if (!m) return 0;
+  const { name, params } = m;
+  if (name === 'Logistic')  return params.K / (1 + tpaSafeExp(-params.r * (t - params.t0)));
+  if (name === 'Gompertz')  return params.K * tpaSafeExp(-tpaSafeExp(-params.r * (t - params.t0)));
+  if (name === 'Linear')    return Math.max(0, params.intercept + params.slope * t);
+  if (name === 'Run-rate') {
+    const lastCum = m.cum[m.cum.length - 1] || 0;
+    const lastIdx = m.cum.length - 1;
+    return lastCum + params.runRate * Math.max(0, t - lastIdx);
+  }
+  return 0;
+}
+
+function tpaFitBestModel(monthlyAmounts, Kbase) {
+  const n = monthlyAmounts.length;
+  const clean = monthlyAmounts.map(v => Math.max(0, Number(v) || 0));
+  const cum = tpaCumulate(clean);
+  const cumTotal = cum[cum.length - 1] || 0;
+  const positiveMonths = clean.filter(v => v > 0).length;
+  const runRate = tpaRobustRunRate(clean);
+
+  const fallbackRunRate = {
+    name: 'Run-rate',
+    params: { runRate },
+    runRate,
+    confidence: n >= 6 ? '보수적' : '낮음',
+    residualRatio: null,
+    cum
+  };
+
+  if (n < 3 || positiveMonths < 2 || cumTotal <= 0 || runRate <= 0) return fallbackRunRate;
+
+  const calcBIC = (rss, k) => n * Math.log(Math.max(rss / n, 1e-12)) + k * Math.log(n);
+
+  function fitLogistic(K) {
+    let bRss = Infinity, bR = 0.1, bT0 = n / 2;
+    for (let ri = 1; ri <= 50; ri++) {
+      const r = ri * 0.02;
+      for (let t0 = -n * 0.3; t0 <= n * 1.5; t0 += 1) {
+        let rss = 0;
+        for (let i = 0; i < n; i++) { const p = K / (1 + tpaSafeExp(-r * (i - t0))); rss += (p - cum[i]) ** 2; }
+        if (rss < bRss) { bRss = rss; bR = r; bT0 = t0; }
+      }
+    }
+    return { name: 'Logistic', params: { K, r: bR, t0: bT0 }, rss: bRss, k: 3 };
+  }
+
+  function fitGompertz(K) {
+    let bRss = Infinity, bR = 0.1, bT0 = n / 2;
+    for (let ri = 1; ri <= 50; ri++) {
+      const r = ri * 0.02;
+      for (let t0 = -n * 0.3; t0 <= n * 1.5; t0 += 1) {
+        let rss = 0;
+        for (let i = 0; i < n; i++) { const p = K * tpaSafeExp(-tpaSafeExp(-r * (i - t0))); rss += (p - cum[i]) ** 2; }
+        if (rss < bRss) { bRss = rss; bR = r; bT0 = t0; }
+      }
+    }
+    return { name: 'Gompertz', params: { K, r: bR, t0: bT0 }, rss: bRss, k: 3 };
+  }
+
+  function fitLinear() {
+    const xbar = (n - 1) / 2;
+    const ybar = cum.reduce((a, b) => a + b, 0) / n;
+    let sxy = 0, sxx = 0;
+    cum.forEach((v, i) => { sxy += (i - xbar) * (v - ybar); sxx += (i - xbar) ** 2; });
+    const slope = sxx > 0 ? sxy / sxx : 0;
+    const intercept = ybar - slope * xbar;
+    if (slope <= 0) return null;
+    let rss = 0;
+    cum.forEach((v, i) => { rss += (intercept + slope * i - v) ** 2; });
+    return { name: 'Linear', params: { slope, intercept }, rss, k: 2 };
+  }
+
+  const models = [];
+  for (const kf of [1.03, 1.10, 1.25]) {
+    const K = Math.max(Kbase * kf, cumTotal * 1.1);
+    models.push(fitLogistic(K));
+    models.push(fitGompertz(K));
+  }
+  const linear = fitLinear();
+  if (linear) models.push(linear);
+  if (!models.length) return fallbackRunRate;
+
+  models.forEach(m => {
+    m.bic = calcBIC(m.rss, m.k);
+    m.residualRatio = Math.sqrt(m.rss / n) / Math.max(cumTotal, 1);
+    m.cum = cum;
+  });
+  models.sort((a, b) => a.bic - b.bic);
+
+  const best = models[0];
+  const conf =
+    best.residualRatio < 0.08 && n >= 12 ? '높음' :
+    best.residualRatio < 0.15 && n >= 6  ? '보통' : '낮음';
+
+  if (conf === '낮음' && runRate > 0) return fallbackRunRate;
+
+  return { ...best, confidence: conf, cum, runRate };
+}
+
+function tpaMakeForecastSeries(mr, startIdx, nForecast, lifecycleRef = 0) {
+  const monthly = [];
+  const cumulative = [];
+
+  if (!mr || nForecast <= 0) {
+    return { monthly, cumulative, stats: null };
+  }
+
+  const lastIdx = mr.cum.length - 1;
+  const actualBaseCum = mr.cum[lastIdx] || 0;
+
+  const actualMonthly = tpaAmountsFromCum(mr.cum);
+  const stats = tpaRecentForecastStats(actualMonthly, lifecycleRef);
+
+  const recentRate = stats.recentRate;
+  const monthlyCap = stats.monthlyCap;
+
+  let prevCum = actualBaseCum;
+
+  const baseModelWeight =
+    mr.name === 'Run-rate' ? 0 :
+    mr.confidence === '높음' ? 0.45 :
+    mr.confidence === '보통' ? 0.35 :
+    0.20;
+
+  for (let i = 1; i <= nForecast; i++) {
+    let mo = 0;
+
+    if (stats.forceZero) {
+      mo = 0;
+    } else if (stats.closeOutMode) {
+      // 종료성 tail 구간:
+      // S-Curve는 끄고, 최근 실적을 빠르게 감쇠시킨다.
+      // 단, 계약고/예산 잔액으로 forecast를 자르지는 않는다.
+      const tailBase = Math.min(
+        Math.max(recentRate, stats.avg3),
+        stats.avg6 * 0.50,
+        stats.avg12 * 0.30
+      );
+
+      mo = tailBase * Math.pow(0.45, i - 1);
+    } else {
+      const tPrev = lastIdx + i - 1;
+      const tCur = lastIdx + i;
+
+      let modelMonthly = recentRate;
+
+      if (mr.name === 'Run-rate') {
+        modelMonthly = mr.params?.runRate || recentRate;
+      } else {
+        const modelPrev = tpaEvalModel(mr, tPrev);
+        const modelCur = tpaEvalModel(mr, tCur);
+        modelMonthly = Math.max(0, modelCur - modelPrev);
+      }
+
+      const ramp = Math.min(1, i / 6);
+      const modelWeight = baseModelWeight * ramp;
+      const recentWeight = 1 - modelWeight;
+
+      mo = recentRate * recentWeight + modelMonthly * modelWeight;
+
+      if (stats.isCooling && mr.name !== 'Run-rate') {
+        mo = recentRate * 0.90 + mo * 0.10;
+      }
+    }
+
+    if (Number.isFinite(monthlyCap) && monthlyCap > 0) {
+      mo = Math.min(mo, monthlyCap);
+    }
+
+    mo = Math.max(0, mo);
+
+    prevCum += mo;
+
+    monthly.push(mo);
+    cumulative.push(prevCum);
+  }
+
+  return { monthly, cumulative, stats };
+}
+
+function tpaProjectTargetMonth(mr, target, baseY, baseM, lifecycleRef = 0) {
+  if (!mr || !target || target <= 0) return null;
+
+  const current = mr.cum[mr.cum.length - 1] || 0;
+  if (current >= target) return '이미 초과';
+
+  // Hybrid forecast 기준으로 도달월 계산
+  // 계약고/예산을 상한으로 자르지 않는다.
+  const fc = tpaMakeForecastSeries(mr, mr.cum.length, 360, lifecycleRef);
+
+  for (let mo = 1; mo <= fc.cumulative.length; mo++) {
+    if (fc.cumulative[mo - 1] >= target) {
+      const d = new Date(baseY, baseM - 1 + mo, 1);
+      return `${d.getFullYear()}년 ${d.getMonth() + 1}월`;
+    }
+  }
+
+  return null;
+}
 function renderTpaProjChart(){
   const sel = $('tpaProjSelect');
   const chartEl = $('tpaProjChart');
@@ -2302,53 +2696,120 @@ function renderTpaProjChart(){
     return;
   }
 
-  // 최초 투입월부터 현재월까지 전체 월 배열 생성
-  const sorted=Object.keys(monthMap).sort();
-  const fy=parseInt(sorted[0].slice(0,4)), fm=parseInt(sorted[0].slice(5,7));
-  const now=new Date(), cy=now.getFullYear(), cm=now.getMonth()+1;
-  const allMonths=[];
-  let ay=fy, am=fm;
-  while(ay<cy||(ay===cy&&am<=cm)){ allMonths.push(`${ay}-${String(am).padStart(2,'0')}`); if(++am>12){am=1;ay++;} }
+  // globalLastDataKey: 전체 Raw 기준 최신 청구월
+  const globalLastDataKey=allData
+    .map(r=>{const ym=parseYM(r['청구연월']);if(!ym)return null;return `${ym.y}-${String(ym.m).padStart(2,'0')}`;})
+    .filter(Boolean).sort().pop();
 
-  const amounts=allMonths.map(k=>monthMap[k]||0);
-  const cumulative=[];
-  amounts.reduce((acc,v,i)=>{cumulative[i]=acc+v;return acc+v;},0);
-  const cumTotal=cumulative[cumulative.length-1];
-
-  // 예산·계약고 (TPA_집행현황 우선, 없으면 0)
+  // 예산·계약고·단계 (isMC 를 allMonths 구성 전에 확정)
   const tpaRow=tpaStatus.find(t=>t['프로젝트']===proj)||{};
   const budUSD=(()=>{const u=num(tpaRow['TPA 예산 (USD)']),k=num(tpaRow['TPA 예산 (KRW)']);return u>0?u:k>0?k/FX_RATE:0;})();
   const ctrUSD=(()=>{const u=num(tpaRow['TPA 계약고 (USD)']),k=num(tpaRow['TPA 계약고 (KRW)']);return u>0?u:k>0?k/FX_RATE:0;})();
   const isMC=String(tpaRow['단계']||'').trim()==='Mechanical Completion';
 
+  // 전체 월 배열: 프로젝트 최초월 ~ 당해년도 12월
+  const projSorted = Object.keys(monthMap).sort();
+  const fy = parseInt(projSorted[0].slice(0, 4));
+  const fm = parseInt(projSorted[0].slice(5, 7));
+
+  const curYear = new Date().getFullYear();
+  const endY = curYear;
+  const endM = 12;
+
+  const allMonths = [];
+  let ay = fy, am = fm;
+  while (ay < endY || (ay === endY && am <= endM)) {
+    allMonths.push(`${ay}-${String(am).padStart(2, '0')}`);
+    if (++am > 12) { am = 1; ay++; }
+  }
+
+  // globalActualLen: globalLastDataKey 포함 이전이 actual 구간
+  const glIdx = allMonths.indexOf(globalLastDataKey);
+  const globalActualLen = glIdx >= 0 ? glIdx + 1 : allMonths.length;
+
+  // Actual 구간: globalLastDataKey까지는 실제값 또는 0
+  const actualAmounts = allMonths.slice(0, globalActualLen).map(k => monthMap[k] || 0);
+
+  // Forecast 구간: globalLastDataKey 다음 월부터 당해년도 12월까지
+  const nForecast = !isMC ? Math.max(0, allMonths.length - globalActualLen) : 0;
+
+  const actualCumulative=[];
+  actualAmounts.reduce((acc,v,i)=>{actualCumulative[i]=acc+v;return acc+v;},0);
+  const cumTotal=actualCumulative[actualCumulative.length-1]||0;
+
   const budBurn=budUSD>0?(cumTotal/budUSD*100):null;
   const ctrBurn=ctrUSD>0?(cumTotal/ctrUSD*100):null;
+  const lifecycleRef = tpaGetLifecycleRef(budUSD, ctrUSD, cumTotal);
 
-  // 선형회귀로 도달 예상 시점 산출
-  let projBudLabel=null, projCtrLabel=null;
-  if(!isMC && cumulative.length>=3){
-    const n=cumulative.length, xbar=(n-1)/2;
-    const ybar=cumulative.reduce((a,b)=>a+b,0)/n;
-    let sxy=0, sxx=0;
-    cumulative.forEach((v,i)=>{sxy+=(i-xbar)*(v-ybar); sxx+=(i-xbar)**2;});
-    const slope=sxx>0?sxy/sxx:0;
-    const projLabel=remaining=>{
-      if(slope<=0) return null;
-      const mo=Math.ceil(remaining/slope);
-      if(mo>300) return null;
-      const d=new Date(cy, cm-1+mo, 1);
-      return `${d.getFullYear()}년 ${d.getMonth()+1}월`;
-    };
-    if(budUSD>0) projBudLabel=cumTotal>=budUSD?'이미 초과':(projLabel(budUSD-cumTotal)||'예측 불가');
-    if(ctrUSD>0) projCtrLabel=cumTotal>=ctrUSD?'이미 초과':(projLabel(ctrUSD-cumTotal)||'예측 불가');
+  // Hybrid 예측: Logistic/Gompertz/Linear BIC 선택 + Run-rate fallback
+  let forecastAmounts = [], forecastCumulative = [], modelResult = null, scurveNote = '';
+  if (isMC) {
+    scurveNote = '예측 제외: Mechanical Completion 단계';
+  } else if (nForecast > 0 && actualAmounts.length >= 3 && cumTotal > 0) {
+    const Kbase = Math.max(
+      lifecycleRef > 0 ? lifecycleRef : 0,
+      cumTotal * 1.15
+    );
+
+    modelResult = tpaFitBestModel(actualAmounts, Kbase);
+
+    if (modelResult) {
+      const fc = tpaMakeForecastSeries(modelResult, globalActualLen, nForecast, lifecycleRef);
+
+      forecastAmounts = fc.monthly;
+      forecastCumulative = fc.cumulative;
+
+      const rr = modelResult.residualRatio != null
+        ? (modelResult.residualRatio * 100).toFixed(1) + '%'
+        : 'N/A';
+
+      const closeOutNote = fc.stats?.forceZero
+        ? ' · 종료판정: 예측 0'
+        : fc.stats?.closeOutMode
+          ? ' · 종료구간 감쇠 적용'
+          : '';
+
+      scurveNote =
+        `선택 모델: ${modelResult.name} · 최근가중 Hybrid · 신뢰도: ${modelResult.confidence} · 잔차비율: ${rr}${closeOutNote}`;
+    }
+  } else {
+    scurveNote = '예측 불가: 청구 실적 부족';
+  }
+
+  const amounts=[...actualAmounts,...forecastAmounts];
+  const cumulative=[];
+  amounts.reduce((acc,v,i)=>{cumulative[i]=acc+v;return acc+v;},0);
+
+  // 소진 도달 예상: 선택된 Hybrid 모델 기준
+  const gly = parseInt(globalLastDataKey.slice(0, 4));
+  const glm = parseInt(globalLastDataKey.slice(5, 7));
+  let projBudLabel = null, projCtrLabel = null;
+  if (isMC) {
+    if (budUSD > 0) projBudLabel = cumTotal >= budUSD ? '이미 초과' : '예측 제외';
+    if (ctrUSD > 0) projCtrLabel = cumTotal >= ctrUSD ? '이미 초과' : '예측 제외';
+  } else if (modelResult) {
+    if (budUSD > 0) {
+      projBudLabel = cumTotal >= budUSD
+        ? '이미 초과'
+        : (tpaProjectTargetMonth(modelResult, budUSD, gly, glm, lifecycleRef) || '예측 불가');
+    }
+
+    if (ctrUSD > 0) {
+      projCtrLabel = cumTotal >= ctrUSD
+        ? '이미 초과'
+        : (tpaProjectTargetMonth(modelResult, ctrUSD, gly, glm, lifecycleRef) || '예측 불가');
+    }
+  } else {
+    if (budUSD > 0) projBudLabel = cumTotal >= budUSD ? '이미 초과' : '예측 불가';
+    if (ctrUSD > 0) projCtrLabel = cumTotal >= ctrUSD ? '이미 초과' : '예측 불가';
   }
 
   // SVG 렌더링 — 이중 Y축, 스무스 베지어 누적선, 에리어 그라데이션
-  const W=800, H=272, pL=52, pR=14, pT=28, pB=38;
+  const W=800, H=272, pL=52, pR=52, pT=28, pB=38;
   const cW=W-pL-pR, cH=H-pT-pB;
   const nn=allMonths.length;
   const barMax=Math.max(1,...amounts.filter(v=>v>0));
-  const lineMax=Math.max(budUSD>0?budUSD*1.15:0,ctrUSD>0?ctrUSD*1.15:0,cumTotal*1.2,1);
+  const lineMax=Math.max(budUSD>0?budUSD*1.15:0,ctrUSD>0?ctrUSD*1.15:0,(cumulative[cumulative.length-1]||0)*1.2,1);
   const fmtK=v=>'$'+Math.round(v/1e3).toString().replace(/\B(?=(\d{3})+(?!\d))/g,',')+' K';
   const tx=i=>pL+(i+0.5)*(cW/nn);
   const tyBar=v=>pT+cH-Math.min(v/barMax*cH,cH);
@@ -2358,22 +2819,28 @@ function renderTpaProjChart(){
   const nT=5;
   const gridSvg=Array.from({length:nT+1},(_,i)=>i*barMax/nT).map(v=>`
     <line x1="${pL}" y1="${tyBar(v).toFixed(1)}" x2="${pL+cW}" y2="${tyBar(v).toFixed(1)}" stroke="#E2E8F0" stroke-width="0.8" stroke-dasharray="3,3" opacity="0.8"/>
-    <text x="${(pL-4).toFixed(1)}" y="${(tyBar(v)+3.5).toFixed(1)}" text-anchor="end" font-size="8.5" fill="#94A3B8" font-family="'JetBrains Mono',monospace">${fmtK(v)}</text>`).join('');
+    <text x="${(pL-4).toFixed(1)}" y="${(tyBar(v)+3.5).toFixed(1)}" text-anchor="end" font-size="10" fill="#94A3B8" font-family="'JetBrains Mono','Noto Sans KR','Malgun Gothic',monospace">${fmtK(v)}</text>`).join('');
+
+  // 우측 Y축 레이블 (누적선 스케일)
+  const rAxisSvg=Array.from({length:nT+1},(_,i)=>i*lineMax/nT).map(v=>`
+    <text x="${(pL+cW+5).toFixed(1)}" y="${(tyLine(v)+3.5).toFixed(1)}" text-anchor="start" font-size="10" fill="#94A3B8" font-family="'JetBrains Mono','Noto Sans KR','Malgun Gothic',monospace">${fmtK(v)}</text>`).join('');
 
   // X축 연도 레이블
   const xLabSvg=allMonths.map((mk,i)=>{
     const mo=parseInt(mk.slice(5,7));
     if(mo!==1&&i!==0) return '';
-    return `<text x="${tx(i).toFixed(1)}" y="${(pT+cH+15).toFixed(1)}" text-anchor="middle" font-size="9" fill="#94A3B8" font-family="'JetBrains Mono',monospace">'${mk.slice(2,4)}</text>`;
+    return `<text x="${tx(i).toFixed(1)}" y="${(pT+cH+15).toFixed(1)}" text-anchor="middle" font-size="10" fill="#94A3B8" font-family="'JetBrains Mono','Noto Sans KR','Malgun Gothic',monospace">'${mk.slice(2,4)}</text>`;
   }).join('');
 
-  // 막대 — 상단만 라운드, 하단 직각 (path 사용)
+  // 막대 — actual: 파랑 그라데이션, forecast: 황금색 그라데이션 (상단만 라운드)
   const bw=Math.max(2,Math.min(cW/nn*0.65,18));
   const barPath=(bx,by,bw2)=>{const r=Math.min(3,bw2/2);return `M ${bx.toFixed(1)},${(pT+cH).toFixed(1)} H ${(bx+bw2).toFixed(1)} V ${(by+r).toFixed(1)} Q ${(bx+bw2).toFixed(1)},${by.toFixed(1)} ${(bx+bw2-r).toFixed(1)},${by.toFixed(1)} H ${(bx+r).toFixed(1)} Q ${bx.toFixed(1)},${by.toFixed(1)} ${bx.toFixed(1)},${(by+r).toFixed(1)} Z`;};
   const barsSvg=amounts.map((v,i)=>{
     if(!v) return '';
     const bh=v/barMax*cH,bx=tx(i)-bw/2,by=pT+cH-bh;
-    return `<path class="tpj-bar" d="${barPath(bx,by,bw)}" fill="url(#tpj_bar)" onmouseover="_tpjTipOn(this,'${allMonths[i]}','${fmtK(v)}')" onmouseout="_tpjTipOff()"/>`;
+    const fill=i<globalActualLen?'url(#tpj_bar)':'url(#tpj_bar_fc)';
+    const label = allMonths[i] + (i >= globalActualLen ? ' (예측)' : '');
+    return `<path class="tpj-bar" d="${barPath(bx,by,bw)}" fill="${fill}" onmouseover="_tpjTipOn(this,'${label}','${fmtK(v)}')" onmouseout="_tpjTipOff()"/>`;
   }).join('');
 
   // 기준선 (우측 스케일)
@@ -2381,27 +2848,32 @@ function renderTpaProjChart(){
   if(budUSD) dashLines.push(`<line x1="${pL}" y1="${tyLine(budUSD).toFixed(1)}" x2="${pL+cW}" y2="${tyLine(budUSD).toFixed(1)}" stroke="#B42318" stroke-width="1.2" stroke-dasharray="5,4" opacity="0.5"/>`);
   if(ctrUSD) dashLines.push(`<line x1="${pL}" y1="${tyLine(ctrUSD).toFixed(1)}" x2="${pL+cW}" y2="${tyLine(ctrUSD).toFixed(1)}" stroke="#B7791F" stroke-width="1.2" stroke-dasharray="5,4" opacity="0.5"/>`);
 
-  // 스무스 베지어 누적선 + 에리어 (우측 스케일)
+  // 누적선: actual 실선 + forecast 점선 (globalActualLen 기준 분리)
   const cPts=cumulative.map((v,i)=>[tx(i),tyLine(v)]);
-  let bezierD='';
-  if(cPts.length){
-    bezierD=`M ${cPts[0][0].toFixed(1)},${cPts[0][1].toFixed(1)}`;
-    for(let i=1;i<cPts.length;i++){
-      const [px,py]=cPts[i-1],[cx,cy]=cPts[i];
-      const [ppx,ppy]=cPts[Math.max(0,i-2)];
-      const [nx,ny]=cPts[Math.min(cPts.length-1,i+1)];
+  const makeBezierPath=pts=>{
+    if(!pts.length) return '';
+    let d=`M ${pts[0][0].toFixed(1)},${pts[0][1].toFixed(1)}`;
+    for(let i=1;i<pts.length;i++){
+      const [px,py]=pts[i-1],[cx,cy]=pts[i];
+      const [ppx,ppy]=pts[Math.max(0,i-2)];
+      const [nx,ny]=pts[Math.min(pts.length-1,i+1)];
       const t=0.18;
-      bezierD+=` C ${(px+(cx-ppx)*t).toFixed(1)},${(py+(cy-ppy)*t).toFixed(1)} ${(cx-(nx-px)*t).toFixed(1)},${(cy-(ny-py)*t).toFixed(1)} ${cx.toFixed(1)},${cy.toFixed(1)}`;
+      d+=` C ${(px+(cx-ppx)*t).toFixed(1)},${(py+(cy-ppy)*t).toFixed(1)} ${(cx-(nx-px)*t).toFixed(1)},${(cy-(ny-py)*t).toFixed(1)} ${cx.toFixed(1)},${cy.toFixed(1)}`;
     }
-  }
-  const lastPt=cPts.length?cPts[cPts.length-1]:[pL,pT+cH];
-  const areaD=bezierD+` L ${lastPt[0].toFixed(1)},${(pT+cH).toFixed(1)} L ${pL},${(pT+cH).toFixed(1)} Z`;
-  const lx=lastPt[0], ly=lastPt[1];
+    return d;
+  };
+  const actualCPts=cPts.slice(0,globalActualLen);
+  const forecastCPts=cPts.slice(Math.max(0,globalActualLen-1));
+  const bezierActualD=makeBezierPath(actualCPts);
+  const bezierFcD=forecastCPts.length>1?makeBezierPath(forecastCPts):'';
+  const lastActualPt=actualCPts.length?actualCPts[actualCPts.length-1]:[pL,pT+cH];
+  const areaD=bezierActualD+` L ${lastActualPt[0].toFixed(1)},${(pT+cH).toFixed(1)} L ${pL},${(pT+cH).toFixed(1)} Z`;
+  const lx=lastActualPt[0], ly=lastActualPt[1];
 
-  // 기준선 소형 식별 태그 (선 좌측 끝, 색상만으로 구분 어려울 때 보조)
+  // 기준선 소형 식별 태그 (선 좌측 끝)
   const refTagSvg=[];
-  if(budUSD) refTagSvg.push(`<text x="${(pL+5).toFixed(1)}" y="${(tyLine(budUSD)-3).toFixed(1)}" font-size="7.5" fill="#B42318" opacity="0.7" font-family="'Noto Sans KR',sans-serif">예산</text>`);
-  if(ctrUSD) refTagSvg.push(`<text x="${(pL+5).toFixed(1)}" y="${(tyLine(ctrUSD)-3).toFixed(1)}" font-size="7.5" fill="#B7791F" opacity="0.7" font-family="'Noto Sans KR',sans-serif">계약고</text>`);
+  if(budUSD) refTagSvg.push(`<text x="${(pL+5).toFixed(1)}" y="${(tyLine(budUSD)-3).toFixed(1)}" font-size="10" fill="#B42318" opacity="0.7" font-family="'Noto Sans KR','Malgun Gothic','Apple SD Gothic Neo',sans-serif">예산</text>`);
+  if(ctrUSD) refTagSvg.push(`<text x="${(pL+5).toFixed(1)}" y="${(tyLine(ctrUSD)-3).toFixed(1)}" font-size="10" fill="#B7791F" opacity="0.7" font-family="'Noto Sans KR','Malgun Gothic','Apple SD Gothic Neo',sans-serif">계약고</text>`);
 
   // 하단 요약 테이블
   const na='<span style="color:#94A3B8">—</span>';
@@ -2410,25 +2882,31 @@ function renderTpaProjChart(){
   if(budUSD){
     const b=budBurn!=null?`<span style="font-weight:700;color:#B42318">${budBurn.toFixed(1)}%</span>`:na;
     const p=projBudLabel&&projBudLabel!=='예측 불가'?fmtProj(projBudLabel):na;
-    tblRows.push(`<tr style="border-bottom:1px solid #F1F5F9"><td style="padding:4px 8px;color:#B42318;font-weight:700">예산</td><td style="padding:4px 8px;text-align:right;font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#1E293B">${fmtK(budUSD)}</td><td style="padding:4px 8px;text-align:right">${b}</td><td style="padding:4px 8px;text-align:right;color:#374151;font-size:10.5px">${p}</td></tr>`);
+    tblRows.push(`<tr style="border-bottom:1px solid #F1F5F9"><td style="padding:4px 8px;color:#B42318;font-weight:700">예산</td><td style="padding:4px 8px;text-align:right;font-family:'JetBrains Mono','Noto Sans KR','Malgun Gothic',monospace;font-size:12px;color:#1E293B">${fmtK(budUSD)}</td><td style="padding:4px 8px;text-align:right">${b}</td><td style="padding:4px 8px;text-align:right;color:#374151;font-size:12px">${p}</td></tr>`);
   }
   if(ctrUSD){
     const b=ctrBurn!=null?`<span style="font-weight:700;color:#B7791F">${ctrBurn.toFixed(1)}%</span>`:na;
     const p=projCtrLabel&&projCtrLabel!=='예측 불가'?fmtProj(projCtrLabel):na;
-    tblRows.push(`<tr style="border-bottom:1px solid #F1F5F9"><td style="padding:4px 8px;color:#B7791F;font-weight:700">계약고</td><td style="padding:4px 8px;text-align:right;font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#1E293B">${fmtK(ctrUSD)}</td><td style="padding:4px 8px;text-align:right">${b}</td><td style="padding:4px 8px;text-align:right;color:#374151;font-size:10.5px">${p}</td></tr>`);
+    tblRows.push(`<tr style="border-bottom:1px solid #F1F5F9"><td style="padding:4px 8px;color:#B7791F;font-weight:700">계약고</td><td style="padding:4px 8px;text-align:right;font-family:'JetBrains Mono','Noto Sans KR','Malgun Gothic',monospace;font-size:12px;color:#1E293B">${fmtK(ctrUSD)}</td><td style="padding:4px 8px;text-align:right">${b}</td><td style="padding:4px 8px;text-align:right;color:#374151;font-size:12px">${p}</td></tr>`);
   }
-  tblRows.push(`<tr><td style="padding:4px 8px;color:#1E40AF;font-weight:700">누적집행</td><td style="padding:4px 8px;text-align:right;font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:700;color:#1E293B">${fmtK(cumTotal)}</td><td style="padding:4px 8px;text-align:right">${na}</td><td style="padding:4px 8px;text-align:right">${na}</td></tr>`);
-  const tblHtml=`<table style="width:100%;border-collapse:collapse;margin-top:8px;font-size:11px;font-family:'Noto Sans KR',sans-serif"><thead><tr style="border-bottom:1.5px solid #E2E8F0"><th style="padding:4px 8px;text-align:left;font-size:9px;color:#94A3B8;font-weight:500">구분</th><th style="padding:4px 8px;text-align:right;font-size:9px;color:#94A3B8;font-weight:500">금액</th><th style="padding:4px 8px;text-align:right;font-size:9px;color:#94A3B8;font-weight:500">소진율</th><th style="padding:4px 8px;text-align:right;font-size:9px;color:#94A3B8;font-weight:500">소진 예상</th></tr></thead><tbody>${tblRows.join('')}</tbody></table>`;
+  tblRows.push(`<tr><td style="padding:4px 8px;color:#1E40AF;font-weight:700">누적집행</td><td style="padding:4px 8px;text-align:right;font-family:'JetBrains Mono','Noto Sans KR','Malgun Gothic',monospace;font-size:12px;font-weight:700;color:#1E293B">${fmtK(cumTotal)}</td><td style="padding:4px 8px;text-align:right">${na}</td><td style="padding:4px 8px;text-align:right">${na}</td></tr>`);
+  const tblHtml=`<table style="width:100%;border-collapse:collapse;margin-top:8px;font-size:12px;font-family:'Noto Sans KR','Malgun Gothic','Apple SD Gothic Neo',sans-serif"><thead><tr style="border-bottom:1.5px solid #E2E8F0"><th style="padding:4px 8px;text-align:left;font-size:11px;color:#94A3B8;font-weight:500">구분</th><th style="padding:4px 8px;text-align:right;font-size:11px;color:#94A3B8;font-weight:500">금액</th><th style="padding:4px 8px;text-align:right;font-size:11px;color:#94A3B8;font-weight:500">소진율</th><th style="padding:4px 8px;text-align:right;font-size:11px;color:#94A3B8;font-weight:500">소진 예상</th></tr></thead><tbody>${tblRows.join('')}</tbody></table>`;
 
-  const mcTag=isMC?`<div style="display:inline-flex;align-items:center;gap:5px;background:#F5F5F5;border:1px solid #D0D0D0;border-radius:5px;padding:2px 10px;font-size:10px;color:#888888;font-weight:600;margin-bottom:5px;font-family:'JetBrains Mono',monospace">Mechanical Completion</div><br>`:'';
 
-  chartEl.innerHTML=mcTag+`<div id="tpaProjTipBox" style="display:none;position:fixed;background:#0C2D48;color:#E0F2FE;font-size:10px;padding:5px 10px;border-radius:6px;white-space:nowrap;pointer-events:none;z-index:9999;box-shadow:0 4px 12px rgba(0,0,0,.22);transform:translate(-50%,-100%);font-family:'Noto Sans KR',sans-serif"></div><svg viewBox="0 0 ${W} ${H}" width="100%" style="overflow:visible;display:block;max-height:320px">
+  const noteHtml=scurveNote?`<div style="margin-top:4px;font-size:11px;color:#64748B;font-family:'JetBrains Mono','Noto Sans KR','Malgun Gothic',monospace;letter-spacing:.02em;opacity:.85">${scurveNote}</div>`:'';
+
+  chartEl.innerHTML=`<div id="tpaProjTipBox" style="display:none;position:fixed;background:#0C2D48;color:#E0F2FE;font-size:10px;padding:5px 10px;border-radius:6px;white-space:nowrap;pointer-events:none;z-index:9999;box-shadow:0 4px 12px rgba(0,0,0,.22);transform:translate(-50%,-100%);font-family:'Noto Sans KR','Malgun Gothic','Apple SD Gothic Neo',sans-serif"></div><svg viewBox="0 0 ${W} ${H}" width="100%" style="overflow:visible;display:block;max-height:320px">
   <defs>
     <style>.tpj-bar{cursor:pointer;transition:filter .15s,opacity .15s;opacity:.82}.tpj-bar:hover{filter:brightness(1.2);opacity:1}</style>
     <linearGradient id="tpj_bar" x1="0" y1="1" x2="0" y2="0">
       <stop offset="0%" stop-color="#0EA5E9"/>
       <stop offset="55%" stop-color="#38BDF8"/>
       <stop offset="100%" stop-color="#BAE6FD"/>
+    </linearGradient>
+    <linearGradient id="tpj_bar_fc" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0%" stop-color="#F59E0B"/>
+      <stop offset="55%" stop-color="#FCD34D"/>
+      <stop offset="100%" stop-color="#FEF3C7"/>
     </linearGradient>
     <linearGradient id="tpj_area" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#1E40AF" stop-opacity="0.16"/>
@@ -2444,13 +2922,18 @@ function renderTpaProjChart(){
   ${barsSvg}
   ${dashLines.join('\n  ')}
   ${refTagSvg.join('\n  ')}
-  <path d="${bezierD}" fill="none" stroke="#1E40AF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
+  ${bezierActualD?`<path d="${bezierActualD}" fill="none" stroke="#1E40AF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>`:''}
+  ${bezierFcD?`<path d="${bezierFcD}" fill="none" stroke="#1E40AF" stroke-width="1.8" stroke-dasharray="5,4" stroke-linecap="round" opacity="0.55"/>`:''}
   <circle cx="${lx.toFixed(1)}" cy="${ly.toFixed(1)}" r="6" fill="#1E40AF" opacity="0.18" filter="url(#tpj_glow)"/>
   <circle cx="${lx.toFixed(1)}" cy="${ly.toFixed(1)}" r="3.5" fill="#1E40AF" stroke="#fff" stroke-width="1.5"/>
   ${xLabSvg}
+  <text x="${pL}" y="${(pT-8).toFixed(1)}" text-anchor="start" font-size="10" fill="#94A3B8" font-family="'Noto Sans KR','Malgun Gothic',sans-serif" opacity="0.8">월별</text>
+  <text x="${(pL+cW).toFixed(1)}" y="${(pT-8).toFixed(1)}" text-anchor="end" font-size="10" fill="#94A3B8" font-family="'Noto Sans KR','Malgun Gothic',sans-serif" opacity="0.8">누적</text>
   <line x1="${pL}" y1="${pT}" x2="${pL}" y2="${pT+cH}" stroke="#CBD5E1" stroke-width="0.8"/>
+  <line x1="${pL+cW}" y1="${pT}" x2="${pL+cW}" y2="${pT+cH}" stroke="#CBD5E1" stroke-width="0.8"/>
   <line x1="${pL}" y1="${(pT+cH).toFixed(1)}" x2="${pL+cW}" y2="${(pT+cH).toFixed(1)}" stroke="#CBD5E1" stroke-width="0.8"/>
-</svg>${tblHtml}`;
+  ${rAxisSvg}
+</svg>${noteHtml}${tblHtml}`;
 }
 
 function renderTpaMonthlyPage(){
@@ -2619,7 +3102,7 @@ function renderTpaMonthlyPage(){
 
 /* ────────────── 인력운영현황 ────────────── */
 /* 인력운영 — 인원 카드 PO 팝오버 인프라 */
-let _personPopover, _personHideTimer;
+let _personPopover, _personHideTimer, _personShowTimer;
 function ensurePersonPopover(){
   if(_personPopover) return _personPopover;
   const el = document.createElement('div');
@@ -2628,7 +3111,7 @@ function ensurePersonPopover(){
   _personPopover = el;
   el.addEventListener('mouseenter', ()=> clearTimeout(_personHideTimer));
   el.addEventListener('mouseleave', ()=>{
-    _personHideTimer = setTimeout(()=> el.classList.remove('on'), 180);
+    _personHideTimer = setTimeout(()=> el.classList.remove('on'), 90);
   });
   document.addEventListener('click', e=>{
     if(!el.contains(e.target) && !e.target.closest('.org-person')) el.classList.remove('on');
@@ -2642,7 +3125,7 @@ function showPersonPopover(target, name, pos){
   } else {
     el.innerHTML = `<div class="pp-name">${esc(name)}<span class="pp-count">진행 중 ${pos.length}건</span></div>`
       + `<table class="pp-tbl">
-          <thead><tr><th>프로젝트</th><th>PO</th><th>품목</th></tr></thead>
+          <thead><tr><th style="min-width:90px">프로젝트</th><th>PO</th><th>품목</th></tr></thead>
           <tbody>${pos.map(p=>`<tr>
             <td><span class="code">${esc(p.project)}</span></td>
             <td><span class="code">${esc(p.po)}</span></td>
@@ -2669,12 +3152,13 @@ function bindPersonPopover(poByPerson){
     const pos = poByPerson[name] || [];
     card.addEventListener('mouseenter', ()=>{
       clearTimeout(_personHideTimer);
-      showPersonPopover(card, name, pos);
+      _personShowTimer = setTimeout(()=> showPersonPopover(card, name, pos), 180);
     });
     card.addEventListener('mouseleave', ()=>{
+      clearTimeout(_personShowTimer);
       _personHideTimer = setTimeout(()=>{
         if(_personPopover) _personPopover.classList.remove('on');
-      }, 180);
+      }, 90);
     });
     card.addEventListener('click', e=>{
       e.stopPropagation();
