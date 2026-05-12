@@ -42,7 +42,7 @@
 }
 
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;overflow-x:hidden}
+html{scroll-behavior:smooth;overflow-x:clip}
 body{
   font-family:'Noto Sans KR','Malgun Gothic','Apple SD Gothic Neo',sans-serif;
   background:var(--bg);
@@ -51,7 +51,7 @@ body{
   font-feature-settings:"ss01","cv11";
   -webkit-font-smoothing:antialiased;
   min-height:100vh;
-  overflow-x:hidden;max-width:100vw;
+  overflow-x:clip;max-width:100vw;
 }
 button,input,select{font-family:inherit;color:inherit}
 button{cursor:pointer;border:none;background:none}
@@ -280,6 +280,8 @@ button{cursor:pointer;border:none;background:none}
 #stage>.card{min-height:calc(100vh - 240px);display:flex;flex-direction:column}
 #stage>.card .card-body{flex:1}
 #tpaByYearTbl thead th{position:sticky;top:0;z-index:2;background:var(--soft);box-shadow:0 1px 0 var(--line)}
+#tpaByYearTbl{font-size:11.5px}
+#tpaByYearTbl th{font-size:11.5px}
 .tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:13px}
 .tbl th{
   background:var(--soft);color:var(--ink);
@@ -602,7 +604,7 @@ button{cursor:pointer;border:none;background:none}
 .org-tier1-row{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-  gap:16px;max-width:1320px;margin:0 auto;
+  gap:16px;max-width:1440px;margin:0 auto;
   position:relative;
 }
 .org-tier1-row:before{
@@ -675,7 +677,7 @@ button{cursor:pointer;border:none;background:none}
 .trip-stat-row{display:flex;align-items:center;gap:5px;font-size:11.5px}
 .trip-stat-row .label{
   flex:0 0 72px;
-  font-size:11px;font-weight:600;color:var(--ink);
+  font-size:11.5px;font-weight:600;color:var(--ink);
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
   letter-spacing:-.005em;
 }
@@ -692,7 +694,7 @@ button{cursor:pointer;border:none;background:none}
 .trip-stat-row .count{
   flex:0 0 38px;text-align:right;
   font-family:'JetBrains Mono','Noto Sans KR','Malgun Gothic',monospace;
-  font-weight:600;color:var(--navy);font-size:10.5px;letter-spacing:.02em;
+  font-weight:600;color:var(--navy);font-size:11.5px;letter-spacing:.02em;
 }
 .trip-stat-row.year .bar-fill{background:linear-gradient(90deg,#6366F1,#A5B4FC)}
 .trip-stat-row.country .bar-fill{background:linear-gradient(90deg,#10B981,#6EE7B7)}
@@ -704,9 +706,9 @@ button{cursor:pointer;border:none;background:none}
 .trip-stat-row.year.open .year-toggle{transform:rotate(90deg)}
 .trip-stat-month-group{display:none;flex-direction:column;gap:3px;padding:1px 0 5px 18px}
 .trip-stat-month-group.open{display:flex}
-.trip-stat-row.month .label{flex:0 0 38px;font-size:10.5px;font-weight:500;color:var(--sub)}
+.trip-stat-row.month .label{flex:0 0 38px;font-size:11px;font-weight:500;color:var(--sub)}
 .trip-stat-row.month .bar-fill{background:linear-gradient(90deg,#A5B4FC,#DDD6FE)}
-.trip-stat-row.month .count{font-size:10px;color:var(--sub)}
+.trip-stat-row.month .count{font-size:11px;color:var(--sub)}
 
 /* ============================================================
    Issue 카드
@@ -888,6 +890,10 @@ button{cursor:pointer;border:none;background:none}
   .hd-actions{flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;padding-bottom:8px;gap:6px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
   .hd-actions::-webkit-scrollbar{display:none}
   .btn{padding:8px 10px;font-size:11px;min-height:38px;flex-shrink:0;white-space:nowrap}
+
+  /* ── 틀고정: 헤더는 스크롤, 탭바만 고정 ── */
+  .sticky-shell{position:static}
+  .tab-bar{position:sticky;top:0;z-index:1000;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.10)}
 
   /* ── 탭 – 가로 스크롤 ── */
   .tabs{flex-wrap:nowrap;overflow-x:auto;padding:0 10px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
@@ -1108,6 +1114,10 @@ button{cursor:pointer;border:none;background:none}
 #tpaMonthlyByTpa .trip-stat-row.month .bar-fill{background:linear-gradient(90deg,#A78BFA,#DDD6FE)}
 #tpaMonthlyByTpa .trip-stat-month-group{gap:5px;padding-top:5px}
 #tpaMonthlyByTpa .trip-stat-row.year~.trip-stat-row.year{margin-top:8px}
+#tpaMonthlyByTpa .trip-stat-row{font-size:11.5px}
+#tpaMonthlyByTpa .trip-stat-row .label{font-size:11.5px}
+#tpaMonthlyByTpa .trip-stat-row.month .label{font-size:11.5px}
+#tpaMonthlyByTpa .trip-stat-row.month .count{font-size:11.5px}
 .monthly-axis{display:flex;justify-content:space-between;margin-top:24px;
   padding:0 4px;font-size:9.5px;color:var(--muted);
   font-family:'JetBrains Mono',monospace}
@@ -1157,6 +1167,7 @@ button{cursor:pointer;border:none;background:none}
   <div class="hd-rule"></div>
 </header>
 
+<div class="tab-bar">
 <nav class="tabs">
   <button class="tab on" data-page="issues"><span class="num">01</span>주요현안</button>
   <button class="tab" data-page="projects" data-group="projects"><span class="num">02</span>프로젝트</button>
@@ -1175,6 +1186,7 @@ button{cursor:pointer;border:none;background:none}
   <button class="subtab on" data-page="tpa">TPA 목록</button>
   <button class="subtab" data-page="tpaMonthly">대금지급현황</button>
 </nav>
+</div>
 </div>
 
 <main>
@@ -1250,24 +1262,24 @@ button{cursor:pointer;border:none;background:none}
 </section>
 
 <section class="page" id="tpaMonthly">
-  <!-- ROW 1: 프로젝트별 추이 (2fr) + 연도별 추이 (1fr) -->
-  <div class="grid g21">
-    <div class="card">
+  <!-- ROW 1: 프로젝트별 추이 (2fr) + TPA별 추이 테이블 (1fr) -->
+  <div class="grid g21" style="grid-auto-rows:560px">
+    <div class="card card-fill">
       <div class="card-hd">
         <div class="card-title"><span class="bar"></span>프로젝트별 대금지급 추이</div>
         <div class="card-meta">
-          <select class="select" id="tpaProjSelect" style="font-size:11px;padding:1px 8px;height:24px;min-width:140px"></select>
+          <select class="select" id="tpaProjSelect" style="font-size:11px;padding:0 8px;height:20px;min-width:140px"></select>
         </div>
       </div>
-      <div class="card-body" id="tpaProjChart" style="min-height:240px;overflow:visible;padding-bottom:6px"></div>
+      <div class="card-body" id="tpaProjChart" style="overflow:hidden;padding-bottom:6px"></div>
     </div>
-    <div class="card">
-      <div class="card-hd"><div class="card-title"><span class="bar"></span>연도별 대금지급 추이</div></div>
-      <div class="card-body trip-stat" id="tpaMonthlyByTpa"></div>
+    <div class="card card-fill">
+      <div class="card-hd"><div class="card-title"><span class="bar"></span>TPA별 대금지급 추이 (최근 3개년)</div></div>
+      <div class="card-body flush"><div class="tbl-wrap"><table class="tbl" id="tpaByYearTbl"></table></div></div>
     </div>
   </div>
   <div class="h-sep"></div>
-  <!-- ROW 2: 월별 추이 차트 (2fr) + TPA별 추이 테이블 (1fr) -->
+  <!-- ROW 2: 월별 추이 차트 (2fr) + 연도별 추이 (1fr) -->
   <div class="grid g21" style="grid-auto-rows:330px">
     <div class="card card-fill">
       <div class="card-hd">
@@ -1276,14 +1288,14 @@ button{cursor:pointer;border:none;background:none}
       <div class="card-body" id="tpaMonthlyChart" style="overflow:hidden"></div>
     </div>
     <div class="card card-fill">
-      <div class="card-hd"><div class="card-title"><span class="bar"></span>TPA별 대금지급 추이 (최근 3개년)</div></div>
-      <div class="card-body flush"><div class="tbl-wrap"><table class="tbl" id="tpaByYearTbl"></table></div></div>
+      <div class="card-hd"><div class="card-title"><span class="bar"></span>연도별 대금지급 추이</div></div>
+      <div class="card-body trip-stat" id="tpaMonthlyByTpa" style="overflow-y:auto"></div>
     </div>
   </div>
   <div class="h-sep"></div>
   <!-- ROW 3: 월별 이력 테이블 (full width) -->
   <div class="card">
-    <div class="card-hd"><div class="card-title"><span class="bar"></span>월별 대금지급 이력</div></div>
+    <div class="card-hd"><div class="card-title"><span class="bar"></span>대금지급 이력</div></div>
     <div class="filters" style="padding:10px 16px">
       <input class="input" id="tpaMonthlySearchYM"  placeholder="지급연월 검색" style="width:150px">
       <input class="input" id="tpaMonthlySearchProj" placeholder="프로젝트 검색" style="width:150px">
@@ -2842,7 +2854,7 @@ function renderTpaMonthlyPage(){
   <line x1="${mpL}" y1="${mpT}" x2="${mpL}" y2="${mpT+mCH}" stroke="#CBD5E1" stroke-width="0.8"/>
   <line x1="${mpL}" y1="${(mpT+mCH).toFixed(1)}" x2="${mpL+mCW}" y2="${(mpT+mCH).toFixed(1)}" stroke="#CBD5E1" stroke-width="0.8"/>
   ${mXLabSvg}
-  <text x="${mpL}" y="${(mpT-8).toFixed(1)}" text-anchor="start" font-size="10" fill="#94A3B8" font-family="'Noto Sans KR','Malgun Gothic',sans-serif" opacity="0.8">월별</text>
+  <text x="${(mpL-4).toFixed(1)}" y="${(mpT-16).toFixed(1)}" text-anchor="end" font-size="10" fill="#94A3B8" font-family="'Noto Sans KR','Malgun Gothic',sans-serif" opacity="0.8">월별</text>
 </svg>`;
   }
 
@@ -2893,8 +2905,8 @@ function renderTpaMonthlyPage(){
   }
 
   // ── TPA별 대금지급 추이 (최근 3개년) ──
-  const years5 = [];
-  for(let y=cutoffYear; y<=curYear; y++) years5.push(y);  // 오름차순, 최신이 우측
+  const years3 = [];
+  for(let y=cutoffYear; y<=curYear; y++) years3.push(y);  // 오름차순, 최신이 우측
   const tpaYearSum = {};
   const tpaTotalSum = {};
   // TPA_목록 전체 업체를 기준으로 초기화
@@ -2910,13 +2922,13 @@ function renderTpaMonthlyPage(){
     tpaTotalSum[tpaName] = (tpaTotalSum[tpaName]||0) + usd;
   });
   const allTpa = Object.keys(tpaTotalSum).sort((a,b)=>tpaTotalSum[b]-tpaTotalSum[a]);
-  $('tpaByYearTbl').innerHTML = `<thead><tr>
-    <th class="ctr">TPA</th>${years5.map(y=>`<th class="ctr">${y}</th>`).join('')}<th class="ctr">합계</th>
-  </tr></thead><tbody>${allTpa.length===0 ? emptyRow(years5.length+2,'데이터 없음') :
+  $('tpaByYearTbl').innerHTML = `<colgroup><col style="width:28%">${years3.map(()=>`<col style="width:18%">`).join('')}<col style="width:18%"></colgroup><thead><tr>
+    <th class="ctr">TPA</th>${years3.map(y=>`<th class="ctr">${y}</th>`).join('')}<th class="ctr">합계</th>
+  </tr></thead><tbody>${allTpa.length===0 ? emptyRow(years3.length+2,'데이터 없음') :
     allTpa.map(tpa=>`<tr>
       <td class="ctr">${esc(tpa)}</td>
-      ${years5.map(y=>`<td class="num" style="padding-right:28px">${tpaYearSum[tpa]?.[y] ? compactK(tpaYearSum[tpa][y]) : '-'}</td>`).join('')}
-      <td class="num" style="padding-right:28px">${(()=>{const s=years5.reduce((a,y)=>a+(tpaYearSum[tpa]?.[y]||0),0);return s>0?compactK(s):'-';})()}</td>
+      ${years3.map(y=>`<td class="num" style="padding-right:23.5px">${tpaYearSum[tpa]?.[y] ? compactK(tpaYearSum[tpa][y]) : '-'}</td>`).join('')}
+      <td class="num" style="padding-right:23.5px">${(()=>{const s=years3.reduce((a,y)=>a+(tpaYearSum[tpa]?.[y]||0),0);return s>0?compactK(s):'-';})()}</td>
     </tr>`).join('')}
   </tbody>`;
 
@@ -2958,7 +2970,7 @@ function renderTpaMonthlyPage(){
   </tr></thead><tbody>${total===0 ? emptyRow(6,'Excel을 업로드하면 월별 대금지급현황이 표시됩니다.') : filtered.map((r,i)=>`
     <tr>
       <td class="ctr code">${total-i}</td>
-      <td class="ctr"><span class="code" style="font-size:11px">${esc(fmtYM(r)||'-')}</span></td>
+      <td class="ctr code">${esc(fmtYM(r)||'-')}</td>
       <td class="ctr code">${esc(r['프로젝트']||'-')}</td>
       <td class="ctr">${esc(r['TPA']||'-')}</td>
       <td class="num" style="padding-right:9.1%">${isNumLike(r['지급대금'])?fmt(num(r['지급대금'])):esc(r['지급대금']||'-')}</td>
