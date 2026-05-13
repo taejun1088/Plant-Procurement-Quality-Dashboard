@@ -317,6 +317,7 @@ button{cursor:pointer;border:none;background:none}
 }
 .tbl.dense td{padding:8px 10px;font-size:12.5px}
 .tbl.dense th{padding:8px 10px}
+#stageTbl th{padding:2px 12px}
 
 /* ============================================================
    상태 배지 - 절제된 톤
@@ -372,6 +373,7 @@ button{cursor:pointer;border:none;background:none}
 .bar .fill.warn{background:var(--warn)}
 .bar .fill.danger{background:var(--danger)}
 .bar .fill.dim{background:#CBD5E1}
+.bar .fill.mc{background:#94A3B8}
 .pct{
   font-family:'JetBrains Mono','Noto Sans KR','Malgun Gothic',monospace;
   font-size:12px;font-weight:600;color:var(--ink);
@@ -412,8 +414,8 @@ button{cursor:pointer;border:none;background:none}
   font-family:'JetBrains Mono','Noto Sans KR','Malgun Gothic',monospace;
   border:1px solid transparent;line-height:1;
 }
-.stage-cell.full{background:var(--ok-bg);color:var(--ok);border-color:#C5E5D2}
-.stage-cell.partial{background:var(--warn-bg);color:var(--warn);border-color:#F0DBA9}
+.stage-cell.full{background:#F1F5F9;color:#64748B;border-color:#CBD5E1}
+.stage-cell.partial{background:#F4F6FA;color:var(--ink);border-color:#D1D5DB}
 .stage-cell.zero{background:#F4F6FA;color:var(--muted);border-color:var(--line)}
 .stage-cell.na{background:transparent;color:var(--muted);font-style:italic;font-weight:500}
 .stage-cell .check{font-size:11px;margin-right:2px}
@@ -1209,7 +1211,7 @@ button{cursor:pointer;border:none;background:none}
 <section class="page" id="stage">
   <div class="card">
     <div class="card-hd">
-      <div class="card-title"><span class="bar"></span>프로젝트별 구매품질 진행현황</div>
+      <div class="card-title"><span class="bar"></span>구매품질 세부현황</div>
     </div>
     <div class="card-body flush"><div class="tbl-wrap"><table class="tbl" id="stageTbl"></table></div></div>
   </div>
@@ -1274,7 +1276,7 @@ button{cursor:pointer;border:none;background:none}
       <div class="card-body" id="tpaProjChart" style="overflow:hidden;padding-bottom:6px"></div>
     </div>
     <div class="card card-fill">
-      <div class="card-hd"><div class="card-title"><span class="bar"></span>최근 3개년 TPA별 대금지급 추이</div></div>
+      <div class="card-hd"><div class="card-title"><span class="bar"></span>TPA별 대금지급 추이 (최근 3개년)</div></div>
       <div class="card-body flush"><div class="tbl-wrap"><table class="tbl" id="tpaByYearTbl"></table></div></div>
     </div>
   </div>
@@ -1283,7 +1285,7 @@ button{cursor:pointer;border:none;background:none}
   <div class="grid g21" style="grid-auto-rows:330px">
     <div class="card card-fill">
       <div class="card-hd">
-        <div class="card-title"><span class="bar"></span>최근 3개년 월별 대금지급 추이</div>
+        <div class="card-title"><span class="bar"></span>월별 대금지급 추이 (최근 3개년)</div>
       </div>
       <div class="card-body" id="tpaMonthlyChart" style="overflow:hidden"></div>
     </div>
@@ -1417,6 +1419,7 @@ const fmt = (n,d=0) => { if(n===null||n===undefined||n===''||!Number.isFinite(Nu
 const pctRaw = v => { const n=Number(v); if(!Number.isFinite(n))return null; return n>1?n:n*100; };
 const pctDisp = (v,d=1) => { const p=pctRaw(v); if(p===null)return '-'; let r=Math.round(p*Math.pow(10,d))/Math.pow(10,d); if(p<100&&r>=100)r=Number((100-1/Math.pow(10,d)).toFixed(d)); return r.toFixed(d)+'%'; };
 function fillCls(p){ if(p>=95)return 'ok'; if(p>=70)return ''; if(p>=30)return 'warn'; return 'dim'; }
+function burnCls(p, valid=true){ if(!valid)return 'dim'; if(p===100)return ''; if(p>=90)return 'danger'; if(p>=70)return 'warn'; if(p===0)return 'dim'; return 'ok'; }
 
 function isAllEmpty(){
   return Object.keys(SHEET_FIELDS).every(s=>!RAW[s] || RAW[s].length===0);
@@ -1514,7 +1517,8 @@ function stageCell(done, total){
   }
   if(r.ratio>=1) return `<span class="stage-cell full">${esc(r.label)}</span>`;
   if(r.ratio<=0) return `<span class="stage-cell zero">${esc(r.label)}</span>`;
-  return `<span class="stage-cell partial">${esc(r.label)}</span>`;
+  const pct=(r.ratio*100).toFixed(1);
+  return `<span class="stage-cell partial" style="background:linear-gradient(to right,rgba(99,102,241,0.32) ${pct}%,#F4F6FA ${pct}%)">${esc(r.label)}</span>`;
 }
 
 function weightedProgress(stageRow){
@@ -1714,15 +1718,16 @@ function renderProjectsPage(){
   </tr></thead><tbody>${rows.length===0 ? emptyRow(11,'Excel을 업로드하면 프로젝트 현황이 표시됩니다.') : rows.map(p=>{
     const s = stages.find(x=>x['프로젝트']===p['프로젝트']) || {};
     const w = weightedProgress(s);
-    const progStr = w ? w.value.toFixed(1)+'%' : '-';
+    const progStr = w ? (w.value===100?'100.0':Math.min(w.value,99.9).toFixed(1))+'%' : '-';
     const progValue = w ? w.value : 0;
     const ncrOpen = ncrs.filter(n=>n.Project_Code===p['프로젝트']).length;
     const ncrTotal = num(s.NCR_Total);
     const rawProg = pctRaw(p['공정률']);
     const rawProgVal = rawProg != null ? Math.min(Math.max(rawProg, 0), 100) : 0;
+    const isMC = p['단계']==='Mechanical Completion';
     const tpaRow = tpa.find(t=>t['프로젝트']===p['프로젝트']) || {};
     const burnB = pctRaw(tpaRow['現 계약고 소진율']);
-    const tpaCls = (burnB!=null && Number.isFinite(burnB)) ? (burnB>=90?'danger':(burnB>=70?'warn':(burnB===0?'dim':''))) : 'dim';
+    const tpaCls = isMC ? 'mc' : burnCls(burnB, burnB!=null && Number.isFinite(burnB));
     return `<tr>
       <td class="ctr code">${esc(p['프로젝트'])}</td>
       <td class="ctr">${statusTag(p['단계'])}</td>
@@ -1731,8 +1736,8 @@ function renderProjectsPage(){
       <td class="ctr">${esc(p['PM']||'-')}</td>
       <td class="ctr">${esc(p['PQCM']||'-')}</td>
       <td class="ctr" style="padding-right:19px">${moneyContractCell(p,'HDEC')}</td>
-      <td><div class="bar-wrap"><div class="bar"><div class="fill ${fillCls(rawProgVal)}" style="width:${rawProgVal}%"></div></div><span class="pct${rawProg==null?' dim':''}">${rawProg!=null?rawProgVal.toFixed(1)+'%':'-'}</span></div></td>
-      <td><div class="bar-wrap"><div class="bar"><div class="fill ${fillCls(progValue)}" style="width:${progValue}%"></div></div><span class="pct${w?'':' dim'}">${progStr}</span></div></td>
+      <td><div class="bar-wrap"><div class="bar"><div class="fill ${isMC?'mc':burnCls(rawProgVal, rawProg!=null)}" style="width:${rawProgVal}%"></div></div><span class="pct${rawProg==null?' dim':''}">${rawProg!=null?(rawProgVal===100?'100.0':Math.min(rawProgVal,99.9).toFixed(1))+'%':'-'}</span></div></td>
+      <td><div class="bar-wrap"><div class="bar"><div class="fill ${isMC?'mc':burnCls(progValue, !!w)}" style="width:${progValue}%"></div></div><span class="pct${w?'':' dim'}">${progStr}</span></div></td>
       <td><div class="bar-wrap"><div class="bar"><div class="fill ${tpaCls}" style="width:${Math.min(burnB||0,100)}%"></div></div><span class="pct${tpaCls==='dim'?' dim':''}">${burnB!=null?burnB.toFixed(1)+'%':'-'}</span></div></td>
       <td class="ctr"><span class="code" style="font-size:12px">${ncrOpen}</span> <span class="muted">/ ${isNumLike(ncrTotal)?ncrTotal:'-'}</span></td>
     </tr>`;
@@ -1761,19 +1766,20 @@ function renderStagePage(){
   });
 
   $('stageTbl').innerHTML = `<thead><tr>
-    <th>프로젝트</th><th class="ctr">단계</th>
+    <th class="ctr">프로젝트</th><th class="ctr">단계</th>
     ${STAGE.map(st=>`<th class="ctr">${st.name}<span class="wf">W ${(st.weight*100).toFixed(0)}%</span></th>`).join('')}
     <th class="ctr" style="min-width:160px">가중 진척률</th>
   </tr></thead><tbody>${stages.length===0 ? emptyRow(8,'Excel을 업로드하면 구매품질 진행현황이 표시됩니다.') : stages.map(s=>{
     const p = projects.find(x=>x['프로젝트']===s['프로젝트']) || {};
+    const isMC = p['단계']==='Mechanical Completion';
     const w = weightedProgress(s);
     const pv = w ? w.value : 0;
     const progStr = w ? w.value.toFixed(1)+'%' : '-';
     return `<tr>
-      <td class="code">${esc(s['프로젝트'])}</td>
+      <td class="code ctr">${esc(s['프로젝트'])}</td>
       <td class="ctr">${statusTag(p['단계'])}</td>
       ${STAGE.map(st=>`<td class="ctr">${stageCell(s[st.done], s[st.total])}</td>`).join('')}
-      <td><div class="bar-wrap"><div class="bar"><div class="fill ${fillCls(pv)}" style="width:${pv}%"></div></div><span class="pct">${progStr}</span></div></td>
+      <td><div class="bar-wrap"><div class="bar"><div class="fill ${isMC?'mc':burnCls(pv, !!w)}" style="width:${pv}%"></div></div><span class="pct">${progStr}</span></div></td>
     </tr>`;
   }).join('')}</tbody>`;
 }
