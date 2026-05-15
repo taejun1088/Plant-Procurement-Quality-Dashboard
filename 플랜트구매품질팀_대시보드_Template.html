@@ -316,7 +316,36 @@ button{cursor:pointer;border:none;background:none}
 }
 .tbl.dense td{padding:8px 10px;font-size:12.5px}
 .tbl.dense th{padding:8px 10px}
-#stageTbl th{padding:2px 12px}
+/* ─ 테이블 공통 유틸리티 ─ */
+.tbl.compact th{padding:2px 12px}
+.tbl .date-code{font-family:'JetBrains Mono','Noto Sans KR','Malgun Gothic',monospace;font-weight:600;color:var(--sub);font-size:12px;letter-spacing:.02em}
+.tbl th.sortable{cursor:pointer}
+.tbl th.sticky2{top:38px}
+.tbl td.money-r{padding-right:18px}
+#tpaTbl td.money-r{padding-right:48px}
+.tbl td.num-r{padding-right:16px}
+.tbl td.spark{padding:4px 6px}
+.tbl td.note{min-width:100px;text-align:center}
+.tbl th.w-160{min-width:160px}
+
+/* ─ TPA 프로젝트 S-Curve 하단 요약 테이블 ─ */
+.scurve-tbl{width:100%;table-layout:fixed;border-collapse:collapse;margin-top:20px;font-size:12px;font-family:'Noto Sans KR','Malgun Gothic','Apple SD Gothic Neo',sans-serif}
+.scurve-tbl thead tr{border-bottom:1.5px solid #E2E8F0}
+.scurve-tbl th,.scurve-tbl td{padding:4px 8px;text-align:center}
+.scurve-tbl th{font-size:11px;color:#94A3B8;font-weight:500}
+.scurve-tbl th.lbl-h{padding-right:11.5%}
+.scurve-tbl tbody tr{border-bottom:1px solid #F1F5F9}
+.scurve-tbl tbody tr:last-child{border-bottom:none}
+.scurve-tbl td.lbl{padding-right:11.5%;font-weight:700}
+.scurve-tbl td.lbl.bud{color:#B42318}
+.scurve-tbl td.lbl.ctr-lbl{color:#B7791F}
+.scurve-tbl td.lbl.cum{color:#1E40AF}
+.scurve-tbl td.val{font-family:'JetBrains Mono','Noto Sans KR','Malgun Gothic',monospace;font-size:12px;color:#1E293B}
+.scurve-tbl td.val.bold{font-weight:700}
+.scurve-tbl td.txt{color:#374151;font-size:12px}
+.scurve-tbl .burn{font-weight:700}
+.scurve-tbl .burn.bud{color:#B42318}
+.scurve-tbl .burn.ctr-burn{color:#B7791F}
 
 /* ============================================================
    상태 배지 - 절제된 톤
@@ -1180,7 +1209,7 @@ button{cursor:pointer;border:none;background:none}
 <nav class="subtabs hidden" id="projectsSubtabs">
   <button class="subtab on" data-page="projects">통합현황</button>
   <button class="subtab" data-page="stage">구매품질현황</button>
-  <button class="subtab" data-page="ncr">구매 NCR 현황</button>
+  <button class="subtab" data-page="ncr">NCR 처리현황</button>
 
 </nav>
 <nav class="subtabs hidden" id="tpaSubtabs">
@@ -1210,14 +1239,14 @@ button{cursor:pointer;border:none;background:none}
 <section class="page" id="stage">
   <div class="card">
     <div class="card-hd">
-      <div class="card-title"><span class="bar"></span>구매품질 세부현황</div>
+      <div class="card-title"><span class="bar"></span>수행 실적</div>
     </div>
-    <div class="card-body flush"><div class="tbl-wrap"><table class="tbl" id="stageTbl"></table></div></div>
+    <div class="card-body flush"><div class="tbl-wrap"><table class="tbl compact" id="stageTbl"></table></div></div>
   </div>
   <div class="h-sep"></div>
   <div class="card">
     <div class="card-hd">
-      <div class="card-title"><span class="bar"></span>TPA 예산 · 계약고 · 집행금액 현황</div>
+      <div class="card-title"><span class="bar"></span>TPA 예산 운영 현황</div>
     </div>
     <div class="card-body flush"><div class="tbl-wrap"><table class="tbl" id="tpaTbl"></table></div></div>
   </div>
@@ -1579,7 +1608,7 @@ async function fetchFx(){
 }
 
 const PAGE_GROUP = {
-  'projects':'projects','stage':'projects','ncr':'projects','tpaStatus':'projects',
+  'projects':'projects','stage':'projects','ncr':'projects',
   'pqan':'pqan',
   'tpa':'tpa','tpaMonthly':'tpa',
   'manpower':'manpower','trip':'trip','issues':'issues'
@@ -1593,7 +1622,6 @@ const PAGE_RENDER_MAP = {
   'projects':   renderProjectsPage,
   'stage':      renderStagePage,
   'ncr':        renderNcrPage,
-  'tpaStatus':  renderTpaPage,
   'pqan':       renderPqanPage,
   'tpa':        renderTpaListPage,
   'tpaMonthly': renderTpaMonthlyPage,
@@ -1727,11 +1755,11 @@ function renderProjectsPage(){
       <td class="ctr">${esc(p['국가']||'-')}</td>
       <td class="ctr">${esc(p['PD']||'-')}</td>
       <td class="ctr">${esc(p['PQCM']||'-')}</td>
-      <td class="ctr" style="padding-right:19px">${moneyContractCell(p,'HDEC')}</td>
+      <td class="right money-r">${moneyContractCell(p,'HDEC')}</td>
       <td><div class="bar-wrap"><div class="bar"><div class="fill ${isMC?'mc':burnCls(rawProgVal, rawProg!=null)}" style="width:${rawProgVal}%"></div></div><span class="pct${rawProg==null?' dim':''}">${rawProg!=null?(rawProgVal===100?'100.0':Math.min(rawProgVal,99.9).toFixed(1))+'%':'-'}</span></div></td>
       <td><div class="bar-wrap"><div class="bar"><div class="fill ${isMC?'mc':burnCls(progValue, !!w)}" style="width:${progValue}%"></div></div><span class="pct${w?'':' dim'}">${progStr}</span></div></td>
       <td><div class="bar-wrap"><div class="bar"><div class="fill ${tpaCls}" style="width:${Math.min(burnB||0,100)}%"></div></div><span class="pct${tpaCls==='dim'?' dim':''}">${burnB!=null?burnB.toFixed(1)+'%':'-'}</span></div></td>
-      <td class="ctr"><span class="code" style="font-size:12px">${ncrOpen}</span> <span class="muted">/ ${isNumLike(ncrTotal)?ncrTotal:'-'}</span></td>
+      <td class="ctr"><span class="date-code">${ncrOpen}</span> <span class="muted">/ ${isNumLike(ncrTotal)?ncrTotal:'-'}</span></td>
     </tr>`;
   }).join('')}</tbody>`;
 }
@@ -1757,10 +1785,14 @@ function renderStagePage(){
       doneCount, totalCount, plannedCnt};
   });
 
-  $('stageTbl').innerHTML = `<thead><tr>
+  $('stageTbl').innerHTML = `<colgroup>
+    <col style="width:12%"><col style="width:10%">
+    ${STAGE.map(()=>'<col>').join('')}
+    <col>
+  </colgroup><thead><tr>
     <th class="ctr">프로젝트</th><th class="ctr">단계</th>
     ${STAGE.map(st=>`<th class="ctr">${st.name}<span class="wf">W ${(st.weight*100).toFixed(0)}%</span></th>`).join('')}
-    <th class="ctr" style="min-width:160px">가중 진척률</th>
+    <th class="ctr w-160">종합 진척률</th>
   </tr></thead><tbody>${stages.length===0 ? emptyRow(8,'Excel을 업로드하면 구매품질 진행현황이 표시됩니다.') : stages.map(s=>{
     const p = projects.find(x=>x['프로젝트']===s['프로젝트']) || {};
     const isMC = p['단계']==='Mechanical Completion';
@@ -1812,7 +1844,7 @@ function renderNcrPage(){
       <td class="left">${esc(n.Item)}</td>
       <td class="left">${esc(n.Vendor)}</td>
       <td class="left wide">${esc(n.NCR_Title)}</td>
-      <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:12px">${excelDate(n.Issue_Date)}</span></td>
+      <td class="ctr nowrap"><span class="date-code">${excelDate(n.Issue_Date)}</span></td>
       <td class="ctr"><span class="tag ${cls}">${days}일</span></td>
     </tr>`;
   }).join('')}</tbody>`;
@@ -1918,7 +1950,7 @@ function renderPqanPage(){
   </tr></thead><tbody>${merged.length===0 ? emptyRow(10,'Excel을 업로드하면 PQAN 목록이 표시됩니다.') : merged.map((m,idx)=>`
     <tr>
       <td class="ctr code">${esc(m['PQAN No.'])}</td>
-      <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:12px">${esc(m['PQAN 배포일자'])}</span></td>
+      <td class="ctr nowrap"><span class="date-code">${esc(m['PQAN 배포일자'])}</span></td>
       <td class="ctr">${esc(m['공종']||'-')}</td>
       <td class="ctr code">${esc(m['프로젝트']||'-')}</td>
       <td class="left">${esc(m['제목']||'-')}</td>
@@ -2044,15 +2076,15 @@ function renderTpaListPage(){
 
   </colgroup><thead>
     <tr>
-      <th rowspan="2" class="ctr col-no" style="vertical-align:middle;cursor:pointer" onclick="setSortTpa('순번')">순번${sa('순번')}</th>
-      <th rowspan="2" class="col-tpa" style="vertical-align:middle;cursor:pointer" onclick="setSortTpa('TPA')">TPA${sa('TPA')}</th>
-      <th rowspan="2" class="ctr col-score" style="vertical-align:middle;cursor:pointer" onclick="setSortTpa('등록평가')">등록평가${sa('등록평가')}</th>
+      <th rowspan="2" class="ctr col-no sortable" style="vertical-align:middle" onclick="setSortTpa('순번')">순번${sa('순번')}</th>
+      <th rowspan="2" class="col-tpa sortable" style="vertical-align:middle" onclick="setSortTpa('TPA')">TPA${sa('TPA')}</th>
+      <th rowspan="2" class="ctr col-score sortable" style="vertical-align:middle" onclick="setSortTpa('등록평가')">등록평가${sa('등록평가')}</th>
       <th colspan="${colSpan}" class="ctr">정기평가</th>
     </tr>
     <tr>
-      ${recentYears.map(y=>`<th class="ctr col-score" style="cursor:pointer;top:38px" onclick="setSortTpa(${y})">${y}${sa(y)}</th>`).join('')}
-      <th class="ctr col-score" style="cursor:pointer;top:38px" onclick="setSortTpa('평균')">평균${sa('평균')}</th>
-      <th class="ctr col-score" style="top:38px">추이</th>
+      ${recentYears.map(y=>`<th class="ctr col-score sortable sticky2" onclick="setSortTpa(${y})">${y}${sa(y)}</th>`).join('')}
+      <th class="ctr col-score sortable sticky2" onclick="setSortTpa('평균')">평균${sa('평균')}</th>
+      <th class="ctr col-score sticky2">추이</th>
     </tr>
   </thead><tbody>${sortedList.length===0 ? emptyRow(totalCols,'Excel을 업로드하면 TPA 목록이 표시됩니다.') : sortedList.map(r=>{
     const scores = recentYears.map(y=>getScore(r,y));
@@ -2062,7 +2094,7 @@ function renderTpaListPage(){
       <td class="ctr">${regScoreCell(r['등록평가'])}</td>
       ${scores.map(v=>`<td class="ctr">${scoreCell(v)}</td>`).join('')}
       <td class="ctr">${avgCell(scores)}</td>
-      <td class="ctr" style="padding:4px 6px">${sparkline(scores)}</td>
+      <td class="ctr spark">${sparkline(scores)}</td>
     </tr>`;
   }).join('')}</tbody>`;
 }
@@ -2083,9 +2115,9 @@ function renderTpaPage(){
   if(cntEl) cntEl.textContent = hasFilter ? `${tpa.length} / ${tpaAll.length}건` : `${tpaAll.length}건`;
 
   $('tpaTbl').innerHTML = `<colgroup>
-    <col style="width:8%"><col style="width:8%">
-    <col style="width:12.8%"><col style="width:12.8%"><col style="width:12.8%">
-    <col style="width:12.8%"><col style="width:12.8%"><col style="width:20%">
+    <col style="width:12%"><col style="width:10%">
+    <col style="width:11.6%"><col style="width:11.6%"><col style="width:11.6%">
+    <col style="width:11.6%"><col style="width:11.6%"><col style="width:20%">
   </colgroup><thead><tr>
     <th class="ctr">프로젝트</th><th class="ctr">단계</th>
     <th class="ctr">예산</th><th class="ctr">계약고</th><th class="ctr">집행금액</th>
@@ -2103,12 +2135,12 @@ function renderTpaPage(){
     return `<tr>
       <td class="ctr">${esc(t['프로젝트'])}</td>
       <td class="ctr">${statusTag(t['단계'])}</td>
-      <td class="right" style="padding-right:3.9%">${isBid ? moneyCell(null,null) : moneyCell(t['TPA 예산 (USD)'],t['TPA 예산 (KRW)'],{dim:isMC})}</td>
-      <td class="right" style="padding-right:3.9%">${isBid ? moneyCell(null,null) : moneyCell(t['TPA 계약고 (USD)'],t['TPA 계약고 (KRW)'],{dim:isMC})}</td>
-      <td class="right" style="padding-right:3.9%">${isBid ? moneyCell(null,null) : moneyCell(t['집행비용 (USD)'],t['집행비용 (KRW)'],{dim:isMC})}</td>
+      <td class="right money-r">${isBid ? moneyCell(null,null) : moneyCell(t['TPA 예산 (USD)'],t['TPA 예산 (KRW)'],{dim:isMC})}</td>
+      <td class="right money-r">${isBid ? moneyCell(null,null) : moneyCell(t['TPA 계약고 (USD)'],t['TPA 계약고 (KRW)'],{dim:isMC})}</td>
+      <td class="right money-r">${isBid ? moneyCell(null,null) : moneyCell(t['집행비용 (USD)'],t['집행비용 (KRW)'],{dim:isMC})}</td>
       <td><div class="bar-wrap"><div class="bar"><div class="fill ${clsB}" style="width:${Math.min(Math.max(burnB||0,0),100)}%"></div></div><span class="pct${clsB==='dim'?' dim':''}">${burnB!=null?burnB.toFixed(1)+'%':'-'}</span></div></td>
       <td><div class="bar-wrap"><div class="bar"><div class="fill ${clsC}" style="width:${Math.min(Math.max(burnC||0,0),100)}%"></div></div><span class="pct${clsC==='dim'?' dim':''}">${(burnC!=null && Number.isFinite(burnC))?burnC.toFixed(1)+'%':'-'}</span></div></td>
-      <td class="ctr" style="min-width:100px">${ws.length ? ws.map(w=>`<div class="warn-chip ${w.lv==='danger'?'danger':(w.lv==='orange'?'orange':'')}">${esc(w.txt)}</div>`).join(ws.length>1?' ':'') : ''}</td>
+      <td class="note">${ws.length ? ws.map(w=>`<div class="warn-chip ${w.lv==='danger'?'danger':(w.lv==='orange'?'orange':'')}">${esc(w.txt)}</div>`).join(ws.length>1?' ':'') : ''}</td>
     </tr>`;
   }).join('')}</tbody>`;
 }
@@ -2898,7 +2930,7 @@ function renderTpaProjChart(){
   if(ctrUSD) refTagSvg.push(`<text x="${(pL+5).toFixed(1)}" y="${(_ctrY-3).toFixed(1)}" font-size="10" fill="#B7791F" opacity="0.7" font-family="'Noto Sans KR','Malgun Gothic','Apple SD Gothic Neo',sans-serif">계약고</text>`);
 
   // 하단 요약 테이블
-  const na='<span style="color:#94A3B8">—</span>';
+  const na='<span class="muted">—</span>';
   const fmtProj=lbl=>{
     if(lbl==='이미 초과') return '이미 초과';
     if(lbl==='잔여 정산') return '잔여 대금 정산 필요';
@@ -2906,20 +2938,18 @@ function renderTpaProjChart(){
     return lbl;
   };
   const tblRows=[];
-  const tdC='padding:4px 8px;text-align:center';
-  const tdC1=tdC+';padding-right:11.5%';
   if(budUSD){
-    const b=budBurn!=null?`<span style="font-weight:700;color:#B42318">${budBurn.toFixed(1)}%</span>`:na;
+    const b=budBurn!=null?`<span class="burn bud">${budBurn.toFixed(1)}%</span>`:na;
     const p=projBudLabel?fmtProj(projBudLabel):na;
-    tblRows.push(`<tr style="border-bottom:1px solid #F1F5F9"><td style="${tdC1};color:#B42318;font-weight:700">예산</td><td style="${tdC};font-family:'JetBrains Mono','Noto Sans KR','Malgun Gothic',monospace;font-size:12px;color:#1E293B">${fmtUSD(budUSD)}</td><td style="${tdC}">${b}</td><td style="${tdC};color:#374151;font-size:12px">${p}</td></tr>`);
+    tblRows.push(`<tr><td class="lbl bud">예산</td><td class="val">${fmtUSD(budUSD)}</td><td>${b}</td><td class="txt">${p}</td></tr>`);
   }
   if(ctrUSD){
-    const b=ctrBurn!=null?`<span style="font-weight:700;color:#B7791F">${ctrBurn.toFixed(1)}%</span>`:na;
+    const b=ctrBurn!=null?`<span class="burn ctr-burn">${ctrBurn.toFixed(1)}%</span>`:na;
     const p=projCtrLabel?fmtProj(projCtrLabel):na;
-    tblRows.push(`<tr style="border-bottom:1px solid #F1F5F9"><td style="${tdC1};color:#B7791F;font-weight:700">계약고</td><td style="${tdC};font-family:'JetBrains Mono','Noto Sans KR','Malgun Gothic',monospace;font-size:12px;color:#1E293B">${fmtUSD(ctrUSD)}</td><td style="${tdC}">${b}</td><td style="${tdC};color:#374151;font-size:12px">${p}</td></tr>`);
+    tblRows.push(`<tr><td class="lbl ctr-lbl">계약고</td><td class="val">${fmtUSD(ctrUSD)}</td><td>${b}</td><td class="txt">${p}</td></tr>`);
   }
-  tblRows.push(`<tr><td style="${tdC1};color:#1E40AF;font-weight:700">누적집행</td><td style="${tdC};font-family:'JetBrains Mono','Noto Sans KR','Malgun Gothic',monospace;font-size:12px;font-weight:700;color:#1E293B">${fmtUSD(cumTotal)}</td><td style="${tdC}">${na}</td><td style="${tdC}">${na}</td></tr>`);
-  const tblHtml=`<table style="width:100%;table-layout:fixed;border-collapse:collapse;margin-top:20px;font-size:12px;font-family:'Noto Sans KR','Malgun Gothic','Apple SD Gothic Neo',sans-serif"><colgroup><col style="width:30%"><col style="width:25%"><col style="width:25%"><col style="width:20%"></colgroup><thead><tr style="border-bottom:1.5px solid #E2E8F0"><th style="padding:4px 8px;padding-right:11.5%;text-align:center;font-size:11px;color:#94A3B8;font-weight:500">구분</th><th style="padding:4px 8px;text-align:center;font-size:11px;color:#94A3B8;font-weight:500">금액</th><th style="padding:4px 8px;text-align:center;font-size:11px;color:#94A3B8;font-weight:500">소진율</th><th style="padding:4px 8px;text-align:center;font-size:11px;color:#94A3B8;font-weight:500">소진 예상</th></tr></thead><tbody>${tblRows.join('')}</tbody></table>`;
+  tblRows.push(`<tr><td class="lbl cum">누적집행</td><td class="val bold">${fmtUSD(cumTotal)}</td><td>${na}</td><td>${na}</td></tr>`);
+  const tblHtml=`<table class="scurve-tbl"><colgroup><col style="width:30%"><col style="width:25%"><col style="width:25%"><col style="width:20%"></colgroup><thead><tr><th class="lbl-h">구분</th><th>금액</th><th>소진율</th><th>소진 예상</th></tr></thead><tbody>${tblRows.join('')}</tbody></table>`;
 
 
   const fixedNote=`<div style="margin-top:-10px;padding-left:3.6%;font-size:11px;color:#64748B;font-family:'JetBrains Mono','Noto Sans KR','Malgun Gothic',monospace;letter-spacing:.02em;opacity:.85">Hybrid S-Curve (Logistic/Gompertz/Linear) 기반 예측 (최근 지급 실적 가중 반영)</div>`;
@@ -3108,8 +3138,8 @@ function renderTpaMonthlyPage(){
   </tr></thead><tbody>${allTpa.length===0 ? emptyRow(years3.length+2,'데이터 없음') :
     allTpa.map(tpa=>`<tr>
       <td class="ctr">${esc(tpa)}</td>
-      ${years3.map(y=>`<td class="num" style="padding-right:23.5px">${tpaYearSum[tpa]?.[y] ? compactK(tpaYearSum[tpa][y]) : '-'}</td>`).join('')}
-      <td class="num" style="padding-right:23.5px">${(()=>{const s=years3.reduce((a,y)=>a+(tpaYearSum[tpa]?.[y]||0),0);return s>0?compactK(s):'-';})()}</td>
+      ${years3.map(y=>`<td class="num num-r">${tpaYearSum[tpa]?.[y] ? compactK(tpaYearSum[tpa][y]) : '-'}</td>`).join('')}
+      <td class="num num-r">${(()=>{const s=years3.reduce((a,y)=>a+(tpaYearSum[tpa]?.[y]||0),0);return s>0?compactK(s):'-';})()}</td>
     </tr>`).join('')}
   </tbody>`;
 
@@ -3154,7 +3184,7 @@ function renderTpaMonthlyPage(){
       <td class="ctr code">${esc(fmtYM(r)||'-')}</td>
       <td class="ctr code">${esc(r['프로젝트']||'-')}</td>
       <td class="ctr">${esc(r['TPA']||'-')}</td>
-      <td class="num" style="padding-right:9.1%">${isNumLike(r['지급대금'])?fmt(num(r['지급대금'])):esc(r['지급대금']||'-')}</td>
+      <td class="num num-r">${isNumLike(r['지급대금'])?fmt(num(r['지급대금'])):esc(r['지급대금']||'-')}</td>
       <td class="ctr muted">${esc(r['단위']||'-')}</td>
     </tr>`).join('')}</tbody>`;
 }
@@ -3460,7 +3490,7 @@ function renderManpowerPage(){
     <td>${esc(m['담당 공종']||'-')}</td>
     <td>${esc(m.PQCM||'-')}</td>
     <td>${esc(m.PQC_Engineer||'-')}</td>
-    <td><span class="code" style="color:var(--sub);font-size:13px">${isNumLike(m.Number_of_PO)?fmt(num(m.Number_of_PO)):'-'}</span></td>
+    <td class="num"><span class="date-code" style="font-size:13px">${isNumLike(m.Number_of_PO)?fmt(num(m.Number_of_PO)):'-'}</span></td>
   </tr>`).join('')}</tbody>`;
 
   bindPersonPopover(poByPerson);
@@ -3616,8 +3646,8 @@ function renderTripPage(){
       <td class="ctr">${esc(t['품목'])}</td>
       <td class="ctr">${esc(t['방문업체'])}</td>
       <td class="ctr">${esc(t['국가'])}</td>
-      <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:12px">${excelDate(t['출발일'])}</span></td>
-      <td class="ctr nowrap"><span class="code" style="color:var(--sub);font-size:12px">${excelDate(t['복귀일'])}</span></td>
+      <td class="ctr nowrap"><span class="date-code">${excelDate(t['출발일'])}</span></td>
+      <td class="ctr nowrap"><span class="date-code">${excelDate(t['복귀일'])}</span></td>
     </tr>`;
   }).join('')}</tbody>`;
 }
