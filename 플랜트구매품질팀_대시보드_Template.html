@@ -889,11 +889,27 @@ button{cursor:pointer;border:none;background:none}
 }
 @media(max-width:760px){
   body{font-size:13.5px}
-  .page{padding:16px}
+  .page{padding:16px 12px}
   .g5,.g4,.g3,.g2{grid-template-columns:1fr}
   .hd-meta{flex-direction:column;align-items:flex-start;gap:10px}
   .hd-date{text-align:left}
-  .tab{padding:11px 14px}
+  .tab{padding:11px 12px;flex-shrink:0;white-space:nowrap}
+
+  /* ── 탭 가로 스크롤 (landscape 폰 / 소형 태블릿) ── */
+  .tabs{flex-wrap:nowrap;overflow-x:auto;padding:0 12px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .tabs::-webkit-scrollbar{display:none}
+  .subtabs{flex-wrap:nowrap;overflow-x:auto;padding:0 12px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .subtabs::-webkit-scrollbar{display:none}
+  .subtab{flex-shrink:0;white-space:nowrap}
+
+  /* ── 액션 버튼 가로 스크롤 ── */
+  .hd-actions{flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;padding-bottom:8px;gap:6px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .hd-actions::-webkit-scrollbar{display:none}
+  .btn{flex-shrink:0;white-space:nowrap}
+
+  /* ── 필터 ── */
+  .filters{flex-wrap:wrap;gap:6px}
+  .control-row{flex-direction:column;align-items:flex-start;gap:8px}
 }
 
 /* ============================================================
@@ -951,7 +967,7 @@ button{cursor:pointer;border:none;background:none}
   .kpi-sub{font-size:11px}
 
   /* ── 카드 공통 ── */
-  .card-hd{padding:10px 13px 9px}
+  .card-hd{padding:10px 13px 9px;flex-wrap:wrap;row-gap:4px}
   .card-title{font-size:12.5px}
   .card-meta{font-size:11px}
   .card-body{padding:12px 13px}
@@ -1014,8 +1030,25 @@ button{cursor:pointer;border:none;background:none}
 
   /* ── 필터 / 컨트롤 ── */
   .control-row{flex-direction:column;align-items:flex-start;gap:8px}
-  .filters{flex-wrap:wrap;gap:6px}
+  .filters{flex-direction:column;align-items:stretch;gap:6px}
   .select,.input{font-size:13px;padding:9px 10px;min-height:38px;width:100%}
+
+  /* ── 인라인 width 스타일 강제 오버라이드 ── */
+  #projectSearch{min-width:0 !important;width:100% !important}
+  #tripSearchYear,#tripSearchTraveler,#tripSearchPurpose,
+  #tripSearchProject,#tripSearchVendor,#tripSearchCountry{width:100% !important}
+  #tpaMonthlySearchYM,#tpaMonthlySearchProj,#tpaMonthlySearchTpa{width:100% !important}
+
+  /* ── TPA 프로젝트 셀렉트 터치 대응 ── */
+  #tpaProjSelect{height:auto !important;min-height:36px !important;font-size:13px !important;padding:6px 8px !important}
+
+  /* ── 출장 legend 레이아웃 ── */
+  #tripLegend{margin-left:0 !important;width:100%;padding-right:0 !important;margin-top:4px}
+  .trip-legend{flex-wrap:wrap}
+
+  /* ── tpaMonthly 고정 높이 해제 + 차트 최소 높이 보장 ── */
+  .grid{grid-auto-rows:auto !important}
+  .card-fill{min-height:280px}
 
   /* ── 토스트 ── */
   .toast{right:12px;left:12px;bottom:14px;text-align:center}
