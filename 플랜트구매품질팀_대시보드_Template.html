@@ -328,6 +328,177 @@ button{cursor:pointer;border:none;background:none}
 .tbl td.note{min-width:100px;text-align:center}
 .tbl th.w-160{min-width:160px}
 
+/* ─ NCR 테이블 · HPMS · 상세 행 ─ */
+.tbl tr.ncr-row{cursor:pointer}
+.tbl tr.ncr-row.expanded td{background:#F4F7FC}
+.tbl tr.ncr-row .ncr-chev{
+  display:inline-block;width:14px;color:var(--muted);font-size:10px;
+  transition:transform .15s;margin-right:2px;
+}
+.tbl tr.ncr-row.expanded .ncr-chev{transform:rotate(90deg);color:var(--navy)}
+.tbl td.hpms-cell{min-width:200px;max-width:280px;vertical-align:top;padding-top:10px;padding-bottom:10px}
+.hpms-block{font-size:12px;line-height:1.45}
+.hpms-block + .hpms-block{margin-top:8px;padding-top:8px;border-top:1px dashed var(--line2)}
+.hpms-label{
+  font-size:9.5px;font-weight:700;color:var(--navy);letter-spacing:.08em;
+  text-transform:uppercase;margin-bottom:3px;
+  font-family:'JetBrains Mono','Noto Sans KR','Malgun Gothic',monospace;
+}
+.hpms-path{color:var(--text);font-weight:500;word-break:break-word}
+.hpms-path .sep{color:var(--muted);font-weight:400;margin:0 3px}
+.hpms-empty{color:var(--muted);font-style:italic;font-size:12px}
+.ncr-detail-row td{padding:0;border-bottom:1px solid var(--line);background:#F7F9FC}
+.ncr-detail-row:hover td{background:#F7F9FC}
+.ncr-detail-row.collapsed{display:none}
+.ncr-detail-panel{
+  padding:14px 16px 16px;
+  border-left:3px solid var(--navy);
+  margin:0;background:#fff;
+}
+.ncr-detail-panel .detail-grid{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:12px;
+}
+.ncr-action-textarea{
+  width:100%;box-sizing:border-box;border:1px solid var(--line);border-radius:4px;
+  padding:6px 8px;font-size:12.5px;font-family:inherit;color:var(--text);
+  resize:vertical;min-height:80px;background:#fff;line-height:1.55;text-align:left;
+}
+.ncr-action-textarea:focus{outline:none;border-color:var(--navy);box-shadow:0 0 0 2px rgba(10,42,94,.08);}
+.ncr-action-textarea::placeholder{color:var(--muted);font-style:italic;}
+.ncr-detail-panel .detail-block{
+  border:1px solid var(--line);border-radius:var(--r);
+  padding:10px 12px;background:var(--soft);min-width:0;
+}
+.ncr-detail-panel .detail-block .lbl{
+  font-size:10px;font-weight:700;color:var(--navy);letter-spacing:.06em;
+  text-transform:uppercase;margin-bottom:6px;
+  font-family:'JetBrains Mono','Noto Sans KR','Malgun Gothic',monospace;
+}
+.ncr-detail-panel .detail-block .body{
+  font-size:12.5px;color:var(--text);line-height:1.55;
+  white-space:pre-wrap;word-break:break-word;text-align:center;
+}
+.ncr-detail-panel .detail-block .body.left{text-align:left;}
+.ncr-detail-panel .detail-block .body.empty{color:var(--muted);font-style:italic}
+.ncr-schema-guide{
+  border-top:1px solid var(--line2);padding:12px 16px 14px;background:#FAFBFD;
+}
+.ncr-schema-guide summary{
+  cursor:pointer;font-size:12px;font-weight:700;color:var(--navy);
+  list-style:none;display:flex;align-items:center;gap:6px;
+}
+.ncr-schema-guide summary::-webkit-details-marker{display:none}
+.ncr-schema-guide summary:before{content:'▸';font-size:10px;color:var(--muted)}
+.ncr-schema-guide[open] summary:before{content:'▾'}
+.ncr-schema-table{
+  width:100%;border-collapse:collapse;margin-top:10px;font-size:11.5px;
+}
+.ncr-schema-table th,.ncr-schema-table td{
+  border:1px solid var(--line2);padding:6px 8px;text-align:left;vertical-align:top;
+}
+.ncr-schema-table th{background:var(--soft);font-size:10px;font-weight:700;color:var(--ink)}
+.ncr-schema-table .req{color:var(--danger);font-weight:700}
+@media (max-width:900px){
+  .ncr-detail-panel .detail-grid{grid-template-columns:1fr}
+}
+/* NCR 전체폭 고정 테이블 */
+#ncr .tbl-wrap{overflow-x:hidden}
+
+/* ── NCR 요약 카드 공통 ── */
+.ncr-sum-scroll{overflow-y:auto;max-height:260px}
+.ncr-open-badge{
+  background:var(--danger-bg);color:var(--danger);
+  font-size:11px;font-weight:700;padding:2px 9px;
+  border-radius:999px;border:1px solid rgba(180,35,24,.2);
+}
+/* 미결 NCR 목록 */
+.ncr-open-item{
+  display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:6px;
+  padding:7px 14px;cursor:pointer;border-bottom:1px solid var(--line2);
+  transition:background .12s;user-select:none;
+}
+.ncr-open-item:last-child{border-bottom:none}
+.ncr-open-item:hover{background:#F0F4FA}
+.ncr-oi-no{font-size:11.5px;font-family:'JetBrains Mono','Noto Sans KR',monospace;font-weight:600;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink)}
+.ncr-oi-proj{font-size:10px;font-weight:600;color:var(--navy);
+  background:#EEF3FB;border:1px solid #C8D7F0;border-radius:4px;
+  padding:1px 6px;white-space:nowrap;max-width:110px;overflow:hidden;text-overflow:ellipsis}
+.ncr-oi-days{font-size:10px;flex:0 0 auto;padding:2px 7px;white-space:nowrap}
+.ncr-open-empty{padding:24px 14px;color:var(--muted);font-size:12px;font-style:italic;text-align:center}
+/* 프로젝트별 현황 sub-row */
+.ncr-proj-head td{background:#F0F4FA;font-weight:700}
+.ncr-proj-sub td{font-size:11px;color:var(--sub)}
+/* HPMS 테이블 */
+.ncr-hpms-tbl{width:100%;border-collapse:collapse;font-size:11.5px}
+.ncr-hpms-tbl thead th{padding:6px 10px;background:var(--soft);font-size:10px;font-weight:700;
+  color:var(--navy);letter-spacing:.05em;text-transform:uppercase;
+  border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}
+.ncr-hpms-tbl thead th.ctr{text-align:center}
+.ncr-hpms-tbl td{padding:6px 10px;border-bottom:1px solid var(--line2);vertical-align:middle}
+.ncr-hpms-tbl tr:last-child td{border-bottom:none}
+.ncr-hpms-tbl .sec-hd td{
+  background:#EBF0FA;font-weight:700;font-size:10.5px;color:var(--navy);
+  padding:5px 10px;border-bottom:1px solid var(--line);
+  font-family:'JetBrains Mono','Noto Sans KR',monospace;letter-spacing:.06em;text-transform:uppercase
+}
+/* 미결 NCR 팝오버 */
+.ncr-open-pop{
+  position:fixed;z-index:9999;background:#fff;
+  border:1px solid var(--line);border-radius:8px;
+  padding:11px 13px;box-shadow:0 8px 24px rgba(15,23,42,.18);
+  display:none;width:280px;font-size:11.5px;
+}
+.ncr-open-pop.on{display:block}
+.nop-title{font-weight:700;color:var(--ink);font-size:12.5px;margin-bottom:7px;
+  font-family:'JetBrains Mono','Noto Sans KR',monospace;border-bottom:1px solid var(--line2);padding-bottom:6px}
+.nop-row{display:flex;gap:8px;margin-bottom:3px;line-height:1.45}
+.nop-lbl{color:var(--muted);font-size:10.5px;flex:0 0 72px;padding-top:1px}
+.nop-val{color:var(--text);word-break:break-word}
+.nop-action{margin-top:7px;padding-top:7px;border-top:1px solid var(--line2)}
+.nop-action-body{font-size:11px;color:var(--text);line-height:1.5;margin-top:3px;
+  white-space:pre-wrap;max-height:72px;overflow-y:auto}
+.nop-foot{margin-top:7px;padding-top:6px;border-top:1px solid var(--line2);
+  font-size:10px;color:var(--muted);text-align:center;font-style:italic}
+/* 프로젝트별 현황 */
+.ncr-ok-text{color:var(--ok);font-weight:600}
+.ncr-danger-text{color:var(--danger);font-weight:600}
+.ncr-rate-wrap{position:relative;background:var(--line2);border-radius:999px;height:11px;overflow:hidden;min-width:60px}
+.ncr-rate-bar{background:var(--ok);height:100%;border-radius:999px;transition:width .3s}
+.ncr-rate-lbl{position:absolute;right:5px;top:50%;transform:translateY(-50%);
+  font-size:9px;font-weight:700;color:var(--ink);
+  font-family:'JetBrains Mono','Noto Sans KR',monospace;line-height:1}
+/* HPMS 탭 */
+.ncr-hpms-tabs{display:flex;gap:4px}
+.ncr-hpms-tabs button{
+  font-size:10px;padding:3px 8px;border-radius:4px;
+  background:transparent;border:1px solid var(--line);
+  color:var(--sub);font-weight:600;cursor:pointer;transition:all .12s;
+}
+.ncr-hpms-tabs button.active,.ncr-hpms-tabs button:hover{background:var(--navy);color:#fff;border-color:var(--navy)}
+/* HPMS 분류 바 */
+.ncr-hpms-row{
+  display:grid;grid-template-columns:1fr 2fr 48px;align-items:center;
+  gap:8px;padding:7px 14px;border-bottom:1px solid var(--line2);
+}
+.ncr-hpms-row:last-child{border-bottom:none}
+.ncr-hpms-name{font-size:11px;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ncr-hpms-bar-wrap{background:var(--line2);border-radius:999px;height:7px;overflow:hidden}
+.ncr-hpms-bar{background:var(--navy2);height:100%;border-radius:999px}
+.ncr-hpms-cnt{display:flex;align-items:center;justify-content:flex-end;gap:4px;font-size:11px}
+.ncr-hpms-cnt .total{font-weight:600;color:var(--ink)}
+.ncr-hpms-cnt .open-cnt{
+  background:var(--danger-bg);color:var(--danger);
+  font-size:9.5px;font-weight:700;padding:1px 5px;border-radius:999px;
+}
+#ncr .tbl{table-layout:fixed;width:100%}
+#ncr .tbl th,#ncr .tbl td{padding:7px 5px;font-size:11.5px;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#ncr .tbl th{font-size:10px;letter-spacing:.03em}
+#ncr .tbl td.ncr-left{text-align:left}
+#ncr .tbl .code,#ncr .tbl .date-code{font-size:inherit}
+#ncr .tbl .ncr-no{white-space:normal;overflow:visible;word-break:break-all;text-overflow:clip}
+.ncr-hpms-group{background:var(--navy);color:#fff;font-size:9px;font-weight:800;letter-spacing:.06em;text-align:center;padding:5px 4px}
+
 /* ─ TPA 프로젝트 S-Curve 하단 요약 테이블 ─ */
 .scurve-tbl{width:100%;table-layout:fixed;border-collapse:collapse;margin-top:20px;font-size:12px;font-family:'Noto Sans KR','Malgun Gothic','Apple SD Gothic Neo',sans-serif}
 .scurve-tbl thead tr{border-bottom:1.5px solid #E2E8F0}
@@ -1253,17 +1424,43 @@ button{cursor:pointer;border:none;background:none}
 </section>
 
 <section class="page" id="ncr">
-  <div class="grid g4" id="ncrKpis"></div>
+  <!-- 요약 카드 3개 -->
+  <div class="grid g3" style="align-items:stretch">
+    <!-- Card 1: 미결 NCR 현황 -->
+    <div class="card" style="min-height:280px;display:flex;flex-direction:column">
+      <div class="card-hd">
+        <div class="card-title"><span class="bar"></span>미결 NCR 현황</div>
+        <div class="card-meta"><span id="ncrOpenBadge" class="ncr-open-badge">0건</span></div>
+      </div>
+      <div class="card-body flush ncr-sum-scroll" style="flex:1"><div id="ncrOpenList"></div></div>
+    </div>
+    <!-- Card 2: 프로젝트별 현황 -->
+    <div class="card" style="min-height:280px;display:flex;flex-direction:column">
+      <div class="card-hd"><div class="card-title"><span class="bar"></span>프로젝트별 현황</div></div>
+      <div class="card-body flush ncr-sum-scroll" style="flex:1"><table class="tbl dense" id="ncrProjTbl"></table></div>
+    </div>
+    <!-- Card 3: HPMS 분류체계 현황 -->
+    <div class="card" style="min-height:280px;display:flex;flex-direction:column">
+      <div class="card-hd"><div class="card-title"><span class="bar"></span>HPMS 분류체계 현황</div></div>
+      <div class="card-body flush ncr-sum-scroll" style="flex:1"><div id="ncrHpmsBody"></div></div>
+    </div>
+  </div>
   <div class="h-sep"></div>
-  <div class="grid g31">
-    <div class="card">
-      <div class="card-hd"><div class="card-title"><span class="bar"></span>미결 NCR 상세</div></div>
-      <div class="card-body flush"><div class="tbl-wrap"><table class="tbl" id="ncrTbl"></table></div></div>
+  <!-- NCR 상세 목록 -->
+  <div class="card">
+    <div class="card-hd"><div class="card-title"><span class="bar"></span>NCR 상세 목록</div></div>
+    <div class="filters" style="padding:10px 16px;flex-wrap:wrap;gap:8px">
+      <select class="select" id="ncrFilterProject"><option value="">전체 프로젝트</option></select>
+      <select class="select" id="ncrFilterWorkScope"><option value="">대공종</option></select>
+      <select class="select" id="ncrFilterWsMiddle"><option value="">중공종</option></select>
+      <select class="select" id="ncrFilterWsMinor"><option value="">소공종</option></select>
+      <select class="select" id="ncrFilterRootCause"><option value="">근본원인 대분류</option></select>
+      <select class="select" id="ncrFilterRcMiddle"><option value="">근본원인 중분류</option></select>
+      <select class="select" id="ncrFilterProcessing"><option value="">처리분류</option></select>
+      <input class="input" id="ncrSearch" placeholder="키워드 검색 (NCR No., 품목, Action Status 등)" style="min-width:200px;flex:1" />
+      <span id="ncrCount" style="font-size:11px;color:var(--muted);align-self:center"></span>
     </div>
-    <div class="card">
-      <div class="card-hd"><div class="card-title"><span class="bar"></span>프로젝트별 요약</div></div>
-      <div class="card-body" id="ncrSummary"></div>
-    </div>
+    <div class="card-body flush"><div class="tbl-wrap"><table class="tbl" id="ncrTbl"></table></div></div>
   </div>
 </section>
 
@@ -1408,9 +1605,9 @@ button{cursor:pointer;border:none;background:none}
 </main>
 <div class="toast" id="toast">데이터가 반영되었습니다.</div>
 
-<script>const DEFAULT_RAW = {"프로젝트_현황": [], "프로젝트_구매품질 실적": [], "프로젝트_미결 NCR 현황": [], "PQAN": [], "TPA_목록": [], "TPA_집행현황": [], "TPA_월별대금청구현황": [], "인력운영_현황": [], "인력운영_세부내역": [], "출장현황": [], "주요현안": []};
+<script>const DEFAULT_RAW = {"프로젝트_현황": [], "프로젝트_구매품질 실적": [], "프로젝트_NCR처리현황": [], "PQAN": [], "TPA_목록": [], "TPA_집행현황": [], "TPA_월별대금청구현황": [], "인력운영_현황": [], "인력운영_세부내역": [], "출장현황": [], "주요현안": []};
 
-const SHEET_FIELDS = {"프로젝트_현황": ["프로젝트", "HDEC 계약고 (USD)", "전체 계약고 (USD)", "HDEC 계약고 (KRW)", "전체 계약고 (KRW)", "발주처", "국가", "PD", "PQCM", "단계", "공정률", "비고"], "프로젝트_구매품질 실적": ["프로젝트", "MR_Total", "MR_Done", "TBE_Total", "TBE_Done", "PO_Total", "PO_Done", "PIM_Total", "PIM_Done", "IRC_100%_Total", "IRC_100%_Done", "NCR_Total", "NCR_Done"], "프로젝트_미결 NCR 현황": ["Serial_Number", "Project_Code", "NCR_Number", "Item", "Vendor", "NCR_Title", "Issue_Date", "Days_to_Date", "Remarks"], "PQAN": ["순번", "PQAN No.", "PQAN 배포일자", "연", "월", "Feedback", "작성자", "검토자", "공종", "프로젝트", "PO No.", "NCR No.", "Transmittal No.", "제목", "품목", "공급업체", "국가", "지역", "발견 시기", "발견 장소", "개요", "원인", "후속/예방 조치 (권고)", "이미지 URL (Teams)"], "TPA_목록": ["순번", "TPA", "등록평가", "정기평가 (2025)", "정기평가 (2026)"], "TPA_집행현황": ["프로젝트", "단계", "TPA 예산 (USD)", "TPA 계약고 (USD)", "집행비용 (USD)", "TPA 예산 (KRW)", "TPA 계약고 (KRW)", "집행비용 (KRW)", "예산 소진율", "現 계약고 소진율"], "TPA_월별대금청구현황": ["순번", "프로젝트", "TPA", "청구연월", "지급대금", "단위"], "인력운영_현황": ["순번", "이름", "소속", "근무지", "직급", "파트", "담당 공종", "PQCM", "PQC_Engineer", "Number_of_PO"], "인력운영_세부내역": ["순번", "프로젝트", "공종", "PO", "PO Description", "Quantity", "업무 종료 예상 시기", "IRC %", "비고", "담당자(정)", "담당자(부)"], "출장현황": ["출장자", "출장목적", "프로젝트", "품목", "방문업체", "국가", "출발일", "복귀일"], "주요현안": ["Title", "Owner", "Project_Code", "Action_Required"]};
+const SHEET_FIELDS = {"프로젝트_현황": ["프로젝트", "HDEC 계약고 (USD)", "전체 계약고 (USD)", "HDEC 계약고 (KRW)", "전체 계약고 (KRW)", "발주처", "국가", "PD", "PQCM", "단계", "공정률", "비고"], "프로젝트_구매품질 실적": ["프로젝트", "MR_Total", "MR_Done", "TBE_Total", "TBE_Done", "PO_Total", "PO_Done", "PIM_Total", "PIM_Done", "IRC_100%_Total", "IRC_100%_Done", "NCR_Total", "NCR_Done"], "프로젝트_NCR처리현황": ["프로젝트", "NCR No.", "PO No.", "품목", "Main Vendor", "Sub Vendor", "공종", "Issued by", "Issue Date", "Due Date", "Closed Date", "작업공종 대공종", "작업공종 중공종", "작업공종 소공종", "근본원인 대분류", "근본원인 중분류", "처리분류", "NCR Description", "Action Status"], "PQAN": ["순번", "PQAN No.", "PQAN 배포일자", "연", "월", "Feedback", "작성자", "검토자", "공종", "프로젝트", "PO No.", "NCR No.", "Transmittal No.", "제목", "품목", "공급업체", "국가", "지역", "발견 시기", "발견 장소", "개요", "원인", "후속/예방 조치 (권고)", "이미지 URL (Teams)"], "TPA_목록": ["순번", "TPA", "등록평가", "정기평가 (2025)", "정기평가 (2026)"], "TPA_집행현황": ["프로젝트", "단계", "TPA 예산 (USD)", "TPA 계약고 (USD)", "집행비용 (USD)", "TPA 예산 (KRW)", "TPA 계약고 (KRW)", "집행비용 (KRW)", "예산 소진율", "現 계약고 소진율"], "TPA_월별대금청구현황": ["순번", "프로젝트", "TPA", "청구연월", "지급대금", "단위"], "인력운영_현황": ["순번", "이름", "소속", "근무지", "직급", "파트", "담당 공종", "PQCM", "PQC_Engineer", "Number_of_PO"], "인력운영_세부내역": ["순번", "프로젝트", "공종", "PO", "PO Description", "Quantity", "업무 종료 예상 시기", "IRC %", "비고", "담당자(정)", "담당자(부)"], "출장현황": ["출장자", "출장목적", "프로젝트", "품목", "방문업체", "국가", "출발일", "복귀일"], "주요현안": ["Title", "Owner", "Project_Code", "Action_Required"]};
 
 let RAW = structuredClone(DEFAULT_RAW);
 Object.keys(SHEET_FIELDS).forEach(k=>{ if(!RAW[k]) RAW[k] = []; });
@@ -1423,6 +1620,803 @@ const STAGE = [
   {name:'PIM', total:'PIM_Total',      done:'PIM_Done',      weight:.20},
   {name:'IRC', total:'IRC_100%_Total', done:'IRC_100%_Done', weight:.50}
 ];
+
+
+/* ────────────── NCR 데이터 모델 · 업로드 · UI ────────────── */
+const NCR_SHEET = '프로젝트_NCR처리현황';
+const NCR_SHEET_LEGACY = '프로젝트_미결 NCR 현황';
+const NCR_SCHEMA_VERSION = 3;
+
+const NCR_RAW_FIELDS = [
+  '프로젝트', 'NCR No.', 'PO No.', '품목', 'Main Vendor', 'Sub Vendor', '공종', 'Issued by',
+  'Issue Date', 'Due Date', 'Closed Date',
+  '작업공종 대공종', '작업공종 중공종', '작업공종 소공종',
+  '근본원인 대분류', '근본원인 중분류',
+  '처리분류',
+  'NCR Description', 'Action Status'
+];
+
+/** @typedef {{ major: string, middle: string, minor: string }} NcrWorkScope */
+/** @typedef {{ major: string, middle: string }} NcrRootCauseClass */
+/** @typedef {{ major: string, middle: string }} NcrProcessingClass */
+/** @typedef {{ workScope: NcrWorkScope, rootCause: NcrRootCauseClass, processing: NcrProcessingClass }} NcrHpmsClassification */
+/**
+ * @typedef {Object} NcrRecord
+ * @property {string} _id
+ * @property {string} project
+ * @property {string} ncrNo
+ * @property {string} poNo
+ * @property {string} item
+ * @property {string} mainVendor
+ * @property {string} subVendor
+ * @property {string} discipline
+ * @property {string} issuedBy
+ * @property {string} country
+ * @property {string} title
+ * @property {string} issueDate
+ * @property {string} dueDate
+ * @property {string} closedDate
+ * @property {boolean|null} overdue
+ * @property {NcrHpmsClassification} hpmsClassification
+ * @property {string} description
+ * @property {string} rootCauseDetail
+ * @property {string} correctiveAction
+ */
+
+const NCR_UPLOAD_SCHEMA = [
+  {field:'프로젝트', desc:'프로젝트 코드', required:true, type:'text', format:'-', rule:'필수 · 공백 불가', map:'project'},
+  {field:'NCR No.', desc:'NCR 문서 번호', required:true, type:'text', format:'-', rule:'필수 · 공백 불가', map:'ncrNo'},
+  {field:'PO No.', desc:'관련 PO 번호', required:false, type:'text', format:'-', rule:'선택', map:'poNo'},
+  {field:'품목', desc:'품목/Tag', required:false, type:'text', format:'-', rule:'선택', map:'item'},
+  {field:'Main Vendor', desc:'메인 제작/공급 업체', required:false, type:'text', format:'-', rule:'선택 · 구 제작업체 컬럼은 Main Vendor로 매핑', map:'mainVendor'},
+  {field:'Sub Vendor', desc:'서브 제작/공급 업체', required:false, type:'text', format:'-', rule:'선택', map:'subVendor'},
+  {field:'공종', desc:'공종 (Discipline)', required:false, type:'text', format:'-', rule:'선택', map:'discipline'},
+  {field:'Issued by', desc:'NCR 발행 주체', required:false, type:'text', format:'-', rule:'선택', map:'issuedBy'},
+  {field:'Issue Date', desc:'발행일', required:false, type:'date', format:'YYYY-MM-DD 또는 Excel 날짜', rule:'유효한 날짜', map:'issueDate'},
+  {field:'Due Date', desc:'조치 기한', required:false, type:'date', format:'YYYY-MM-DD 또는 Excel 날짜', rule:'유효한 날짜', map:'dueDate'},
+  {field:'Closed Date', desc:'종결일', required:false, type:'date', format:'YYYY-MM-DD 또는 Excel 날짜', rule:'유효한 날짜 · 비어 있으면 OPEN', map:'closedDate'},
+  {field:'작업공종 대공종', desc:'HPMS 작업공종 대공종', required:false, type:'text', format:'-', rule:'→ hpmsClassification.workScope.major', map:'hpmsClassification.workScope.major'},
+  {field:'작업공종 중공종', desc:'HPMS 작업공종 중공종', required:false, type:'text', format:'-', rule:'→ hpmsClassification.workScope.middle', map:'hpmsClassification.workScope.middle'},
+  {field:'작업공종 소공종', desc:'HPMS 작업공종 소공종', required:false, type:'text', format:'-', rule:'→ hpmsClassification.workScope.minor', map:'hpmsClassification.workScope.minor'},
+  {field:'근본원인 대분류', desc:'HPMS 근본원인 대분류', required:false, type:'text', format:'-', rule:'→ hpmsClassification.rootCause.major', map:'hpmsClassification.rootCause.major'},
+  {field:'근본원인 중분류', desc:'HPMS 근본원인 중분류', required:false, type:'text', format:'-', rule:'→ hpmsClassification.rootCause.middle', map:'hpmsClassification.rootCause.middle'},
+  {field:'처리분류', desc:'HPMS 처리분류', required:false, type:'text', format:'-', rule:'→ hpmsClassification.processing.major', map:'hpmsClassification.processing.major'},
+  {field:'NCR Description', desc:'NCR 상세 설명', required:false, type:'text', format:'-', rule:'테이블 확장 행에 표시', map:'description'},
+  {field:'Action Status', desc:'조치 현황', required:false, type:'text', format:'-', rule:'확장 행에서 직접 입력 · 저장 후 Excel 재다운로드 시 반영', map:'actionStatus'}
+];
+
+let _ncrSort = {col:'issueDate', dir:-1};
+const _ncrExpanded = new Set();
+
+/* ── NCR 요약 카드 ── */
+let _ncrHpmsTab = 'workScope';
+let _ncrOpenPop = null, _ncrOpenPopHideTimer = null;
+let _ncrOpenItemMap = new Map();
+
+function ensureNcrOpenPop(){
+  if(_ncrOpenPop) return _ncrOpenPop;
+  const el = document.createElement('div');
+  el.className = 'ncr-open-pop';
+  document.body.appendChild(el);
+  _ncrOpenPop = el;
+  el.addEventListener('mouseenter', ()=> clearTimeout(_ncrOpenPopHideTimer));
+  el.addEventListener('mouseleave', ()=>{ _ncrOpenPopHideTimer = setTimeout(()=> el.classList.remove('on'), 120); });
+  document.addEventListener('click', e=>{
+    if(!el.contains(e.target) && !e.target.closest('.ncr-open-item')) el.classList.remove('on');
+  });
+  return el;
+}
+function showNcrOpenPop(target, id){
+  const rec = _ncrOpenItemMap.get(id);
+  if(!rec) return;
+  const el = ensureNcrOpenPop();
+  clearTimeout(_ncrOpenPopHideTimer);
+  const {cls: ddCls, label: ddLabel} = ncrDueLabel(ncrDueDays(rec));
+  el.innerHTML = `
+    <div class="nop-title">${esc(rec.ncrNo||'-')}</div>
+    <div class="nop-row"><span class="nop-lbl">프로젝트</span><span class="nop-val">${esc(rec.project||'-')}</span></div>
+    <div class="nop-row"><span class="nop-lbl">품목</span><span class="nop-val">${esc(rec.item||'-')}</span></div>
+    <div class="nop-row"><span class="nop-lbl">PO No.</span><span class="nop-val">${esc(rec.poNo||'-')}</span></div>
+    <div class="nop-row"><span class="nop-lbl">Issue Date</span><span class="nop-val">${excelDate(rec.issueDate)||'-'}</span></div>
+    <div class="nop-row"><span class="nop-lbl">Due Date</span><span class="nop-val">${excelDate(rec.dueDate)||'-'}</span></div>
+    <div class="nop-row"><span class="nop-lbl">기한</span><span class="tag ${ddCls}" style="font-size:10px;padding:1px 6px">${esc(ddLabel)}</span></div>
+    ${rec.actionStatus ? `<div class="nop-action"><div class="nop-lbl" style="margin-bottom:3px">Action Status</div><div class="nop-action-body">${esc(rec.actionStatus)}</div></div>` : ''}
+    <div class="nop-foot">클릭하면 Action Status 작성 위치로 이동</div>`;
+  const r = target.getBoundingClientRect();
+  const leftPos = Math.min(r.right + 8, window.innerWidth - 294);
+  const topPos = Math.max(8, Math.min(r.top, window.innerHeight - 240));
+  el.style.left = leftPos + 'px';
+  el.style.top = topPos + 'px';
+  el.classList.add('on');
+}
+function hideNcrOpenPop(){
+  _ncrOpenPopHideTimer = setTimeout(()=>{ if(_ncrOpenPop) _ncrOpenPop.classList.remove('on'); }, 120);
+}
+window.showNcrOpenPop = showNcrOpenPop;
+window.hideNcrOpenPop = hideNcrOpenPop;
+
+function jumpToNcr(id){
+  _ncrExpanded.add(id);
+  if(_ncrOpenPop) _ncrOpenPop.classList.remove('on');
+  renderNcrPage();
+  requestAnimationFrame(()=>{
+    const attr = CSS.escape ? CSS.escape(id) : id.replace(/([!"#$%&'()*+,.\/:;<=>?@[\\\]^`{|}~])/g,'\\$1');
+    const row = document.querySelector(`[data-ncr-id="${attr}"]`);
+    if(!row) return;
+    row.scrollIntoView({behavior:'smooth', block:'center'});
+    setTimeout(()=>{
+      const detail = document.querySelector(`[data-ncr-detail="${attr}"]`);
+      if(!detail) return;
+      const ta = detail.querySelector('.ncr-action-textarea');
+      if(ta){ ta.focus(); ta.scrollIntoView({behavior:'smooth', block:'nearest'}); }
+    }, 420);
+  });
+}
+window.jumpToNcr = jumpToNcr;
+
+function switchNcrHpmsTab(tab){
+  _ncrHpmsTab = tab;
+  document.querySelectorAll('.ncr-hpms-tabs button').forEach(b=> b.classList.toggle('active', b.dataset.tab===tab));
+  renderNcrHpmsCard(getNcrRecords());
+}
+window.switchNcrHpmsTab = switchNcrHpmsTab;
+
+function ncrDueDays(rec){
+  if(!rec.dueDate) return null;
+  const due = excelToDate(rec.dueDate);
+  if(!due) return null;
+  const today = new Date(); today.setHours(0,0,0,0);
+  due.setHours(0,0,0,0);
+  return Math.round((due - today) / 86400000);
+}
+
+function ncrDueLabel(dd){
+  if(dd === null)  return {cls:'neutral', label:'기한 없음'};
+  if(dd < 0)       return {cls:'danger',  label:`${Math.abs(dd)}일 초과`};
+  if(dd === 0)     return {cls:'danger',  label:'오늘 기한'};
+  if(dd <= 14)     return {cls:'warn',    label:`${dd}일 남음`};
+  return                  {cls:'ok',     label:`${dd}일 남음`};
+}
+
+function cleanHpmsName(s){
+  if(!s) return '미분류';
+  return s.trim().replace(/\.+$/, '').replace(/\./g, '/').trim() || '미분류';
+}
+
+function renderNcrOpenCard(openAll){
+  const badge = $('ncrOpenBadge');
+  if(badge) badge.textContent = openAll.length + '건';
+  const el = $('ncrOpenList');
+  if(!el) return;
+  if(!openAll.length){ el.innerHTML = '<div class="ncr-open-empty">미결 NCR 없음</div>'; return; }
+  const sorted = openAll.slice().sort((a,b)=>{
+    const da = ncrDueDays(a), db = ncrDueDays(b);
+    if(da === null && db === null) return 0;
+    if(da === null) return 1;
+    if(db === null) return -1;
+    return da - db;
+  });
+  _ncrOpenItemMap = new Map(sorted.map(n=>[n._id, n]));
+  el.innerHTML = sorted.map(n=>{
+    const {cls, label} = ncrDueLabel(ncrDueDays(n));
+    return `<div class="ncr-open-item" data-nid="${esc(n._id)}"
+      onmouseenter="showNcrOpenPop(this, this.dataset.nid)"
+      onmouseleave="hideNcrOpenPop()"
+      onclick="jumpToNcr(this.dataset.nid)">
+      <span class="ncr-oi-no" title="${esc(n.ncrNo||'')}">${esc(n.ncrNo||'-')}</span>
+      <span class="ncr-oi-proj" title="${esc(n.project||'')}">${esc(n.project||'-')}</span>
+      <span class="tag ${cls} ncr-oi-days">${esc(label)}</span>
+    </div>`;
+  }).join('');
+}
+
+function renderNcrProjCard(all, openAll, stages){
+  const el = $('ncrProjTbl');
+  if(!el) return;
+  const projects = [...new Set(all.map(n=>n.project).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'ko'));
+  if(!projects.length){ el.innerHTML = emptyRow(4,'데이터 없음'); return; }
+  const data = {};
+  all.forEach(n=>{
+    const p = n.project||'미분류';
+    const ib = n.issuedBy||'미기재';
+    if(!data[p]) data[p] = {};
+    if(!data[p][ib]) data[p][ib] = {total:0, open:0, closed:0};
+    data[p][ib].total++;
+    if(isNcrOpen(n)) data[p][ib].open++; else data[p][ib].closed++;
+  });
+  const projTotals = {};
+  projects.forEach(p=>{
+    const ibs = Object.values(data[p]||{});
+    projTotals[p] = {total:ibs.reduce((a,v)=>a+v.total,0), open:ibs.reduce((a,v)=>a+v.open,0), closed:ibs.reduce((a,v)=>a+v.closed,0)};
+  });
+  const sortedProjects = projects.slice().sort((a,b)=>projTotals[b].open-projTotals[a].open);
+  let html = `<thead><tr>
+    <th>프로젝트 / Issued by</th>
+    <th class="ctr" style="width:44px">발생</th>
+    <th class="ctr" style="width:44px">종결</th>
+    <th class="ctr" style="width:44px">미결</th>
+  </tr></thead><tbody>`;
+  sortedProjects.forEach(p=>{
+    const pt = projTotals[p];
+    html += `<tr class="ncr-proj-head">
+      <td class="code">${esc(p)}</td>
+      <td class="ctr">${pt.total}</td>
+      <td class="ctr ncr-ok-text">${pt.closed}</td>
+      <td class="ctr ${pt.open>0?'ncr-danger-text':''}">${pt.open}</td>
+    </tr>`;
+    Object.entries(data[p]||{}).sort((a,b)=>b[1].total-a[1].total).forEach(([ib,v])=>{
+      html += `<tr class="ncr-proj-sub">
+        <td style="padding-left:18px">↳ ${esc(ib)}</td>
+        <td class="ctr">${v.total}</td>
+        <td class="ctr ncr-ok-text">${v.closed}</td>
+        <td class="ctr ${v.open>0?'ncr-danger-text':''}">${v.open}</td>
+      </tr>`;
+    });
+  });
+  html += '</tbody>';
+  el.innerHTML = html;
+}
+
+function renderNcrHpmsCard(all){
+  const el = $('ncrHpmsBody');
+  if(!el) return;
+  if(!all.length){ el.innerHTML='<div class="ncr-open-empty">데이터 없음</div>'; return; }
+  const secs = [
+    {label:'작업공종', getK: n=> n.hpmsClassification?.workScope?.major||''},
+    {label:'근본원인', getK: n=> n.hpmsClassification?.rootCause?.major||''},
+    {label:'처리분류', getK: n=> n.hpmsClassification?.processing?.major||''},
+  ];
+  let html = `<table class="ncr-hpms-tbl"><thead><tr>
+    <th style="width:70px">구분</th>
+    <th>분류명</th>
+    <th class="ctr" style="width:44px">건수</th>
+  </tr></thead><tbody>`;
+  secs.forEach(sec=>{
+    const counts = {};
+    all.forEach(n=>{ const k = cleanHpmsName(sec.getK(n)); counts[k]=(counts[k]||0)+1; });
+    const entries = Object.entries(counts).sort((a,b)=>b[1]-a[1]);
+    html += `<tr class="sec-hd"><td colspan="3">${esc(sec.label)}</td></tr>`;
+    if(!entries.length){
+      html += `<tr><td colspan="3" style="color:var(--muted);font-style:italic;text-align:center;font-size:11px">데이터 없음</td></tr>`;
+    } else {
+      entries.forEach(([k,cnt],i)=>{
+        html += `<tr>
+          <td class="ctr" style="font-size:10.5px;color:var(--muted)">${i+1}</td>
+          <td>${esc(k)}</td>
+          <td class="ctr" style="font-weight:600">${cnt}</td>
+        </tr>`;
+      });
+    }
+  });
+  html += '</tbody></table>';
+  el.innerHTML = html;
+}
+
+function ncrPick(row, ...keys){
+  for(const k of keys){
+    if(!k) continue;
+    const v = row[k];
+    if(v!==null && v!==undefined && String(v).trim()!=='') return String(v).trim();
+  }
+  return '';
+}
+
+function ncrNormDate(v){
+  if(v===null || v===undefined || v==='') return '';
+  if(typeof v === 'string' && /^\d{4}-\d{2}-\d{2}/.test(v)) return v.slice(0,10);
+  const d = excelToDate(v);
+  return d ? d.toISOString().slice(0,10) : String(v).trim();
+}
+
+function emptyHpms(){
+  return {
+    workScope:{major:'',middle:'',minor:''},
+    rootCause:{major:'',middle:''},
+    processing:{major:'',middle:''}
+  };
+}
+
+function parseOverdueFlag(v){
+  const s = String(v??'').trim().toLowerCase();
+  if(!s) return null;
+  if(['y','yes','true','1','예','o','overdue'].includes(s)) return true;
+  if(['n','no','false','0','아니오','정상'].includes(s)) return false;
+  return null;
+}
+
+function ncrRecordId(r){
+  return [r.project, r.ncrNo, r.issueDate, r.poNo].filter(Boolean).join('::') || ('row_'+Math.random().toString(36).slice(2));
+}
+
+function isNcrNormalized(row){
+  return row && typeof row === 'object' && row._normalized === true
+    && (row._ncrSchemaVersion||0) >= NCR_SCHEMA_VERSION && row.hpmsClassification
+    && row.hpmsClassification.processing;
+}
+
+function migrateNcrSheetKey(){
+  if(!RAW[NCR_SHEET_LEGACY]?.length) return;
+  if(!RAW[NCR_SHEET]?.length) RAW[NCR_SHEET] = RAW[NCR_SHEET_LEGACY];
+  delete RAW[NCR_SHEET_LEGACY];
+}
+
+function normalizeNcrRow(raw){
+  if(isNcrNormalized(raw)) return {...raw};
+  if(raw?._normalized && raw.hpmsClassification){
+    const rec = {...raw, _ncrSchemaVersion: NCR_SCHEMA_VERSION};
+    if(!rec.mainVendor && rec.vendor) rec.mainVendor = rec.vendor;
+    if(rec.subVendor == null) rec.subVendor = '';
+    if(rec.discipline == null) rec.discipline = '';
+    if(rec.issuedBy == null) rec.issuedBy = '';
+    delete rec.vendor;
+    if(!rec.hpmsClassification.processing){
+      rec.hpmsClassification.processing = {
+        major: ncrPick(raw, '처리분류','처리분류 대분류') || ncrPick(raw.hpmsClassification.processing||{}, 'major'),
+        middle: ''
+      };
+    }
+    rec._id = rec._id || ncrRecordId(rec);
+    return rec;
+  }
+
+  const hp = raw.hpmsClassification && typeof raw.hpmsClassification === 'object'
+    ? {
+        workScope:{
+          major: ncrPick(raw.hpmsClassification.workScope||{}, 'major') || ncrPick(raw, '작업공종 대공종','대공종','workScopeMajor'),
+          middle: ncrPick(raw.hpmsClassification.workScope||{}, 'middle') || ncrPick(raw, '작업공종 중공종','중공종','workScopeMiddle'),
+          minor: ncrPick(raw.hpmsClassification.workScope||{}, 'minor') || ncrPick(raw, '작업공종 소공종','소공종','workScopeMinor')
+        },
+        rootCause:{
+          major: ncrPick(raw.hpmsClassification.rootCause||{}, 'major') || ncrPick(raw, '근본원인 대분류','근본원인 대분류','rootCauseMajor'),
+          middle: ncrPick(raw.hpmsClassification.rootCause||{}, 'middle') || ncrPick(raw, '근본원인 중분류','중분류','rootCauseMiddle')
+        },
+        processing:{
+          major: ncrPick(raw.hpmsClassification.processing||{}, 'major') || ncrPick(raw, '처리분류','처리분류 대분류','processingMajor'),
+          middle: ''
+        }
+      }
+    : {
+        workScope:{
+          major: ncrPick(raw, '작업공종 대공종','대공종','Work_Scope_Major','작업공종'),
+          middle: ncrPick(raw, '작업공종 중공종','중공종','Work_Scope_Middle'),
+          minor: ncrPick(raw, '작업공종 소공종','소공종','Work_Scope_Minor')
+        },
+        rootCause:{
+          major: ncrPick(raw, '근본원인 대분류','Root_Cause_Major','근본원인'),
+          middle: ncrPick(raw, '근본원인 중분류','Root_Cause_Middle')
+        },
+        processing:{
+          major: ncrPick(raw, '처리분류','처리분류 대분류','Processing_Major'),
+          middle: ''
+        }
+      };
+
+  const rec = {
+    _normalized: true,
+    _ncrSchemaVersion: NCR_SCHEMA_VERSION,
+    project: ncrPick(raw, '프로젝트','Project_Code','project'),
+    ncrNo: ncrPick(raw, 'NCR No.','NCR_Number','ncrNo'),
+    poNo: ncrPick(raw, 'PO No.','PO_No','poNo'),
+    item: ncrPick(raw, '품목','Item','item'),
+    mainVendor: ncrPick(raw, 'Main Vendor','mainVendor') || ncrPick(raw, '제작업체','Vendor','vendor'),
+    subVendor: ncrPick(raw, 'Sub Vendor','subVendor'),
+    discipline: ncrPick(raw, '공종','Discipline','discipline'),
+    issuedBy: ncrPick(raw, 'Issued by','Issued By','issuedBy'),
+    issueDate: ncrNormDate(ncrPick(raw, 'Issue Date','Issue_Date','issueDate') || raw.Issue_Date),
+    dueDate: ncrNormDate(ncrPick(raw, 'Due Date','Due_Date','dueDate')),
+    closedDate: ncrNormDate(ncrPick(raw, 'Closed Date','Closed_Date','closedDate')),
+    hpmsClassification: hp,
+    description: ncrPick(raw, 'NCR Description','Remarks','description'),
+    actionStatus: ncrPick(raw, 'Action Status','actionStatus')
+  };
+  rec._id = ncrRecordId(rec);
+  rec._legacyDays = isNumLike(raw.Days_to_Date) ? num(raw.Days_to_Date) : null;
+  rec.overdue = resolveNcrOverdue(rec);
+  return rec;
+}
+
+function flattenNcrRow(rec){
+  if(!isNcrNormalized(rec)) return rec;
+  const ws = rec.hpmsClassification?.workScope || {};
+  const rc = rec.hpmsClassification?.rootCause || {};
+  const pc = rec.hpmsClassification?.processing || {};
+  return {
+    '프로젝트': rec.project || '',
+    'NCR No.': rec.ncrNo || '',
+    'PO No.': rec.poNo || '',
+    '품목': rec.item || '',
+    'Main Vendor': rec.mainVendor || '',
+    'Sub Vendor': rec.subVendor || '',
+    '공종': rec.discipline || '',
+    'Issued by': rec.issuedBy || '',
+    'Issue Date': rec.issueDate || '',
+    'Due Date': rec.dueDate || '',
+    'Closed Date': rec.closedDate || '',
+    '작업공종 대공종': ws.major || '',
+    '작업공종 중공종': ws.middle || '',
+    '작업공종 소공종': ws.minor || '',
+    '근본원인 대분류': rc.major || '',
+    '근본원인 중분류': rc.middle || '',
+    '처리분류': pc.major || '',
+    'NCR Description': rec.description || '',
+    'Action Status': rec.actionStatus || ''
+  };
+}
+
+function validateNcrRow(row){
+  const errors = [];
+  if(!row.project) errors.push('프로젝트 누락');
+  if(!row.ncrNo) errors.push('NCR No. 누락');
+  ['issueDate','dueDate','closedDate'].forEach(k=>{
+    const v = row[k];
+    if(v && !/^\d{4}-\d{2}-\d{2}$/.test(v) && excelToDate(v)===null) errors.push(`${k} 날짜 형식 오류`);
+  });
+  return {ok: errors.length===0, errors};
+}
+
+function processNcrUpload(rows){
+  const out = [];
+  const warnings = [];
+  (rows||[]).forEach((raw,i)=>{
+    if(!raw || typeof raw !== 'object') return;
+    const hasData = Object.values(raw).some(v=>String(v??'').trim()!=='');
+    if(!hasData) return;
+    const rec = normalizeNcrRow(raw);
+    const v = validateNcrRow(rec);
+    if(!v.ok) warnings.push(`행 ${i+2}: ${v.errors.join(', ')}`);
+    out.push(rec);
+  });
+  if(warnings.length) console.warn('[NCR Upload]', warnings.join('\n'));
+  return {records: out, warnings};
+}
+
+function ensureNcrNormalized(){
+  migrateNcrSheetKey();
+  const rows = RAW[NCR_SHEET] || [];
+  if(!rows.length) return;
+  if(rows.every(isNcrNormalized)) return;
+  RAW[NCR_SHEET] = processNcrUpload(rows).records;
+}
+
+function getNcrRecords(){
+  ensureNcrNormalized();
+  return RAW[NCR_SHEET] || [];
+}
+
+function isNcrOpen(rec){
+  return !rec.closedDate;
+}
+
+function resolveNcrOverdue(rec){
+  if(rec.overdue !== null && rec.overdue !== undefined) return !!rec.overdue;
+  if(rec.closedDate) return false;
+  if(!rec.dueDate) return false;
+  const due = excelToDate(rec.dueDate);
+  if(!due) return false;
+  const today = new Date();
+  today.setHours(0,0,0,0);
+  return due < today;
+}
+
+function ncrDaysOpen(rec){
+  const legacy = rec._legacyDays;
+  if(legacy != null && isNumLike(legacy)) return num(legacy);
+  if(!rec.issueDate) return null;
+  const d = excelToDate(rec.issueDate);
+  if(!d) return null;
+  const end = rec.closedDate ? excelToDate(rec.closedDate) : new Date();
+  if(!end) return null;
+  return Math.max(0, Math.floor((end - d) / 86400000));
+}
+
+function hpmsPath(parts){
+  const p = parts.filter(Boolean);
+  if(!p.length) return '<span class="hpms-empty">-</span>';
+  return p.map((x,i)=>`${i?'<span class="sep">›</span>':''}${esc(x)}`).join('');
+}
+
+function renderHpmsCell(hp){
+  const ws = hp?.workScope || {};
+  const rc = hp?.rootCause || {};
+  const pc = hp?.processing || {};
+  const wsEmpty = !ws.major && !ws.middle && !ws.minor;
+  const rcEmpty = !rc.major && !rc.middle;
+  const pcEmpty = !pc.major && !pc.middle;
+  if(wsEmpty && rcEmpty && pcEmpty) return '<span class="hpms-empty">-</span>';
+  let html = '';
+  if(!wsEmpty){
+    html += `<div class="hpms-block"><div class="hpms-label">작업공종</div><div class="hpms-path">${hpmsPath([ws.major,ws.middle,ws.minor])}</div></div>`;
+  }
+  if(!rcEmpty){
+    html += `<div class="hpms-block"><div class="hpms-label">근본원인</div><div class="hpms-path">${hpmsPath([rc.major,rc.middle])}</div></div>`;
+  }
+  if(!pcEmpty){
+    html += `<div class="hpms-block"><div class="hpms-label">처리분류</div><div class="hpms-path">${hpmsPath([pc.major,pc.middle])}</div></div>`;
+  }
+  return html;
+}
+
+function ncrSearchHaystack(rec){
+  const hp = rec.hpmsClassification || emptyHpms();
+  return [
+    rec.project, rec.ncrNo, rec.poNo, rec.item, rec.mainVendor, rec.subVendor,
+    rec.discipline, rec.issuedBy,
+    rec.description, rec.actionStatus,
+    hp.workScope.major, hp.workScope.middle, hp.workScope.minor,
+    hp.rootCause.major, hp.rootCause.middle,
+    hp.processing.major, hp.processing.middle
+  ].join(' ').toLowerCase();
+}
+
+function filterNcrRecords(records){
+  const proj   = $('ncrFilterProject')?.value  || '';
+  const ws     = $('ncrFilterWorkScope')?.value || '';
+  const wsM    = $('ncrFilterWsMiddle')?.value  || '';
+  const wsN    = $('ncrFilterWsMinor')?.value   || '';
+  const rc     = $('ncrFilterRootCause')?.value || '';
+  const rcM    = $('ncrFilterRcMiddle')?.value  || '';
+  const proc   = $('ncrFilterProcessing')?.value|| '';
+  const q      = ($('ncrSearch')?.value || '').trim().toLowerCase();
+  return records.filter(r=>{
+    if(proj && r.project !== proj) return false;
+    if(ws   && (r.hpmsClassification?.workScope?.major ||'') !== ws)   return false;
+    if(wsM  && (r.hpmsClassification?.workScope?.middle||'') !== wsM)  return false;
+    if(wsN  && (r.hpmsClassification?.workScope?.minor ||'') !== wsN)  return false;
+    if(rc   && (r.hpmsClassification?.rootCause?.major ||'') !== rc)   return false;
+    if(rcM  && (r.hpmsClassification?.rootCause?.middle||'') !== rcM)  return false;
+    if(proc && (r.hpmsClassification?.processing?.major||'') !== proc) return false;
+    if(q && !ncrSearchHaystack(r).includes(q)) return false;
+    return true;
+  });
+}
+
+function sortNcrRecords(records){
+  const col = _ncrSort.col;
+  const d = _ncrSort.dir;
+  const cmpStr = (a,b)=>d*String(a||'').localeCompare(String(b||''),'ko');
+  const cmpDate = (a,b)=>{
+    const da = excelToDate(a); const db = excelToDate(b);
+    const ta = da?da.getTime():-Infinity; const tb = db?db.getTime():-Infinity;
+    return d*(ta-tb);
+  };
+  return records.slice().sort((a,b)=>{
+    if(col==='seq'){ const ta=(excelToDate(a.issueDate)||{getTime:()=>-Infinity}).getTime(); const tb=(excelToDate(b.issueDate)||{getTime:()=>-Infinity}).getTime(); return d*(tb-ta); }
+    if(col==='project') return cmpStr(a.project,b.project);
+    if(col==='ncrNo') return cmpStr(a.ncrNo,b.ncrNo);
+    if(col==='poNo') return cmpStr(a.poNo,b.poNo);
+    if(col==='item') return cmpStr(a.item,b.item);
+    if(col==='mainVendor') return cmpStr(a.mainVendor,b.mainVendor);
+    if(col==='subVendor') return cmpStr(a.subVendor,b.subVendor);
+    if(col==='discipline') return cmpStr(a.discipline,b.discipline);
+    if(col==='issuedBy') return cmpStr(a.issuedBy,b.issuedBy);
+    if(col==='issueDate') return cmpDate(a.issueDate,b.issueDate);
+    if(col==='dueDate') return cmpDate(a.dueDate,b.dueDate);
+    if(col==='closedDate') return cmpDate(a.closedDate,b.closedDate);
+    if(col==='workScope')   return cmpStr(a.hpmsClassification?.workScope?.major,b.hpmsClassification?.workScope?.major);
+    if(col==='rootCause')   return cmpStr(a.hpmsClassification?.rootCause?.major,b.hpmsClassification?.rootCause?.major);
+    if(col==='processing')  return cmpStr(a.hpmsClassification?.processing?.major,b.hpmsClassification?.processing?.major);
+    return cmpDate(a.issueDate,b.issueDate);
+  });
+}
+
+function populateNcrFilters(records){
+  const fill = (id, vals, labelAll)=>{
+    const el = $(id); if(!el) return;
+    const cur = el.value;
+    const opts = [...new Set(vals.filter(Boolean))].sort((a,b)=>a.localeCompare(b,'ko'));
+    el.innerHTML = `<option value="">${esc(labelAll)}</option>` + opts.map(v=>`<option value="${esc(v)}">${esc(v)}</option>`).join('');
+    if(cur && opts.includes(cur)) el.value = cur;
+  };
+  fill('ncrFilterProject',   records.map(r=>r.project), '전체 프로젝트');
+  fill('ncrFilterWorkScope', records.map(r=>r.hpmsClassification?.workScope?.major),  '대공종');
+  fill('ncrFilterWsMiddle',  records.map(r=>r.hpmsClassification?.workScope?.middle), '중공종');
+  fill('ncrFilterWsMinor',   records.map(r=>r.hpmsClassification?.workScope?.minor),  '소공종');
+  fill('ncrFilterRootCause', records.map(r=>r.hpmsClassification?.rootCause?.major),  '근본원인 대분류');
+  fill('ncrFilterRcMiddle',  records.map(r=>r.hpmsClassification?.rootCause?.middle), '근본원인 중분류');
+  fill('ncrFilterProcessing',records.map(r=>r.hpmsClassification?.processing?.major), '처리분류');
+}
+
+function renderNcrSchemaGuide(){
+  const slot = $('ncrSchemaGuideSlot');
+  if(!slot) return;
+  slot.innerHTML = `<details class="ncr-schema-guide">
+    <summary>Raw File 업로드 스키마 가이드 (${esc(NCR_SHEET)})</summary>
+    <p class="muted" style="font-size:11px;margin:8px 0 6px">Excel 시트는 flat 컬럼 구조입니다. 업로드 시 <code>hpmsClassification.workScope</code> / <code>rootCause</code> / <code>processing</code>으로 자동 변환됩니다. HPMS 분류체계 단일 컬럼은 사용하지 않습니다.</p>
+    <table class="ncr-schema-table">
+      <thead><tr>
+        <th>필드명</th><th>설명</th><th>필수</th><th>타입</th><th>날짜 포맷</th><th>Validation</th><th>매핑</th>
+      </tr></thead>
+      <tbody>${NCR_UPLOAD_SCHEMA.map(s=>`<tr>
+        <td><code>${esc(s.field)}</code></td>
+        <td>${esc(s.desc)}</td>
+        <td>${s.required?'<span class="req">필수</span>':'선택'}</td>
+        <td>${esc(s.type)}</td>
+        <td>${esc(s.format)}</td>
+        <td>${esc(s.rule)}</td>
+        <td><code>${esc(s.map)}</code></td>
+      </tr>`).join('')}</tbody>
+    </table>
+  </details>`;
+}
+
+function setSortNcr(col){
+  if(_ncrSort.col === col) _ncrSort.dir *= -1;
+  else { _ncrSort.col = col; _ncrSort.dir = ['issueDate','dueDate','closedDate','overdue'].includes(col) ? -1 : 1; }
+  renderNcrPage();
+}
+window.setSortNcr = setSortNcr;
+
+function toggleNcrRow(id, ev){
+  if(ev && (ev.target.closest('a') || ev.target.closest('button') || ev.target.closest('textarea'))) return;
+  if(_ncrExpanded.has(id)) _ncrExpanded.delete(id);
+  else _ncrExpanded.add(id);
+  renderNcrPage();
+}
+window.toggleNcrRow = toggleNcrRow;
+
+function renderNcrDetailPanel(rec){
+  const block = (lbl, txt)=>`<div class="detail-block">
+    <div class="lbl">${esc(lbl)}</div>
+    <div class="body${txt?'':' empty'}">${txt ? esc(txt) : '내용 없음'}</div>
+  </div>`;
+  const id = esc(rec._id);
+  const actionVal = esc(rec.actionStatus || '');
+  return `<div class="ncr-detail-panel"><div class="detail-grid" style="grid-template-columns:auto 1fr 1fr">
+    ${block('Issued by', rec.issuedBy)}
+    ${block('Main Vendor', rec.mainVendor)}
+    ${block('Sub Vendor', rec.subVendor)}
+    <div class="detail-block" style="grid-column:span 2">
+      <div class="lbl">NCR Description</div>
+      <div class="body left${rec.description?'':' empty'}">${rec.description ? esc(rec.description) : '내용 없음'}</div>
+    </div>
+    <div class="detail-block">
+      <div class="lbl">Action Status</div>
+      <textarea class="ncr-action-textarea"
+        onclick="event.stopPropagation()"
+        oninput="saveNcrActionStatus('${id}',this.value)"
+        placeholder="조치 현황을 입력하세요…">${actionVal}</textarea>
+    </div>
+  </div></div>`;
+}
+
+function saveNcrActionStatus(id, value){
+  const rows = RAW[NCR_SHEET] || [];
+  const rec = rows.find(r=>r._id === id);
+  if(rec) rec.actionStatus = value;
+}
+window.saveNcrActionStatus = saveNcrActionStatus;
+
+function overdueTag(rec){
+  const od = resolveNcrOverdue(rec);
+  if(rec.closedDate) return '<span class="tag neutral">종결</span>';
+  if(od) return '<span class="tag danger">Overdue</span>';
+  return '<span class="tag ok">정상</span>';
+}
+
+function renderNcrPage(){
+  ensureNcrNormalized();
+  const all = getNcrRecords();
+  const stages = RAW['프로젝트_구매품질 실적'] || [];
+  const openAll = all.filter(isNcrOpen);
+
+  let totalIssued=0, totalClosed=0;
+  stages.forEach(s=>{ if(isNumLike(s.NCR_Total)){ totalIssued+=num(s.NCR_Total); totalClosed+=num(s.NCR_Done); } });
+  const long = openAll.filter(n=>{ const d=ncrDaysOpen(n); return d!=null && d>=180; }).length;
+  const recent = openAll.filter(n=>{ const d=ncrDaysOpen(n); return d!=null && d<60; }).length;
+  const closedRate = totalIssued>0 ? (totalClosed/totalIssued*100).toFixed(1)+'%' : '-';
+
+  const ncrKpisEl = $('ncrKpis');
+  if(ncrKpisEl) ncrKpisEl.innerHTML = [
+    {label:'OPEN NCR',val:openAll.length,unit:'건',cls:'danger'},
+    {label:'TOTAL ISSUED',val:totalIssued,unit:'건',cls:'accent'},
+    {label:'CLOSE RATE',val:closedRate,sub:`종결 ${totalClosed}건`,cls:'ok'},
+    {label:'LONG OPEN',val:long,unit:'건',sub:`최근 60일 내 ${recent}건`,cls:'warn'}
+  ].map(k=>`<div class="kpi ${k.cls}">
+    <div class="kpi-label">${esc(k.label)}</div>
+    <div class="kpi-val">${typeof k.val==='string'?esc(k.val):k.val}${k.unit?`<span class="unit">${esc(k.unit)}</span>`:''}</div>
+    <div class="kpi-sub">${esc(k.sub||'')}</div>
+  </div>`).join('');
+
+  populateNcrFilters(all);
+  renderNcrOpenCard(openAll);
+  renderNcrProjCard(all, openAll, stages);
+  renderNcrHpmsCard(all);
+
+  // 고정 순번: Issue Date 내림차순으로 전체 레코드에 순번 부여
+  const seqMap = new Map(
+    all.slice().sort((a,b)=>{
+      const ta = (excelToDate(a.issueDate)||{getTime:()=>-Infinity}).getTime();
+      const tb = (excelToDate(b.issueDate)||{getTime:()=>-Infinity}).getTime();
+      return tb - ta;
+    }).map((r,i)=>[r._id, i+1])
+  );
+
+  const filtered = filterNcrRecords(all);
+  const sorted = sortNcrRecords(filtered);
+  const cntEl = $('ncrCount');
+  if(cntEl){
+    const hasF = filtered.length !== all.length;
+    cntEl.textContent = hasF ? `${filtered.length} / ${all.length}건` : `${all.length}건`;
+  }
+
+  const COLS = 15;
+  const sa = col => _ncrSort.col===col ? (_ncrSort.dir===-1?' ▼':' ▲') : '';
+  const sth = (col, label, attrs='') => `<th class="sortable" ${attrs} onclick="setSortNcr('${col}')">${label}${sa(col)}</th>`;
+
+  const body = sorted.length===0
+    ? emptyRow(COLS,'Excel을 업로드하면 NCR이 표시됩니다.')
+    : sorted.map((n)=>{
+        const expanded = _ncrExpanded.has(n._id);
+        const rowCls = expanded ? 'ncr-row expanded' : 'ncr-row';
+        const hp = n.hpmsClassification || {};
+        const ws = hp.workScope || {};
+        const rc = hp.rootCause || {};
+        const pc = hp.processing || {};
+        return `<tr class="${rowCls}" data-ncr-id="${esc(n._id)}" onclick="toggleNcrRow('${esc(n._id)}', event)">
+          <td>${seqMap.get(n._id)??''}</td>
+          <td title="${esc(n.project||'')}">${esc(n.project||'-')}</td>
+          <td class="ncr-no" title="${esc(n.ncrNo||'')}"><span class="code">${esc(n.ncrNo||'-')}</span></td>
+          <td title="${esc(n.poNo||'')}">${esc(n.poNo||'-')}</td>
+          <td title="${esc(n.item||'')}">${esc(n.item||'-')}</td>
+          <td title="${esc(n.discipline||'')}">${esc(n.discipline||'-')}</td>
+          <td><span class="date-code">${excelDate(n.issueDate)}</span></td>
+          <td><span class="date-code">${excelDate(n.dueDate)}</span></td>
+          <td><span class="date-code">${excelDate(n.closedDate)}</span></td>
+          <td title="${esc(ws.major||'')}">${esc(ws.major||'-')}</td>
+          <td title="${esc(ws.middle||'')}">${esc(ws.middle||'-')}</td>
+          <td title="${esc(ws.minor||'')}">${esc(ws.minor||'-')}</td>
+          <td title="${esc(rc.major||'')}">${esc(rc.major||'-')}</td>
+          <td title="${esc(rc.middle||'')}">${esc(rc.middle||'-')}</td>
+          <td title="${esc(pc.major||'')}">${esc(pc.major||'-')}</td>
+        </tr>
+        <tr class="ncr-detail-row${expanded?'':' collapsed'}" data-ncr-detail="${esc(n._id)}">
+          <td colspan="${COLS}">${renderNcrDetailPanel(n)}</td>
+        </tr>`;
+      }).join('');
+
+  $('ncrTbl').innerHTML = `<thead>
+    <tr>
+      ${sth('seq','순번','rowspan="3" style="width:3%"')}
+      ${sth('project','프로젝트','rowspan="3" style="width:4%"')}
+      <th class="sortable ncr-no" rowspan="3" style="width:16%" onclick="setSortNcr('ncrNo')">NCR No.${sa('ncrNo')}</th>
+      ${sth('poNo','PO No.','rowspan="3" style="width:6%"')}
+      ${sth('item','품목','rowspan="3" style="width:11%"')}
+      ${sth('discipline','공종','rowspan="3" style="width:4%"')}
+      ${sth('issueDate','Issue Date','rowspan="3" style="width:7%"')}
+      ${sth('dueDate','Due Date','rowspan="3" style="width:7%"')}
+      ${sth('closedDate','Closed Date','rowspan="3" style="width:7%"')}
+      <th colspan="6" class="ncr-hpms-group" style="width:36%">HPMS 분류체계</th>
+    </tr>
+    <tr>
+      <th colspan="3" class="ncr-hpms-group">작업공종</th>
+      <th colspan="2" class="ncr-hpms-group">근본원인</th>
+      <th class="sortable ncr-hpms-group" rowspan="2" onclick="setSortNcr('processing')">처리분류${sa('processing')}</th>
+    </tr>
+    <tr>
+      ${sth('workScope','대공종','')}
+      <th>중공종</th>
+      <th>소공종</th>
+      ${sth('rootCause','대분류','')}
+      <th>중분류</th>
+    </tr>
+  </thead><tbody>${body}</tbody>`;
+
+  const ncrSummaryEl = $('ncrSummary');
+  if(ncrSummaryEl){
+    const byProj = {};
+    openAll.forEach(n=>{ if(n.project) byProj[n.project] = (byProj[n.project]||0)+1; });
+    ncrSummaryEl.innerHTML = Object.entries(byProj).sort((a,b)=>b[1]-a[1]).map(([k,v])=>{
+      const s = stages.find(x=>x['프로젝트']===k) || {};
+      const issued = isNumLike(s.NCR_Total)?num(s.NCR_Total):'-';
+      const closed = isNumLike(s.NCR_Done)?num(s.NCR_Done):'-';
+      return `<div class="signal-item">
+        <div class="top"><span class="code">${esc(k)}</span><span class="kind">미결 ${v}건</span></div>
+        <div class="msg">발생 ${issued} · 종결 ${closed}</div>
+      </div>`;
+    }).join('') || '<div class="empty-state">데이터 없음</div>';
+  }
+}
+
 
 const TRIP_PURPOSES = ['FAT','PIM','Monitoring','공장검사','업체실사','업체감사','교육','현안미팅'];
 function purposeKey(p){
@@ -1680,6 +2674,11 @@ function bindControls(){
     const el = $(id); if(el) el.addEventListener('input', renderTpaMonthlyPage);
   });
   const tpps=$('tpaProjSelect'); if(tpps) tpps.addEventListener('change', renderTpaProjChart);
+  ['ncrFilterProject','ncrFilterWorkScope','ncrFilterWsMiddle','ncrFilterWsMinor',
+   'ncrFilterRootCause','ncrFilterRcMiddle','ncrFilterProcessing'].forEach(id=>{
+    const el = $(id); if(el) el.addEventListener('change', renderNcrPage);
+  });
+  const ncrS = $('ncrSearch'); if(ncrS) ncrS.addEventListener('input', renderNcrPage);
 }
 
 /* === TPA Warning 로직 === */
@@ -1714,7 +2713,7 @@ function renderProjectsPage(){
   const q = ($('projectSearch')?.value || '').trim().toLowerCase();
   const st = sel.value;
   const stages = RAW['프로젝트_구매품질 실적'] || [];
-  const ncrs = RAW['프로젝트_미결 NCR 현황'] || [];
+  const ncrs = getNcrRecords();
   const tpa  = RAW['TPA_집행현황'] || [];
   const rows = projects.filter(p=>{
     if(st && p['단계']!==st) return false;
@@ -1740,7 +2739,7 @@ function renderProjectsPage(){
     const w = weightedProgress(s);
     const progStr = w ? (w.value===100?'100.0':Math.min(w.value,99.9).toFixed(1))+'%' : '-';
     const progValue = w ? w.value : 0;
-    const ncrOpen = ncrs.filter(n=>n.Project_Code===p['프로젝트']).length;
+    const ncrOpen = ncrs.filter(n=>n.project===p['프로젝트'] && isNcrOpen(n)).length;
     const ncrTotal = num(s.NCR_Total);
     const rawProg = pctRaw(p['공정률']);
     const rawProgVal = rawProg != null ? Math.min(Math.max(rawProg, 0), 100) : 0;
@@ -1809,60 +2808,9 @@ function renderStagePage(){
   renderTpaPage();
 }
 
-/* ────────────── 프로젝트 > NCR 현황 ────────────── */
-function renderNcrPage(){
-  const ncrs = RAW['프로젝트_미결 NCR 현황'] || [];
-  const stages = RAW['프로젝트_구매품질 실적'] || [];
+/* ────────────── 프로젝트 > NCR 현황: renderNcrPage → NCR 모듈 ────────────── */
 
-  let totalIssued=0, totalClosed=0;
-  stages.forEach(s=>{ if(isNumLike(s.NCR_Total)){ totalIssued+=num(s.NCR_Total); totalClosed+=num(s.NCR_Done); } });
-  const long = ncrs.filter(n=>num(n.Days_to_Date)>=180).length;
-  const recent = ncrs.filter(n=>num(n.Days_to_Date)<60).length;
-  const closedRate = totalIssued>0 ? (totalClosed/totalIssued*100).toFixed(1)+'%' : '-';
-
-  $('ncrKpis').innerHTML = [
-    {label:'OPEN NCR',val:ncrs.length,unit:'건',cls:'danger'},
-    {label:'TOTAL ISSUED',val:totalIssued,unit:'건',cls:'accent'},
-    {label:'CLOSE RATE',val:closedRate,sub:`종결 ${totalClosed}건`,cls:'ok'},
-    {label:'LONG OPEN',val:long,unit:'건',sub:`최근 60일 내 ${recent}건`,cls:'warn'}
-  ].map(k=>`<div class="kpi ${k.cls}">
-    <div class="kpi-label">${esc(k.label)}</div>
-    <div class="kpi-val">${typeof k.val==='string'?esc(k.val):k.val}${k.unit?`<span class="unit">${esc(k.unit)}</span>`:''}</div>
-    <div class="kpi-sub">${esc(k.sub||'')}</div>
-  </div>`).join('');
-
-  $('ncrTbl').innerHTML = `<thead><tr>
-    <th class="ctr">S/N</th><th>프로젝트</th><th>NCR No.</th><th>Item</th><th>Vendor</th>
-    <th class="wide">Title</th><th class="ctr">Issue Date</th><th class="ctr">경과일</th>
-  </tr></thead><tbody>${ncrs.length===0 ? emptyRow(8,'Excel을 업로드하면 미결 NCR이 표시됩니다.') : ncrs.map(n=>{
-    const days = num(n.Days_to_Date);
-    const cls = days>=180?'danger':days>=90?'warn':'neutral';
-    return `<tr>
-      <td class="ctr code">${esc(n.Serial_Number)}</td>
-      <td class="code">${esc(n.Project_Code)}</td>
-      <td class="left nowrap"><span class="code">${esc(n.NCR_Number)}</span></td>
-      <td class="left">${esc(n.Item)}</td>
-      <td class="left">${esc(n.Vendor)}</td>
-      <td class="left wide">${esc(n.NCR_Title)}</td>
-      <td class="ctr nowrap"><span class="date-code">${excelDate(n.Issue_Date)}</span></td>
-      <td class="ctr"><span class="tag ${cls}">${days}일</span></td>
-    </tr>`;
-  }).join('')}</tbody>`;
-
-  const byProj = {};
-  ncrs.forEach(n=>{ byProj[n.Project_Code] = (byProj[n.Project_Code]||0)+1; });
-  $('ncrSummary').innerHTML = Object.entries(byProj).sort((a,b)=>b[1]-a[1]).map(([k,v])=>{
-    const s = stages.find(x=>x['프로젝트']===k) || {};
-    const issued = isNumLike(s.NCR_Total)?num(s.NCR_Total):'-';
-    const closed = isNumLike(s.NCR_Done)?num(s.NCR_Done):'-';
-    return `<div class="signal-item">
-      <div class="top"><span class="code">${esc(k)}</span><span class="kind">미결 ${v}건</span></div>
-      <div class="msg">발생 ${issued} · 종결 ${closed}</div>
-    </div>`;
-  }).join('') || '<div class="empty-state">데이터 없음</div>';
-}
-
-/* ────────────── PQAN ────────────── */
+/* ────────────── PQAN/* ────────────── PQAN ────────────── */
 let _pqanPopover;
 function ensurePqanPopover(){
   if(_pqanPopover) return _pqanPopover;
@@ -3684,9 +4632,12 @@ async function handleRawUpload(e){
     }
     console.log('[Upload] parseXLSX 시작...');
     const workbook = await parseXLSX(await file.arrayBuffer());
+    if(workbook[NCR_SHEET_LEGACY] && !workbook[NCR_SHEET]){
+      workbook[NCR_SHEET] = workbook[NCR_SHEET_LEGACY];
+    }
     const foundSheets = Object.keys(workbook);
     const expectedSheets = Object.keys(SHEET_FIELDS);
-    const matched = foundSheets.filter(s=>SHEET_FIELDS[s]);
+    const matched = foundSheets.filter(s=>SHEET_FIELDS[s] || s===NCR_SHEET_LEGACY);
     const missing = expectedSheets.filter(s=>!workbook[s]);
     console.log('[Upload] 파일 내 시트:', foundSheets);
     console.log('[Upload] 매칭된 시트:', matched);
@@ -3694,8 +4645,15 @@ async function handleRawUpload(e){
     Object.keys(SHEET_FIELDS).forEach(s=>{ RAW[s] = []; });
     Object.keys(workbook).forEach(s=>{
       if(SHEET_FIELDS[s]){
-        RAW[s] = workbook[s];
-        console.log(`[Upload] ${s}: ${workbook[s].length}행 로드됨`);
+        if(s === NCR_SHEET){
+          const result = processNcrUpload(workbook[s]);
+          RAW[s] = result.records;
+          console.log(`[Upload] ${s}: ${result.records.length}행 정규화됨`);
+          if(result.warnings.length) console.warn('[Upload] NCR validation:', result.warnings);
+        } else {
+          RAW[s] = workbook[s];
+          console.log(`[Upload] ${s}: ${workbook[s].length}행 로드됨`);
+        }
       }
     });
     if(matched.length === 0){
@@ -3832,7 +4790,7 @@ const README_CONTENT = [
   {text:'플랜트구매품질팀 통합관리 대시보드 - Excel 입력 양식', style:1, height:27.95},
   {text:null},
   {text:'사용 방법', style:2, height:17.25},
-  {text:'1. 아래 시트탭의 각 시트(프로젝트_현황 / 프로젝트_구매품질 실적 / 프로젝트_미결 NCR 현황 / PQAN / TPA_목록 / TPA_집행현황 / TPA_월별대금청구현황 / 인력운영_현황 / 인력운영_세부내역 / 출장현황 / 주요현안)에 데이터를 입력합니다.', style:0, height:18},
+  {text:'1. 아래 시트탭의 각 시트(프로젝트_현황 / 프로젝트_구매품질 실적 / 프로젝트_NCR처리현황 / PQAN / TPA_목록 / TPA_집행현황 / TPA_월별대금청구현황 / 인력운영_현황 / 인력운영_세부내역 / 출장현황 / 주요현안)에 데이터를 입력합니다.', style:0, height:18},
   {text:'2. 1행의 컬럼명(헤더)은 절대 변경하지 마세요. 시트명도 그대로 유지해야 합니다.', style:0, height:18},
   {text:'3. 데이터는 2행부터 입력합니다. 컬럼 순서는 자유롭게 변경해도 됩니다.', style:0, height:18},
   {text:"4. 작성이 끝나면 이 파일을 저장하고, 대시보드 HTML을 열어 'Excel 업로드' 버튼으로 불러옵니다.", style:0, height:18},
@@ -3844,9 +4802,10 @@ const README_CONTENT = [
   {text:"• 단계 컬럼: 'Active', 'Mechanical Completion', 'Bid' 중 하나로 입력해주세요.", style:0, height:18},
   {text:'• Mechanical Completion 상태 프로젝트는 TPA Warning 로직에서 자동 제외됩니다.', style:0, height:18},
   {text:'• 프로젝트_현황 시트의 계약가는 백만 단위 (USD M / KRW M)로 입력합니다.', style:0, height:18},
-  {text:'• 날짜 필드(Issue_Date, 출발일, 복귀일, PQAN 배포일자, 업무 종료 예상 시기)는 Excel 날짜 형식으로 입력해주세요.', style:0, height:18},
+  {text:'• 날짜 필드(Issue Date / Due Date / Closed Date, 출발일, 복귀일, PQAN 배포일자 등)는 Excel 날짜 형식 또는 YYYY-MM-DD로 입력해주세요.', style:0, height:18},
   {text:null},
   {text:'신규 시트 입력 가이드', style:2, height:17.25},
+  {text:'• 프로젝트_NCR처리현황 시트: Main Vendor / Sub Vendor / 공종 / Issued by 포함 flat 컬럼. 작업공종·근본원인·처리분류는 대·중·(소)분류 분리 입력 후 HPMS 계층으로 자동 변환됩니다. Action Status 컬럼은 대시보드 확장 행에서 직접 입력 후 Excel 재다운로드 시 자동 저장됩니다.', style:0, height:18},
   {text:'• PQAN 시트: 동일 PQAN No. 중복 입력 허용 (이미지/내용을 여러 행으로 분리). 대시보드는 자동으로 통합 표시합니다.', style:0, height:18},
   {text:'  - 이미지 URL (Teams) 컬럼은 Teams 채널 메시지의 공유 링크를 그대로 입력합니다. 화면에는 직접 노출되지 않고 hover/click 팝오버로 표시됩니다.', style:0, height:18},
   {text:'• TPA_목록 시트: 등록평가 · 정기평가 점수는 100점 만점 기준 숫자(예: 71, 93.3) 또는 텍스트(N/A 등)로 입력합니다.', style:0, height:18},
@@ -3869,7 +4828,7 @@ const README_CONTENT = [
 const SHEET_COLS = {
   '프로젝트_현황':           {A:14, B:22, C:22, D:22, E:22, F:14, G:14},
   '프로젝트_구매품질 실적':   {A:14},
-  '프로젝트_미결 NCR 현황':  {A:10, B:14, C:30},
+  '프로젝트_NCR처리현황':  {A:10, B:14, C:16, D:14, E:20, F:18, G:18, H:12, I:28, J:12, K:12, L:10, M:14, N:14, O:14, P:14, Q:14, R:14, S:36, T:36},
   'PQAN':                  {A:8, B:18, C:14, F:10, J:12, N:32, O:24, P:24, U:42, V:42, W:42, X:48},
   'TPA_목록':               {A:8, B:14, C:14, D:18, E:18},
   'TPA_집행현황':           {A:14, B:24},
@@ -3954,7 +4913,8 @@ function buildXLSX(){
       const r = ri+2;
     xml += `<row r="${r}">`;
       fields.forEach((f,i)=>{
-        const v = row[f];
+        const src = sname === NCR_SHEET ? flattenNcrRow(row) : row;
+        const v = src[f];
         if(v===null||v===undefined||v==='') return;
         const cellRef = colLetter(i)+r;
         if(typeof v === 'number' || (isNumLike(v) && typeof v !== 'boolean' && String(v).trim() !== '')){
@@ -4063,6 +5023,7 @@ function zipFiles(files){
 }
 
 function init(){
+  ensureNcrNormalized();
   setReportDate();
   bindTabs();
   bindControls();
