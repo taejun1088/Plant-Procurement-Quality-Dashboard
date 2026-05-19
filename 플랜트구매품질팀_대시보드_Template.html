@@ -47,7 +47,7 @@ body{
   font-family:'Noto Sans KR','Malgun Gothic','Apple SD Gothic Neo',sans-serif;
   background:var(--bg);
   color:var(--text);
-  font-size:14.5px;line-height:1.5;
+  font-size:14px;line-height:1.5;
   font-feature-settings:"ss01","cv11";
   -webkit-font-smoothing:antialiased;
   min-height:100vh;
@@ -61,25 +61,25 @@ button{cursor:pointer;border:none;background:none}
 ::-webkit-scrollbar-thumb:hover{background:#94A3B8}
 
 /* ============================================================
-   Mythos-style 보고서 헤더
+   보고서 헤더
    ============================================================ */
 .sticky-shell{position:sticky;top:0;z-index:1000;background:#fff}
 .report-head{
   background:#fff;
-  padding:18px 32px 0;
+  padding:12px 32px 0;
+  display:flex;align-items:center;gap:12px;flex-wrap:wrap;
 }
-.hd-top{
-  display:flex;justify-content:space-between;align-items:flex-end;
-  padding-bottom:10px;gap:24px;flex-wrap:wrap;
+.hd-right{
+  display:flex;flex-direction:column;align-items:flex-end;gap:8px;flex:1;min-width:0;
 }
 .hd-brand{
-  font-size:25px;font-weight:800;color:var(--ink);
+  font-size:21px;font-weight:800;color:var(--ink);
   line-height:1;letter-spacing:-.025em;
   font-family:'Noto Sans KR','Malgun Gothic','Apple SD Gothic Neo',sans-serif;
 }
 .hd-brand .kicker{
-  display:block;font-size:11.5px;font-weight:500;color:var(--muted);
-  margin-bottom:6px;letter-spacing:.14em;text-transform:uppercase;
+  display:block;font-size:11px;font-weight:500;color:var(--muted);
+  margin-bottom:4px;letter-spacing:.14em;text-transform:uppercase;
   font-family:'JetBrains Mono','Noto Sans KR','Malgun Gothic',monospace;
 }
 .hd-meta{
@@ -88,18 +88,18 @@ button{cursor:pointer;border:none;background:none}
 .fx-pill{
   display:inline-flex;align-items:center;gap:8px;
   background:#F4F7FB;border:1px solid #DBE3EE;
-  border-radius:999px;padding:6px 12px;
+  border-radius:999px;padding:7px 12px;
   font-family:'Noto Sans KR','Malgun Gothic','Apple SD Gothic Neo',sans-serif;
 }
 .fx-pill .lbl{font-size:9.5px;font-weight:700;color:var(--navy);letter-spacing:.1em}
 .fx-pill input{
-  width:72px;border:none;background:transparent;text-align:right;
+  width:70px;border:none;background:transparent;text-align:right;margin-left:0px;
   font-size:13px;font-weight:700;color:var(--ink);
   font-family:'JetBrains Mono','Noto Sans KR','Malgun Gothic',monospace;outline:none;
 }
 .fx-pill .src{font-size:9.5px;color:var(--muted);font-weight:500;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .hd-date{
-  text-align:right;
+  text-align:right;padding-right:1px;
   font-family:'Noto Sans KR','Malgun Gothic','Apple SD Gothic Neo',sans-serif;
 }
 .hd-date .top{
@@ -113,7 +113,10 @@ button{cursor:pointer;border:none;background:none}
 }
 .hd-actions{
   display:flex;align-items:center;gap:8px;flex-wrap:wrap;
-  padding-bottom:12px;justify-content:flex-end;
+  padding-bottom:0px;justify-content:flex-end;
+}
+.hd-actions label.btn,.hd-actions button.btn{
+  min-width:120px;justify-content:center;height:32px;box-sizing:border-box;padding-top:0;padding-bottom:0;
 }
 .btn{
   display:inline-flex;align-items:center;gap:6px;
@@ -127,7 +130,7 @@ button{cursor:pointer;border:none;background:none}
 .btn .ic{font-family:'JetBrains Mono','Noto Sans KR','Malgun Gothic',monospace;font-weight:700;font-size:11px}
 .file-hidden{display:none}
 
-.hd-rule{height:2px;background:var(--navy)}
+.hd-rule{height:2px;background:var(--navy);flex-basis:100%;}
 
 /* ============================================================
    탭
@@ -138,7 +141,7 @@ button{cursor:pointer;border:none;background:none}
   padding:0 28px;display:flex;flex-wrap:wrap;gap:0;
 }
 .tab{
-  border:none;background:transparent;padding:11px 16px;
+  border:none;background:transparent;padding:10px 15px;
   font-size:13px;font-weight:600;color:var(--sub);
   border-bottom:2px solid transparent;margin-bottom:-1px;
   white-space:nowrap;transition:.15s;letter-spacing:-.01em;cursor:pointer;
@@ -160,7 +163,7 @@ button{cursor:pointer;border:none;background:none}
 }
 .subtabs.hidden{display:none}
 .subtab{
-  border:none;background:transparent;padding:9px 14px;
+  border:none;background:transparent;padding:10px 13px;
   font-size:12.5px;font-weight:500;color:var(--sub);
   border-bottom:2px solid transparent;margin-bottom:-1px;
   white-space:nowrap;transition:.15s;letter-spacing:-.01em;cursor:pointer;
@@ -171,16 +174,16 @@ button{cursor:pointer;border:none;background:none}
 /* ============================================================
    페이지 / 그리드
    ============================================================ */
-.page{display:none;max-width:1640px;margin:0 auto;padding:24px 32px 48px}
+.page{display:none;max-width:1800px;margin:0 auto;padding:16px 28px 28px}
 .page.on{display:block}
-.grid{display:grid;gap:14px}
+.grid{display:grid;gap:12px}
 .g2{grid-template-columns:1fr 1fr}
 .g3{grid-template-columns:repeat(3,1fr)}
 .g4{grid-template-columns:repeat(4,1fr)}
 .g5{grid-template-columns:repeat(5,1fr)}
 .g31{grid-template-columns:3fr 1fr}
 .g21{grid-template-columns:2fr 1fr}
-.h-sep{height:18px}
+.h-sep{height:10px}
 
 /* ============================================================
    섹션 타이틀 (편집기 미감)
@@ -214,7 +217,7 @@ button{cursor:pointer;border:none;background:none}
   overflow:hidden;
 }
 .card-hd{
-  padding:14px 18px 12px;
+  padding:10px 16px 9px;
   border-bottom:1px solid var(--line2);
   display:flex;align-items:center;justify-content:space-between;gap:10px;
   background:#fff;
@@ -233,7 +236,7 @@ button{cursor:pointer;border:none;background:none}
   background:none;border:none;padding:0 0 0 2px;letter-spacing:0;
   margin-left:2px;align-self:flex-end;
 }
-.card-body{padding:16px 18px}
+.card-body{padding:13px 16px}
 .card-body.flush{padding:0}
 
 /* ============================================================
@@ -241,8 +244,8 @@ button{cursor:pointer;border:none;background:none}
    ============================================================ */
 .kpi{
   background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);
-  padding:16px 18px;position:relative;
-  display:flex;flex-direction:column;gap:6px;min-height:110px;
+  padding:12px 16px;position:relative;
+  display:flex;flex-direction:column;gap:5px;min-height:94px;
 }
 .kpi-label{
   font-size:11px;font-weight:600;color:var(--sub);
@@ -250,7 +253,7 @@ button{cursor:pointer;border:none;background:none}
   font-family:'JetBrains Mono','Noto Sans KR','Malgun Gothic',monospace;
 }
 .kpi-val{
-  font-size:31px;font-weight:700;color:var(--ink);
+  font-size:27px;font-weight:700;color:var(--ink);
   letter-spacing:-.03em;line-height:1.05;
   font-feature-settings:"tnum";
   font-family:'Noto Sans KR','Malgun Gothic','Apple SD Gothic Neo',sans-serif;
@@ -278,14 +281,14 @@ button{cursor:pointer;border:none;background:none}
 .card-fill .card-body{flex:1;overflow:hidden;min-height:0}
 .card-fill .tbl-wrap{height:100%;overflow-y:auto;overflow-x:auto}
 #stage>.card:first-child .card-body{padding-bottom:0px}
-#tpaByYearTbl thead th{position:sticky;top:0;z-index:2;background:var(--soft);box-shadow:0 1px 0 var(--line)}
+#tpaByYearTbl thead th{position:sticky;top:0;z-index:2;background:var(--soft);box-shadow:0 1px 0 var(--line);border-bottom:none}
 #tpaByYearTbl{font-size:11.5px}
 #tpaByYearTbl th{font-size:11.5px}
 .tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:13px}
 .tbl th{
   background:var(--soft);color:var(--ink);
   border-bottom:1px solid var(--line);
-  padding:10px 12px;text-align:left;font-weight:600;font-size:11.5px;
+  padding:8px 10px;text-align:left;font-weight:600;font-size:11.5px;
   white-space:nowrap;position:sticky;top:0;z-index:2;
   letter-spacing:.06em;text-transform:uppercase;
   font-family:'JetBrains Mono','Noto Sans KR','Malgun Gothic',sans-serif;
@@ -299,10 +302,11 @@ button{cursor:pointer;border:none;background:none}
 }
 .tbl td{
   border-bottom:1px solid var(--line2);
-  padding:11px 12px;vertical-align:middle;line-height:1.4;
+  padding:9px 10px;vertical-align:middle;line-height:1.4;
   background:#fff;
 }
 .tbl tr:last-child td{border-bottom:none}
+#projectTbl thead tr:first-child th,#ncrTbl thead tr:first-child th,#tpaMonthlyTbl thead tr:first-child th,#tripTbl thead tr:first-child th{border-top:1px solid var(--line)}
 .tbl tr:hover td{background:#FAFBFD}
 .tbl .num{text-align:right;font-variant-numeric:tabular-nums;font-family:'JetBrains Mono','Noto Sans KR','Malgun Gothic',monospace;font-weight:500}
 .tbl .ctr{text-align:center}
@@ -320,10 +324,12 @@ button{cursor:pointer;border:none;background:none}
 .tbl.compact th{padding:2px 12px}
 .tbl .date-code{font-family:'JetBrains Mono','Noto Sans KR','Malgun Gothic',monospace;font-weight:600;color:var(--sub);font-size:12px;letter-spacing:.02em}
 .tbl th.sortable{cursor:pointer}
-.tbl th.sticky2{top:38px}
+.tbl th.sticky2{top:30px}
 .tbl td.money-r{padding-right:18px}
 #tpaTbl td.money-r{padding-right:48px}
 .tbl td.num-r{padding-right:16px}
+#tpaMonthlyTbl td.num-r{padding-right:16px}
+#tpaByYearTbl td.num-r{padding-right:28px}
 .tbl td.spark{padding:4px 6px}
 .tbl td.note{min-width:100px;text-align:center}
 .tbl th.w-160{min-width:160px}
@@ -412,13 +418,17 @@ button{cursor:pointer;border:none;background:none}
   border-radius:999px;border:1px solid rgba(180,35,24,.2);
 }
 /* 미결 NCR 목록 */
-.ncr-open-item{
-  display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:6px;
-  padding:7px 14px;cursor:pointer;border-bottom:1px solid var(--line2);
-  transition:background .12s;user-select:none;
+.ncr-open-tbl{width:100%;border-collapse:collapse}
+.ncr-open-tbl thead th{
+  padding:8px 14px;background:var(--soft);border-bottom:1px solid var(--line);
+  font-size:10px;font-weight:700;color:var(--sub);letter-spacing:.06em;text-transform:uppercase;text-align:left;
 }
-.ncr-open-item:last-child{border-bottom:none}
-.ncr-open-item:hover{background:#F0F4FA}
+.ncr-open-tbl thead th:nth-child(2),.ncr-open-tbl thead th:nth-child(3){text-align:center}
+.ncr-open-tbl tbody tr{cursor:pointer;transition:background .12s;user-select:none}
+.ncr-open-tbl tbody tr:hover td{background:#F0F4FA}
+.ncr-open-tbl tbody td{padding:7px 14px;vertical-align:middle;border-bottom:1px solid var(--line2)}
+.ncr-open-tbl tbody tr:last-child td{border-bottom:none}
+.ncr-open-tbl tbody td:nth-child(2),.ncr-open-tbl tbody td:nth-child(3){text-align:center}
 .ncr-oi-no{font-size:11.5px;font-family:'JetBrains Mono','Noto Sans KR',monospace;font-weight:600;
   overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink)}
 .ncr-oi-proj{font-size:10px;font-weight:600;color:var(--navy);
@@ -431,7 +441,7 @@ button{cursor:pointer;border:none;background:none}
 .ncr-proj-sub td{font-size:11px;color:var(--sub)}
 /* HPMS 테이블 */
 .ncr-hpms-tbl{width:100%;border-collapse:collapse;font-size:11.5px}
-.ncr-hpms-tbl thead th{padding:6px 10px;background:var(--soft);font-size:10px;font-weight:700;
+.ncr-hpms-tbl thead th{padding:8px 10px;background:var(--soft);font-size:10px;font-weight:700;
   color:var(--navy);letter-spacing:.05em;text-transform:uppercase;
   border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}
 .ncr-hpms-tbl thead th.ctr{text-align:center}
@@ -494,8 +504,11 @@ button{cursor:pointer;border:none;background:none}
 #ncr .tbl{table-layout:fixed;width:100%}
 #ncr .tbl th,#ncr .tbl td{padding:7px 5px;font-size:11.5px;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 #ncr .tbl th{font-size:10px;letter-spacing:.03em}
+#ncr #ncrProjTbl thead th{padding-top:8px;padding-bottom:8px}
 #ncr .tbl td.ncr-left{text-align:left}
-#ncr .tbl .code,#ncr .tbl .date-code{font-size:inherit}
+#ncr .tbl .code,#ncr .tbl .date-code{font-size:inherit;color:var(--ink)}
+#ncr .tbl .muted{color:var(--ink)}
+.ncr-active{color:var(--ink)!important;font-weight:700}
 #ncr .tbl .ncr-no{white-space:normal;overflow:visible;word-break:break-all;text-overflow:clip}
 .ncr-hpms-group{background:var(--navy);color:#fff;font-size:9px;font-weight:800;letter-spacing:.06em;text-align:center;padding:5px 4px}
 
@@ -1060,11 +1073,12 @@ button{cursor:pointer;border:none;background:none}
 }
 @media(max-width:760px){
   body{font-size:13.5px}
-  .page{padding:16px}
+  .page{padding:12px 14px 20px}
   .g5,.g4,.g3,.g2{grid-template-columns:1fr}
   .hd-meta{flex-direction:column;align-items:flex-start;gap:10px}
   .hd-date{text-align:left}
-  .tab{padding:11px 14px}
+  .tab{padding:9px 12px}
+  .h-sep{height:8px}
 }
 
 /* ============================================================
@@ -1074,8 +1088,8 @@ button{cursor:pointer;border:none;background:none}
 @media(max-width:430px){
 
   /* ── 헤더 ── */
-  .report-head{padding:10px 12px 0}
-  .hd-top{flex-direction:column;align-items:flex-start;gap:8px;padding-bottom:6px}
+  .report-head{padding:10px 12px 0;flex-direction:column;align-items:flex-start;gap:8px;}
+  .hd-right{flex-direction:column;align-items:flex-start;width:100%;}
   .hd-brand{font-size:17px;letter-spacing:-.02em}
   .hd-brand .kicker{font-size:9.5px;margin-bottom:3px;letter-spacing:.1em}
 
@@ -1268,8 +1282,6 @@ button{cursor:pointer;border:none;background:none}
 .purpose-현안미팅  {background:#FFF2CC;border-color:#E8D08A;color:#7A5A0A}
 .purpose-기타      {background:#EEF2F7;border-color:#D5DEE9;color:#475569}
 
-#tripTbl td, #tripTbl th{border-right:1px solid var(--line2)}
-#tripTbl td:last-child, #tripTbl th:last-child{border-right:none}
 
 /* ─ TPA list / monthly billing ─ */
 .tpa-score{font-family:'JetBrains Mono','Noto Sans KR',monospace;font-weight:700;
@@ -1283,7 +1295,8 @@ button{cursor:pointer;border:none;background:none}
 #tpaListTbl th,#tpaListTbl td{text-align:center}
 #tpaListTbl thead th{white-space:nowrap}
 #tpaListTbl thead tr:first-child th{border-bottom:1px solid var(--line2)}
-#tpaListTbl thead tr:last-child th{font-size:11px;color:var(--sub);font-weight:600;padding-top:5px;padding-bottom:5px}
+#tpaListTbl thead tr:first-child th[rowspan="2"]{border-bottom:1px solid var(--line)}
+#tpaListTbl thead tr:last-child th{font-size:11px;color:var(--sub);font-weight:600}
 #tpaListTbl th.col-no{width:64px}
 #tpaListTbl th.col-tpa{width:auto}
 #tpaListTbl th.col-score{width:64px}
@@ -1343,15 +1356,15 @@ button{cursor:pointer;border:none;background:none}
 
 <div class="sticky-shell">
 <header class="report-head">
-  <div class="hd-top">
-    <div class="hd-brand">
-      <span class="kicker">HYUNDAI E&amp;C · PLANT PROCUREMENT QUALITY</span>
-      플랜트구매품질팀 통합관리 대시보드
-    </div>
+  <div class="hd-brand">
+    <span class="kicker">HYUNDAI E&amp;C · PLANT PROCUREMENT QUALITY</span>
+    플랜트구매품질팀 통합관리 대시보드
+  </div>
+  <div class="hd-right">
     <div class="hd-meta">
       <div class="fx-pill" data-tip="원달러 매매기준율을 자동으로 조회합니다.&#10;실패 시 직접 입력하세요.">
         <span class="lbl">KRW/USD</span>
-        <input id="fxInput" type="number" step="0.01" value="1473.00" />
+        <input id="fxInput" type="number" step="0.01" value="1450.00" />
         <span class="src" id="fxSource">자동조회 중</span>
       </div>
       <div class="hd-date">
@@ -1359,11 +1372,11 @@ button{cursor:pointer;border:none;background:none}
         <span class="day" id="reportDate">-</span>
       </div>
     </div>
-  </div>
-  <div class="hd-actions">
-    <label class="btn"><input class="file-hidden" type="file" id="rawUpload" accept=".xlsx,.xls" /><span class="ic">↑</span>Excel 업로드</label>
-    <button class="btn" onclick="downloadRawExcel()"><span class="ic">↓</span>Excel 다운로드</button>
-    <button class="btn primary" onclick="downloadStaticHTML()" data-tip="현재 화면을 단일 HTML 파일로 저장합니다.&#10;임원 보고용으로 사용하세요 (Excel 첨부 불필요)."><span class="ic">⎙</span>보고용 HTML 저장</button>
+    <div class="hd-actions">
+      <label class="btn"><input class="file-hidden" type="file" id="rawUpload" accept=".xlsx,.xls" /><span class="ic">↑</span>Excel 업로드</label>
+      <button class="btn" onclick="downloadRawExcel()"><span class="ic">↓</span>Excel 다운로드</button>
+      <button class="btn primary" onclick="downloadStaticHTML()" data-tip="현재 화면을 단일 HTML 파일로 저장합니다.&#10;임원 보고용으로 사용하세요 (Excel 첨부 불필요)."><span class="ic">⎙</span>보고용 HTML 저장</button>
+    </div>
   </div>
   <div class="hd-rule"></div>
 </header>
@@ -1372,10 +1385,10 @@ button{cursor:pointer;border:none;background:none}
 <nav class="tabs">
   <button class="tab on" data-page="issues"><span class="num">01</span>주요현안</button>
   <button class="tab" data-page="projects" data-group="projects"><span class="num">02</span>프로젝트</button>
-  <button class="tab" data-page="pqan"><span class="num">03</span>PQAN</button>
-  <button class="tab" data-page="tpa" data-group="tpa"><span class="num">04</span>TPA</button>
-  <button class="tab" data-page="manpower"><span class="num">05</span>인력운영현황</button>
-  <button class="tab" data-page="trip"><span class="num">06</span>출장현황</button>
+  <button class="tab" data-page="tpa" data-group="tpa"><span class="num">03</span>TPA</button>
+  <button class="tab" data-page="pqan"><span class="num">04</span>PQAN</button>
+  <button class="tab" data-page="manpower"><span class="num">05</span>인력운영</button>
+  <button class="tab" data-page="trip"><span class="num">06</span>출장</button>
 </nav>
 <nav class="subtabs hidden" id="projectsSubtabs">
   <button class="subtab on" data-page="projects">통합현황</button>
@@ -1400,8 +1413,11 @@ button{cursor:pointer;border:none;background:none}
       <div class="card-title"><span class="bar"></span>프로젝트 현황</div>
     </div>
     <div class="filters" style="padding:10px 16px">
-      <input class="input" id="projectSearch" placeholder="프로젝트 / 발주처 / 국가 검색" style="min-width:260px" />
-      <select class="select" id="projectStatusFilter"><option value="">전체 단계</option></select>
+      <input class="input" id="projectSearchProj"    placeholder="프로젝트 검색"  style="width:130px">
+      <input class="input" id="projectSearchStage"   placeholder="단계 검색"      style="width:130px">
+      <input class="input" id="projectSearchClient"  placeholder="발주처 검색"    style="width:130px">
+      <input class="input" id="projectSearchCountry" placeholder="국가 검색"      style="width:130px">
+      <span id="projectCount" style="font-size:11px;color:var(--muted)"></span>
     </div>
     <div class="card-body flush"><div class="tbl-wrap"><table class="tbl" id="projectTbl"></table></div></div>
   </div>
@@ -1441,7 +1457,7 @@ button{cursor:pointer;border:none;background:none}
     </div>
     <!-- Card 3: HPMS 분류체계 현황 -->
     <div class="card" style="min-height:280px;display:flex;flex-direction:column">
-      <div class="card-hd"><div class="card-title"><span class="bar"></span>HPMS 분류체계 현황</div></div>
+      <div class="card-hd"><div class="card-title"><span class="bar"></span>HPMS 등록 분류</div></div>
       <div class="card-body flush ncr-sum-scroll" style="flex:1"><div id="ncrHpmsBody"></div></div>
     </div>
   </div>
@@ -1457,6 +1473,9 @@ button{cursor:pointer;border:none;background:none}
       <select class="select" id="ncrFilterRootCause"><option value="">근본원인 대분류</option></select>
       <select class="select" id="ncrFilterRcMiddle"><option value="">근본원인 중분류</option></select>
       <select class="select" id="ncrFilterProcessing"><option value="">처리분류</option></select>
+      <label style="display:flex;align-items:center;gap:5px;font-size:12px;color:var(--ink);cursor:pointer;white-space:nowrap">
+        <input type="checkbox" id="ncrFilterOpen"> 미결만 보기
+      </label>
       <input class="input" id="ncrSearch" placeholder="키워드 검색 (NCR No., 품목, Action Status 등)" style="min-width:200px;flex:1" />
       <span id="ncrCount" style="font-size:11px;color:var(--muted);align-self:center"></span>
     </div>
@@ -1702,7 +1721,7 @@ function ensureNcrOpenPop(){
   el.addEventListener('mouseenter', ()=> clearTimeout(_ncrOpenPopHideTimer));
   el.addEventListener('mouseleave', ()=>{ _ncrOpenPopHideTimer = setTimeout(()=> el.classList.remove('on'), 120); });
   document.addEventListener('click', e=>{
-    if(!el.contains(e.target) && !e.target.closest('.ncr-open-item')) el.classList.remove('on');
+    if(!el.contains(e.target) && !e.target.closest('.ncr-open-tbl tr')) el.classList.remove('on');
   });
   return el;
 }
@@ -1797,17 +1816,19 @@ function renderNcrOpenCard(openAll){
     return da - db;
   });
   _ncrOpenItemMap = new Map(sorted.map(n=>[n._id, n]));
-  el.innerHTML = sorted.map(n=>{
+  el.innerHTML = `<table class="ncr-open-tbl"><thead><tr>
+    <th>NCR No.</th><th>프로젝트</th><th>기한</th>
+  </tr></thead><tbody>${sorted.map(n=>{
     const {cls, label} = ncrDueLabel(ncrDueDays(n));
-    return `<div class="ncr-open-item" data-nid="${esc(n._id)}"
+    return `<tr data-nid="${esc(n._id)}"
       onmouseenter="showNcrOpenPop(this, this.dataset.nid)"
       onmouseleave="hideNcrOpenPop()"
       onclick="jumpToNcr(this.dataset.nid)">
-      <span class="ncr-oi-no" title="${esc(n.ncrNo||'')}">${esc(n.ncrNo||'-')}</span>
-      <span class="ncr-oi-proj" title="${esc(n.project||'')}">${esc(n.project||'-')}</span>
-      <span class="tag ${cls} ncr-oi-days">${esc(label)}</span>
-    </div>`;
-  }).join('');
+      <td><span class="ncr-oi-no" title="${esc(n.ncrNo||'')}">${esc(n.ncrNo||'-')}</span></td>
+      <td><span class="ncr-oi-proj" title="${esc(n.project||'')}">${esc(n.project||'-')}</span></td>
+      <td><span class="tag ${cls} ncr-oi-days">${esc(label)}</span></td>
+    </tr>`;
+  }).join('')}</tbody></table>`;
 }
 
 function renderNcrProjCard(all, openAll, stages){
@@ -2156,6 +2177,7 @@ function filterNcrRecords(records){
   const rc     = $('ncrFilterRootCause')?.value || '';
   const rcM    = $('ncrFilterRcMiddle')?.value  || '';
   const proc   = $('ncrFilterProcessing')?.value|| '';
+  const openOnly = $('ncrFilterOpen')?.checked || false;
   const q      = ($('ncrSearch')?.value || '').trim().toLowerCase();
   return records.filter(r=>{
     if(proj && r.project !== proj) return false;
@@ -2165,6 +2187,7 @@ function filterNcrRecords(records){
     if(rc   && (r.hpmsClassification?.rootCause?.major ||'') !== rc)   return false;
     if(rcM  && (r.hpmsClassification?.rootCause?.middle||'') !== rcM)  return false;
     if(proc && (r.hpmsClassification?.processing?.major||'') !== proc) return false;
+    if(openOnly && r.closedDate) return false;
     if(q && !ncrSearchHaystack(r).includes(q)) return false;
     return true;
   });
@@ -2581,6 +2604,7 @@ function setReportDate(){ const dt=todayKor(); const el=$('reportDate'); if(el) 
 
 async function fetchFx(){
   const sources = [
+    {url:'https://quotation-api-cdn.dunamu.com/v1/forex/recent?codes=FRX.KRWUSD', parse:d=>d?.[0]?.basePrice},
     {url:'https://open.er-api.com/v6/latest/USD', parse:d=>d?.rates?.KRW},
     {url:'https://api.exchangerate-api.com/v4/latest/USD', parse:d=>d?.rates?.KRW}
   ];
@@ -2664,7 +2688,9 @@ function bindControls(){
     if(Number.isFinite(v)&&v>0){FX_RATE=v; $('fxSource').textContent='수동 입력'; renderAll(); toast('환율 적용됨');}
   });
   const up = $('rawUpload'); if(up) up.addEventListener('change',handleRawUpload);
-  const ps = $('projectSearch'); if(ps) ps.addEventListener('input',renderProjectsPage);
+  ['projectSearchProj','projectSearchStage','projectSearchClient','projectSearchCountry'].forEach(id=>{
+    const el = $(id); if(el) el.addEventListener('input', renderProjectsPage);
+  });
   const psf = $('projectStatusFilter'); if(psf) psf.addEventListener('change',renderProjectsPage);
   ['tripSearchYear','tripSearchTraveler','tripSearchProject','tripSearchPurpose','tripSearchCountry','tripSearchVendor'].forEach(id=>{
     const el = $(id); if(el) el.addEventListener('input', renderTripPage);
@@ -2678,6 +2704,7 @@ function bindControls(){
    'ncrFilterRootCause','ncrFilterRcMiddle','ncrFilterProcessing'].forEach(id=>{
     const el = $(id); if(el) el.addEventListener('change', renderNcrPage);
   });
+  const ncrOpen = $('ncrFilterOpen'); if(ncrOpen) ncrOpen.addEventListener('change', renderNcrPage);
   const ncrS = $('ncrSearch'); if(ncrS) ncrS.addEventListener('input', renderNcrPage);
 }
 
@@ -2704,22 +2731,23 @@ function tpaWarnings(row){
 /* ────────────── 프로젝트 > 현황 ────────────── */
 function renderProjectsPage(){
   const projects = RAW['프로젝트_현황'] || [];
-  const statuses = [...new Set(projects.map(p=>p['단계']).filter(Boolean))];
-  const sel = $('projectStatusFilter');
-  if(!sel) return;
-  const cur = sel.value;
-  sel.innerHTML = '<option value="">전체 단계</option>' + statuses.map(s=>`<option value="${esc(s)}" ${s===cur?'selected':''}>${esc(s)}</option>`).join('');
-
-  const q = ($('projectSearch')?.value || '').trim().toLowerCase();
-  const st = sel.value;
+  const qProj    = ($('projectSearchProj')?.value    || '').trim().toLowerCase();
+  const qStage   = ($('projectSearchStage')?.value   || '').trim().toLowerCase();
+  const qClient  = ($('projectSearchClient')?.value  || '').trim().toLowerCase();
+  const qCountry = ($('projectSearchCountry')?.value || '').trim().toLowerCase();
   const stages = RAW['프로젝트_구매품질 실적'] || [];
   const ncrs = getNcrRecords();
   const tpa  = RAW['TPA_집행현황'] || [];
   const rows = projects.filter(p=>{
-    if(st && p['단계']!==st) return false;
-    if(!q) return true;
-    return [p['프로젝트'],p['발주처'],p['국가'],p['PD'],p['PQCM']].some(x=>String(x||'').toLowerCase().includes(q));
+    if(qProj    && !String(p['프로젝트']||'').toLowerCase().includes(qProj))    return false;
+    if(qStage   && !String(p['단계']    ||'').toLowerCase().includes(qStage))   return false;
+    if(qClient  && !String(p['발주처']  ||'').toLowerCase().includes(qClient))  return false;
+    if(qCountry && !String(p['국가']    ||'').toLowerCase().includes(qCountry)) return false;
+    return true;
   });
+  const cntEl = $('projectCount');
+  const hasFilter = qProj||qStage||qClient||qCountry;
+  if(cntEl) cntEl.textContent = hasFilter ? `${rows.length} / ${projects.length}건` : `${projects.length}건`;
 
   // Same headers as Executive Summary 프로젝트 현황 표
   $('projectTbl').innerHTML = `<thead><tr>
@@ -2758,7 +2786,7 @@ function renderProjectsPage(){
       <td><div class="bar-wrap"><div class="bar"><div class="fill ${isMC?'mc':burnCls(rawProgVal, rawProg!=null)}" style="width:${rawProgVal}%"></div></div><span class="pct${rawProg==null?' dim':''}">${rawProg!=null?(rawProgVal===100?'100.0':Math.min(rawProgVal,99.9).toFixed(1))+'%':'-'}</span></div></td>
       <td><div class="bar-wrap"><div class="bar"><div class="fill ${isMC?'mc':burnCls(progValue, !!w)}" style="width:${progValue}%"></div></div><span class="pct${w?'':' dim'}">${progStr}</span></div></td>
       <td><div class="bar-wrap"><div class="bar"><div class="fill ${tpaCls}" style="width:${Math.min(burnB||0,100)}%"></div></div><span class="pct${tpaCls==='dim'?' dim':''}">${burnB!=null?burnB.toFixed(1)+'%':'-'}</span></div></td>
-      <td class="ctr"><span class="date-code">${ncrOpen}</span> <span class="muted">/ ${isNumLike(ncrTotal)?ncrTotal:'-'}</span></td>
+      <td class="ctr"><span class="date-code${+ncrOpen>0?' ncr-active':''}">${ncrOpen} </span> <span class="date-code">/ ${isNumLike(ncrTotal)?ncrTotal:'-'}</span></td>
     </tr>`;
   }).join('')}</tbody>`;
 }
@@ -2787,11 +2815,11 @@ function renderStagePage(){
   $('stageTbl').innerHTML = `<colgroup>
     <col style="width:12%"><col style="width:10%">
     ${STAGE.map(()=>'<col>').join('')}
-    <col>
+    <col style="width:20%">
   </colgroup><thead><tr>
     <th class="ctr">프로젝트</th><th class="ctr">단계</th>
     ${STAGE.map(st=>`<th class="ctr">${st.name}<span class="wf">W ${(st.weight*100).toFixed(0)}%</span></th>`).join('')}
-    <th class="ctr w-160">종합 진척률</th>
+    <th class="ctr">종합 진척률</th>
   </tr></thead><tbody>${stages.length===0 ? emptyRow(8,'Excel을 업로드하면 구매품질 진행현황이 표시됩니다.') : stages.map(s=>{
     const p = projects.find(x=>x['프로젝트']===s['프로젝트']) || {};
     const isMC = p['단계']==='Mechanical Completion';
@@ -4080,7 +4108,11 @@ function renderTpaMonthlyPage(){
       tpaYearSum[tpaName][ym.y] = (tpaYearSum[tpaName][ym.y]||0) + usd;
     tpaTotalSum[tpaName] = (tpaTotalSum[tpaName]||0) + usd;
   });
-  const allTpa = Object.keys(tpaTotalSum).sort((a,b)=>tpaTotalSum[b]-tpaTotalSum[a]);
+  const allTpa = Object.keys(tpaTotalSum).sort((a,b)=>{
+    const sA = years3.reduce((acc,y)=>acc+(tpaYearSum[a]?.[y]||0),0);
+    const sB = years3.reduce((acc,y)=>acc+(tpaYearSum[b]?.[y]||0),0);
+    return sB - sA;
+  });
   $('tpaByYearTbl').innerHTML = `<colgroup><col style="width:28%">${years3.map(()=>`<col style="width:18%">`).join('')}<col style="width:18%"></colgroup><thead><tr>
     <th class="ctr">TPA</th>${years3.map(y=>`<th class="ctr">${y}</th>`).join('')}<th class="ctr">합계</th>
   </tr></thead><tbody>${allTpa.length===0 ? emptyRow(years3.length+2,'데이터 없음') :
@@ -4132,7 +4164,7 @@ function renderTpaMonthlyPage(){
       <td class="ctr code">${esc(fmtYM(r)||'-')}</td>
       <td class="ctr code">${esc(r['프로젝트']||'-')}</td>
       <td class="ctr">${esc(r['TPA']||'-')}</td>
-      <td class="num num-r">${isNumLike(r['지급대금'])?fmt(num(r['지급대금'])):esc(r['지급대금']||'-')}</td>
+      <td class="num num-r" style="padding-right:144px">${isNumLike(r['지급대금'])?fmt(num(r['지급대금'])):esc(r['지급대금']||'-')}</td>
       <td class="ctr muted">${esc(r['단위']||'-')}</td>
     </tr>`).join('')}</tbody>`;
 }
