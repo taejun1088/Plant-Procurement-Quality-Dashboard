@@ -326,7 +326,7 @@ button{cursor:pointer;border:none;background:none}
 .tbl th.sortable{cursor:pointer}
 .tbl th.sticky2{top:30px}
 .tbl td.money-r{padding-right:18px}
-#tpaTbl td.money-r{padding-right:48px}
+#tpaTbl td.money-r{padding-right:52px}
 .tbl td.num-r{padding-right:16px}
 #tpaMonthlyTbl td.num-r{padding-right:16px}
 #tpaByYearTbl td.num-r{padding-right:28px}
@@ -411,47 +411,66 @@ button{cursor:pointer;border:none;background:none}
 #ncr .tbl-wrap{overflow-x:hidden}
 
 /* ── NCR 요약 카드 공통 ── */
+.ncr-card{min-height:280px;display:flex;flex-direction:column}
+.ncr-card .card-body{flex:1}
 .ncr-sum-scroll{overflow-y:auto;max-height:260px}
 .ncr-open-badge{
   background:var(--danger-bg);color:var(--danger);
   font-size:11px;font-weight:700;padding:2px 9px;
   border-radius:999px;border:1px solid rgba(180,35,24,.2);
 }
-/* 미결 NCR 목록 */
-.ncr-open-tbl{width:100%;border-collapse:collapse}
-.ncr-open-tbl thead th{
-  padding:8px 14px;background:var(--soft);border-bottom:1px solid var(--line);
-  font-size:10px;font-weight:700;color:var(--sub);letter-spacing:.06em;text-transform:uppercase;text-align:left;
+/* NCR 카드 공통 테이블 */
+.ncr-tbl{width:100%;border-collapse:collapse;font-size:11.5px}
+.ncr-tbl thead th{
+  padding:7px 10px;line-height:18px;background:var(--soft);
+  font-size:10px;font-weight:700;color:var(--sub);
+  letter-spacing:.06em;text-transform:uppercase;
+  border-bottom:1px solid var(--line);text-align:left;white-space:nowrap
 }
-.ncr-open-tbl thead th:nth-child(2),.ncr-open-tbl thead th:nth-child(3){text-align:center}
+.ncr-tbl .ctr{text-align:center}
+.ncr-tbl tbody td{padding:7px 10px;line-height:18px;border-bottom:1px solid var(--line2);vertical-align:middle}
+.ncr-tbl tbody tr:last-child td{border-bottom:none}
+.ncr-tbl tbody tr:hover td{background:#F0F4FA}
+/* Card 1 – 미결 NCR */
 .ncr-open-tbl tbody tr{cursor:pointer;transition:background .12s;user-select:none}
-.ncr-open-tbl tbody tr:hover td{background:#F0F4FA}
-.ncr-open-tbl tbody td{padding:7px 14px;vertical-align:middle;border-bottom:1px solid var(--line2)}
-.ncr-open-tbl tbody tr:last-child td{border-bottom:none}
 .ncr-open-tbl tbody td:nth-child(2),.ncr-open-tbl tbody td:nth-child(3){text-align:center}
 .ncr-oi-no{font-size:11.5px;font-family:'JetBrains Mono','Noto Sans KR',monospace;font-weight:600;
   overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink)}
-.ncr-oi-proj{font-size:10px;font-weight:600;color:var(--navy);
+.ncr-oi-proj{font-size:10px;font-weight:600;color:var(--navy);line-height:1;
   background:#EEF3FB;border:1px solid #C8D7F0;border-radius:4px;
-  padding:1px 6px;white-space:nowrap;max-width:110px;overflow:hidden;text-overflow:ellipsis}
+  padding:0 6px;white-space:nowrap;max-width:110px;overflow:hidden;text-overflow:ellipsis}
 .ncr-oi-days{font-size:10px;flex:0 0 auto;padding:2px 7px;white-space:nowrap}
 .ncr-open-empty{padding:24px 14px;color:var(--muted);font-size:12px;font-style:italic;text-align:center}
-/* 프로젝트별 현황 sub-row */
-.ncr-proj-head td{background:#F0F4FA;font-weight:700}
-.ncr-proj-sub td{font-size:11px;color:var(--sub)}
-/* HPMS 테이블 */
-.ncr-hpms-tbl{width:100%;border-collapse:collapse;font-size:11.5px}
-.ncr-hpms-tbl thead th{padding:8px 10px;background:var(--soft);font-size:10px;font-weight:700;
-  color:var(--navy);letter-spacing:.05em;text-transform:uppercase;
-  border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}
-.ncr-hpms-tbl thead th.ctr{text-align:center}
-.ncr-hpms-tbl td{padding:6px 10px;border-bottom:1px solid var(--line2);vertical-align:middle}
-.ncr-hpms-tbl tr:last-child td{border-bottom:none}
+/* Card 2 – 프로젝트별 현황 */
+.ncr-proj-head td{font-weight:700}
+.ncr-proj-head{cursor:pointer}
+.ncr-proj-sub td{color:var(--sub)}
+.ncr-proj-sub td:first-child{padding-left:18px}
+/* Card 3 – HPMS */
+.ncr-hpms-tbl thead th:first-child{width:70px}
 .ncr-hpms-tbl .sec-hd td{
   background:#EBF0FA;font-weight:700;font-size:10.5px;color:var(--navy);
   padding:5px 10px;border-bottom:1px solid var(--line);
   font-family:'JetBrains Mono','Noto Sans KR',monospace;letter-spacing:.06em;text-transform:uppercase
 }
+.ncr-hpms-tbl .ncr-rank{font-size:10.5px;color:var(--muted)}
+.ncr-hpms-tbl .ncr-cnt{font-weight:600}
+/* HPMS 3열 레이아웃 */
+.hpms-3col{display:grid;grid-template-columns:repeat(3,1fr)}
+.hpms-col{display:flex;flex-direction:column;min-width:0}
+.hpms-col+.hpms-col{border-left:1px solid var(--line2)}
+.hpms-col-hd{
+  background:#EBF0FA;color:var(--navy);font-weight:700;font-size:10.5px;
+  padding:7px 10px;line-height:18px;letter-spacing:.06em;text-transform:uppercase;
+  font-family:'JetBrains Mono','Noto Sans KR',monospace;
+  border-bottom:1px solid var(--line);flex-shrink:0;
+}
+.hpms-col .ncr-tbl{width:100%}
+.hpms-col .ncr-tbl thead th{padding:7px 10px}
+.hpms-col .ncr-tbl tbody td{padding:7px 10px;font-size:11.5px}
+.hpms-col .ncr-rank{font-size:10px;color:var(--muted);text-align:center;width:28px}
+.hpms-col .ncr-cnt{font-weight:600;text-align:center;width:36px}
+.hpms-col .ncr-tbl tbody tr:last-child td{border-bottom:1px solid var(--line2)}
 /* 미결 NCR 팝오버 */
 .ncr-open-pop{
   position:fixed;z-index:9999;background:#fff;
@@ -504,7 +523,7 @@ button{cursor:pointer;border:none;background:none}
 #ncr .tbl{table-layout:fixed;width:100%}
 #ncr .tbl th,#ncr .tbl td{padding:7px 5px;font-size:11.5px;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 #ncr .tbl th{font-size:10px;letter-spacing:.03em}
-#ncr #ncrProjTbl thead th{padding-top:8px;padding-bottom:8px}
+#ncr #ncrProjTbl thead th{padding-top:7px;padding-bottom:7px}
 #ncr .tbl td.ncr-left{text-align:left}
 #ncr .tbl .code,#ncr .tbl .date-code{font-size:inherit;color:var(--ink)}
 #ncr .tbl .muted{color:var(--ink)}
@@ -1443,22 +1462,21 @@ button{cursor:pointer;border:none;background:none}
   <!-- 요약 카드 3개 -->
   <div class="grid g3" style="align-items:stretch">
     <!-- Card 1: 미결 NCR 현황 -->
-    <div class="card" style="min-height:280px;display:flex;flex-direction:column">
+    <div class="card ncr-card">
       <div class="card-hd">
-        <div class="card-title"><span class="bar"></span>미결 NCR 현황</div>
-        <div class="card-meta"><span id="ncrOpenBadge" class="ncr-open-badge">0건</span></div>
+        <div class="card-title"><span class="bar"></span>미결 NCR 목록<span id="ncrOpenBadge" class="hd-ct">0건</span></div>
       </div>
-      <div class="card-body flush ncr-sum-scroll" style="flex:1"><div id="ncrOpenList"></div></div>
+      <div class="card-body flush ncr-sum-scroll"><div id="ncrOpenList"></div></div>
     </div>
     <!-- Card 2: 프로젝트별 현황 -->
-    <div class="card" style="min-height:280px;display:flex;flex-direction:column">
+    <div class="card ncr-card">
       <div class="card-hd"><div class="card-title"><span class="bar"></span>프로젝트별 현황</div></div>
-      <div class="card-body flush ncr-sum-scroll" style="flex:1"><table class="tbl dense" id="ncrProjTbl"></table></div>
+      <div class="card-body flush ncr-sum-scroll"><table class="ncr-tbl" id="ncrProjTbl"></table></div>
     </div>
     <!-- Card 3: HPMS 분류체계 현황 -->
-    <div class="card" style="min-height:280px;display:flex;flex-direction:column">
+    <div class="card ncr-card">
       <div class="card-hd"><div class="card-title"><span class="bar"></span>HPMS 등록 분류</div></div>
-      <div class="card-body flush ncr-sum-scroll" style="flex:1"><div id="ncrHpmsBody"></div></div>
+      <div class="card-body flush ncr-sum-scroll"><div id="ncrHpmsBody"></div></div>
     </div>
   </div>
   <div class="h-sep"></div>
@@ -1476,7 +1494,7 @@ button{cursor:pointer;border:none;background:none}
       <label style="display:flex;align-items:center;gap:5px;font-size:12px;color:var(--ink);cursor:pointer;white-space:nowrap">
         <input type="checkbox" id="ncrFilterOpen"> 미결만 보기
       </label>
-      <input class="input" id="ncrSearch" placeholder="키워드 검색 (NCR No., 품목, Action Status 등)" style="min-width:200px;flex:1" />
+      <input class="input" id="ncrSearch" placeholder="키워드 검색 (NCR No., PO No., Item, Vendor 등)" style="min-width:200px;flex:1" />
       <span id="ncrCount" style="font-size:11px;color:var(--muted);align-self:center"></span>
     </div>
     <div class="card-body flush"><div class="tbl-wrap"><table class="tbl" id="ncrTbl"></table></div></div>
@@ -1816,8 +1834,8 @@ function renderNcrOpenCard(openAll){
     return da - db;
   });
   _ncrOpenItemMap = new Map(sorted.map(n=>[n._id, n]));
-  el.innerHTML = `<table class="ncr-open-tbl"><thead><tr>
-    <th>NCR No.</th><th>프로젝트</th><th>기한</th>
+  el.innerHTML = `<table class="ncr-tbl ncr-open-tbl"><thead><tr>
+    <th>NCR No.</th><th class="ctr">프로젝트</th><th class="ctr">기한</th>
   </tr></thead><tbody>${sorted.map(n=>{
     const {cls, label} = ncrDueLabel(ncrDueDays(n));
     return `<tr data-nid="${esc(n._id)}"
@@ -1852,30 +1870,41 @@ function renderNcrProjCard(all, openAll, stages){
   });
   const sortedProjects = projects.slice().sort((a,b)=>projTotals[b].open-projTotals[a].open);
   let html = `<thead><tr>
-    <th>프로젝트 / Issued by</th>
-    <th class="ctr" style="width:44px">발생</th>
-    <th class="ctr" style="width:44px">종결</th>
-    <th class="ctr" style="width:44px">미결</th>
+    <th>프로젝트</th>
+    <th class="ctr" style="width:60px">발생</th>
+    <th class="ctr" style="width:60px">종결</th>
+    <th class="ctr" style="width:60px">미결</th>
   </tr></thead><tbody>`;
-  sortedProjects.forEach(p=>{
+  sortedProjects.forEach((p,pi)=>{
     const pt = projTotals[p];
-    html += `<tr class="ncr-proj-head">
+    const gid = `ncrpg-${pi}`;
+    html += `<tr class="ncr-proj-head" data-gid="${gid}">
       <td class="code">${esc(p)}</td>
       <td class="ctr">${pt.total}</td>
-      <td class="ctr ncr-ok-text">${pt.closed}</td>
+      <td class="ctr">${pt.closed}</td>
       <td class="ctr ${pt.open>0?'ncr-danger-text':''}">${pt.open}</td>
     </tr>`;
     Object.entries(data[p]||{}).sort((a,b)=>b[1].total-a[1].total).forEach(([ib,v])=>{
-      html += `<tr class="ncr-proj-sub">
-        <td style="padding-left:18px">↳ ${esc(ib)}</td>
-        <td class="ctr">${v.total}</td>
-        <td class="ctr ncr-ok-text">${v.closed}</td>
-        <td class="ctr ${v.open>0?'ncr-danger-text':''}">${v.open}</td>
+      html += `<tr class="ncr-proj-sub" data-gid="${gid}" style="display:none">
+        <td>↳ ${esc(ib)}</td>
+        <td class="ctr" style="color:var(--ink)">${v.total}</td>
+        <td class="ctr" style="color:var(--ink)">${v.closed}</td>
+        <td class="ctr" style="color:var(--ink)">${v.open}</td>
       </tr>`;
     });
   });
   html += '</tbody>';
   el.innerHTML = html;
+  if(el._projClick) el.removeEventListener('click', el._projClick);
+  el._projClick = function(e){
+    const row = e.target.closest('tr.ncr-proj-head');
+    if(!row) return;
+    const gid = row.dataset.gid;
+    const subs = el.querySelectorAll(`tr.ncr-proj-sub[data-gid="${gid}"]`);
+    const isOpen = subs.length && subs[0].style.display !== 'none';
+    subs.forEach(s=> s.style.display = isOpen ? 'none' : '');
+  };
+  el.addEventListener('click', el._projClick);
 }
 
 function renderNcrHpmsCard(all){
@@ -1887,30 +1916,29 @@ function renderNcrHpmsCard(all){
     {label:'근본원인', getK: n=> n.hpmsClassification?.rootCause?.major||''},
     {label:'처리분류', getK: n=> n.hpmsClassification?.processing?.major||''},
   ];
-  let html = `<table class="ncr-hpms-tbl"><thead><tr>
-    <th style="width:70px">구분</th>
-    <th>분류명</th>
-    <th class="ctr" style="width:44px">건수</th>
-  </tr></thead><tbody>`;
-  secs.forEach(sec=>{
+  const colsHtml = secs.map(sec=>{
     const counts = {};
     all.forEach(n=>{ const k = cleanHpmsName(sec.getK(n)); counts[k]=(counts[k]||0)+1; });
     const entries = Object.entries(counts).sort((a,b)=>b[1]-a[1]);
-    html += `<tr class="sec-hd"><td colspan="3">${esc(sec.label)}</td></tr>`;
+    let rows = '';
     if(!entries.length){
-      html += `<tr><td colspan="3" style="color:var(--muted);font-style:italic;text-align:center;font-size:11px">데이터 없음</td></tr>`;
+      rows = `<tr><td colspan="3" style="color:var(--muted);font-style:italic;text-align:center;font-size:11px;padding:12px">데이터 없음</td></tr>`;
     } else {
-      entries.forEach(([k,cnt],i)=>{
-        html += `<tr>
-          <td class="ctr" style="font-size:10.5px;color:var(--muted)">${i+1}</td>
-          <td>${esc(k)}</td>
-          <td class="ctr" style="font-weight:600">${cnt}</td>
-        </tr>`;
-      });
+      rows = entries.map(([k,cnt],i)=>`<tr>
+        <td class="ctr ncr-rank">${i+1}</td>
+        <td>${esc(k)}</td>
+        <td class="ctr ncr-cnt">${cnt}</td>
+      </tr>`).join('');
     }
-  });
-  html += '</tbody></table>';
-  el.innerHTML = html;
+    return `<div class="hpms-col">
+      <div class="hpms-col-hd">${esc(sec.label)}</div>
+      <table class="ncr-tbl ncr-hpms-tbl">
+        <thead><tr><th style="width:28px">순번</th><th>분류명</th><th class="ctr" style="width:36px">건수</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>`;
+  }).join('');
+  el.innerHTML = `<div class="hpms-3col">${colsHtml}</div>`;
 }
 
 function ncrPick(row, ...keys){
@@ -2751,7 +2779,7 @@ function renderProjectsPage(){
 
   // Same headers as Executive Summary 프로젝트 현황 표
   $('projectTbl').innerHTML = `<thead><tr>
-    <th class="ctr">프로젝트</th>
+    <th class="ctr" style="min-width:90px">프로젝트</th>
     <th class="ctr">단계</th>
     <th class="ctr">발주처</th>
     <th class="ctr">국가</th>
@@ -2761,11 +2789,11 @@ function renderProjectsPage(){
     <th class="ctr">공정률</th>
     <th class="ctr">구매품질 진척률</th>
     <th class="ctr">TPA 계약고 소진율</th>
-    <th class="ctr">NCR (OPEN/TOTAL)</th>
+    <th class="ctr" style="min-width:75px;width:75px">NCR (OPEN/TOTAL)</th>
   </tr></thead><tbody>${rows.length===0 ? emptyRow(11,'Excel을 업로드하면 프로젝트 현황이 표시됩니다.') : rows.map(p=>{
     const s = stages.find(x=>x['프로젝트']===p['프로젝트']) || {};
     const w = weightedProgress(s);
-    const progStr = w ? (w.value===100?'100.0':Math.min(w.value,99.9).toFixed(1))+'%' : '-';
+    const progStr = w ? (Math.floor(w.value*10)/10).toFixed(1)+'%' : '-';
     const progValue = w ? w.value : 0;
     const ncrOpen = ncrs.filter(n=>n.project===p['프로젝트'] && isNcrOpen(n)).length;
     const ncrTotal = num(s.NCR_Total);
@@ -2783,9 +2811,9 @@ function renderProjectsPage(){
       <td class="ctr">${esc(p['PD']||'-')}</td>
       <td class="ctr">${esc(p['PQCM']||'-')}</td>
       <td class="right money-r">${moneyContractCell(p,'HDEC')}</td>
-      <td><div class="bar-wrap"><div class="bar"><div class="fill ${isMC?'mc':burnCls(rawProgVal, rawProg!=null)}" style="width:${rawProgVal}%"></div></div><span class="pct${rawProg==null?' dim':''}">${rawProg!=null?(rawProgVal===100?'100.0':Math.min(rawProgVal,99.9).toFixed(1))+'%':'-'}</span></div></td>
+      <td><div class="bar-wrap"><div class="bar"><div class="fill ${isMC?'mc':burnCls(rawProgVal, rawProg!=null)}" style="width:${rawProgVal}%"></div></div><span class="pct${rawProg==null?' dim':''}">${rawProg!=null?(Math.floor(rawProgVal*10)/10).toFixed(1)+'%':'-'}</span></div></td>
       <td><div class="bar-wrap"><div class="bar"><div class="fill ${isMC?'mc':burnCls(progValue, !!w)}" style="width:${progValue}%"></div></div><span class="pct${w?'':' dim'}">${progStr}</span></div></td>
-      <td><div class="bar-wrap"><div class="bar"><div class="fill ${tpaCls}" style="width:${Math.min(burnB||0,100)}%"></div></div><span class="pct${tpaCls==='dim'?' dim':''}">${burnB!=null?burnB.toFixed(1)+'%':'-'}</span></div></td>
+      <td><div class="bar-wrap"><div class="bar"><div class="fill ${tpaCls}" style="width:${Math.min(burnB||0,100)}%"></div></div><span class="pct${tpaCls==='dim'?' dim':''}">${burnB!=null?(Math.floor(burnB*10)/10).toFixed(1)+'%':'-'}</span></div></td>
       <td class="ctr"><span class="date-code${+ncrOpen>0?' ncr-active':''}">${ncrOpen} </span> <span class="date-code">/ ${isNumLike(ncrTotal)?ncrTotal:'-'}</span></td>
     </tr>`;
   }).join('')}</tbody>`;
@@ -2813,7 +2841,7 @@ function renderStagePage(){
   });
 
   $('stageTbl').innerHTML = `<colgroup>
-    <col style="width:12%"><col style="width:10%">
+    <col style="width:10%"><col style="width:9%">
     ${STAGE.map(()=>'<col>').join('')}
     <col style="width:20%">
   </colgroup><thead><tr>
@@ -2825,7 +2853,7 @@ function renderStagePage(){
     const isMC = p['단계']==='Mechanical Completion';
     const w = weightedProgress(s);
     const pv = w ? w.value : 0;
-    const progStr = w ? w.value.toFixed(1)+'%' : '-';
+    const progStr = w ? (Math.floor(w.value*10)/10).toFixed(1)+'%' : '-';
     return `<tr>
       <td class="code ctr">${esc(s['프로젝트'])}</td>
       <td class="ctr">${statusTag(p['단계'])}</td>
@@ -3091,9 +3119,9 @@ function renderTpaPage(){
   if(cntEl) cntEl.textContent = hasFilter ? `${tpa.length} / ${tpaAll.length}건` : `${tpaAll.length}건`;
 
   $('tpaTbl').innerHTML = `<colgroup>
-    <col style="width:12%"><col style="width:10%">
-    <col style="width:11.6%"><col style="width:11.6%"><col style="width:11.6%">
-    <col style="width:11.6%"><col style="width:11.6%"><col style="width:20%">
+    <col style="width:10%"><col style="width:9%">
+    <col style="width:12.2%"><col style="width:12.2%"><col style="width:12.2%">
+    <col style="width:12.2%"><col style="width:12.2%"><col style="width:20%">
   </colgroup><thead><tr>
     <th class="ctr">프로젝트</th><th class="ctr">단계</th>
     <th class="ctr">예산</th><th class="ctr">계약고</th><th class="ctr">집행금액</th>
@@ -3114,8 +3142,8 @@ function renderTpaPage(){
       <td class="right money-r">${isBid ? moneyCell(null,null) : moneyCell(t['TPA 예산 (USD)'],t['TPA 예산 (KRW)'],{dim:isMC})}</td>
       <td class="right money-r">${isBid ? moneyCell(null,null) : moneyCell(t['TPA 계약고 (USD)'],t['TPA 계약고 (KRW)'],{dim:isMC})}</td>
       <td class="right money-r">${isBid ? moneyCell(null,null) : moneyCell(t['집행비용 (USD)'],t['집행비용 (KRW)'],{dim:isMC})}</td>
-      <td><div class="bar-wrap"><div class="bar"><div class="fill ${clsB}" style="width:${Math.min(Math.max(burnB||0,0),100)}%"></div></div><span class="pct${clsB==='dim'?' dim':''}">${burnB!=null?burnB.toFixed(1)+'%':'-'}</span></div></td>
-      <td><div class="bar-wrap"><div class="bar"><div class="fill ${clsC}" style="width:${Math.min(Math.max(burnC||0,0),100)}%"></div></div><span class="pct${clsC==='dim'?' dim':''}">${(burnC!=null && Number.isFinite(burnC))?burnC.toFixed(1)+'%':'-'}</span></div></td>
+      <td><div class="bar-wrap"><div class="bar"><div class="fill ${clsB}" style="width:${Math.min(Math.max(burnB||0,0),100)}%"></div></div><span class="pct${clsB==='dim'?' dim':''}">${burnB!=null?(Math.floor(burnB*10)/10).toFixed(1)+'%':'-'}</span></div></td>
+      <td><div class="bar-wrap"><div class="bar"><div class="fill ${clsC}" style="width:${Math.min(Math.max(burnC||0,0),100)}%"></div></div><span class="pct${clsC==='dim'?' dim':''}">${(burnC!=null && Number.isFinite(burnC))?(Math.floor(burnC*10)/10).toFixed(1)+'%':'-'}</span></div></td>
       <td class="note">${ws.length ? ws.map(w=>`<div class="warn-chip ${w.lv==='danger'?'danger':(w.lv==='orange'?'orange':'')}">${esc(w.txt)}</div>`).join(ws.length>1?' ':'') : ''}</td>
     </tr>`;
   }).join('')}</tbody>`;
