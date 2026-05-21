@@ -306,7 +306,7 @@ button{cursor:pointer;border:none;background:none}
   background:#fff;
 }
 .tbl tr:last-child td{border-bottom:none}
-#projectTbl thead tr:first-child th,#ncrTbl thead tr:first-child th,#tpaMonthlyTbl thead tr:first-child th,#tripTbl thead tr:first-child th{border-top:1px solid var(--line)}
+#projectTbl thead tr:first-child th,#ncrTbl thead tr:first-child th,#pqanTbl thead tr:first-child th,#tpaMonthlyTbl thead tr:first-child th,#tripTbl thead tr:first-child th{border-top:1px solid var(--line)}
 .tbl tr:hover td{background:#FAFBFD}
 .tbl .num{text-align:right;font-variant-numeric:tabular-nums;font-family:'JetBrains Mono','Noto Sans KR','Malgun Gothic',monospace;font-weight:500}
 .tbl .ctr{text-align:center}
@@ -337,6 +337,11 @@ button{cursor:pointer;border:none;background:none}
 /* ─ NCR 테이블 · HPMS · 상세 행 ─ */
 .tbl tr.ncr-row{cursor:pointer}
 .tbl tr.ncr-row.expanded td{background:#F4F7FC}
+.tbl tr.pqan-row{cursor:pointer}
+.tbl tr.pqan-row.expanded td{background:#F4F7FC}
+.pqan-detail-row td{padding:0;border-bottom:1px solid var(--line);background:#F7F9FC}
+.pqan-detail-row:hover td{background:#F7F9FC}
+.pqan-detail-row.collapsed{display:none}
 .tbl tr.ncr-row .ncr-chev{
   display:inline-block;width:14px;color:var(--muted);font-size:10px;
   transition:transform .15s;margin-right:2px;
@@ -411,7 +416,7 @@ button{cursor:pointer;border:none;background:none}
 #ncr .tbl-wrap{overflow-x:hidden}
 
 /* ── NCR 요약 카드 공통 ── */
-.ncr-card{min-height:280px;display:flex;flex-direction:column}
+.ncr-card{min-height:100px;display:flex;flex-direction:column}
 .ncr-card .card-body{flex:1}
 .ncr-sum-scroll{overflow-y:auto;max-height:260px}
 .ncr-open-badge{
@@ -433,17 +438,19 @@ button{cursor:pointer;border:none;background:none}
 .ncr-tbl tbody tr:hover td{background:#F0F4FA}
 /* Card 1 – 미결 NCR */
 .ncr-open-tbl tbody tr{cursor:pointer;transition:background .12s;user-select:none}
-.ncr-open-tbl tbody td:nth-child(2),.ncr-open-tbl tbody td:nth-child(3){text-align:center}
-.ncr-oi-no{font-size:11.5px;font-family:'JetBrains Mono','Noto Sans KR',monospace;font-weight:600;
+.ncr-open-tbl tbody td:nth-child(2),.ncr-open-tbl tbody td:nth-child(3){text-align:center;font-size:0;line-height:0}
+.ncr-oi-no{font-size:11.5px;font-family:'Noto Sans KR','JetBrains Mono',monospace;font-weight:600;
   overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink)}
 .ncr-oi-proj{font-size:10px;font-weight:600;color:var(--navy);line-height:1;
   background:#EEF3FB;border:1px solid #C8D7F0;border-radius:4px;
   padding:0 6px;white-space:nowrap;max-width:110px;overflow:hidden;text-overflow:ellipsis}
-.ncr-oi-days{font-size:10px;flex:0 0 auto;padding:2px 7px;white-space:nowrap}
+.ncr-oi-days{font-size:10px;flex:0 0 auto;padding:2px 7px;white-space:nowrap;vertical-align:middle}
 .ncr-open-empty{padding:24px 14px;color:var(--muted);font-size:12px;font-style:italic;text-align:center}
 /* Card 2 – 프로젝트별 현황 */
 .ncr-proj-head td{font-weight:700}
 .ncr-proj-head{cursor:pointer}
+.ncr-proj-head .proj-chev{display:inline-block;width:12px;font-size:9px;line-height:1;color:var(--muted);transition:transform .15s;margin-right:3px;vertical-align:middle}
+.ncr-proj-head.open .proj-chev{transform:rotate(90deg);color:var(--navy)}
 .ncr-proj-sub td{color:var(--sub)}
 .ncr-proj-sub td:first-child{padding-left:18px}
 /* Card 3 – HPMS */
@@ -480,7 +487,7 @@ button{cursor:pointer;border:none;background:none}
 }
 .ncr-open-pop.on{display:block}
 .nop-title{font-weight:700;color:var(--ink);font-size:12.5px;margin-bottom:7px;
-  font-family:'JetBrains Mono','Noto Sans KR',monospace;border-bottom:1px solid var(--line2);padding-bottom:6px}
+  font-family:'Noto Sans KR','JetBrains Mono',monospace;border-bottom:1px solid var(--line2);padding-bottom:6px}
 .nop-row{display:flex;gap:8px;margin-bottom:3px;line-height:1.45}
 .nop-lbl{color:var(--muted);font-size:10.5px;flex:0 0 72px;padding-top:1px}
 .nop-val{color:var(--text);word-break:break-word}
@@ -558,7 +565,7 @@ button{cursor:pointer;border:none;background:none}
   border-radius:4px;padding:3px 7px;
   font-size:11px;font-weight:600;
   letter-spacing:.04em;line-height:1;
-  white-space:nowrap;
+  white-space:nowrap;vertical-align:middle;
   font-family:'JetBrains Mono','Noto Sans KR','Malgun Gothic',monospace;
 }
 .tag.ok{background:var(--ok-bg);color:var(--ok)}
@@ -1069,6 +1076,7 @@ button{cursor:pointer;border:none;background:none}
   box-shadow:0 8px 20px rgba(0,0,0,.18);white-space:pre-line;
 }
 [data-tip]:hover:after{opacity:1}
+[data-tip].tip-r:after{left:auto;right:0;transform:none}
 
 .input,.select{
   border:1px solid var(--line);border-radius:var(--r);
@@ -1357,6 +1365,7 @@ button{cursor:pointer;border:none;background:none}
 
 /* ─ 인력운영 목록 테이블 ─ */
 #mpTbl td,#mpTbl th{text-align:center}
+#mpTbl td{font-size:12.5px}
 #tpaByYearTbl{table-layout:fixed;font-size:11.5px}
 #tpaByYearTbl th,#tpaByYearTbl td{padding:5px 8px}
 #tpaByYearTbl th:first-child,#tpaByYearTbl td:first-child{width:18%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -1394,7 +1403,7 @@ button{cursor:pointer;border:none;background:none}
     <div class="hd-actions">
       <label class="btn"><input class="file-hidden" type="file" id="rawUpload" accept=".xlsx,.xls" /><span class="ic">↑</span>Excel 업로드</label>
       <button class="btn" onclick="downloadRawExcel()"><span class="ic">↓</span>Excel 다운로드</button>
-      <button class="btn primary" onclick="downloadStaticHTML()" data-tip="현재 화면을 단일 HTML 파일로 저장합니다.&#10;임원 보고용으로 사용하세요 (Excel 첨부 불필요)."><span class="ic">⎙</span>보고용 HTML 저장</button>
+      <button class="btn primary tip-r" onclick="downloadStaticHTML()" data-tip="현재 화면을 단일 HTML 파일로 저장합니다.&#10;임원 보고용으로 사용하세요 (Excel 첨부 불필요)."><span class="ic">⎙</span>보고용 HTML 저장</button>
     </div>
   </div>
   <div class="hd-rule"></div>
@@ -1494,7 +1503,7 @@ button{cursor:pointer;border:none;background:none}
       <label style="display:flex;align-items:center;gap:5px;font-size:12px;color:var(--ink);cursor:pointer;white-space:nowrap">
         <input type="checkbox" id="ncrFilterOpen"> 미결만 보기
       </label>
-      <input class="input" id="ncrSearch" placeholder="키워드 검색 (NCR No., PO No., Item, Vendor 등)" style="min-width:200px;flex:1" />
+      <input class="input" id="ncrSearch" placeholder="NCR No., PO No., Item, Vendor 등 검색" style="min-width:200px;flex:1" />
       <span id="ncrCount" style="font-size:11px;color:var(--muted);align-self:center"></span>
     </div>
     <div class="card-body flush"><div class="tbl-wrap"><table class="tbl" id="ncrTbl"></table></div></div>
@@ -1502,11 +1511,15 @@ button{cursor:pointer;border:none;background:none}
 </section>
 
 <section class="page" id="pqan">
-  <div class="grid g4" id="pqanKpis"></div>
-  <div class="h-sep"></div>
   <div class="card">
     <div class="card-hd">
       <div class="card-title"><span class="bar"></span>PQAN 목록</div>
+      <div id="pqanDiscTags" style="display:flex;flex-wrap:wrap;gap:4px;flex:1;justify-content:flex-end"></div>
+    </div>
+    <div class="filters" style="padding:10px 16px;flex-wrap:wrap;gap:8px">
+      <select class="select" id="pqanFilterDiscipline"><option value="">전체 공종</option></select>
+      <input class="input" id="pqanSearch" placeholder="제목 · 품목 검색" style="min-width:240px;flex:none" />
+      <span id="pqanCount" style="font-size:11px;color:var(--muted);align-self:center;white-space:nowrap"></span>
     </div>
     <div class="card-body flush"><div class="tbl-wrap"><table class="tbl" id="pqanTbl"></table></div></div>
   </div>
@@ -1644,7 +1657,7 @@ button{cursor:pointer;border:none;background:none}
 
 <script>const DEFAULT_RAW = {"프로젝트_현황": [], "프로젝트_구매품질 실적": [], "프로젝트_NCR처리현황": [], "PQAN": [], "TPA_목록": [], "TPA_집행현황": [], "TPA_월별대금청구현황": [], "인력운영_현황": [], "인력운영_세부내역": [], "출장현황": [], "주요현안": []};
 
-const SHEET_FIELDS = {"프로젝트_현황": ["프로젝트", "HDEC 계약고 (USD)", "전체 계약고 (USD)", "HDEC 계약고 (KRW)", "전체 계약고 (KRW)", "발주처", "국가", "PD", "PQCM", "단계", "공정률", "비고"], "프로젝트_구매품질 실적": ["프로젝트", "MR_Total", "MR_Done", "TBE_Total", "TBE_Done", "PO_Total", "PO_Done", "PIM_Total", "PIM_Done", "IRC_100%_Total", "IRC_100%_Done", "NCR_Total", "NCR_Done"], "프로젝트_NCR처리현황": ["프로젝트", "NCR No.", "PO No.", "품목", "Main Vendor", "Sub Vendor", "공종", "Issued by", "Issue Date", "Due Date", "Closed Date", "작업공종 대공종", "작업공종 중공종", "작업공종 소공종", "근본원인 대분류", "근본원인 중분류", "처리분류", "NCR Description", "Action Status"], "PQAN": ["순번", "PQAN No.", "PQAN 배포일자", "연", "월", "Feedback", "작성자", "검토자", "공종", "프로젝트", "PO No.", "NCR No.", "Transmittal No.", "제목", "품목", "공급업체", "국가", "지역", "발견 시기", "발견 장소", "개요", "원인", "후속/예방 조치 (권고)", "이미지 URL (Teams)"], "TPA_목록": ["순번", "TPA", "등록평가", "정기평가 (2025)", "정기평가 (2026)"], "TPA_집행현황": ["프로젝트", "단계", "TPA 예산 (USD)", "TPA 계약고 (USD)", "집행비용 (USD)", "TPA 예산 (KRW)", "TPA 계약고 (KRW)", "집행비용 (KRW)", "예산 소진율", "現 계약고 소진율"], "TPA_월별대금청구현황": ["순번", "프로젝트", "TPA", "청구연월", "지급대금", "단위"], "인력운영_현황": ["순번", "이름", "소속", "근무지", "직급", "파트", "담당 공종", "PQCM", "PQC_Engineer", "Number_of_PO"], "인력운영_세부내역": ["순번", "프로젝트", "공종", "PO", "PO Description", "Quantity", "업무 종료 예상 시기", "IRC %", "비고", "담당자(정)", "담당자(부)"], "출장현황": ["출장자", "출장목적", "프로젝트", "품목", "방문업체", "국가", "출발일", "복귀일"], "주요현안": ["Title", "Owner", "Project_Code", "Action_Required"]};
+const SHEET_FIELDS = {"프로젝트_현황": ["프로젝트", "HDEC 계약고 (USD)", "전체 계약고 (USD)", "HDEC 계약고 (KRW)", "전체 계약고 (KRW)", "발주처", "국가", "PD", "PQCM", "단계", "공정률", "비고"], "프로젝트_구매품질 실적": ["프로젝트", "MR_Total", "MR_Done", "TBE_Total", "TBE_Done", "PO_Total", "PO_Done", "PIM_Total", "PIM_Done", "IRC_100%_Total", "IRC_100%_Done", "NCR_Total", "NCR_Done"], "프로젝트_NCR처리현황": ["프로젝트", "NCR No.", "PO No.", "품목", "Main Vendor", "Sub Vendor", "공종", "Issued by", "Issue Date", "Due Date", "Closed Date", "작업공종 대공종", "작업공종 중공종", "작업공종 소공종", "근본원인 대분류", "근본원인 중분류", "처리분류", "NCR Description", "Action Status"], "PQAN": ["순번", "PQAN No.", "PQAN 배포일자", "연", "월", "Feedback", "검토자", "공종", "PO No.", "NCR No.", "Transmittal No.", "제목", "품목", "공급업체", "국가", "지역", "발견 시기", "발견 장소", "개요", "원인", "후속/예방 조치 (권고)", "이미지 URL (Teams)"], "TPA_목록": ["순번", "TPA", "등록평가", "정기평가 (2025)", "정기평가 (2026)"], "TPA_집행현황": ["프로젝트", "단계", "TPA 예산 (USD)", "TPA 계약고 (USD)", "집행비용 (USD)", "TPA 예산 (KRW)", "TPA 계약고 (KRW)", "집행비용 (KRW)", "예산 소진율", "現 계약고 소진율"], "TPA_월별대금청구현황": ["순번", "프로젝트", "TPA", "청구연월", "지급대금", "단위"], "인력운영_현황": ["순번", "이름", "소속", "근무지", "직급", "파트", "담당 공종", "PQCM", "PQC_Engineer", "Number_of_PO"], "인력운영_세부내역": ["순번", "프로젝트", "공종", "PO", "PO Description", "Quantity", "업무 종료 예상 시기", "IRC %", "비고", "담당자(정)", "담당자(부)"], "출장현황": ["출장자", "출장목적", "프로젝트", "품목", "방문업체", "국가", "출발일", "복귀일"], "주요현안": ["Title", "Owner", "Project_Code", "Action_Required"]};
 
 let RAW = structuredClone(DEFAULT_RAW);
 Object.keys(SHEET_FIELDS).forEach(k=>{ if(!RAW[k]) RAW[k] = []; });
@@ -1724,6 +1737,22 @@ const NCR_UPLOAD_SCHEMA = [
 
 let _ncrSort = {col:'issueDate', dir:-1};
 const _ncrExpanded = new Set();
+
+const _pqanExpanded = new Set();
+let _pqanMerged = [];
+function togglePqanRow(key, ev){
+  if(ev && (ev.target.closest('a') || ev.target.closest('button'))) return;
+  if(_pqanExpanded.has(key)) _pqanExpanded.delete(key);
+  else _pqanExpanded.add(key);
+  renderPqanPage();
+}
+window.togglePqanRow = togglePqanRow;
+function showPqanImg(key, btn, ev){
+  if(ev) ev.stopPropagation();
+  const m = _pqanMerged.find(x=>x['PQAN No.']=== key);
+  if(m) showPqanPopover(btn, m.images);
+}
+window.showPqanImg = showPqanImg;
 
 /* ── NCR 요약 카드 ── */
 let _ncrHpmsTab = 'workScope';
@@ -1820,12 +1849,15 @@ function cleanHpmsName(s){
   return s.trim().replace(/\.+$/, '').replace(/\./g, '/').trim() || '미분류';
 }
 
-function renderNcrOpenCard(openAll){
+function renderNcrOpenCard(openAll, all){
   const badge = $('ncrOpenBadge');
   if(badge) badge.textContent = openAll.length + '건';
   const el = $('ncrOpenList');
   if(!el) return;
-  if(!openAll.length){ el.innerHTML = '<div class="ncr-open-empty">미결 NCR 없음</div>'; return; }
+  if(!openAll.length){
+    el.innerHTML = '<div class="empty-state" style="margin:8px;padding:18px"><div class="title" style="font-size:12px">데이터 없음</div></div>';
+    return;
+  }
   const sorted = openAll.slice().sort((a,b)=>{
     const da = ncrDueDays(a), db = ncrDueDays(b);
     if(da === null && db === null) return 0;
@@ -1853,7 +1885,7 @@ function renderNcrProjCard(all, openAll, stages){
   const el = $('ncrProjTbl');
   if(!el) return;
   const projects = [...new Set(all.map(n=>n.project).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'ko'));
-  if(!projects.length){ el.innerHTML = emptyRow(4,'데이터 없음'); return; }
+  if(!projects.length){ el.innerHTML = '<tr><td colspan="4" style="padding:0;border:none;background:transparent"><div class="empty-state" style="margin:8px;padding:18px"><div class="title" style="font-size:12px">데이터 없음</div></div></td></tr>'; return; }
   const data = {};
   all.forEach(n=>{
     const p = n.project||'미분류';
@@ -1879,7 +1911,7 @@ function renderNcrProjCard(all, openAll, stages){
     const pt = projTotals[p];
     const gid = `ncrpg-${pi}`;
     html += `<tr class="ncr-proj-head" data-gid="${gid}">
-      <td class="code">${esc(p)}</td>
+      <td class="code"><span class="proj-chev">▶</span>${esc(p)}</td>
       <td class="ctr">${pt.total}</td>
       <td class="ctr">${pt.closed}</td>
       <td class="ctr ${pt.open>0?'ncr-danger-text':''}">${pt.open}</td>
@@ -1903,6 +1935,7 @@ function renderNcrProjCard(all, openAll, stages){
     const subs = el.querySelectorAll(`tr.ncr-proj-sub[data-gid="${gid}"]`);
     const isOpen = subs.length && subs[0].style.display !== 'none';
     subs.forEach(s=> s.style.display = isOpen ? 'none' : '');
+    row.classList.toggle('open', !isOpen);
   };
   el.addEventListener('click', el._projClick);
 }
@@ -1910,7 +1943,7 @@ function renderNcrProjCard(all, openAll, stages){
 function renderNcrHpmsCard(all){
   const el = $('ncrHpmsBody');
   if(!el) return;
-  if(!all.length){ el.innerHTML='<div class="ncr-open-empty">데이터 없음</div>'; return; }
+  if(!all.length){ el.innerHTML='<div class="empty-state" style="margin:8px;padding:18px"><div class="title" style="font-size:12px">데이터 없음</div></div>'; return; }
   const secs = [
     {label:'작업공종', getK: n=> n.hpmsClassification?.workScope?.major||''},
     {label:'근본원인', getK: n=> n.hpmsClassification?.rootCause?.major||''},
@@ -2369,7 +2402,7 @@ function renderNcrPage(){
   </div>`).join('');
 
   populateNcrFilters(all);
-  renderNcrOpenCard(openAll);
+  renderNcrOpenCard(openAll, all);
   renderNcrProjCard(all, openAll, stages);
   renderNcrHpmsCard(all);
 
@@ -2395,7 +2428,7 @@ function renderNcrPage(){
   const sth = (col, label, attrs='') => `<th class="sortable" ${attrs} onclick="setSortNcr('${col}')">${label}${sa(col)}</th>`;
 
   const body = sorted.length===0
-    ? emptyRow(COLS,'Excel을 업로드하면 NCR이 표시됩니다.')
+    ? emptyRow(COLS,'Excel을 업로드하면 NCR 상세 목록이 표시됩니다.')
     : sorted.map((n)=>{
         const expanded = _ncrExpanded.has(n._id);
         const rowCls = expanded ? 'ncr-row expanded' : 'ncr-row';
@@ -2404,8 +2437,8 @@ function renderNcrPage(){
         const rc = hp.rootCause || {};
         const pc = hp.processing || {};
         return `<tr class="${rowCls}" data-ncr-id="${esc(n._id)}" onclick="toggleNcrRow('${esc(n._id)}', event)">
-          <td>${seqMap.get(n._id)??''}</td>
-          <td title="${esc(n.project||'')}">${esc(n.project||'-')}</td>
+          <td><span class="code">${seqMap.get(n._id)??''}</span></td>
+          <td title="${esc(n.project||'')}"><span class="code">${esc(n.project||'-')}</span></td>
           <td class="ncr-no" title="${esc(n.ncrNo||'')}"><span class="code">${esc(n.ncrNo||'-')}</span></td>
           <td title="${esc(n.poNo||'')}">${esc(n.poNo||'-')}</td>
           <td title="${esc(n.item||'')}">${esc(n.item||'-')}</td>
@@ -2734,6 +2767,8 @@ function bindControls(){
   });
   const ncrOpen = $('ncrFilterOpen'); if(ncrOpen) ncrOpen.addEventListener('change', renderNcrPage);
   const ncrS = $('ncrSearch'); if(ncrS) ncrS.addEventListener('input', renderNcrPage);
+  const pqanFD = $('pqanFilterDiscipline'); if(pqanFD) pqanFD.addEventListener('change', renderPqanPage);
+  const pqanS = $('pqanSearch'); if(pqanS) pqanS.addEventListener('input', renderPqanPage);
 }
 
 /* === TPA Warning 로직 === */
@@ -2848,7 +2883,7 @@ function renderStagePage(){
     <th class="ctr">프로젝트</th><th class="ctr">단계</th>
     ${STAGE.map(st=>`<th class="ctr">${st.name}<span class="wf">W ${(st.weight*100).toFixed(0)}%</span></th>`).join('')}
     <th class="ctr">종합 진척률</th>
-  </tr></thead><tbody>${stages.length===0 ? emptyRow(8,'Excel을 업로드하면 구매품질 진행현황이 표시됩니다.') : stages.map(s=>{
+  </tr></thead><tbody>${stages.length===0 ? emptyRow(8,'Excel을 업로드하면 수행 실적이 표시됩니다.') : stages.map(s=>{
     const p = projects.find(x=>x['프로젝트']===s['프로젝트']) || {};
     const isMC = p['단계']==='Mechanical Completion';
     const w = weightedProgress(s);
@@ -2891,6 +2926,24 @@ function showPqanPopover(target, urls){
   el.classList.add('on');
 }
 
+function renderPqanDetailPanel(m){
+  const block = (lbl, txt, span)=>{
+    const spanStyle = span ? ` style="grid-column:span ${span}"` : '';
+    const hasText = txt && String(txt).trim();
+    return `<div class="detail-block"${spanStyle}>
+      <div class="lbl">${esc(lbl)}</div>
+      <div class="body left${hasText?'':' empty'}">${hasText ? esc(String(txt)) : '내용 없음'}</div>
+    </div>`;
+  };
+  return `<div class="ncr-detail-panel"><div class="detail-grid" style="grid-template-columns:1fr 1fr">
+    ${block('발견 시기', m['발견 시기'])}
+    ${block('발견 장소', m['발견 장소'])}
+    ${block('개요', m['개요'], 2)}
+    ${block('원인', m['원인'], 2)}
+    ${block('후속/예방 조치 (권고)', m['권고'], 2)}
+  </div></div>`;
+}
+
 function renderPqanPage(){
   const pqan = RAW['PQAN'] || [];
   const grouped = {};
@@ -2899,7 +2952,7 @@ function renderPqanPage(){
     if(!grouped[key]) grouped[key] = [];
     grouped[key].push(r);
   });
-  const merged = Object.values(grouped).map(rows=>{
+  _pqanMerged = Object.values(grouped).map(rows=>{
     const f = rows[0];
     const merge = (k)=>{
       const vals = [...new Set(rows.map(r=>String(r[k]||'').trim()).filter(Boolean))];
@@ -2910,7 +2963,6 @@ function renderPqanPage(){
       'PQAN 배포일자': excelDate(f['PQAN 배포일자']),
       '연': f['연'] || '',
       '월': f['월'] || '',
-      '작성자': merge('작성자'),
       '검토자': merge('검토자'),
       '공종': f['공종'] || '',
       '프로젝트': f['프로젝트'] || '',
@@ -2919,61 +2971,92 @@ function renderPqanPage(){
       '공급업체': f['공급업체'] || '',
       '국가': f['국가'] || '',
       '발견 시기': f['발견 시기'] || '',
+      '발견 장소': f['발견 장소'] || '',
       '개요': f['개요'] || '',
       '원인': f['원인'] || '',
       '권고': f['후속/예방 조치 (권고)'] || '',
-      'images': rows.map(r=>String(r['이미지 URL (Teams)']||'').trim()).filter(Boolean),
+      'images': [...new Set(rows.map(r=>String(r['이미지 URL (Teams)']||'').trim()).filter(Boolean))],
     };
   });
+  _pqanMerged.sort((a,b)=>{
+    const da=a['PQAN 배포일자'], db=b['PQAN 배포일자'];
+    if(da===db) return 0;
+    if(da==='-') return 1;
+    if(db==='-') return -1;
+    return db.localeCompare(da);
+  });
+  const merged = _pqanMerged;
 
-  const totalImages = merged.reduce((a,m)=>a+m.images.length,0);
-  const projects = [...new Set(merged.map(m=>m['프로젝트']).filter(Boolean))];
-  const vendors = [...new Set(merged.map(m=>m['공급업체']).filter(Boolean))];
-  $('pqanKpis').innerHTML = [
-    {label:'PQAN COUNT',val:merged.length,unit:'건',cls:'accent'},
-    {label:'PROJECTS',val:projects.length,unit:'개',cls:'info'},
-    {label:'VENDORS',val:vendors.length,unit:'개',cls:'ok'},
-    {label:'IMAGES',val:totalImages,unit:'건',cls:'warn'}
-  ].map(k=>`<div class="kpi ${k.cls}">
-    <div class="kpi-label">${esc(k.label)}</div>
-    <div class="kpi-val">${k.val}<span class="unit">${esc(k.unit)}</span></div>
-    <div class="kpi-sub"></div>
-  </div>`).join('');
+  /* 공종 필터 드롭다운 */
+  const DISC_ORDER = ['장치','회전','배관','전기','계장','철골'];
+  const discSel = $('pqanFilterDiscipline');
+  if(discSel){
+    const cur = discSel.value;
+    const existing = new Set(merged.map(m=>m['공종']).filter(Boolean));
+    const disciplines = DISC_ORDER.filter(d=>existing.has(d));
+    discSel.innerHTML = '<option value="">전체 공종</option>'
+      + disciplines.map(d=>`<option value="${esc(d)}"${d===cur?' selected':''}>${esc(d)}</option>`).join('');
+  }
 
+  /* 공종 별 건수 — 헤더 태그 */
+  const discCount = {};
+  merged.forEach(m=>{ const d=m['공종']||'미분류'; discCount[d]=(discCount[d]||0)+1; });
+  const discTagsEl = $('pqanDiscTags');
+  if(discTagsEl){
+    discTagsEl.innerHTML = DISC_ORDER.map(d=>{
+      const cnt = discCount[d] || 0;
+      const dim = cnt === 0 ? 'opacity:.4' : '';
+      return `<span style="display:inline-flex;align-items:baseline;gap:5px;padding:3px 10px;background:var(--soft);border:1px solid var(--line);border-radius:999px;${dim}"><span style="font-size:11px;line-height:1;color:var(--sub)">${esc(d)}</span><span style="font-size:11px;line-height:1;font-weight:700;color:var(--ink);font-family:'JetBrains Mono',monospace">${cnt}</span></span>`;
+    }).join('');
+  }
+
+  /* 검색 필터 적용 */
+  const selDisc = discSel?.value || '';
+  const q = ($('pqanSearch')?.value || '').trim().toLowerCase();
+  const filtered = merged.filter(m=>{
+    if(selDisc && m['공종'] !== selDisc) return false;
+    if(q){
+      const hay = [m['제목'], m['품목']].join(' ').toLowerCase();
+      if(!hay.includes(q)) return false;
+    }
+    return true;
+  });
+
+  const cntEl = $('pqanCount');
+  if(cntEl) cntEl.textContent = filtered.length !== merged.length
+    ? `${filtered.length} / ${merged.length}건` : `${merged.length}건`;
+
+  const COLS = 8;
   $('pqanTbl').innerHTML = `<thead><tr>
-    <th class="ctr">PQAN No.</th>
-    <th class="ctr">배포일</th>
-    <th class="ctr">공종</th>
-    <th class="ctr">프로젝트</th>
-    <th>제목</th>
-    <th>품목</th>
-    <th>공급업체</th>
-    <th class="ctr">국가</th>
-    <th class="ctr">작성자</th>
-    <th class="ctr">이미지</th>
-  </tr></thead><tbody>${merged.length===0 ? emptyRow(10,'Excel을 업로드하면 PQAN 목록이 표시됩니다.') : merged.map((m,idx)=>`
-    <tr>
+    <th class="ctr" style="width:9%">PQAN No.</th>
+    <th class="ctr" style="width:6%">배포일</th>
+    <th class="ctr" style="width:5%">공종</th>
+    <th class="ctr" style="width:28%">제목</th>
+    <th class="ctr" style="width:20%">품목</th>
+    <th class="ctr" style="width:17%">공급업체</th>
+    <th class="ctr" style="width:8%">국가</th>
+    <th class="ctr" style="width:7%">Teams 링크</th>
+  </tr></thead><tbody>${filtered.length===0 ? emptyRow(COLS, merged.length===0 ? 'Excel을 업로드하면 PQAN 목록이 표시됩니다.' : '검색 결과 없음') : filtered.map((m)=>{
+    const key = esc(m['PQAN No.']);
+    const expanded = _pqanExpanded.has(m['PQAN No.']);
+    const rowCls = expanded ? 'pqan-row expanded' : 'pqan-row';
+    const linkCell = m.images.length
+      ? m.images.map((url,i)=>`<a href="${esc(url)}" target="_blank" rel="noopener" title="Teams 이미지 ${i+1}" style="display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;color:var(--navy2);text-decoration:none" onclick="event.stopPropagation()"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></a>`).join('')
+      : '<span class="muted">-</span>';
+    return `<tr class="${rowCls}" onclick="togglePqanRow('${key}',event)">
       <td class="ctr code">${esc(m['PQAN No.'])}</td>
-      <td class="ctr nowrap"><span class="date-code">${esc(m['PQAN 배포일자'])}</span></td>
+      <td class="ctr nowrap"><span class="date-code" style="color:#0B1220">${esc(m['PQAN 배포일자'])}</span></td>
       <td class="ctr">${esc(m['공종']||'-')}</td>
-      <td class="ctr code">${esc(m['프로젝트']||'-')}</td>
       <td class="left">${esc(m['제목']||'-')}</td>
       <td class="left">${esc(m['품목']||'-')}</td>
-      <td class="left">${esc(m['공급업체']||'-')}</td>
+      <td class="ctr">${esc(m['공급업체']||'-')}</td>
       <td class="ctr">${esc(m['국가']||'-')}</td>
-      <td class="ctr">${esc(m['작성자']||'-')}</td>
-      <td class="ctr">${m.images.length
-        ? `<button class="pqan-img-trigger" data-idx="${idx}"><span class="ic">⊕</span>이미지 ${m.images.length}</button>`
-        : '<span class="muted">-</span>'}</td>
-    </tr>`).join('')}</tbody>`;
-
-  $('pqanTbl').querySelectorAll('.pqan-img-trigger').forEach(btn=>{
-    btn.addEventListener('click', e=>{
-      e.stopPropagation();
-      const idx = Number(btn.dataset.idx);
-      showPqanPopover(btn, merged[idx].images);
-    });
-  });
+      <td class="ctr">${linkCell}</td>
+    </tr>
+    <tr class="pqan-detail-row${expanded?'':' collapsed'}">
+      <td colspan="${COLS}">${renderPqanDetailPanel(m)}</td>
+    </tr>`;
+  }).join('')}</tbody>`;
 }
 
 /* ────────────── TPA > 목록 ────────────── */
@@ -3128,7 +3211,7 @@ function renderTpaPage(){
     <th class="ctr">TPA 예산 소진율</th>
     <th class="ctr">TPA 계약고 소진율</th>
     <th class="ctr">비고</th>
-  </tr></thead><tbody>${tpa.length===0 ? emptyRow(8,'Excel을 업로드하면 TPA 집행현황이 표시됩니다.') : tpa.map(t=>{
+  </tr></thead><tbody>${tpa.length===0 ? emptyRow(8,'Excel을 업로드하면 TPA 예산 운영 현황이 표시됩니다.') : tpa.map(t=>{
     const isMC = t['단계']==='Mechanical Completion';
     const isBid = t['단계']==='Bid';
     const burnB = pctRaw(t['예산 소진율']);
@@ -3137,7 +3220,7 @@ function renderTpaPage(){
     const clsB = isMC ? 'mc' : burnCls(burnB, burnB!=null);
     const clsC = isMC ? 'mc' : burnCls(burnC, burnC!=null && Number.isFinite(burnC));
     return `<tr>
-      <td class="ctr">${esc(t['프로젝트'])}</td>
+      <td class="ctr code">${esc(t['프로젝트'])}</td>
       <td class="ctr">${statusTag(t['단계'])}</td>
       <td class="right money-r">${isBid ? moneyCell(null,null) : moneyCell(t['TPA 예산 (USD)'],t['TPA 예산 (KRW)'],{dim:isMC})}</td>
       <td class="right money-r">${isBid ? moneyCell(null,null) : moneyCell(t['TPA 계약고 (USD)'],t['TPA 계약고 (KRW)'],{dim:isMC})}</td>
@@ -3722,7 +3805,7 @@ function renderTpaProjChart(){
       :projects.map(p=>`<option value="${esc(p)}"${p===curSel?' selected':''}>${esc(p)}</option>`).join('');
   }
   if(!projects.length){
-    chartEl.innerHTML='<div class="empty-state"><span class="ico">⊕</span><div class="title">데이터 없음</div></div>';
+    chartEl.innerHTML='<div class="empty-state" style="margin:8px;padding:18px"><div class="title" style="font-size:12px">데이터 없음</div></div>';
     return;
   }
   if(!sel.value) sel.value=projects[0];
@@ -4031,7 +4114,7 @@ function renderTpaMonthlyPage(){
   for(let y=cutoffYear; y<=curYear; y++) for(let m=1; m<=12; m++) months.push(`${y}-${String(m).padStart(2,'0')}`);
   const n = months.length;
   if(Object.keys(monthly).length===0){
-    $('tpaMonthlyChart').innerHTML='<div class="empty-state"><span class="ico">⊕</span><div class="title">데이터 없음</div></div>';
+    $('tpaMonthlyChart').innerHTML='<div class="empty-state" style="margin:8px;padding:18px"><div class="title" style="font-size:12px">데이터 없음</div></div>';
   } else {
     const mW=800,mH=220,mpL=52,mpR=20,mpT=28,mpB=38;
     const mCW=mW-mpL-mpR, mCH=mH-mpT-mpB;
@@ -4089,7 +4172,7 @@ function renderTpaMonthlyPage(){
   const ymax = Math.max(1, ...yearEntries.map(e=>e[1]));
   const byTpaEl = $('tpaMonthlyByTpa');
   if(!yearEntries.length){
-    byTpaEl.innerHTML = '<div class="empty-state"><div class="title" style="font-size:12px">데이터 없음</div></div>';
+    byTpaEl.innerHTML = '<div class="empty-state" style="margin:8px;padding:18px"><div class="title" style="font-size:12px">데이터 없음</div></div>';
   } else {
     byTpaEl.innerHTML = yearEntries.map(([yr, total])=>{
       const mMap = yearMonthSum[yr] || {};
@@ -4143,7 +4226,7 @@ function renderTpaMonthlyPage(){
   });
   $('tpaByYearTbl').innerHTML = `<colgroup><col style="width:28%">${years3.map(()=>`<col style="width:18%">`).join('')}<col style="width:18%"></colgroup><thead><tr>
     <th class="ctr">TPA</th>${years3.map(y=>`<th class="ctr">${y}</th>`).join('')}<th class="ctr">합계</th>
-  </tr></thead><tbody>${allTpa.length===0 ? emptyRow(years3.length+2,'데이터 없음') :
+  </tr></thead><tbody>${allTpa.length===0 ? `<tr><td colspan="${years3.length+2}" style="padding:0;border:none;background:transparent"><div class="empty-state" style="margin:8px;padding:18px"><div class="title" style="font-size:12px">데이터 없음</div></div></td></tr>` :
     allTpa.map(tpa=>`<tr>
       <td class="ctr">${esc(tpa)}</td>
       ${years3.map(y=>`<td class="num num-r">${tpaYearSum[tpa]?.[y] ? compactK(tpaYearSum[tpa][y]) : '-'}</td>`).join('')}
@@ -4186,7 +4269,7 @@ function renderTpaMonthlyPage(){
     <th class="ctr">TPA</th>
     <th class="ctr">지급대금</th>
     <th class="ctr">단위</th>
-  </tr></thead><tbody>${total===0 ? emptyRow(6,'Excel을 업로드하면 월별 대금지급현황이 표시됩니다.') : filtered.map((r,i)=>`
+  </tr></thead><tbody>${total===0 ? emptyRow(6,'Excel을 업로드하면 대금지급 이력이 표시됩니다.') : filtered.map((r,i)=>`
     <tr>
       <td class="ctr code">${total-i}</td>
       <td class="ctr code">${esc(fmtYM(r)||'-')}</td>
@@ -4382,7 +4465,12 @@ function renderManpowerPage(){
         <div class="title">조직도 데이터가 없습니다</div>
         <div class="desc">Excel을 업로드하면 팀 구성과 프로젝트 배정이 자동으로 시각화됩니다.</div>
       </div>`;
-    $('orgChartField').innerHTML = '';
+    $('orgChartField').innerHTML = `
+      <div class="empty-state">
+        <span class="ico">⊕</span>
+        <div class="title">조직도 데이터가 없습니다</div>
+        <div class="desc">Excel을 업로드하면 팀 구성과 프로젝트 배정이 자동으로 시각화됩니다.</div>
+      </div>`;
   } else {
     const hqByRole = {};
     hqMembers.forEach(m=>{
@@ -4418,6 +4506,7 @@ function renderManpowerPage(){
         <div class="empty-state">
           <span class="ico">⊕</span>
           <div class="title">현장/파견 인력이 없습니다</div>
+          <div class="desc">현장 또는 서울사무소에 배정된 인력이 없습니다.</div>
         </div>`;
     } else {
       const fieldByProj = {};
@@ -4488,7 +4577,7 @@ function renderManpowerPage(){
   $('mpTbl').innerHTML = `<thead><tr>
     <th>순번</th><th>이름</th><th>소속</th><th>근무지</th><th>직급</th>
     <th>파트</th><th>담당 공종</th><th>PQCM</th><th>PQC Engineer</th><th>PO</th>
-  </tr></thead><tbody>${mp.length===0 ? emptyRow(10,'Excel을 업로드하면 인력 목록이 표시됩니다.') : mp.map(m=>`<tr>
+  </tr></thead><tbody>${mp.length===0 ? emptyRow(10,'Excel을 업로드하면 인력 상세 목록이 표시됩니다.') : mp.map(m=>`<tr>
     <td class="code">${esc(m['순번']||'-')}</td>
     <td><span class="code">${esc(m['이름'])}</span></td>
     <td>${esc(m['소속']||'-')}</td>
@@ -4498,7 +4587,7 @@ function renderManpowerPage(){
     <td>${esc(m['담당 공종']||'-')}</td>
     <td>${esc(m.PQCM||'-')}</td>
     <td>${esc(m.PQC_Engineer||'-')}</td>
-    <td class="num"><span class="date-code" style="font-size:13px">${isNumLike(m.Number_of_PO)?fmt(num(m.Number_of_PO)):'-'}</span></td>
+    <td class="num"><span class="date-code" style="font-size:12.5px;color:#0B1220;font-weight:400">${isNumLike(m.Number_of_PO)?fmt(num(m.Number_of_PO)):'-'}</span></td>
   </tr>`).join('')}</tbody>`;
 
   bindPersonPopover(poByPerson);
@@ -4530,7 +4619,7 @@ function renderTripPage(){
     if(opts.sortByKey) entries.sort((a,b)=>String(b[0]).localeCompare(String(a[0])));
     else entries.sort((a,b)=>b[1]-a[1]);
     if(!entries.length){
-      $(elId).innerHTML = `<div class="empty-state" style="margin:0;padding:18px"><div class="title" style="font-size:12px">데이터 없음</div></div>`;
+      $(elId).innerHTML = `<div class="empty-state" style="margin:8px;padding:18px"><div class="title" style="font-size:12px">데이터 없음</div></div>`;
       return;
     }
     const max = Math.max(...entries.map(e=>e[1]));
@@ -4550,7 +4639,7 @@ function renderTripPage(){
     const curMonthNum = now.getMonth()+1;
     const entries = Object.entries(yearStat).sort((a,b)=>String(b[0]).localeCompare(String(a[0])));
     if(!entries.length){
-      el.innerHTML = `<div class="empty-state" style="margin:0;padding:18px"><div class="title" style="font-size:12px">데이터 없음</div></div>`;
+      el.innerHTML = `<div class="empty-state" style="margin:8px;padding:18px"><div class="title" style="font-size:12px">데이터 없음</div></div>`;
       return;
     }
     const max = Math.max(...entries.map(e=>e[1]));
@@ -4643,7 +4732,7 @@ function renderTripPage(){
     <th class="ctr">국가</th>
     <th class="ctr">출발</th>
     <th class="ctr">복귀</th>
-  </tr></thead><tbody>${sorted.length===0 ? emptyRow(9,'Excel을 업로드하면 출장 현황이 표시됩니다.') : sorted.map((t,i)=>{
+  </tr></thead><tbody>${sorted.length===0 ? emptyRow(9,'Excel을 업로드하면 출장 이력이 표시됩니다.') : sorted.map((t,i)=>{
     const pk = purposeKey(t['출장목적']);
     const displayNo = sorted.length - i;
     return `<tr>
@@ -4654,8 +4743,8 @@ function renderTripPage(){
       <td class="ctr">${esc(t['품목'])}</td>
       <td class="ctr">${esc(t['방문업체'])}</td>
       <td class="ctr">${esc(t['국가'])}</td>
-      <td class="ctr nowrap"><span class="date-code">${excelDate(t['출발일'])}</span></td>
-      <td class="ctr nowrap"><span class="date-code">${excelDate(t['복귀일'])}</span></td>
+      <td class="ctr nowrap"><span class="date-code" style="color:#0B1220">${excelDate(t['출발일'])}</span></td>
+      <td class="ctr nowrap"><span class="date-code" style="color:#0B1220">${excelDate(t['복귀일'])}</span></td>
     </tr>`;
   }).join('')}</tbody>`;
 }
@@ -4690,6 +4779,8 @@ async function handleRawUpload(e){
       alert('Excel 파일(.xlsx)만 업로드 가능합니다.');
       e.target.value=''; return;
     }
+    toast('Excel 파일 읽는 중…');
+    await new Promise(r => setTimeout(r, 0));
     console.log('[Upload] parseXLSX 시작...');
     const workbook = await parseXLSX(await file.arrayBuffer());
     if(workbook[NCR_SHEET_LEGACY] && !workbook[NCR_SHEET]){
@@ -4724,7 +4815,6 @@ async function handleRawUpload(e){
       return;
     }
     const summary = matched.map(s=>`${s}: ${RAW[s].length}행`).join(', ');
-    toast(`반영 완료 — ${summary}`);
     console.log('[Upload] renderAll 호출');
     renderAll();
   }catch(err){
@@ -4750,28 +4840,35 @@ async function unzip(buffer){
   for(let i=data.length-22;i>=0;i--){if(u32(data,i)===0x06054b50){eocd=i;break;}}
   if(eocd<0) throw new Error('ZIP 구조를 찾을 수 없습니다.');
   const cdSize = u32(data,eocd+12), cdOffset = u32(data,eocd+16);
-  let p = cdOffset; const files = {};
+  const td = new TextDecoder();
+  let p = cdOffset;
+  const entries = [];
   while(p < cdOffset+cdSize){
     if(u32(data,p)!==0x02014b50) break;
     const comp = u16(data,p+10), csize = u32(data,p+20);
     const nlen = u16(data,p+28), xlen = u16(data,p+30), clen = u16(data,p+32);
     const lhoff = u32(data,p+42);
-    const name = new TextDecoder().decode(data.slice(p+46, p+46+nlen));
+    const name = td.decode(data.slice(p+46, p+46+nlen));
     const lhName = u16(data,lhoff+26), lhExtra = u16(data,lhoff+28);
     const start = lhoff+30+lhName+lhExtra;
-    const compBytes = data.slice(start, start+csize);
+    entries.push({name, comp, compBytes: data.slice(start, start+csize)});
+    p += 46+nlen+xlen+clen;
+  }
+  const results = await Promise.all(entries.map(async ({name, comp, compBytes})=>{
     let out;
     if(comp===0) out = compBytes;
     else if(comp===8) out = await inflateRaw(compBytes);
     else throw new Error('지원하지 않는 압축 방식: '+comp);
-    files[name] = out;
-    p += 46+nlen+xlen+clen;
-  }
+    return {name, out};
+  }));
+  const files = {};
+  results.forEach(({name, out})=>{ files[name] = out; });
   return files;
 }
 function xmlDoc(bytes){return new DOMParser().parseFromString(new TextDecoder('utf-8').decode(bytes),'application/xml')}
 function getText(node){return node?node.textContent:''}
-function colIndex(ref){const letters=String(ref).replace(/[0-9]/g,''); let n=0; for(const ch of letters)n=n*26+(ch.charCodeAt(0)-64); return n-1}
+const _colIdxCache=new Map();
+function colIndex(ref){const letters=String(ref).replace(/[0-9]/g,''); if(_colIdxCache.has(letters)) return _colIdxCache.get(letters); let n=0; for(const ch of letters)n=n*26+(ch.charCodeAt(0)-64); const r=n-1; _colIdxCache.set(letters,r); return r;}
 async function parseXLSX(buffer){
   const files = await unzip(buffer);
   const wb = xmlDoc(files['xl/workbook.xml']);
@@ -4817,7 +4914,9 @@ function rowsToObjects(matrix){
 }
 
 function downloadRawExcel(){
-  const filename = `PQ_Dashboard_${new Date().toISOString().slice(0,10)}.xlsx`;
+  const _n = new Date();
+  const _ymd = String(_n.getFullYear()).slice(2) + String(_n.getMonth()+1).padStart(2,'0') + String(_n.getDate()).padStart(2,'0');
+  const filename = `${_ymd}_플랜트구매품질팀 통합관리 대시보드_Raw File.xlsx`;
   const bytes = buildXLSX();
   const blob = new Blob([bytes], {type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
   const url = URL.createObjectURL(blob);
@@ -5164,7 +5263,7 @@ window.__REPORT_FX_RATE__ = ${fxRate};
     const a = document.createElement('a');
     const safeDate = reportDate.replace(/[^0-9]/g,'').slice(0,8) || new Date().toISOString().slice(0,10).replace(/-/g,'');
     a.href = url;
-    a.download = `플랜트구매품질팀_대시보드_${safeDate}.html`;
+    a.download = `${safeDate.length>=8 ? safeDate.slice(2) : safeDate}_플랜트구매품질팀 통합관리 대시보드.html`;
     document.body.appendChild(a); a.click(); document.body.removeChild(a);
     setTimeout(()=>URL.revokeObjectURL(url), 1500);
     toast('보고용 HTML 파일이 다운로드되었습니다.');
