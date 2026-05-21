@@ -1093,33 +1093,47 @@ button{cursor:pointer;border:none;background:none}
 
 /* 인쇄 */
 .print-only{display:none}
-@media(max-width:1180px){
+/* Mobile optimization */
+
+/* ── Tablet: 768px – 1179px ── */
+@media(max-width:1179px){
+  .page{padding:14px 20px 24px}
   .g5{grid-template-columns:repeat(3,1fr)}
   .g4{grid-template-columns:repeat(2,1fr)}
-  .g3,.g31,.g21,.g2{grid-template-columns:1fr}
+  .g3{grid-template-columns:repeat(2,1fr)}
+  /* g2, g31, g21: 비율 그리드는 태블릿 폭에서 그대로 유지 */
 }
-@media(max-width:760px){
+
+/* ── Small Tablet / Large Phone: 480px – 767px ── */
+@media(max-width:767px){
   body{font-size:13.5px}
-  .page{padding:12px 14px 20px}
-  .g5,.g4,.g3,.g2{grid-template-columns:1fr}
+  .page{padding:10px 14px 22px}
+  .g5,.g4,.g3{grid-template-columns:repeat(2,1fr)}
+  .g31,.g21{grid-template-columns:1fr}
+  .h-sep{height:8px}
   .hd-meta{flex-direction:column;align-items:flex-start;gap:10px}
   .hd-date{text-align:left}
   .tab{padding:9px 12px}
-  .h-sep{height:8px}
+  /* 터치 영역 확보 */
+  .filters .input,.filters .select{min-height:44px;width:auto!important;min-width:0!important}
+  /* NCR 테이블 가로 스크롤 복구 */
+  #ncr .tbl-wrap{overflow-x:auto!important}
+  /* HPMS 3열 → 1열 */
+  .hpms-3col{grid-template-columns:1fr}
+  .hpms-col+.hpms-col{border-left:none;border-top:1px solid var(--line2)}
+  /* TPA 차트 고정 행 높이 해제 */
+  #tpaMonthly .grid.g21{grid-auto-rows:auto!important}
+  #tpaProjChart,#tpaMonthlyChart{height:280px!important}
 }
 
-/* ============================================================
-   모바일 최적화 – Galaxy S24 (≤430px)
-   데스크톱(>760px) 레이아웃에 영향 없음
-   ============================================================ */
+/* ── Phone: ≤ 430px ── */
 @media(max-width:430px){
 
   /* ── 헤더 ── */
-  .report-head{padding:10px 12px 0;flex-direction:column;align-items:flex-start;gap:8px;}
-  .hd-right{flex-direction:column;align-items:flex-start;width:100%;}
+  .report-head{padding:10px 12px 0;flex-direction:column;align-items:flex-start;gap:8px}
+  .hd-right{flex-direction:column;align-items:flex-start;width:100%}
   .hd-brand{font-size:17px;letter-spacing:-.02em}
   .hd-brand .kicker{font-size:9.5px;margin-bottom:3px;letter-spacing:.1em}
-
   /* fx-pill 전체 너비 */
   .hd-meta{flex-direction:column;align-items:flex-start;gap:8px;width:100%}
   .fx-pill{width:100%;justify-content:space-between}
@@ -1133,7 +1147,7 @@ button{cursor:pointer;border:none;background:none}
   .hd-actions::-webkit-scrollbar{display:none}
   .btn{padding:8px 10px;font-size:11px;min-height:38px;flex-shrink:0;white-space:nowrap}
 
-  /* ── 틀고정: 헤더는 스크롤, 탭바만 고정 ── */
+  /* ── 틀고정: 헤더 스크롤, 탭바만 고정 ── */
   .sticky-shell{position:static}
   .tab-bar{position:sticky;top:0;z-index:1000;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.10)}
 
@@ -1149,16 +1163,17 @@ button{cursor:pointer;border:none;background:none}
   .subtab{padding:8px 10px;font-size:11px;flex-shrink:0;white-space:nowrap}
 
   /* ── 페이지 컨테이너 ── */
-  .page{padding:12px 12px 32px}
+  .page{padding:12px 10px 32px}
   .h-sep{height:10px}
 
-  /* ── 그리드 – 모두 단열 ── */
-  .g5,.g4,.g3,.g2,.g31,.g21{grid-template-columns:1fr}
+  /* ── 그리드: g5/g4/g3 → 2열, g31/g21 → 1열, g2 → 2열 유지 ── */
+  .g5,.g4,.g3{grid-template-columns:repeat(2,1fr)}
+  .g31,.g21{grid-template-columns:1fr}
 
   /* ── KPI 카드 ── */
-  .kpi{padding:12px 13px;min-height:88px}
-  .kpi-val{font-size:24px}
-  .kpi-val .unit{font-size:12px}
+  .kpi{padding:10px 12px;min-height:80px}
+  .kpi-val{font-size:22px}
+  .kpi-val .unit{font-size:11px}
   .kpi-label{font-size:10px;letter-spacing:.06em}
   .kpi-sub{font-size:11px}
 
@@ -1176,9 +1191,9 @@ button{cursor:pointer;border:none;background:none}
   /* ── 테이블 ── */
   .tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;transform:translateZ(0)}
   .tbl{font-size:11.5px}
-  .tbl th,.tbl td{padding:8px 9px}
-  .tbl th{font-size:9.5px;letter-spacing:.04em;-webkit-transform:translateZ(0);transform:translateZ(0)}
-  .tbl.dense td,.tbl.dense th{padding:7px 8px;font-size:11px}
+  .tbl th,.tbl td{padding:7px 8px}
+  .tbl th{font-size:9.5px;letter-spacing:.04em}
+  .tbl.dense td,.tbl.dense th{padding:6px 7px;font-size:11px}
 
   /* ── 금액 셀 ── */
   .money .usd{font-size:11.5px}
@@ -1213,10 +1228,10 @@ button{cursor:pointer;border:none;background:none}
   .risk-item .v{text-align:left}
 
   /* ── 바 ── */
-  .bar-wrap{min-width:90px}
-  .tpa-bar{min-width:110px}
-  .pct{font-size:11px;width:40px}
-  .tpa-pct{font-size:11px;width:42px}
+  .bar-wrap{min-width:70px}
+  .tpa-bar{min-width:90px}
+  .pct{font-size:11px;width:36px}
+  .tpa-pct{font-size:11px;width:38px}
 
   /* ── 조직도 ── */
   .org-canvas{padding:14px 10px 6px}
@@ -1227,13 +1242,22 @@ button{cursor:pointer;border:none;background:none}
   /* ── 필터 / 컨트롤 ── */
   .control-row{flex-direction:column;align-items:flex-start;gap:8px}
   .filters{flex-wrap:wrap;gap:6px}
-  .select,.input{font-size:13px;padding:9px 10px;min-height:38px;width:100%}
+  .filters .input,.filters .select{font-size:12.5px;padding:9px 10px;min-height:44px;width:auto!important;min-width:0!important;flex:1 1 calc(50% - 4px)}
 
   /* ── 토스트 ── */
   .toast{right:12px;left:12px;bottom:14px;text-align:center}
 
-  /* ── 툴팁 비활성 (모바일 hover 불가) ── */
+  /* ── 툴팁 비활성 (터치 환경 hover 불가) ── */
   [data-tip]:after{display:none}
+}
+
+/* ── Very Small Phone: ≤ 390px ── */
+@media(max-width:390px){
+  .page{padding:10px 8px 28px}
+  /* 최소 폭에서만 2열 → 1열 전환 */
+  .g5,.g4,.g3,.g2{grid-template-columns:1fr}
+  .kpi-val{font-size:20px}
+  .filters .input,.filters .select{flex:1 1 100%}
 }
 
 @media print{
