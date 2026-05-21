@@ -2661,7 +2661,7 @@ function moneyContractCell(row, kind){
 }
 
 function toast(msg){ const t=$('toast'); if(!t)return; t.textContent=msg||'완료'; t.classList.add('on'); clearTimeout(toast._t); toast._t=setTimeout(()=>t.classList.remove('on'),2200); }
-function setReportDate(){ const dt=todayKor(); const el=$('reportDate'); if(el) el.textContent=dt; }
+function setReportDate(){ if(window.__REPORT_MODE__) return; const dt=todayKor(); const el=$('reportDate'); if(el) el.textContent=dt; }
 
 async function fetchFx(){
   const sources = [
@@ -5220,6 +5220,8 @@ function downloadStaticHTML(){
       return;
     }
     const doctype = '<!DOCTYPE html>\n';
+    const toastEl = document.getElementById('toast');
+    if(toastEl) toastEl.classList.remove('on');
     let html = document.documentElement.outerHTML;
 
     const dataJson = JSON.stringify(RAW).replace(/<\//g, '<\\/');
@@ -5263,7 +5265,7 @@ window.__REPORT_FX_RATE__ = ${fxRate};
     const a = document.createElement('a');
     const safeDate = reportDate.replace(/[^0-9]/g,'').slice(0,8) || new Date().toISOString().slice(0,10).replace(/-/g,'');
     a.href = url;
-    a.download = `${safeDate.length>=8 ? safeDate.slice(2) : safeDate}_플랜트구매품질팀 통합관리 대시보드.html`;
+    a.download = `${safeDate.length>=8 ? safeDate.slice(2) : safeDate}_플랜트구매품질팀 통합관리 대시보드_보고용.html`;
     document.body.appendChild(a); a.click(); document.body.removeChild(a);
     setTimeout(()=>URL.revokeObjectURL(url), 1500);
     toast('보고용 HTML 파일이 다운로드되었습니다.');
