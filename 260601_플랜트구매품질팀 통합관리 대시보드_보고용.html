@@ -1097,7 +1097,9 @@ details.proj-group > summary .proj-title{
   content:'';position:absolute;right:-40px;top:-40px;
   width:200px;height:200px;border-radius:50%;
   background:rgba(255,255,255,.04);
+  pointer-events:none;  /* 장식용 원형이 CTA 클릭을 가로채지 않도록 */
 }
+.upload-banner .cta{position:relative;z-index:1}
 .upload-banner .icon-box{
   width:52px;height:52px;border-radius:10px;
   background:rgba(255,255,255,.12);
@@ -1516,7 +1518,7 @@ details.proj-group > summary .proj-title{
 <script>
 window.__REPORT_MODE__ = true;
 window.__REPORT_DATE__ = "2026. 06. 01";
-window.__REPORT_FX_SRC__ = "보고일 기준 오전 11:19 조회";
+window.__REPORT_FX_SRC__ = "보고일 기준 오전 11:26 조회";
 window.__REPORT_FX_RATE__ = 1506.83;
 </script>
 </head>
@@ -1534,7 +1536,7 @@ window.__REPORT_FX_RATE__ = 1506.83;
 실패 시 직접 입력하세요.">
         <span class="lbl">KRW/USD</span>
         <input id="fxInput" type="number" step="0.01" value="1506.83" readonly />
-        <span class="src" id="fxSource">오전 11:19 조회</span>
+        <span class="src" id="fxSource">오전 11:26 조회</span>
       </div>
       <div class="hd-date">
         <span class="top">REPORT · 플랜트구매품질팀</span>
@@ -1553,14 +1555,14 @@ window.__REPORT_FX_RATE__ = 1506.83;
 
 <div class="tab-bar">
 <nav class="tabs">
-  <button class="tab" data-page="issues"><span class="num">01</span>주요현안</button>
-  <button class="tab on" data-page="projects" data-group="projects"><span class="num">02</span>프로젝트</button>
+  <button class="tab on" data-page="issues"><span class="num">01</span>주요현안</button>
+  <button class="tab" data-page="projects" data-group="projects"><span class="num">02</span>프로젝트</button>
   <button class="tab" data-page="tpa" data-group="tpa"><span class="num">03</span>TPA</button>
   <button class="tab" data-page="pqan"><span class="num">04</span>PQAN</button>
   <button class="tab" data-page="manpower"><span class="num">05</span>인력운영</button>
   <button class="tab" data-page="trip"><span class="num">06</span>출장</button>
 </nav>
-<nav class="subtabs" id="projectsSubtabs">
+<nav class="subtabs hidden" id="projectsSubtabs">
   <button class="subtab on" data-page="projects">통합현황</button>
   <button class="subtab" data-page="stage">구매품질현황</button>
   <button class="subtab" data-page="ncr">NCR 처리현황</button>
@@ -1577,7 +1579,7 @@ window.__REPORT_FX_RATE__ = 1506.83;
 
 
 
-<section class="page on" id="projects">
+<section class="page" id="projects">
   <div class="card">
     <div class="card-hd">
       <div class="card-title"><span class="bar"></span>프로젝트 현황</div>
@@ -1587,153 +1589,9 @@ window.__REPORT_FX_RATE__ = 1506.83;
       <input class="input" id="projectSearchStage" placeholder="단계 검색" style="width:130px">
       <input class="input" id="projectSearchClient" placeholder="발주처 검색" style="width:130px">
       <input class="input" id="projectSearchCountry" placeholder="국가 검색" style="width:130px">
-      <span id="projectCount" style="font-size:11px;color:var(--muted)">11건</span>
+      <span id="projectCount" style="font-size:11px;color:var(--muted)"></span>
     </div>
-    <div class="card-body flush"><div class="tbl-wrap"><table class="tbl" id="projectTbl"><thead><tr>
-    <th class="ctr" style="min-width:90px">프로젝트</th>
-    <th class="ctr">단계</th>
-    <th class="ctr">발주처</th>
-    <th class="ctr">국가</th>
-    <th class="ctr">PD</th>
-    <th class="ctr">PQCM</th>
-    <th class="right">HDEC 계약고</th>
-    <th class="ctr">공정률</th>
-    <th class="ctr">구매품질 진척률</th>
-    <th class="ctr">TPA 계약고 소진율</th>
-    <th class="ctr" style="min-width:75px;width:75px">NCR (OPEN/TOTAL)</th>
-  </tr></thead><tbody><tr>
-      <td class="ctr code">MIP6</td>
-      <td class="ctr"><span class="tag mc dot">MC</span></td>
-      <td class="ctr">Aramco</td>
-      <td class="ctr">사우디아라비아</td>
-      <td class="ctr">-</td>
-      <td class="ctr">-</td>
-      <td class="right money-r"><div class="money"><span class="usd">$1,484M</span><span class="krw">₩22,361억</span></div></td>
-      <td><div class="bar-wrap"><div class="bar"><div class="fill mc" style="width:100%"></div></div><span class="pct">100.0%</span></div></td>
-      <td><div class="bar-wrap"><div class="bar"><div class="fill mc" style="width:100%"></div></div><span class="pct">100.0%</span></div></td>
-      <td><div class="bar-wrap"><div class="bar"><div class="fill mc" style="width:99.90980170738808%"></div></div><span class="pct">99.9%</span></div></td>
-      <td class="ctr"><span class="date-code">0 </span> <span class="date-code">/ 55</span></td>
-    </tr><tr>
-      <td class="ctr code">SM12</td>
-      <td class="ctr"><span class="tag ok dot">Active</span></td>
-      <td class="ctr">Aramco</td>
-      <td class="ctr">사우디아라비아</td>
-      <td class="ctr">정준택 상무</td>
-      <td class="ctr">장동철 책임</td>
-      <td class="right money-r"><div class="money"><span class="usd">$1,318M</span><span class="krw">₩19,860억</span></div></td>
-      <td><div class="bar-wrap"><div class="bar"><div class="fill danger" style="width:99.97%"></div></div><span class="pct">99.9%</span></div></td>
-      <td><div class="bar-wrap"><div class="bar"><div class="fill danger" style="width:99.57507082152975%"></div></div><span class="pct">99.5%</span></div></td>
-      <td><div class="bar-wrap"><div class="bar"><div class="fill danger" style="width:99.56993900382004%"></div></div><span class="pct">99.5%</span></div></td>
-      <td class="ctr"><span class="date-code">0 </span> <span class="date-code">/ 80</span></td>
-    </tr><tr>
-      <td class="ctr code">IBRU</td>
-      <td class="ctr"><span class="tag mc dot">MC</span></td>
-      <td class="ctr">BOC</td>
-      <td class="ctr">이라크</td>
-      <td class="ctr">정태수 소장</td>
-      <td class="ctr">-</td>
-      <td class="right money-r"><div class="money"><span class="usd">$1,814M</span><span class="krw">₩27,334억</span></div></td>
-      <td><div class="bar-wrap"><div class="bar"><div class="fill mc" style="width:100%"></div></div><span class="pct">100.0%</span></div></td>
-      <td><div class="bar-wrap"><div class="bar"><div class="fill mc" style="width:100%"></div></div><span class="pct">100.0%</span></div></td>
-      <td><div class="bar-wrap"><div class="bar"><div class="fill mc" style="width:89.66967054207035%"></div></div><span class="pct">89.6%</span></div></td>
-      <td class="ctr"><span class="date-code">0 </span> <span class="date-code">/ 7</span></td>
-    </tr><tr>
-      <td class="ctr code">SHN1</td>
-      <td class="ctr"><span class="tag ok dot">Active</span></td>
-      <td class="ctr">S-Oil</td>
-      <td class="ctr">대한민국</td>
-      <td class="ctr">이현영 실장</td>
-      <td class="ctr">이해석 책임</td>
-      <td class="right money-r"><div class="money"><span class="usd">$1,586M</span><span class="krw">₩23,891억</span></div></td>
-      <td><div class="bar-wrap"><div class="bar"><div class="fill danger" style="width:96.28%"></div></div><span class="pct">96.2%</span></div></td>
-      <td><div class="bar-wrap"><div class="bar"><div class="fill danger" style="width:93.75%"></div></div><span class="pct">93.7%</span></div></td>
-      <td><div class="bar-wrap"><div class="bar"><div class="fill warn" style="width:78.20144798009395%"></div></div><span class="pct">78.2%</span></div></td>
-      <td class="ctr"><span class="date-code">0 </span> <span class="date-code">/ 15</span></td>
-    </tr><tr>
-      <td class="ctr code">ALOM</td>
-      <td class="ctr"><span class="tag ok dot">Active</span></td>
-      <td class="ctr">Hyenco</td>
-      <td class="ctr">알제리</td>
-      <td class="ctr">정민권 소장</td>
-      <td class="ctr">윤희수 책임</td>
-      <td class="right money-r"><div class="money"><span class="usd">$584M</span><span class="krw">₩8,800억</span></div></td>
-      <td><div class="bar-wrap"><div class="bar"><div class="fill ok" style="width:59.8%"></div></div><span class="pct">59.8%</span></div></td>
-      <td><div class="bar-wrap"><div class="bar"><div class="fill warn" style="width:83.78378378378378%"></div></div><span class="pct">83.7%</span></div></td>
-      <td><div class="bar-wrap"><div class="bar"><div class="fill ok" style="width:53.53307276203402%"></div></div><span class="pct">53.5%</span></div></td>
-      <td class="ctr"><span class="date-code">0 </span> <span class="date-code">/ 17</span></td>
-    </tr><tr>
-      <td class="ctr code">VEQU</td>
-      <td class="ctr"><span class="tag ok dot">Active</span></td>
-      <td class="ctr">EVN</td>
-      <td class="ctr">베트남</td>
-      <td class="ctr">이윤석 소장</td>
-      <td class="ctr">윤희수 책임</td>
-      <td class="right money-r"><div class="money"><span class="usd">$952M</span><span class="krw">₩14,345억</span></div></td>
-      <td><div class="bar-wrap"><div class="bar"><div class="fill danger" style="width:99.15%"></div></div><span class="pct">99.1%</span></div></td>
-      <td><div class="bar-wrap"><div class="bar"><div class="fill danger" style="width:99.47916666666667%"></div></div><span class="pct">99.4%</span></div></td>
-      <td><div class="bar-wrap"><div class="bar"><div class="fill warn" style="width:88.93812708299664%"></div></div><span class="pct">88.9%</span></div></td>
-      <td class="ctr"><span class="date-code">0 </span> <span class="date-code">/ 9</span></td>
-    </tr><tr>
-      <td class="ctr code">STA4</td>
-      <td class="ctr"><span class="tag ok dot">Active</span></td>
-      <td class="ctr">satorp</td>
-      <td class="ctr">사우디아라비아</td>
-      <td class="ctr">임영빈 상무</td>
-      <td class="ctr">최우석 책임</td>
-      <td class="right money-r"><div class="money"><span class="usd">$2,136M</span><span class="krw">₩32,186억</span></div></td>
-      <td><div class="bar-wrap"><div class="bar"><div class="fill warn" style="width:88.31%"></div></div><span class="pct">88.3%</span></div></td>
-      <td><div class="bar-wrap"><div class="bar"><div class="fill warn" style="width:71.300826446281%"></div></div><span class="pct">71.3%</span></div></td>
-      <td><div class="bar-wrap"><div class="bar"><div class="fill warn" style="width:89.9795293979232%"></div></div><span class="pct">89.9%</span></div></td>
-      <td class="ctr"><span class="date-code ncr-active">10 </span> <span class="date-code">/ 57</span></td>
-    </tr><tr>
-      <td class="ctr code">SAC2</td>
-      <td class="ctr"><span class="tag ok dot">Active</span></td>
-      <td class="ctr">Aramco</td>
-      <td class="ctr">사우디아라비아</td>
-      <td class="ctr">김형철 실장</td>
-      <td class="ctr">최종현 책임</td>
-      <td class="right money-r"><div class="money"><span class="usd">$1,184M</span><span class="krw">₩17,841억</span></div></td>
-      <td><div class="bar-wrap"><div class="bar"><div class="fill warn" style="width:72.58%"></div></div><span class="pct">72.5%</span></div></td>
-      <td><div class="bar-wrap"><div class="bar"><div class="fill ok" style="width:61.39180862631388%"></div></div><span class="pct">61.3%</span></div></td>
-      <td><div class="bar-wrap"><div class="bar"><div class="fill warn" style="width:75.26371671232873%"></div></div><span class="pct">75.2%</span></div></td>
-      <td class="ctr"><span class="date-code">0 </span> <span class="date-code">/ 8</span></td>
-    </tr><tr>
-      <td class="ctr code">CSSP</td>
-      <td class="ctr"><span class="tag ok dot">Active</span></td>
-      <td class="ctr">TotalEnergies</td>
-      <td class="ctr">이라크</td>
-      <td class="ctr">박수철 상무</td>
-      <td class="ctr">정진우 책임</td>
-      <td class="right money-r"><div class="money"><span class="usd">$3,160M</span><span class="krw">₩47,616억</span></div></td>
-      <td><div class="bar-wrap"><div class="bar"><div class="fill ok" style="width:7.539999999999999%"></div></div><span class="pct">7.5%</span></div></td>
-      <td><div class="bar-wrap"><div class="bar"><div class="fill ok" style="width:6.621621621621621%"></div></div><span class="pct">6.6%</span></div></td>
-      <td><div class="bar-wrap"><div class="bar"><div class="fill dim" style="width:0%"></div></div><span class="pct dim">-</span></div></td>
-      <td class="ctr"><span class="date-code">0 </span> <span class="date-code">/ 0</span></td>
-    </tr><tr>
-      <td class="ctr code">PNG1</td>
-      <td class="ctr"><span class="tag ok dot">Active</span></td>
-      <td class="ctr">ExxonMobil</td>
-      <td class="ctr">파푸아뉴기니</td>
-      <td class="ctr">최성식 팀장</td>
-      <td class="ctr">강태준 책임</td>
-      <td class="right money-r"><div class="money"><span class="usd">$1,600M</span><span class="krw">₩24,109억</span></div></td>
-      <td><div class="bar-wrap"><div class="bar"><div class="fill dim" style="width:0%"></div></div><span class="pct">0.0%</span></div></td>
-      <td><div class="bar-wrap"><div class="bar"><div class="fill ok" style="width:6%"></div></div><span class="pct">6.0%</span></div></td>
-      <td><div class="bar-wrap"><div class="bar"><div class="fill dim" style="width:0%"></div></div><span class="pct dim">-</span></div></td>
-      <td class="ctr"><span class="date-code">0 </span> <span class="date-code">/ 0</span></td>
-    </tr><tr>
-      <td class="ctr code">ALSM</td>
-      <td class="ctr"><span class="tag info dot">Bid</span></td>
-      <td class="ctr">HPLS</td>
-      <td class="ctr">미국</td>
-      <td class="ctr">백철욱 상무</td>
-      <td class="ctr">강태준 책임</td>
-      <td class="right money-r"><div class="money"><span class="usd">$5,800M</span><span class="krw">₩87,396억</span></div></td>
-      <td><div class="bar-wrap"><div class="bar"><div class="fill dim" style="width:0%"></div></div><span class="pct">0.0%</span></div></td>
-      <td><div class="bar-wrap"><div class="bar"><div class="fill dim" style="width:0%"></div></div><span class="pct dim">-</span></div></td>
-      <td><div class="bar-wrap"><div class="bar"><div class="fill dim" style="width:0%"></div></div><span class="pct dim">-</span></div></td>
-      <td class="ctr"><span class="date-code">0 </span> <span class="date-code">/ 0</span></td>
-    </tr></tbody></table></div></div>
+    <div class="card-body flush"><div class="tbl-wrap"><table class="tbl" id="projectTbl"></table></div></div>
   </div>
 </section>
 
@@ -1800,21 +1658,59 @@ window.__REPORT_FX_RATE__ = 1506.83;
   <div class="card">
     <div class="card-hd">
       <div class="card-title"><span class="bar"></span>PQAN 목록</div>
-      <div id="pqanDiscTags" style="display:flex;flex-wrap:wrap;gap:4px;flex:1;justify-content:flex-end"></div>
+      <div id="pqanDiscTags" style="display:flex;flex-wrap:wrap;gap:4px;flex:1;justify-content:flex-end"><span style="display:inline-flex;align-items:baseline;gap:5px;padding:3px 10px;background:var(--soft);border:1px solid var(--line);border-radius:999px;opacity:.4"><span style="font-size:11px;line-height:1;color:var(--sub)">장치</span><span style="font-size:11px;line-height:1;font-weight:700;color:var(--ink);font-family:'JetBrains Mono',monospace">0</span></span><span style="display:inline-flex;align-items:baseline;gap:5px;padding:3px 10px;background:var(--soft);border:1px solid var(--line);border-radius:999px;opacity:.4"><span style="font-size:11px;line-height:1;color:var(--sub)">회전</span><span style="font-size:11px;line-height:1;font-weight:700;color:var(--ink);font-family:'JetBrains Mono',monospace">0</span></span><span style="display:inline-flex;align-items:baseline;gap:5px;padding:3px 10px;background:var(--soft);border:1px solid var(--line);border-radius:999px;opacity:.4"><span style="font-size:11px;line-height:1;color:var(--sub)">배관</span><span style="font-size:11px;line-height:1;font-weight:700;color:var(--ink);font-family:'JetBrains Mono',monospace">0</span></span><span style="display:inline-flex;align-items:baseline;gap:5px;padding:3px 10px;background:var(--soft);border:1px solid var(--line);border-radius:999px;opacity:.4"><span style="font-size:11px;line-height:1;color:var(--sub)">전기</span><span style="font-size:11px;line-height:1;font-weight:700;color:var(--ink);font-family:'JetBrains Mono',monospace">0</span></span><span style="display:inline-flex;align-items:baseline;gap:5px;padding:3px 10px;background:var(--soft);border:1px solid var(--line);border-radius:999px;opacity:.4"><span style="font-size:11px;line-height:1;color:var(--sub)">계장</span><span style="font-size:11px;line-height:1;font-weight:700;color:var(--ink);font-family:'JetBrains Mono',monospace">0</span></span><span style="display:inline-flex;align-items:baseline;gap:5px;padding:3px 10px;background:var(--soft);border:1px solid var(--line);border-radius:999px;opacity:.4"><span style="font-size:11px;line-height:1;color:var(--sub)">철골</span><span style="font-size:11px;line-height:1;font-weight:700;color:var(--ink);font-family:'JetBrains Mono',monospace">0</span></span></div>
     </div>
     <div class="filters" style="padding:10px 16px;flex-wrap:wrap;gap:8px">
       <select class="select" id="pqanFilterDiscipline"><option value="">전체 공종</option></select>
       <input class="input" id="pqanSearch" placeholder="제목 · 품목 검색" style="min-width:240px;flex:none">
-      <span id="pqanCount" style="font-size:11px;color:var(--muted);align-self:center;white-space:nowrap"></span>
+      <span id="pqanCount" style="font-size:11px;color:var(--muted);align-self:center;white-space:nowrap">0건</span>
     </div>
-    <div class="card-body flush"><div class="tbl-wrap"><table class="tbl" id="pqanTbl"></table></div></div>
+    <div class="card-body flush"><div class="tbl-wrap"><table class="tbl" id="pqanTbl"><thead><tr>
+    <th class="ctr" style="width:9%">PQAN No.</th>
+    <th class="ctr" style="width:6%">배포일</th>
+    <th class="ctr" style="width:5%">공종</th>
+    <th class="ctr" style="width:28%">제목</th>
+    <th class="ctr" style="width:20%">품목</th>
+    <th class="ctr" style="width:17%">공급업체</th>
+    <th class="ctr" style="width:8%">국가</th>
+    <th class="ctr" style="width:7%">Teams 링크</th>
+  </tr></thead><tbody><tr><td colspan="8" style="padding:0;border:none;background:transparent">
+    <div class="empty-state">
+      <span class="ico">⊕</span>
+      <div class="title">데이터가 없습니다</div>
+      <div class="desc">Excel을 업로드하면 PQAN 목록이 표시됩니다.</div>
+    </div>
+  </td></tr></tbody></table></div></div>
   </div>
 </section>
 
 <section class="page" id="tpa">
   <div class="card">
     <div class="card-hd"><div class="card-title"><span class="bar"></span>TPA 목록</div></div>
-    <div class="card-body flush"><div class="tbl-wrap"><table class="tbl" id="tpaListTbl"></table></div></div>
+    <div class="card-body flush"><div class="tbl-wrap"><table class="tbl" id="tpaListTbl"><colgroup>
+    <col style="width:64px">
+    <col>
+    <col style="width:200px"><col style="width:200px"><col style="width:200px">
+
+  </colgroup><thead>
+    <tr>
+      <th rowspan="2" class="ctr col-no sortable" style="vertical-align:middle" onclick="setSortTpa('순번')">순번</th>
+      <th rowspan="2" class="col-tpa sortable" style="vertical-align:middle" onclick="setSortTpa('TPA')">TPA ▲</th>
+      <th rowspan="2" class="ctr col-score sortable" style="vertical-align:middle" onclick="setSortTpa('등록평가')">등록평가</th>
+      <th colspan="2" class="ctr">정기평가</th>
+    </tr>
+    <tr>
+      
+      <th class="ctr col-score sortable sticky2" onclick="setSortTpa('평균')">평균</th>
+      <th class="ctr col-score sticky2">추이</th>
+    </tr>
+  </thead><tbody><tr><td colspan="5" style="padding:0;border:none;background:transparent">
+    <div class="empty-state">
+      <span class="ico">⊕</span>
+      <div class="title">데이터가 없습니다</div>
+      <div class="desc">Excel을 업로드하면 TPA 목록이 표시됩니다.</div>
+    </div>
+  </td></tr></tbody></table></div></div>
   </div>
 </section>
 
@@ -1887,23 +1783,23 @@ window.__REPORT_FX_RATE__ = 1506.83;
   <div class="grid g5">
     <div class="card">
       <div class="card-hd"><div class="card-title"><span class="bar"></span>연도별</div></div>
-      <div class="card-body trip-stat" id="tripStatYear"></div>
+      <div class="card-body trip-stat" id="tripStatYear"><div class="empty-state" style="margin:8px;padding:18px"><div class="title" style="font-size:12px">데이터 없음</div></div></div>
     </div>
     <div class="card">
       <div class="card-hd"><div class="card-title"><span class="bar"></span>목적별</div></div>
-      <div class="card-body trip-stat" id="tripStatPurpose"></div>
+      <div class="card-body trip-stat" id="tripStatPurpose"><div class="empty-state" style="margin:8px;padding:18px"><div class="title" style="font-size:12px">데이터 없음</div></div></div>
     </div>
     <div class="card">
       <div class="card-hd"><div class="card-title"><span class="bar"></span>프로젝트별</div></div>
-      <div class="card-body trip-stat" id="tripStatProject"></div>
+      <div class="card-body trip-stat" id="tripStatProject"><div class="empty-state" style="margin:8px;padding:18px"><div class="title" style="font-size:12px">데이터 없음</div></div></div>
     </div>
     <div class="card">
       <div class="card-hd"><div class="card-title"><span class="bar"></span>국가별</div></div>
-      <div class="card-body trip-stat" id="tripStatCountry"></div>
+      <div class="card-body trip-stat" id="tripStatCountry"><div class="empty-state" style="margin:8px;padding:18px"><div class="title" style="font-size:12px">데이터 없음</div></div></div>
     </div>
     <div class="card">
       <div class="card-hd"><div class="card-title"><span class="bar"></span>인원별</div></div>
-      <div class="card-body trip-stat" id="tripStatTraveler"></div>
+      <div class="card-body trip-stat" id="tripStatTraveler"><div class="empty-state" style="margin:8px;padding:18px"><div class="title" style="font-size:12px">데이터 없음</div></div></div>
     </div>
   </div>
   <div class="h-sep"></div>
@@ -1916,19 +1812,44 @@ window.__REPORT_FX_RATE__ = 1506.83;
       <input class="input" id="tripSearchProject" placeholder="프로젝트 검색" style="width:130px">
       <input class="input" id="tripSearchVendor" placeholder="방문업체 검색" style="width:130px">
       <input class="input" id="tripSearchCountry" placeholder="국가 검색" style="width:130px">
-      <span class="muted" id="tripCount" style="font-size:11px;color:var(--muted)"></span>
-      <div class="trip-legend" id="tripLegend" style="margin-left:auto;padding-right:4px"></div>
+      <span class="muted" id="tripCount" style="font-size:11px;color:var(--muted)">0건</span>
+      <div class="trip-legend" id="tripLegend" style="margin-left:auto;padding-right:4px">
+      <span class="purpose-tag purpose-FAT"><span class="dot"></span>FAT</span>
+      <span class="purpose-tag purpose-PIM"><span class="dot"></span>PIM</span>
+      <span class="purpose-tag purpose-Monitoring"><span class="dot"></span>Monitoring</span>
+      <span class="purpose-tag purpose-공장검사"><span class="dot"></span>공장검사</span>
+      <span class="purpose-tag purpose-업체실사"><span class="dot"></span>업체실사</span>
+      <span class="purpose-tag purpose-업체감사"><span class="dot"></span>업체감사</span>
+      <span class="purpose-tag purpose-교육"><span class="dot"></span>교육</span>
+      <span class="purpose-tag purpose-현안미팅"><span class="dot"></span>현안미팅</span>
+      <span class="purpose-tag purpose-기타"><span class="dot"></span>기타</span></div>
     </div>
-    <div class="card-body flush"><div class="tbl-wrap"><table class="tbl" id="tripTbl"></table></div></div>
+    <div class="card-body flush"><div class="tbl-wrap"><table class="tbl" id="tripTbl"><thead><tr>
+    <th class="ctr">순번</th>
+    <th class="ctr">출장자</th>
+    <th class="ctr">목적</th>
+    <th class="ctr">프로젝트</th>
+    <th class="ctr">품목</th>
+    <th class="ctr">방문업체</th>
+    <th class="ctr">국가</th>
+    <th class="ctr">출발</th>
+    <th class="ctr">복귀</th>
+  </tr></thead><tbody><tr><td colspan="9" style="padding:0;border:none;background:transparent">
+    <div class="empty-state">
+      <span class="ico">⊕</span>
+      <div class="title">데이터가 없습니다</div>
+      <div class="desc">Excel을 업로드하면 출장 이력이 표시됩니다.</div>
+    </div>
+  </td></tr></tbody></table></div></div>
   </div>
 </section>
 
-<section class="page print-main" id="issues">
+<section class="page print-main on" id="issues">
   <div id="emptyBannerSlot"></div>
   <div class="grid g2">
     <div class="card">
       <div class="card-hd"><div class="card-title"><span class="bar"></span>프로젝트 현안</div></div>
-      <div class="card-body" id="projectIssueArea"><details class="proj-group" open=""><summary><span class="expand-icon" aria-hidden="true">▸</span><span class="proj-title">ALOM</span><span class="proj-count">3건</span></summary><div class="proj-group-body"><details class="issue " open=""><summary class="top"><div class="title-wrap"><span class="expand-icon" aria-hidden="true">▸</span><span class="proj-badge">ALOM</span><span class="title">전력 변압기 누유 발생</span></div><div class="date-chips"><span class="date-chip"><span class="k">등록</span>2025-10-15</span><span class="date-chip"><span class="k">종결</span>—</span></div><div class="meta">윤희수 책임</div></summary><div class="edit-grid"><div class="edit-block full"><label>제목</label><input type="text" placeholder="현안 제목을 입력하세요" value="전력 변압기 누유 발생" onclick="event.stopPropagation()" oninput="onIssueTitleInput(10,this)"></div><div class="edit-block full"><label>담당자</label><textarea class="owner-edit" rows="1" placeholder="담당자 (복수 입력 시 줄바꿈)" onclick="event.stopPropagation()" oninput="onIssueOwnerInput(10,this)">윤희수 책임</textarea></div><div class="edit-block"><label>등록일</label><input type="text" inputmode="numeric" maxlength="10" placeholder="YYYYMMDD (예: 20260415)" value="2025-10-15" onclick="event.stopPropagation()" oninput="onIssueDateInput(10,'등록일',this)"></div><div class="edit-block"><label>종결일</label><input type="text" inputmode="numeric" maxlength="10" placeholder="YYYYMMDD (예: 20260530)" value="" onclick="event.stopPropagation()" oninput="onIssueDateInput(10,'종결일',this)"></div></div><textarea class="status-edit" onclick="event.stopPropagation()" oninput="saveIssueField(10,'Status',this.value)" placeholder="현안 진행 상황을 입력하세요…"> ▷ 전력 변압기 누유 발생 (발주수량 : GSUT 6대, AUT 4대 / 1항차: 21년12월 입고, Block #1 G-3기, A-2기 / 2항차: 23년3월입고, Block#2)
+      <div class="card-body" id="projectIssueArea"><details class="proj-group"><summary><span class="expand-icon" aria-hidden="true">▸</span><span class="proj-title">ALOM</span><span class="proj-count">3건</span></summary><div class="proj-group-body"><details class="issue "><summary class="top"><div class="title-wrap"><span class="expand-icon" aria-hidden="true">▸</span><span class="proj-badge">ALOM</span><span class="title">전력 변압기 누유 발생</span></div><div class="date-chips"><span class="date-chip"><span class="k">등록</span>2025-10-15</span><span class="date-chip"><span class="k">종결</span>—</span></div><div class="meta">윤희수 책임</div></summary><div class="edit-grid"><div class="edit-block full"><label>제목</label><input type="text" placeholder="현안 제목을 입력하세요" value="전력 변압기 누유 발생" onclick="event.stopPropagation()" oninput="onIssueTitleInput(10,this)"></div><div class="edit-block full"><label>담당자</label><textarea class="owner-edit" rows="1" placeholder="담당자 (복수 입력 시 줄바꿈)" onclick="event.stopPropagation()" oninput="onIssueOwnerInput(10,this)">윤희수 책임</textarea></div><div class="edit-block"><label>등록일</label><input type="text" inputmode="numeric" maxlength="10" placeholder="YYYYMMDD (예: 20260415)" value="2025-10-15" onclick="event.stopPropagation()" oninput="onIssueDateInput(10,'등록일',this)"></div><div class="edit-block"><label>종결일</label><input type="text" inputmode="numeric" maxlength="10" placeholder="YYYYMMDD (예: 20260530)" value="" onclick="event.stopPropagation()" oninput="onIssueDateInput(10,'종결일',this)"></div></div><textarea class="status-edit" onclick="event.stopPropagation()" oninput="saveIssueField(10,'Status',this.value)" placeholder="현안 진행 상황을 입력하세요…"> ▷ 전력 변압기 누유 발생 (발주수량 : GSUT 6대, AUT 4대 / 1항차: 21년12월 입고, Block #1 G-3기, A-2기 / 2항차: 23년3월입고, Block#2)
     - 현황 : 25년 4월 4대/9개소, 26년 4월 6대/16개소
     - 배경 : 24년 3월 설치 후 25년 10월까지 탱크 용접부 및 볼트조인트 부에서 누유 발생으로 발주처 NCR 발행 (24/9월)
     - 경과 :
@@ -2231,7 +2152,7 @@ Damper 2건의 발주처 Query" onclick="event.stopPropagation()" oninput="onIss
     </div>
     <div class="card">
       <div class="card-hd"><div class="card-title"><span class="bar"></span>팀 내부 현안</div></div>
-      <div class="card-body" id="teamIssueArea"><details class="issue team" open=""><summary class="top"><div class="title-wrap"><span class="expand-icon" aria-hidden="true">▸</span><span class="proj-badge">플랜트구매품질팀</span><span class="title">원소재 성적서 관리 시스템 구축관련 IT 지원팀 협업</span></div><div class="date-chips"><span class="date-chip"><span class="k">등록</span>—</span><span class="date-chip"><span class="k">종결</span>—</span></div><div class="meta">장동철 책임 / 서민 책임 / 석우경 매니저</div></summary><div class="edit-grid"><div class="edit-block full"><label>제목</label><input type="text" placeholder="현안 제목을 입력하세요" value="원소재 성적서 관리 시스템 구축관련 IT 지원팀 협업" onclick="event.stopPropagation()" oninput="onIssueTitleInput(23,this)"></div><div class="edit-block full"><label>담당자</label><textarea class="owner-edit" rows="1" placeholder="담당자 (복수 입력 시 줄바꿈)" onclick="event.stopPropagation()" oninput="onIssueOwnerInput(23,this)">장동철 책임
+      <div class="card-body" id="teamIssueArea"><details class="issue team"><summary class="top"><div class="title-wrap"><span class="expand-icon" aria-hidden="true">▸</span><span class="proj-badge">플랜트구매품질팀</span><span class="title">원소재 성적서 관리 시스템 구축관련 IT 지원팀 협업</span></div><div class="date-chips"><span class="date-chip"><span class="k">등록</span>—</span><span class="date-chip"><span class="k">종결</span>—</span></div><div class="meta">장동철 책임 / 서민 책임 / 석우경 매니저</div></summary><div class="edit-grid"><div class="edit-block full"><label>제목</label><input type="text" placeholder="현안 제목을 입력하세요" value="원소재 성적서 관리 시스템 구축관련 IT 지원팀 협업" onclick="event.stopPropagation()" oninput="onIssueTitleInput(23,this)"></div><div class="edit-block full"><label>담당자</label><textarea class="owner-edit" rows="1" placeholder="담당자 (복수 입력 시 줄바꿈)" onclick="event.stopPropagation()" oninput="onIssueOwnerInput(23,this)">장동철 책임
 서민 책임
 석우경 매니저</textarea></div><div class="edit-block"><label>등록일</label><input type="text" inputmode="numeric" maxlength="10" placeholder="YYYYMMDD (예: 20260415)" value="" onclick="event.stopPropagation()" oninput="onIssueDateInput(23,'등록일',this)"></div><div class="edit-block"><label>종결일</label><input type="text" inputmode="numeric" maxlength="10" placeholder="YYYYMMDD (예: 20260530)" value="" onclick="event.stopPropagation()" oninput="onIssueDateInput(23,'종결일',this)"></div></div><textarea class="status-edit" onclick="event.stopPropagation()" oninput="saveIssueField(23,'Status',this.value)" placeholder="현안 진행 상황을 입력하세요…"> ▷ 원소재 성적서 관리 시스템 구축관련 IT 지원팀 협업
     - MTC 자동분류, AI 활용한 검토 (합/부 판정) 및 저장 시스템 개발 (26년 IT 소요계획 심사 통과)
@@ -3197,7 +3118,7 @@ function renderUploadBanner(){
         <div class="title">Excel 파일을 업로드하면 대시보드가 자동으로 채워집니다</div>
         <div class="desc">원본 시트명·컬럼명이 유지된 <code>.xlsx</code> 파일을 상단의 <b>Excel 업로드</b> 버튼으로 불러오세요. 시트별 권장 스키마는 아래에서 확인할 수 있습니다.</div>
       </div>
-      <button class="cta" onclick="document.getElementById('rawUpload').click()"><span class="ic">↑</span>Excel 업로드</button>
+      <label class="cta" for="rawUpload"><span class="ic">↑</span>Excel 업로드</label>
     </div>
     <div class="schema-card">
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
@@ -6123,44 +6044,6 @@ window.__REPORT_FX_RATE__ = ${fxRate};
 }
 
 init();</script>
-<!-- Code injected by live-server -->
-<script>
-	// <![CDATA[  <-- For SVG support
-	if ('WebSocket' in window) {
-		(function () {
-			function refreshCSS() {
-				var sheets = [].slice.call(document.getElementsByTagName("link"));
-				var head = document.getElementsByTagName("head")[0];
-				for (var i = 0; i < sheets.length; ++i) {
-					var elem = sheets[i];
-					var parent = elem.parentElement || head;
-					parent.removeChild(elem);
-					var rel = elem.rel;
-					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
-						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
-						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
-					}
-					parent.appendChild(elem);
-				}
-			}
-			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
-			var address = protocol + window.location.host + window.location.pathname + '/ws';
-			var socket = new WebSocket(address);
-			socket.onmessage = function (msg) {
-				if (msg.data == 'reload') window.location.reload();
-				else if (msg.data == 'refreshcss') refreshCSS();
-			};
-			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
-				console.log('Live reload enabled.');
-				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
-			}
-		})();
-	}
-	else {
-		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
-	}
-	// ]]>
-</script>
 
 
 </body></html>

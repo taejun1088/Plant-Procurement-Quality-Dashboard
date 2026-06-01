@@ -1098,7 +1098,9 @@ details.proj-group > summary .proj-title{
   content:'';position:absolute;right:-40px;top:-40px;
   width:200px;height:200px;border-radius:50%;
   background:rgba(255,255,255,.04);
+  pointer-events:none;  /* 장식용 원형이 CTA 클릭을 가로채지 않도록 */
 }
+.upload-banner .cta{position:relative;z-index:1}
 .upload-banner .icon-box{
   width:52px;height:52px;border-radius:10px;
   background:rgba(255,255,255,.12);
@@ -2703,7 +2705,7 @@ function renderUploadBanner(){
         <div class="title">Excel 파일을 업로드하면 대시보드가 자동으로 채워집니다</div>
         <div class="desc">원본 시트명·컬럼명이 유지된 <code>.xlsx</code> 파일을 상단의 <b>Excel 업로드</b> 버튼으로 불러오세요. 시트별 권장 스키마는 아래에서 확인할 수 있습니다.</div>
       </div>
-      <button class="cta" onclick="document.getElementById('rawUpload').click()"><span class="ic">↑</span>Excel 업로드</button>
+      <label class="cta" for="rawUpload"><span class="ic">↑</span>Excel 업로드</label>
     </div>
     <div class="schema-card">
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
