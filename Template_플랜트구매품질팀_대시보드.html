@@ -951,24 +951,129 @@ button{cursor:pointer;border:none;background:none}
 .trip-stat-row.month .count{font-size:11px;color:var(--sub)}
 
 /* ============================================================
-   Issue 카드
+   Issue 카드 (현안 시트 기반, 주간 보고용)
    ============================================================ */
 .issue{
   border:1px solid var(--line);border-radius:var(--r);
-  padding:12px 14px;margin-bottom:8px;background:#fff;
+  padding:12px 14px;margin-bottom:10px;background:#fff;
   border-left:3px solid var(--navy);
 }
 .issue.team{border-left-color:var(--info)}
 .issue:last-child{margin-bottom:0}
-.issue .top{
-  display:flex;justify-content:space-between;align-items:baseline;
-  gap:10px;margin-bottom:6px;
+/* <details>/<summary> 기반 접힘/펼침 */
+details.issue > summary{list-style:none;cursor:pointer;user-select:none;margin:0}
+details.issue > summary::-webkit-details-marker{display:none}
+details.issue > summary:focus-visible{outline:2px solid var(--navy);outline-offset:2px;border-radius:4px}
+details.issue:hover{background:#fbfcfd}
+details.issue[open]{background:#fafbfc}
+details.issue[open] > summary{margin-bottom:8px}
+.issue .expand-icon{
+  display:inline-block;width:12px;font-size:11px;color:var(--muted);
+  transition:transform .15s ease;flex-shrink:0;
 }
+details.issue[open] .expand-icon{transform:rotate(90deg)}
+/* ─── 프로젝트 그룹(2단 확장의 1단) ─────────────────────────── */
+details.proj-group{
+  margin-bottom:12px;border:1px solid var(--line);border-radius:var(--r);
+  background:#fff;border-left:4px solid var(--navy);
+}
+details.proj-group:last-child{margin-bottom:0}
+details.proj-group > summary{
+  list-style:none;cursor:pointer;user-select:none;
+  display:flex;align-items:center;gap:10px;
+  padding:11px 14px;margin:0;
+}
+details.proj-group > summary::-webkit-details-marker{display:none}
+details.proj-group > summary:focus-visible{outline:2px solid var(--navy);outline-offset:2px;border-radius:4px}
+details.proj-group:hover{background:#fbfcfd}
+details.proj-group[open]{background:#fafbfc}
+details.proj-group > summary .expand-icon{
+  display:inline-block;width:12px;font-size:11px;color:var(--muted);
+  transition:transform .15s ease;flex-shrink:0;
+}
+details.proj-group[open] > summary .expand-icon{transform:rotate(90deg)}
+details.proj-group .proj-count{
+  margin-left:auto;
+  font-family:'JetBrains Mono','Noto Sans KR',monospace;font-size:11px;
+  color:var(--muted);padding:2px 8px;background:var(--soft);
+  border-radius:10px;font-weight:600;white-space:nowrap;
+}
+details.proj-group > .proj-group-body{padding:0 12px 12px 12px}
+details.proj-group > .proj-group-body > details.issue:last-child{margin-bottom:0}
+/* 1단 그룹 헤더의 프로젝트 코드 — 카드 제목과 동일한 톤 (배지 아님, 본문 굵은 글씨) */
+details.proj-group > summary .proj-title{
+  font-weight:700;font-size:13.5px;color:var(--ink);letter-spacing:-.005em;
+}
+/* 헤더는 3행 세로 배치: ① 제목 ② 등록/종결일 ③ 담당자 */
+.issue .top{
+  display:flex;flex-direction:column;align-items:stretch;
+  gap:6px;
+}
+.issue .date-chips{display:flex;gap:6px;flex-wrap:wrap;padding-left:20px}
+.issue .meta{padding-left:20px}
+.issue .date-chip{
+  font-family:'JetBrains Mono','Noto Sans KR',monospace;font-size:10.5px;
+  padding:2px 7px;border-radius:4px;background:#F4F7FB;color:var(--sub);
+  border:1px solid #DBE3EE;white-space:nowrap;
+}
+.issue .date-chip.closed{background:#E8F5E9;color:#2E7D32;border-color:#C8E6C9}
+.issue .date-chip .k{color:var(--muted);margin-right:4px;font-weight:600}
+/* 인라인 편집 영역 */
+.issue .edit-grid{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:4px;
+}
+.issue .edit-block{display:flex;flex-direction:column;gap:4px;min-width:0}
+.issue .edit-block label{
+  font-size:10px;font-weight:700;color:var(--navy);letter-spacing:.06em;
+  text-transform:uppercase;
+  font-family:'JetBrains Mono','Noto Sans KR','Malgun Gothic',monospace;
+}
+.issue .edit-block.full{grid-column:1 / -1}
+.issue .edit-block input,
+.issue .edit-block textarea,
+.issue .status-edit{
+  width:100%;box-sizing:border-box;border:1px solid var(--line);border-radius:4px;
+  padding:6px 8px;font-size:12.5px;font-family:inherit;color:var(--text);
+  background:#fff;line-height:1.55;text-align:left;
+}
+.issue .edit-block input:focus,
+.issue .edit-block textarea:focus,
+.issue .status-edit:focus{
+  outline:none;border-color:var(--navy);box-shadow:0 0 0 2px rgba(10,42,94,.08);
+}
+.issue .owner-edit{
+  resize:vertical;min-height:32px;
+  font-family:'Noto Sans KR','Malgun Gothic',sans-serif;white-space:pre-wrap;
+}
+.issue .status-edit{
+  resize:vertical;min-height:160px;margin-top:6px;
+  font-family:'Noto Sans KR','Malgun Gothic',sans-serif;white-space:pre-wrap;
+}
+.issue .ov-note{
+  margin-top:6px;font-size:11px;color:var(--muted);font-style:italic;
+}
+/* 기존 .issue .status 는 인쇄/하위호환용으로 유지 */
+.issue .title-wrap{display:flex;align-items:center;gap:8px;flex-wrap:wrap;flex:1;min-width:0}
 .issue .title{font-weight:700;font-size:13.5px;color:var(--ink);letter-spacing:-.005em}
+.issue .proj-badge{
+  display:inline-block;background:var(--navy);color:#fff;
+  font-family:'JetBrains Mono','Noto Sans KR',monospace;font-size:10.5px;
+  padding:2px 7px;border-radius:4px;font-weight:600;letter-spacing:.03em;
+}
+.issue.team .proj-badge{background:var(--info)}
+.issue .edit-mark{font-size:11px;opacity:.75;cursor:help}
 .issue .meta{font-family:'JetBrains Mono','Noto Sans KR','Malgun Gothic',monospace;font-size:11px;color:var(--muted);font-weight:500;letter-spacing:.02em;white-space:nowrap}
+.issue .status{
+  font-size:12.5px;color:var(--text);background:var(--soft);
+  border-radius:5px;padding:9px 12px;line-height:1.55;margin-top:4px;
+  white-space:pre-wrap;word-break:break-word;
+  font-family:'Noto Sans KR','Malgun Gothic',sans-serif;
+}
+/* 기존 .issue .action 클래스는 하위 호환을 위해 유지 */
 .issue .action{
   font-size:12.5px;color:var(--text);background:var(--soft);
   border-radius:5px;padding:7px 10px;line-height:1.45;margin-top:4px;
+  white-space:pre-wrap;word-break:break-word;
 }
 
 /* ============================================================
@@ -1270,6 +1375,11 @@ button{cursor:pointer;border:none;background:none}
   .card,.kpi,.issue,.action-row,.signal-item,.org-group,.org-leader{break-inside:avoid;page-break-inside:avoid}
   .tbl-wrap{overflow:visible}
   .tbl th{position:static}
+  /* 인쇄 시 현안 카드는 모두 펼친 상태로 표시 */
+  details.issue > .status{display:block!important}
+  details.issue .expand-icon{display:none}
+  details.proj-group > .proj-group-body{display:block!important}
+  details.proj-group .expand-icon{display:none}
 }
 
 /* ─ PQAN tab ─ */
@@ -1679,12 +1789,35 @@ button{cursor:pointer;border:none;background:none}
 </main>
 <div class="toast" id="toast">데이터가 반영되었습니다.</div>
 
-<script>const DEFAULT_RAW = {"프로젝트_현황": [], "프로젝트_구매품질 실적": [], "프로젝트_NCR처리현황": [], "PQAN": [], "TPA_목록": [], "TPA_집행현황": [], "TPA_월별대금청구현황": [], "인력운영_현황": [], "인력운영_세부내역": [], "출장현황": [], "주요현안": []};
+<script>const DEFAULT_RAW = {"프로젝트_현황": [], "프로젝트_구매품질 실적": [], "프로젝트_NCR처리현황": [], "PQAN": [], "TPA_목록": [], "TPA_집행현황": [], "TPA_월별대금청구현황": [], "인력운영_현황": [], "인력운영_세부내역": [], "출장현황": [], "현안":[]};
 
-const SHEET_FIELDS = {"프로젝트_현황": ["프로젝트", "HDEC 계약고 (USD)", "전체 계약고 (USD)", "HDEC 계약고 (KRW)", "전체 계약고 (KRW)", "발주처", "국가", "PD", "PQCM", "단계", "공정률", "비고"], "프로젝트_구매품질 실적": ["프로젝트", "MR_Total", "MR_Done", "TBE_Total", "TBE_Done", "PO_Total", "PO_Done", "PIM_Total", "PIM_Done", "IRC_100%_Total", "IRC_100%_Done", "NCR_Total", "NCR_Done"], "프로젝트_NCR처리현황": ["프로젝트", "NCR No.", "PO No.", "품목", "Main Vendor", "Sub Vendor", "공종", "Issued by", "Issue Date", "Due Date", "Closed Date", "작업공종 대공종", "작업공종 중공종", "작업공종 소공종", "근본원인 대분류", "근본원인 중분류", "처리분류", "NCR Description", "Action Status"], "PQAN": ["순번", "PQAN No.", "PQAN 배포일자", "연", "월", "Feedback", "검토자", "공종", "PO No.", "NCR No.", "Transmittal No.", "제목", "품목", "공급업체", "국가", "지역", "발견 시기", "발견 장소", "개요", "원인", "후속/예방 조치 (권고)", "이미지 URL (Teams)"], "TPA_목록": ["순번", "TPA", "등록평가", "정기평가 (2025)", "정기평가 (2026)"], "TPA_집행현황": ["프로젝트", "단계", "TPA 예산 (USD)", "TPA 계약고 (USD)", "집행비용 (USD)", "TPA 예산 (KRW)", "TPA 계약고 (KRW)", "집행비용 (KRW)", "예산 소진율", "現 계약고 소진율"], "TPA_월별대금청구현황": ["순번", "프로젝트", "TPA", "청구연월", "지급대금", "단위"], "인력운영_현황": ["순번", "이름", "소속", "근무지", "직급", "파트", "담당 공종", "PQCM", "PQC_Engineer", "Number_of_PO"], "인력운영_세부내역": ["순번", "프로젝트", "공종", "PO", "PO Description", "Quantity", "업무 종료 예상 시기", "IRC %", "비고", "담당자(정)", "담당자(부)"], "출장현황": ["출장자", "출장목적", "프로젝트", "품목", "방문업체", "국가", "출발일", "복귀일"], "주요현안": ["Title", "Owner", "Project_Code", "Action_Required"]};
+const SHEET_FIELDS = {"프로젝트_현황": ["프로젝트", "HDEC 계약고 (USD)", "전체 계약고 (USD)", "HDEC 계약고 (KRW)", "전체 계약고 (KRW)", "발주처", "국가", "PD", "PQCM", "단계", "공정률", "비고"], "프로젝트_구매품질 실적": ["프로젝트", "MR_Total", "MR_Done", "TBE_Total", "TBE_Done", "PO_Total", "PO_Done", "PIM_Total", "PIM_Done", "IRC_100%_Total", "IRC_100%_Done", "NCR_Total", "NCR_Done"], "프로젝트_NCR처리현황": ["프로젝트", "NCR No.", "PO No.", "품목", "Main Vendor", "Sub Vendor", "공종", "Issued by", "Issue Date", "Due Date", "Closed Date", "작업공종 대공종", "작업공종 중공종", "작업공종 소공종", "근본원인 대분류", "근본원인 중분류", "처리분류", "NCR Description", "Action Status"], "PQAN": ["순번", "PQAN No.", "PQAN 배포일자", "연", "월", "Feedback", "검토자", "공종", "PO No.", "NCR No.", "Transmittal No.", "제목", "품목", "공급업체", "국가", "지역", "발견 시기", "발견 장소", "개요", "원인", "후속/예방 조치 (권고)", "이미지 URL (Teams)"], "TPA_목록": ["순번", "TPA", "등록평가", "정기평가 (2025)", "정기평가 (2026)"], "TPA_집행현황": ["프로젝트", "단계", "TPA 예산 (USD)", "TPA 계약고 (USD)", "집행비용 (USD)", "TPA 예산 (KRW)", "TPA 계약고 (KRW)", "집행비용 (KRW)", "예산 소진율", "現 계약고 소진율"], "TPA_월별대금청구현황": ["순번", "프로젝트", "TPA", "청구연월", "지급대금", "단위"], "인력운영_현황": ["순번", "이름", "소속", "근무지", "직급", "파트", "담당 공종", "PQCM", "PQC_Engineer", "Number_of_PO"], "인력운영_세부내역": ["순번", "프로젝트", "공종", "PO", "PO Description", "Quantity", "업무 종료 예상 시기", "IRC %", "비고", "담당자(정)", "담당자(부)"], "출장현황": ["출장자", "출장목적", "프로젝트", "품목", "방문업체", "국가", "출발일", "복귀일"], "현안": ["Project_Code", "Title", "Owner", "등록일", "종결일", "Status"]};
 
 let RAW = structuredClone(DEFAULT_RAW);
 Object.keys(SHEET_FIELDS).forEach(k=>{ if(!RAW[k]) RAW[k] = []; });
+/* ════════════════════════════════════════════════════════════════════════
+   📌 주요현안 Status 주간 업데이트 영역
+   ────────────────────────────────────────────────────────────────────────
+   매주 보고 시 이 객체만 수정하면 됩니다. (Excel 재업로드 불필요)
+
+   사용 방법
+   1) 키 형식: 'Project_Code|Title'  ← Excel '현안' 시트의 값과 정확히 일치
+   2) 값: Status 본문. 백틱(`) 문자열을 쓰면 줄바꿈/들여쓰기 그대로 유지
+   3) 이 객체에 등록된 항목은 Excel Status 값을 덮어씁니다 (오버라이드)
+   4) 등록되지 않은 항목은 Excel '현안' 시트의 Status 컬럼 값을 그대로 사용
+   5) 오버라이드가 적용된 카드에는 📝 표시가 노출됩니다
+
+   예시 (현 Raw File 기준 키)
+  // 'SHN1|MDRS Status': `여기에 새 Status 본문을 입력`,
+  // 'SHN1|잔여 검사 Status': `여기에 새 Status 본문을 입력`,
+  // 'SHN1|GTE Duct 내부 Mastic Coating 백화현상 발견': `여기에 새 Status 본문을 입력`,
+  // 'STA4|Sealless Pump의 impeller diameter 상승으로 power consumption 초과': `여기에 새 Status 본문을 입력`,
+  // 'IBRU|질소 생산설비 성능 미달로 인한 Distillation Column 제작': `여기에 새 Status 본문을 입력`,
+   ════════════════════════════════════════════════════════════════════════ */
+const WEEKLY_STATUS_OVERRIDES = {
+  // 예) 'STA4|공장검사': `▷ 신규 진행사항 …`,
+};
+
 let FX_RATE = 1473.00;
 
 const STAGE = [
@@ -4774,15 +4907,209 @@ function renderTripPage(){
 }
 
 function renderIssuesPage(){
-  const issues = RAW['주요현안'] || [];
-  const proj = issues.filter(i=>i.Project_Code !== '플랜트구매품질팀');
-  const team = issues.filter(i=>i.Project_Code === '플랜트구매품질팀');
-  const card = (i,kind)=>`<div class="issue ${kind==='team'?'team':''}">
-    <div class="top"><div class="title">${esc(i.Title)}</div><div class="meta">${esc(i.Project_Code)} · ${esc(i.Owner)}</div></div>
-    <div class="action">${esc(i.Action_Required||'-')}</div>
-  </div>`;
-  $('projectIssueArea').innerHTML = proj.map(i=>card(i,'project')).join('') || '<div class="empty-state">등록된 프로젝트 현안이 없습니다.</div>';
-  $('teamIssueArea').innerHTML = team.map(i=>card(i,'team')).join('') || '<div class="empty-state">등록된 팀 내부 현안이 없습니다.</div>';
+  // ┌──────────────────────────────────────────────────────────────────┐
+  // │  주요현안 섹션 (Excel '현안' 시트 기반)                            │
+  // │  - 컬럼: Project_Code / Title / Owner / 등록일 / 종결일 / Status  │
+  // │  - 클릭하면 카드가 펼쳐지며, Status·등록일·종결일을 인라인 편집   │
+  // │  - 수정값은 RAW['현안'] 에 반영되어 Excel 재다운로드 시 보존됨     │
+  // │  - WEEKLY_STATUS_OVERRIDES 가 있으면 그 값이 우선 표시됨           │
+  // └──────────────────────────────────────────────────────────────────┘
+  const raw = RAW['현안'] || [];
+  const issues = raw.map((r, idx) => {
+    const code  = String(r.Project_Code || '').trim();
+    const title = String(r.Title || '').trim();
+    const owner = String(r.Owner || '').trim();
+    // 빈 값은 빈 문자열로 (excelDate 는 빈 값일 때 '-' 를 돌려주므로 별도 처리)
+    const normDate = (v) => {
+      if (v == null || v === '') return '';
+      const fmt = excelDate(v);
+      return (fmt === '-') ? '' : fmt;
+    };
+    const reg = normDate(r['등록일']);
+    const end = normDate(r['종결일']);
+    const key   = code + '|' + title;
+    const ov    = (typeof WEEKLY_STATUS_OVERRIDES !== 'undefined') ? WEEKLY_STATUS_OVERRIDES[key] : null;
+    const hasOv = (ov != null && String(ov).trim() !== '');
+    return {
+      idx, Project_Code: code, Title: title, Owner: owner,
+      regDate: reg, endDate: end,
+      Status: hasOv ? String(ov) : String(r.Status || ''),
+      _overridden: hasOv
+    };
+  });
+  // 프로젝트 현안: ① Project_Code 오름차순, ② 등록일 오름차순(과거→최신)
+  // 등록일 미입력 건은 동일 프로젝트 내 가장 뒤로 정렬
+  const cmpProjIssue = (a, b) => {
+    const pc = String(a.Project_Code).localeCompare(String(b.Project_Code));
+    if (pc !== 0) return pc;
+    const da = a.regDate || '';
+    const db = b.regDate || '';
+    if (!da && !db) return 0;
+    if (!da) return 1;
+    if (!db) return -1;
+    return da.localeCompare(db);
+  };
+  const proj = issues.filter(i => i.Project_Code !== '플랜트구매품질팀').sort(cmpProjIssue);
+  const team = issues.filter(i => i.Project_Code === '플랜트구매품질팀');
+  // 종결일은 목표일(예정)도 포함하므로 별도 강조색 없이 중립 칩으로 통일
+  const dateChip = (label, val) => {
+    if (!val) return '<span class="date-chip"><span class="k">' + label + '</span>—</span>';
+    return '<span class="date-chip">'
+      + '<span class="k">' + label + '</span>' + esc(val) + '</span>';
+  };
+  const card = (i, kind) => {
+    const ownerTxt = (i.Owner || '').replace(/\n+/g, ' / ');
+    const editMark = i._overridden
+      ? '<span class="edit-mark" title="HTML WEEKLY_STATUS_OVERRIDES 로 업데이트됨">📝</span>'
+      : '';
+    const ovNote = i._overridden
+      ? '<div class="ov-note">※ 이 항목은 WEEKLY_STATUS_OVERRIDES 에서 우선 표시됩니다. 아래 편집은 Excel(현안 시트)에 저장됩니다.</div>'
+      : '';
+    return '<details class="issue ' + (kind==='team' ? 'team' : '') + '">'
+      + '<summary class="top">'
+        // 1행: 제목 행 (확장 아이콘 + 프로젝트 배지 + 제목)
+        + '<div class="title-wrap">'
+          + '<span class="expand-icon" aria-hidden="true">▸</span>'
+          + '<span class="proj-badge">' + esc(i.Project_Code || '-') + '</span>'
+          + '<span class="title">' + esc(i.Title || '-') + '</span>'
+          + editMark
+        + '</div>'
+        // 2행: 등록일 / 종결일 칩
+        + '<div class="date-chips">'
+          + dateChip('등록', i.regDate)
+          + dateChip('종결', i.endDate)
+        + '</div>'
+        // 3행: 담당자
+        + '<div class="meta">' + esc(ownerTxt || '-') + '</div>'
+      + '</summary>'
+      + '<div class="edit-grid">'
+        + '<div class="edit-block full">'
+          + '<label>제목</label>'
+          + '<input type="text" '
+            + 'placeholder="현안 제목을 입력하세요" '
+            + 'value="' + esc(i.Title || '') + '" '
+            + 'onclick="event.stopPropagation()" '
+            + 'oninput="onIssueTitleInput(' + i.idx + ',this)">'
+        + '</div>'
+        + '<div class="edit-block full">'
+          + '<label>담당자</label>'
+          + '<textarea class="owner-edit" rows="1" '
+            + 'placeholder="담당자 (복수 입력 시 줄바꿈)" '
+            + 'onclick="event.stopPropagation()" '
+            + 'oninput="onIssueOwnerInput(' + i.idx + ',this)">' + esc(i.Owner || '') + '</textarea>'
+        + '</div>'
+        + '<div class="edit-block">'
+          + '<label>등록일</label>'
+          + '<input type="text" inputmode="numeric" maxlength="10" '
+            + 'placeholder="YYYYMMDD (예: 20260415)" '
+            + 'value="' + esc(i.regDate || '') + '" '
+            + 'onclick="event.stopPropagation()" '
+            + 'oninput="onIssueDateInput(' + i.idx + ',\'등록일\',this)">'
+        + '</div>'
+        + '<div class="edit-block">'
+          + '<label>종결일</label>'
+          + '<input type="text" inputmode="numeric" maxlength="10" '
+            + 'placeholder="YYYYMMDD (예: 20260530)" '
+            + 'value="' + esc(i.endDate || '') + '" '
+            + 'onclick="event.stopPropagation()" '
+            + 'oninput="onIssueDateInput(' + i.idx + ',\'종결일\',this)">'
+        + '</div>'
+      + '</div>'
+      + '<textarea class="status-edit" '
+        + 'onclick="event.stopPropagation()" '
+        + 'oninput="saveIssueField(' + i.idx + ',\'Status\',this.value)" '
+        + 'placeholder="현안 진행 상황을 입력하세요…">' + esc(i.Status || '') + '</textarea>'
+      + ovNote
+    + '</details>';
+  };
+  // 2단 확장: 프로젝트 코드별로 묶어 외곽 <details> 로 1단 그룹 처리
+  const projGroups = {};
+  const projOrder = [];
+  for (const it of proj){
+    if (!(it.Project_Code in projGroups)){
+      projGroups[it.Project_Code] = [];
+      projOrder.push(it.Project_Code);
+    }
+    projGroups[it.Project_Code].push(it);
+  }
+  const projHTML = projOrder.map(pc => {
+    const items = projGroups[pc];
+    return '<details class="proj-group">'
+      + '<summary>'
+        + '<span class="expand-icon" aria-hidden="true">▸</span>'
+        + '<span class="proj-title">' + esc(pc) + '</span>'
+        + '<span class="proj-count">' + items.length + '건</span>'
+      + '</summary>'
+      + '<div class="proj-group-body">'
+        + items.map(i => card(i,'project')).join('')
+      + '</div>'
+    + '</details>';
+  }).join('');
+  $('projectIssueArea').innerHTML = projHTML || '<div class="empty-state">등록된 프로젝트 현안이 없습니다.</div>';
+  $('teamIssueArea').innerHTML   = team.map(i=>card(i,'team')).join('')   || '<div class="empty-state">등록된 팀 내부 현안이 없습니다.</div>';
+}
+
+// 인라인 편집된 값을 RAW['현안'] 에 반영 (Excel 재다운로드 시 자동 저장)
+function saveIssueField(idx, field, value){
+  const rows = RAW['현안'] || [];
+  if (rows[idx]) rows[idx][field] = value;
+}
+window.saveIssueField = saveIssueField;
+
+// 날짜 입력 처리: 사용자가 YYYYMMDD 8자리(또는 YYYY-MM-DD)를 입력하면
+// 자동으로 YYYY-MM-DD 로 정규화하여 input 표시값과 RAW 를 갱신.
+// 동시에 카드 헤더의 등록/종결 칩도 즉시 갱신 (종결일 입력 시 녹색 칩).
+function onIssueDateInput(idx, field, el){
+  let v = el.value;
+  const digits = v.replace(/[^0-9]/g, '');
+  if (digits.length === 8){
+    const formatted = digits.slice(0,4) + '-' + digits.slice(4,6) + '-' + digits.slice(6,8);
+    if (el.value !== formatted){
+      el.value = formatted;
+      try { el.setSelectionRange(formatted.length, formatted.length); } catch(_){}
+    }
+    v = formatted;
+  }
+  saveIssueField(idx, field, v);
+  updateIssueDateChip(el, field, v);
+}
+window.onIssueDateInput = onIssueDateInput;
+
+// 제목 입력: RAW 갱신 + 카드 헤더의 .title 텍스트 즉시 반영
+function onIssueTitleInput(idx, el){
+  const v = el.value;
+  saveIssueField(idx, 'Title', v);
+  const card = el.closest('details.issue');
+  if (card){
+    const titleEl = card.querySelector('summary .title-wrap .title');
+    if (titleEl) titleEl.textContent = v || '-';
+  }
+}
+window.onIssueTitleInput = onIssueTitleInput;
+
+// 담당자 입력: RAW 갱신 + 카드 헤더 3행의 .meta 텍스트 즉시 반영 (줄바꿈 → ' / ')
+function onIssueOwnerInput(idx, el){
+  const v = el.value;
+  saveIssueField(idx, 'Owner', v);
+  const card = el.closest('details.issue');
+  if (card){
+    const metaEl = card.querySelector('summary > .meta');
+    if (metaEl) metaEl.textContent = (v || '').replace(/\n+/g, ' / ') || '-';
+  }
+}
+window.onIssueOwnerInput = onIssueOwnerInput;
+
+// 카드 헤더의 등록/종결 칩을 즉시 갱신
+function updateIssueDateChip(el, field, value){
+  const card = el.closest('details.issue');
+  if (!card) return;
+  const chips = card.querySelectorAll('.date-chips .date-chip');
+  const chipIdx = (field === '등록일') ? 0 : 1;
+  const chip = chips[chipIdx];
+  if (!chip) return;
+  const label = (field === '등록일') ? '등록' : '종결';
+  chip.className = 'date-chip';
+  chip.innerHTML = '<span class="k">' + label + '</span>' + (value ? esc(value) : '—');
 }
 
 function renderAll(){
@@ -4973,7 +5300,7 @@ const README_CONTENT = [
   {text:'플랜트구매품질팀 통합관리 대시보드 - Excel 입력 양식', style:1, height:27.95},
   {text:null},
   {text:'사용 방법', style:2, height:17.25},
-  {text:'1. 아래 시트탭의 각 시트(프로젝트_현황 / 프로젝트_구매품질 실적 / 프로젝트_NCR처리현황 / PQAN / TPA_목록 / TPA_집행현황 / TPA_월별대금청구현황 / 인력운영_현황 / 인력운영_세부내역 / 출장현황 / 주요현안)에 데이터를 입력합니다.', style:0, height:18},
+  {text:'1. 아래 시트탭의 각 시트(프로젝트_현황 / 프로젝트_구매품질 실적 / 프로젝트_NCR처리현황 / PQAN / TPA_목록 / TPA_집행현황 / TPA_월별대금청구현황 / 인력운영_현황 / 인력운영_세부내역 / 출장현황 / 현안)에 데이터를 입력합니다.', style:0, height:18},
   {text:'2. 1행의 컬럼명(헤더)은 절대 변경하지 마세요. 시트명도 그대로 유지해야 합니다.', style:0, height:18},
   {text:'3. 데이터는 2행부터 입력합니다. 컬럼 순서는 자유롭게 변경해도 됩니다.', style:0, height:18},
   {text:"4. 작성이 끝나면 이 파일을 저장하고, 대시보드 HTML을 열어 'Excel 업로드' 버튼으로 불러옵니다.", style:0, height:18},
@@ -4997,6 +5324,7 @@ const README_CONTENT = [
   {text:'• 인력운영_현황 시트: 직급(예: G3, M2)을 추가 입력하면 조직도/표에 그대로 표시됩니다.', style:0, height:18},
   {text:'• 인력운영_세부내역 시트: PO 단위 담당자/IRC 진행률을 입력합니다 (담당자(정), 담당자(부)).', style:0, height:18},
   {text:'• 출장현황 시트: 출장목적(FAT / PIM / Monitoring / 공장검사 / 업체실사 / 업체감사 / 교육 / 현안미팅)에 따라 색상이 자동 적용됩니다.', style:0, height:18},
+  {text:'• 현안 시트: Project_Code / Title / Owner / 등록일 / 종결일 / Status 컬럼. 등록일·종결일·Status는 대시보드에서 직접 편집 후 Excel 재다운로드 시 자동 저장됩니다.', style:0, height:18},
   {text:null},
   {text:'TPA Warning 기준 (참고)', style:2, height:17.25},
   {text:"• 예산 대비 집행 70% 초과 → '1차 청산추정 필요'", style:0, height:18},
@@ -5019,7 +5347,7 @@ const SHEET_COLS = {
   '인력운영_현황':           {A:8, B:18, C:14, D:18, E:8, F:16, G:24, H:24, I:24, J:14},
   '인력운영_세부내역':        {A:8, B:14, C:14, D:14, E:32, F:14, G:18},
   '출장현황':                {A:18, B:14, C:14, D:32, E:24, F:14, G:14, H:14},
-  '주요현안':                {A:34, D:24}
+  '현안':                    {A:12, B:34, C:18, D:14, E:14, F:80}
 };
 
 function buildXLSX(){
