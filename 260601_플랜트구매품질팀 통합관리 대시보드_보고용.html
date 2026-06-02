@@ -235,6 +235,10 @@ button{cursor:pointer;border:none;background:none}
   background:none;border:none;padding:0 0 0 2px;letter-spacing:0;
   margin-left:2px;align-self:flex-end;
 }
+.card-title .hd-ct.badge-pill{
+  padding:1px 7px;border-radius:10px;margin-left:6px;
+  font-size:0.75em;font-weight:700;
+}
 .card-body{padding:13px 16px}
 .card-body.flush{padding:0}
 
@@ -1623,7 +1627,7 @@ window.__REPORT_FX_RATE__ = 1506.83;
     </div>
     <!-- Card 2: 프로젝트별 현황 -->
     <div class="card ncr-card">
-      <div class="card-hd"><div class="card-title"><span class="bar"></span>프로젝트별 현황</div></div>
+      <div class="card-hd"><div class="card-title"><span class="bar"></span>프로젝트별 현황<span id="ncrProjBadge" class="hd-ct" style="display:none"></span></div></div>
       <div class="card-body flush ncr-sum-scroll"><table class="ncr-tbl" id="ncrProjTbl"></table></div>
     </div>
     <!-- Card 3: HPMS 분류체계 현황 -->
@@ -2423,7 +2427,10 @@ function cleanHpmsName(s){
 
 function renderNcrOpenCard(openAll, all){
   const badge = $('ncrOpenBadge');
-  if(badge) badge.textContent = openAll.length + '건';
+  if(badge){
+    const overdueCnt = openAll.filter(n => ncrDueDays(n) !== null && ncrDueDays(n) < 0).length;
+    badge.textContent = openAll.length + '건' + (overdueCnt > 0 ? ' (기한초과 ' + overdueCnt + '건)' : '');
+  }
   const el = $('ncrOpenList');
   if(!el) return;
   if(!openAll.length){
@@ -2456,6 +2463,20 @@ function renderNcrOpenCard(openAll, all){
 function renderNcrProjCard(all, openAll, stages){
   const el = $('ncrProjTbl');
   if(!el) return;
+  const projBadge = $('ncrProjBadge');
+  if(projBadge){
+    const totalAll = all.length;
+    const closedAll = all.filter(n => !isNcrOpen(n)).length;
+    const openAllCnt = openAll.length;
+    if(totalAll > 0){
+      projBadge.textContent = `전체 ${totalAll}건 · 종결 ${closedAll}건 · 미결 ${openAllCnt}건`;
+      projBadge.className = 'hd-ct';
+      projBadge.style.cssText = '';
+      projBadge.style.display = '';
+    } else {
+      projBadge.style.display = 'none';
+    }
+  }
   const projects = [...new Set(all.map(n=>n.project).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'ko'));
   if(!projects.length){ el.innerHTML = '<tr><td colspan="4" style="padding:0;border:none;background:transparent"><div class="empty-state" style="margin:8px;padding:18px"><div class="title" style="font-size:12px">데이터 없음</div></div></td></tr>'; return; }
   const data = {};

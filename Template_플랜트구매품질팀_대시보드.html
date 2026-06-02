@@ -236,6 +236,11 @@ button{cursor:pointer;border:none;background:none}
   background:none;border:none;padding:0 0 0 2px;letter-spacing:0;
   margin-left:2px;align-self:flex-end;
 }
+/* 기한초과·집계 등 강조 배지 — pill 스타일 */
+.card-title .hd-ct.badge-pill{
+  padding:1px 7px;border-radius:10px;margin-left:6px;
+  font-size:0.75em;font-weight:700;
+}
 .card-body{padding:13px 16px}
 .card-body.flush{padding:0}
 
@@ -765,7 +770,7 @@ button{cursor:pointer;border:none;background:none}
   background:radial-gradient(ellipse at center top, #F8FAFD 0%, var(--paper) 60%);
 }
 .org-leader{
-  max-width:280px;margin:0 auto 36px;
+  max-width:240px;margin:0 auto 36px;
   border:1px solid var(--line);border-top:3px solid var(--navy);
   background:#fff;border-radius:var(--r);
   padding:14px 18px;
@@ -1604,8 +1609,8 @@ details.proj-group > summary .proj-title{
 </section>
 
 <section class="page" id="ncr">
-  <!-- 요약 카드 3개 -->
-  <div class="grid g3" style="align-items:stretch">
+  <!-- 요약 카드 2개 -->
+  <div class="grid g2" style="align-items:stretch">
     <!-- Card 1: 미결 NCR 현황 -->
     <div class="card ncr-card">
       <div class="card-hd">
@@ -1615,14 +1620,15 @@ details.proj-group > summary .proj-title{
     </div>
     <!-- Card 2: 프로젝트별 현황 -->
     <div class="card ncr-card">
-      <div class="card-hd"><div class="card-title"><span class="bar"></span>프로젝트별 현황</div></div>
+      <div class="card-hd"><div class="card-title"><span class="bar"></span>프로젝트별 현황<span id="ncrProjBadge" class="hd-ct" style="display:none"></span></div></div>
       <div class="card-body flush ncr-sum-scroll"><table class="ncr-tbl" id="ncrProjTbl"></table></div>
     </div>
-    <!-- Card 3: HPMS 분류체계 현황 -->
-    <div class="card ncr-card">
-      <div class="card-hd"><div class="card-title"><span class="bar"></span>HPMS 등록 분류</div></div>
-      <div class="card-body flush ncr-sum-scroll"><div id="ncrHpmsBody"></div></div>
-    </div>
+  </div>
+  <div class="h-sep"></div>
+  <!-- HPMS 등록 분류 — 전체폭 Sankey 흐름도 -->
+  <div class="card ncr-card">
+    <div class="card-hd"><div class="card-title"><span class="bar"></span>HPMS 등록 분류<span id="ncrHpmsBadge" class="hd-ct" style="display:none"></span></div></div>
+    <div class="card-body flush"><div id="ncrHpmsBody"></div></div>
   </div>
   <div class="h-sep"></div>
   <!-- NCR 상세 목록 -->
@@ -2010,7 +2016,10 @@ function cleanHpmsName(s){
 
 function renderNcrOpenCard(openAll, all){
   const badge = $('ncrOpenBadge');
-  if(badge) badge.textContent = openAll.length + '건';
+  if(badge){
+    const overdueCnt = openAll.filter(n => ncrDueDays(n) !== null && ncrDueDays(n) < 0).length;
+    badge.textContent = openAll.length + '건' + (overdueCnt > 0 ? ' (기한초과 ' + overdueCnt + '건)' : '');
+  }
   const el = $('ncrOpenList');
   if(!el) return;
   if(!openAll.length){
@@ -2043,6 +2052,21 @@ function renderNcrOpenCard(openAll, all){
 function renderNcrProjCard(all, openAll, stages){
   const el = $('ncrProjTbl');
   if(!el) return;
+  // 프로젝트별 현황 카드 헤더 배지 갱신
+  const projBadge = $('ncrProjBadge');
+  if(projBadge){
+    const totalAll = all.length;
+    const closedAll = all.filter(n => !isNcrOpen(n)).length;
+    const openAllCnt = openAll.length;
+    if(totalAll > 0){
+      projBadge.textContent = `전체 ${totalAll}건 · 종결 ${closedAll}건 · 미결 ${openAllCnt}건`;
+      projBadge.className = 'hd-ct';
+      projBadge.style.cssText = '';
+      projBadge.style.display = '';
+    } else {
+      projBadge.style.display = 'none';
+    }
+  }
   const projects = [...new Set(all.map(n=>n.project).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'ko'));
   if(!projects.length){ el.innerHTML = '<tr><td colspan="4" style="padding:0;border:none;background:transparent"><div class="empty-state" style="margin:8px;padding:18px"><div class="title" style="font-size:12px">데이터 없음</div></div></td></tr>'; return; }
   const data = {};
