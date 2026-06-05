@@ -339,6 +339,29 @@ button{cursor:pointer;border:none;background:none}
 .tbl td.note{min-width:100px;text-align:center}
 .tbl th.w-160{min-width:160px}
 
+/* ============================================================
+   긴 테이블 카드 — 카드헤더 · 검색/필터 · thead 를 화면 상단에 계단식 고정.
+   본문(행)만 그 아래로 스크롤되도록 .tbl-wrap 내부 스크롤로 처리.
+   · --sticky-top : 상단 고정 chrome(헤더/탭) 높이. JS(measureStickyTop)가 주입.
+   · 카드헤더·필터는 스크롤 영역(.tbl-wrap) 바깥의 flex 아이템이라 본문 행이
+     뒤로 지나가지 않음 → 별도 z-index 불필요. thead 만 .tbl-wrap 내부에서 고정.
+   · 가로 스크롤이 필요한 와이드 테이블은 .tbl-wrap 이 가로·세로 스크롤을 모두 담당,
+     thead 는 세로로만 sticky → 본문과 가로로 함께 스크롤되어 컬럼 정렬 유지.
+   ============================================================ */
+.sticky-card{
+  display:flex;flex-direction:column;
+  /* 메뉴(고정 chrome) 바로 아래 딱 붙으면 카드 상단 테두리·둥근 모서리가
+     메뉴 경계에 가려진다 → --sticky-gap 만큼 띄워 테두리가 온전히 보이게 함 */
+  position:sticky;top:calc(var(--sticky-top,0px) + var(--sticky-gap,8px));
+  max-height:calc(100vh - var(--sticky-top,0px) - var(--sticky-gap,8px) - 16px);
+}
+.sticky-card > .card-hd{flex:0 0 auto}
+.sticky-card > .filters{flex:0 0 auto;background:var(--paper)}
+/* card-body → tbl-wrap 까지 flex 로 연결해 내부 스크롤 높이를 확실히 확정
+   (height:100% 퍼센트 해석 실패로 본문이 잘린 채 스크롤이 안 되던 문제 해결) */
+.sticky-card > .card-body{flex:1 1 auto;min-height:0;overflow:hidden;display:flex;flex-direction:column}
+.sticky-card > .card-body > .tbl-wrap{flex:1 1 auto;min-height:0;overflow-y:auto;overflow-x:auto}
+
 /* ─ NCR 테이블 · HPMS · 상세 행 ─ */
 .tbl tr.ncr-row{cursor:pointer}
 .tbl tr.ncr-row.expanded td{background:#F4F7FC}
@@ -1172,11 +1195,12 @@ details.proj-group > summary .proj-title{
   outline:none;border-color:var(--navy);box-shadow:0 0 0 2px rgba(10,42,94,.08);
 }
 .issue .owner-edit{
-  resize:vertical;min-height:32px;
+  resize:none;overflow:hidden;min-height:32px;
   font-family:'Noto Sans KR','Malgun Gothic',sans-serif;white-space:pre-wrap;
 }
 .issue .status-edit{
-  resize:vertical;min-height:160px;margin-top:6px;
+  /* 높이는 내용에 맞게 JS(autoGrowTextarea)가 자동 조절. min-height = 최소(빈칸) 높이 */
+  resize:none;overflow:hidden;min-height:80px;margin-top:6px;
   font-family:'Noto Sans KR','Malgun Gothic',sans-serif;white-space:pre-wrap;
 }
 .issue .ov-note{
@@ -1521,6 +1545,10 @@ details.proj-group > summary .proj-title{
   .card,.kpi,.issue,.action-row,.signal-item,.org-group,.org-leader{break-inside:avoid;page-break-inside:avoid}
   .tbl-wrap{overflow:visible}
   .tbl th{position:static}
+  /* 긴 테이블 카드: 인쇄 시 고정·높이제한 해제 → 전체 행이 그대로 출력되게 */
+  .sticky-card{position:static;display:block;max-height:none}
+  .sticky-card > .card-body{overflow:visible}
+  .sticky-card > .card-body > .tbl-wrap{height:auto;overflow:visible}
   /* 인쇄 시 현안 카드는 모두 펼친 상태로 표시 */
   details.issue > .status{display:block!important}
   details.issue .expand-icon{display:none}
@@ -1716,7 +1744,7 @@ details.proj-group > summary .proj-title{
 
 
 <section class="page" id="projects">
-  <div class="card">
+  <div class="card sticky-card">
     <div class="card-hd">
       <div class="card-title"><span class="bar"></span>프로젝트 현황</div>
     </div>
@@ -1739,7 +1767,7 @@ details.proj-group > summary .proj-title{
     <div class="card-body flush"><div class="tbl-wrap"><table class="tbl compact" id="stageTbl"></table></div></div>
   </div>
   <div class="h-sep"></div>
-  <div class="card">
+  <div class="card sticky-card">
     <div class="card-hd">
       <div class="card-title"><span class="bar"></span>TPA 예산 운영 현황</div>
     </div>
@@ -1771,7 +1799,7 @@ details.proj-group > summary .proj-title{
   </div>
   <div class="h-sep"></div>
   <!-- NCR 상세 목록 -->
-  <div class="card">
+  <div class="card sticky-card">
     <div class="card-hd"><div class="card-title"><span class="bar"></span>NCR 상세 목록</div></div>
     <div class="filters" style="padding:10px 16px;flex-wrap:wrap;gap:8px">
       <select class="select" id="ncrFilterProject"><option value="">전체 프로젝트</option></select>
@@ -1792,7 +1820,7 @@ details.proj-group > summary .proj-title{
 </section>
 
 <section class="page" id="pqan">
-  <div class="card">
+  <div class="card sticky-card">
     <div class="card-hd">
       <div class="card-title"><span class="bar"></span>PQAN 목록</div>
       <div id="pqanDiscTags" style="display:flex;flex-wrap:wrap;gap:4px;flex:1;justify-content:flex-end"></div>
@@ -1807,8 +1835,8 @@ details.proj-group > summary .proj-title{
 </section>
 
 <section class="page" id="tpa">
-  <div class="card">
-    <div class="card-hd"><div class="card-title"><span class="bar"></span>TPA 목록</div></div>
+  <div class="card sticky-card">
+    <div class="card-hd"><div class="card-title"><span class="bar"></span>TPA 평가 이력</div></div>
     <div class="card-body flush"><div class="tbl-wrap"><table class="tbl" id="tpaListTbl"></table></div></div>
   </div>
 </section>
@@ -1846,7 +1874,7 @@ details.proj-group > summary .proj-title{
   </div>
   <div class="h-sep"></div>
   <!-- ROW 3: 월별 이력 테이블 (full width) -->
-  <div class="card">
+  <div class="card sticky-card">
     <div class="card-hd"><div class="card-title"><span class="bar"></span>대금지급 이력</div></div>
     <div class="filters" style="padding:10px 16px">
       <input class="input" id="tpaMonthlySearchYM"  placeholder="지급연월 검색" style="width:150px">
@@ -1872,7 +1900,7 @@ details.proj-group > summary .proj-title{
     <div class="card-body flush"><div class="org-canvas" id="orgChartField"></div></div>
   </div>
   <div class="h-sep"></div>
-  <div class="card">
+  <div class="card sticky-card">
     <div class="card-hd"><div class="card-title"><span class="bar"></span>인력 상세 목록</div></div>
     <div class="card-body flush"><div class="tbl-wrap"><table class="tbl" id="mpTbl"></table></div></div>
   </div>
@@ -1902,7 +1930,7 @@ details.proj-group > summary .proj-title{
     </div>
   </div>
   <div class="h-sep"></div>
-  <div class="card">
+  <div class="card sticky-card">
     <div class="card-hd"><div class="card-title"><span class="bar"></span>출장 이력</div></div>
     <div class="filters" style="padding:10px 16px">
       <input class="input" id="tripSearchYear"     placeholder="연도 검색"    style="width:130px">
@@ -3419,6 +3447,7 @@ function switchPage(page){
   const target = $(page);
   if(target) target.classList.add('on');
   renderCurrentPage();
+  if(typeof scheduleStickyRefresh === 'function') scheduleStickyRefresh();
   window.scrollTo({top:0,behavior:'smooth'});
 }
 function bindTabs(){
@@ -5543,7 +5572,7 @@ function renderIssuesPage(){
       + '</div>'
       + '<textarea class="status-edit" '
         + 'onclick="event.stopPropagation()" '
-        + 'oninput="saveIssueField(' + i.idx + ',\'Status\',this.value)" '
+        + 'oninput="saveIssueField(' + i.idx + ',\'Status\',this.value);autoGrowTextarea(this)" '
         + 'placeholder="현안 진행 상황을 입력하세요…">' + esc(i.Status || '') + '</textarea>'
       + ovNote
     + '</details>';
@@ -5622,8 +5651,27 @@ function onIssueOwnerInput(idx, el){
     const metaEl = card.querySelector('summary > .meta');
     if (metaEl) metaEl.textContent = (v || '').replace(/\n+/g, ' / ') || '-';
   }
+  autoGrowTextarea(el);
 }
 window.onIssueOwnerInput = onIssueOwnerInput;
+
+// textarea 높이를 내용에 맞게 자동 조절 (+2 = 위/아래 1px 테두리 보정)
+function autoGrowTextarea(el){
+  if (!el) return;
+  el.style.height = 'auto';
+  el.style.height = (el.scrollHeight + 2) + 'px';
+}
+window.autoGrowTextarea = autoGrowTextarea;
+
+// 현안 카드(details)가 펼쳐지는 순간 내부 textarea 높이 재계산.
+// (접힌 상태에서는 scrollHeight=0 이라 측정이 안 되므로 펼친 시점에 계산해야 함)
+// toggle 이벤트는 버블링되지 않으므로 캡처 단계(true)로 document 에서 1회만 수신.
+document.addEventListener('toggle', function(e){
+  const d = e.target;
+  if (d && d.tagName === 'DETAILS' && d.open){
+    d.querySelectorAll('.status-edit, .owner-edit').forEach(autoGrowTextarea);
+  }
+}, true);
 
 // 카드 헤더의 등록/종결 칩을 즉시 갱신
 function updateIssueDateChip(el, field, value){
@@ -6059,6 +6107,57 @@ function zipFiles(files){
   return out;
 }
 
+/* ============================================================
+   긴 테이블 카드(.sticky-card) — 계단식 고정 지원 스크립트
+   - measureStickyTop(): 상단 고정 chrome 높이를 --sticky-top 으로 주입
+       · 데스크톱: .sticky-shell 이 sticky → shell 높이
+       · 모바일(≤430px): shell 이 static, .tab-bar 만 sticky → tab-bar 높이
+   - refreshStickyTables(): 다단(2~3행) 헤더의 각 행 top 누적값 계산
+       (단일행 헤더는 .tbl th{top:0} 으로 충분, 다단 헤더만 의미 있음)
+   ============================================================ */
+function measureStickyTop(){
+  const shell = document.querySelector('.sticky-shell');
+  const bar   = document.querySelector('.tab-bar');
+  let h = 0;
+  if(shell && getComputedStyle(shell).position === 'sticky') h = shell.offsetHeight;
+  else if(bar) h = bar.offsetHeight;
+  document.documentElement.style.setProperty('--sticky-top', h + 'px');
+}
+function refreshStickyTables(){
+  document.querySelectorAll('.sticky-card table.tbl thead').forEach(thead=>{
+    const rows = thead.rows;
+    let top = 0;
+    for(let i=0;i<rows.length;i++){
+      const cells = rows[i].cells;
+      for(let j=0;j<cells.length;j++) cells[j].style.top = top + 'px';
+      top += rows[i].offsetHeight; // 다음 헤더 행은 앞선 행들의 높이만큼 아래에 고정
+    }
+  });
+}
+let __stickyRaf = 0;
+function scheduleStickyRefresh(){
+  if(__stickyRaf) cancelAnimationFrame(__stickyRaf);
+  __stickyRaf = requestAnimationFrame(()=>{
+    __stickyRaf = 0;
+    measureStickyTop();
+    refreshStickyTables();
+  });
+}
+function initStickyTables(){
+  measureStickyTop();
+  const shell = document.querySelector('.sticky-shell');
+  // 서브탭 표시/숨김 등으로 chrome 높이가 바뀌면 --sticky-top 재계산
+  if(window.ResizeObserver && shell) new ResizeObserver(scheduleStickyRefresh).observe(shell);
+  // 필터/검색으로 테이블이 재렌더(thead 교체)되면 다단 헤더 offset 재계산
+  if(window.MutationObserver){
+    document.querySelectorAll('.sticky-card .tbl-wrap').forEach(w=>{
+      new MutationObserver(scheduleStickyRefresh).observe(w, {childList:true, subtree:true});
+    });
+  }
+  window.addEventListener('resize', scheduleStickyRefresh);
+  scheduleStickyRefresh();
+}
+
 function init(){
   ensureNcrNormalized();
   setReportDate();
@@ -6066,6 +6165,7 @@ function init(){
   bindControls();
   if(window.__REPORT_MODE__){ applyReportMode(); }
   renderAll();
+  initStickyTables();
   if(!window.__REPORT_MODE__) fetchFx();
 }
 
